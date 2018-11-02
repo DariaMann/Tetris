@@ -9,10 +9,14 @@ using System;
 public class SaveScores : MonoBehaviour {
 
     private string path;
-    public Text ScoreText;
-    public Text Record;
-    public Text InfAboutRecord;
-    public int D;
+    [SerializeField]
+    Text ScoreText;
+    [SerializeField]
+    Text Record;
+    [SerializeField]
+    Text InfAboutRecord;
+    [SerializeField]
+    int D;
     void Start()
     {
         Save();

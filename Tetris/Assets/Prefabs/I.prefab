@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 212149790377964324}
   m_Layer: 0
   m_Name: Block (6)
-  m_TagString: Untagged
+  m_TagString: Figure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 212491783378423500}
   m_Layer: 0
   m_Name: Block (7)
-  m_TagString: Untagged
+  m_TagString: Figure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 212829284859942952}
   m_Layer: 0
   m_Name: Block (5)
-  m_TagString: Untagged
+  m_TagString: Figure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1053885080222396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.618152, y: 7.6760035, z: 10.555159}
+  m_LocalPosition: {x: 8, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4194386342504578}
@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929f75c5b7df1f14dbf9562e217abc66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scores: 0
 --- !u!212 &212149790377964324
 SpriteRenderer:
   m_ObjectHideFlags: 1

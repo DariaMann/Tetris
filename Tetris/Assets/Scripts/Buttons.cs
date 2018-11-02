@@ -4,41 +4,55 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Buttons : MonoBehaviour {
-    public float timing;
-    public bool isPaused;
-    public bool exitController;
-    public GameObject menu;
-    public GameObject YesNo;
+    [SerializeField]
+    float timing;
+    [SerializeField]
+    bool isPaused;
+    [SerializeField]
+    bool exitController;
+    [SerializeField]
+    int scene;
+    [SerializeField]
+     GameObject menu;
+    [SerializeField]
+    GameObject YesNo;
+    [SerializeField]
+    GameObject Options;
+    [SerializeField]
+    GameObject MainMenu;
     void Start () {
         isPaused = false;
     }
 	
 	void Update () {
-        Time.timeScale = timing;
-        if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)
+        if (scene == 2)
         {
-            isPaused = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true)
-        {
-            isPaused = false;
-        }
-        if (isPaused == true)
-        {
-            timing = 0;
-            if (!exitController)
+            Time.timeScale = timing;
+            if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)
             {
-                menu.SetActive(true);
+                isPaused = true;
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true)
             {
+                isPaused = false;
+            }
+            if (isPaused == true)
+            {
+                timing = 0;
+                if (!exitController)
+                {
+                    menu.SetActive(true);
+                }
+                else
+                {
+                    menu.SetActive(false);
+                }
+            }
+            else if (isPaused == false)
+            {
+                timing = 1;
                 menu.SetActive(false);
             }
-        }
-        else if (isPaused == false)
-        {
-            timing = 1;
-            menu.SetActive(false);
         }
     }
     public void PlayButton()
@@ -48,8 +62,13 @@ public class Buttons : MonoBehaviour {
     }
     public void OptionButton()
     {
-        
-
+        Options.SetActive(true);
+        MainMenu.SetActive(false);
+    }
+    public void BackToMenuButton()
+    {
+        Options.SetActive(false);
+        MainMenu.SetActive(true);
     }
     public void ResumeButton(bool state)
     {
@@ -81,5 +100,15 @@ public class Buttons : MonoBehaviour {
     public void QuitButton()
     {
         Application.Quit();
+    }
+    public void ExitButton()
+    {
+        MainMenu.SetActive(false);
+        YesNo.SetActive(true);
+    }
+    public void NoButton()
+    {
+        MainMenu.SetActive(true);
+        YesNo.SetActive(false);
     }
 }
