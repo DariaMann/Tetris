@@ -4,28 +4,42 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Buttons : MonoBehaviour {
-    [SerializeField]
-    float timing;
-    [SerializeField]
-    bool isPaused;
-    [SerializeField]
-    bool exitController;
-    [SerializeField]
-    int scene;
-    [SerializeField]
-     GameObject menu;
-    [SerializeField]
-    GameObject YesNo;
-    [SerializeField]
-    GameObject Options;
-    [SerializeField]
-    GameObject MainMenu;
+    [SerializeField] private float timing;
+    [SerializeField] private bool isPaused;
+    [SerializeField] private bool exitController;
+    [SerializeField] private int scene;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject settingsPanel;
+    
+    [SerializeField] private Image settingsSoundButton;
+    [SerializeField] private Image settingsMusicButton;
+    [SerializeField] private Image settingsVibrationButton;
+    
+    [SerializeField] private Sprite settingsSoundOn;
+    [SerializeField] private Sprite settingsSoundOff;
+    [SerializeField] private Sprite settingsMusicOn;
+    [SerializeField] private Sprite settingsMusicOff;
+    [SerializeField] private Sprite settingsVibrationOn;
+    [SerializeField] private Sprite settingsVibrationOff;
+    
     void Start () {
         isPaused = false;
+        
+        GameHelper.GetSound();
+        ApplySound(GameHelper.Sound);
+        GameHelper.OnSoundChanged += ApplySound;
+        
+        GameHelper.GetMusic();
+        ApplyMusic(GameHelper.Music);
+        GameHelper.OnMusicChanged += ApplyMusic;
+        
+        GameHelper.GetVibration();
+        ApplyVibration(GameHelper.Vibration);
+        GameHelper.OnVibrationChanged += ApplyVibration;
     }
 	
 	void Update () {
-        if (scene == 2)
+        if (scene == 2 || scene == 3 || scene == 4 || scene == 5)
         {
             Time.timeScale = timing;
             if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)
@@ -41,45 +55,97 @@ public class Buttons : MonoBehaviour {
                 timing = 0;
                 if (!exitController)
                 {
-                    menu.SetActive(true);
+                    pauseMenu.SetActive(true);
                 }
                 else
                 {
-                    menu.SetActive(false);
+                    pauseMenu.SetActive(false);
                 }
             }
             else if (isPaused == false)
             {
                 timing = 1;
-                menu.SetActive(false);
+                pauseMenu.SetActive(false);
             }
         }
     }
-    public void PlayButton()
+    
+    public void OnDestroy()
     {
-        Application.LoadLevel("Play");
-
+        GameHelper.OnSoundChanged -= ApplySound;
+        GameHelper.OnMusicChanged -= ApplyMusic;
+        GameHelper.OnVibrationChanged -= ApplyVibration;
     }
-    public void OptionButton()
+    
+    public void OnSoundClick()
     {
-        Options.SetActive(true);
-        MainMenu.SetActive(false);
+        GameHelper.SetSound(!GameHelper.Sound);
     }
-    public void BackToMenuButton()
+    
+    public void ApplySound(bool sound)
     {
-        Options.SetActive(false);
-        MainMenu.SetActive(true);
+        settingsSoundButton.sprite = sound ? settingsSoundOn : settingsSoundOff;
     }
-    public void ResumeButton(bool state)
+    
+    public void OnMusicClick()
+    {
+        GameHelper.SetMusic(!GameHelper.Music);
+    }
+    
+    public void ApplyMusic(bool music)
+    {
+        settingsMusicButton.sprite = music ? settingsMusicOn : settingsMusicOff;
+    }
+    
+    public void OnVibrationClick()
+    {
+        GameHelper.SetVibration(!GameHelper.Vibration);
+    }
+    
+    public void ApplyVibration(bool vibration)
+    {
+        settingsVibrationButton.sprite = vibration ? settingsVibrationOn : settingsVibrationOff;
+    }
+    
+    public void OnChineseCheckersClick()
+    {
+        Application.LoadLevel("ChineseCheckers");
+    }
+    
+    public void OnTetrisClick()
+    {
+        Application.LoadLevel("Tetris");
+    }
+    
+    public void OnSnakeClick()
+    {
+        Application.LoadLevel("Snake");
+    }
+    
+    public void On2048Click()
+    {
+        Application.LoadLevel("2048");
+    }
+    
+    public void OnSettingsClick()
+    {
+        settingsPanel.SetActive(true);
+    }
+    public void OnBackSettingsClick()
+    {
+        settingsPanel.SetActive(false);
+    }
+    public void OnResumeClick(bool state)
     {
         isPaused = state;
     }
-    public void BackButton()
+    public void OnHomeClick()
     {
         Application.LoadLevel("Menu");
 
     }
-    public void PauseButton()
+
+    public void OnPauseClick()
     {
         isPaused = true;
         if (isPaused == true)
@@ -87,28 +153,28 @@ public class Buttons : MonoBehaviour {
             timing = 0;
             if (!exitController)
             {
-                menu.SetActive(true);
+                pauseMenu.SetActive(true);
             }
             else
             {
-                menu.SetActive(false);
+                pauseMenu.SetActive(false);
             }
         }
-        
+    }
+    
+    public void OnLightThemeClick()
+    {
+        GameHelper.SetTheme(Themes.Light);
+    }
+    
+    public void OnDarkThemeClick()
+    {
+        GameHelper.SetTheme(Themes.Night);
+    }
 
-    }
-    public void QuitButton()
+    public void OnThemeClick(Themes theme)
     {
-        Application.Quit();
+        GameHelper.SetTheme(theme);
     }
-    public void ExitButton()
-    {
-        MainMenu.SetActive(false);
-        YesNo.SetActive(true);
-    }
-    public void NoButton()
-    {
-        MainMenu.SetActive(true);
-        YesNo.SetActive(false);
-    }
+    
 }

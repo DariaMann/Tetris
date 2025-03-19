@@ -7,14 +7,17 @@ TagManager:
   - Cube
   - Figure
   - O
+  - Food
+  - Obstacle
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Avatar
   - Water
   - UI
-  - 
+  - Field
   - 
   - 
   - 
@@ -43,4 +46,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Avatar
+    uniqueID: 3791643639
+    locked: 0
+  - name: UI
+    uniqueID: 3777385217
+    locked: 0
+  - name: Field
+    uniqueID: 3307250353
     locked: 0

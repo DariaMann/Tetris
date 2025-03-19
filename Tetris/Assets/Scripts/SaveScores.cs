@@ -5,54 +5,56 @@ using System.Xml.Linq;
 using System.IO;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
-public class SaveScores : MonoBehaviour {
+public class SaveScores : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI ScoreText;
+    [SerializeField] private TextMeshProUGUI Record;
+    [SerializeField] private TextMeshProUGUI InfAboutRecord;
+    [SerializeField] private int scene;
 
     private string path;
-    [SerializeField]
-    Text ScoreText;
-    [SerializeField]
-    Text Record;
-    [SerializeField]
-    Text InfAboutRecord;
-    [SerializeField]
-    int D;
-    void Start()
+    private int currentScore = 0;
+    private int record = 0;
+
+    public void Awake()
     {
-        Save();
+        if (scene == 1)
+        {
+            path = Application.persistentDataPath + "/ScoresTetris.xml";
+        }
+        else if (scene == 2)
+        {
+            path = Application.persistentDataPath + "/ScoresSnake.xml";
+        }
+        else if (scene == 3)
+        {
+            path = Application.persistentDataPath + "/Scores2048.xml";
+        }
+
+        record = Load();
+        ChangeScore(currentScore);
     }
-    void Update()
-    {
-
-        Save();
-
-
-    }
+    
     public void Save()
     {
-        
-        int N = Load();
-        D = Convert.ToInt32(ScoreText.text);
-        if (N < D)
+        if (record < currentScore)
         {
             XElement root = new XElement("root");
-            root.AddFirst(new XElement("score", D));
+            root.AddFirst(new XElement("score", currentScore));
             XDocument saveDoc = new XDocument(root);
             File.WriteAllText(path, saveDoc.ToString());
-            Record.text = D.ToString();
+            record = currentScore;
+            Record.text = record.ToString();
             InfAboutRecord.text = "Новый рекорд!";
         }
         else
         {
-
-
-            Record.text = N.ToString();
+            Record.text = record.ToString();
         }
     }
-    public void Awake()
-    {
-        path = Application.persistentDataPath + "/ScoresTetris.xml";
-    }
+    
     public int Load()//Предыдущий результат
     {
         XElement root = null;
@@ -63,6 +65,20 @@ public class SaveScores : MonoBehaviour {
             int n = Convert.ToInt32(T.Value);
             return (n);
         }
-        return (0);
+        // Если файла нет, создаем его с рекордом 0
+        XDocument newDoc = new XDocument(new XElement("root", new XElement("score", 0)));
+        File.WriteAllText(path, newDoc.ToString());
+        return 0;
+    }
+    
+    public void ChangeScore(int sc)
+    {
+        if (sc != 0)
+        {
+            sc = currentScore + sc;
+        }
+        currentScore = sc;
+        ScoreText.text = currentScore.ToString();
+        Save();
     }
 }
