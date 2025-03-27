@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class HexTile : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Vector2 position;
-    [SerializeField] private GameObject selection;
+    [SerializeField] private float speedSelectionRotate = 4f; // Время одного оборота
+    [SerializeField] private SpriteRenderer selection;
     
     private CheckersManager _checkersManager;
+    private SpriteRenderer _spriteRenderer;
 
     public int Row { get; private set; }
 
@@ -24,6 +27,14 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
     {
         get => position;
         set => position = value;
+    }
+
+    void Start()
+    {
+        float angle = 360f; // Определяем направление вращения
+        selection.transform.DORotate(new Vector3(0, 0, angle), speedSelectionRotate, RotateMode.FastBeyond360)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Restart); // Бесконечный цикл
     }
     
     public void OnPointerClick(PointerEventData eventData)
@@ -47,13 +58,14 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
         Row = row;
         Col = col;
         _checkersManager = checkersManager;
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         SetOccupied(false);
     }
     
     public void SetSelection(bool selected, bool showSelection = true)
     {
         IsSelected = selected;
-        selection.SetActive(showSelection && selected);
+        selection.gameObject.SetActive(showSelection && selected);
     }
     
     public void SetOccupied(bool occupied)
@@ -65,6 +77,12 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
     {
         Chip = chip;
         SetOccupied(true);
+    }
+    
+    public void SetTheme(Color colorTile, Color colorSelection)
+    {
+        _spriteRenderer.color = colorTile;
+        selection.color = colorSelection;
     }
     
     public void RemoveChip()

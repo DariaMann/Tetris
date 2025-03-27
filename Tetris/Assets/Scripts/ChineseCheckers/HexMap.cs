@@ -6,6 +6,7 @@ public class HexMap : MonoBehaviour
     [SerializeField] private CheckersManager checkersManager;
     
     [SerializeField] private GameObject hexPrefab; // Префаб гексагональной клетки
+    [SerializeField] private float yOffset = -0.5f; // Горизонтальный шаг между клетками
     [SerializeField] private float hexXOffset = 0.5f; // Горизонтальный шаг между клетками
 
     [SerializeField] private float hexYOffset = 0.4325f; // Вертикальный шаг между рядами
@@ -50,7 +51,7 @@ public class HexMap : MonoBehaviour
             for (int col = 0; col < rowSize; col++)
             {
                 float xPos = startX + col * hexXOffset;
-                Vector2 position = new Vector2(xPos, yPos);
+                Vector2 position = new Vector2(xPos, yPos + yOffset);
                 GameObject hex = Instantiate(hexPrefab, position, Quaternion.identity, transform);
                 
                 HexTile tile = hex.GetComponent<HexTile>();

@@ -176,7 +176,7 @@ public class CheckersManager: MonoBehaviour
 
     private void CheckUndoButtonState()
     {
-        bool isActive = CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0;
+        bool isActive = CurrentPlayer != null && CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0;
 
         undoButton.interactable = isActive;
         undoButton.image.sprite = isActive ? undoActiveSprite : undoDeactiveSprite;
@@ -200,7 +200,7 @@ public class CheckersManager: MonoBehaviour
         {
             Step step = EventSteps.Pop();
             step.Chip.UndoMove(step.FromTile);
-            if (step.Chip.Player.State == PlayerState.Player)
+            if (step.Chip.Player.State == PlayerState.Player || EventSteps.Count == 0)
             {
                 nextNotRobot = true;
             }
@@ -216,6 +216,10 @@ public class CheckersManager: MonoBehaviour
         } while (!nextNotRobot);
 
         CheckUndoButtonState();
+        if (CurrentPlayer.State == PlayerState.Robot)
+        {
+            StartNextTurn(true);
+        }
     }
 
     public void OnChangeHintStateClick()
@@ -262,6 +266,8 @@ public class CheckersManager: MonoBehaviour
         {
             player.gameObject.SetActive(true);
         }
+
+        CheckUndoButtonState();
     }
     
     public void OnAgainClick()
@@ -284,11 +290,22 @@ public class CheckersManager: MonoBehaviour
     private void SetHintState(bool state)
     {
         ShowHint = state;
-        if (!state)
+        hint.sprite = ShowHint ? hintAvailable : hintUnavailable;
+
+        if (ShowHint)
         {
-            SetSelection(null);
+            if (SelectedChip != null)
+            {
+                SelectedChip.ShowAvailableWay();
+            }
         }
-        hint.sprite = state ? hintAvailable : hintUnavailable;
+        else
+        {
+            if (SelectedChip != null)
+            {
+                SelectedChip.HideAvailableWay();
+            }
+        }
     }
 
     public void HideHint()
@@ -362,6 +379,10 @@ public class CheckersManager: MonoBehaviour
     
     public void ChangeStepCount(int step)
     {
+        if (step < 0)
+        {
+            step = 0;
+        }
         Steps = step;
         stepsText.text = "Steps: " + Steps;
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +21,11 @@ public class Player : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Sprite robotSprite;
     [SerializeField] private Sprite noneSprite;
     [SerializeField] private Sprite playerSprite;
+    
+    [SerializeField] private float scaleMultiplier = 1.2f; // Насколько увеличивается (1.2 = на 20%)
+    [SerializeField] private float duration = 0.5f; // Длительность одного цикла
+    
+    private Tween _pulseTween; // Сохраняем ссылку на анимацию
 
     public PlayerState State
     {
@@ -114,6 +120,22 @@ public class Player : MonoBehaviour, IPointerClickHandler
 //            target.gameObject.GetComponent<SpriteRenderer>().color = Color;
 //        }
     }
+
+    public void StartPulse()
+    {
+        if (_pulseTween == null || !_pulseTween.IsActive()) 
+        {
+            _pulseTween = icon.transform.DOScale(icon.transform.localScale * scaleMultiplier, duration)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+    }
+
+    public void StopPulse()
+    {
+        _pulseTween?.Kill(); // Остановить анимацию
+        icon.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f); // Вернуть стандартный размер (или сохранить оригинальный)
+    }
     
     public void Finish()
     {
@@ -126,7 +148,15 @@ public class Player : MonoBehaviour, IPointerClickHandler
 
     public void SetCurrentMoveAnchor(bool active)
     {
-        currentMove.SetActive(active);
+//        currentMove.SetActive(active);
+        if (active)
+        {
+            StartPulse();
+        }
+        else
+        {
+            StopPulse();
+        }
     }
 
     public void Reset()

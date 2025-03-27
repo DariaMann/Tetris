@@ -49,6 +49,7 @@
             <e p="PlayerInRating.cs" t="Include" />
             <e p="PlayerState.cs" t="Include" />
             <e p="Step.cs" t="Include" />
+            <e p="ThemeChineseCheckers.cs" t="Include" />
           </e>
           <e p="Figures.cs" t="Include" />
           <e p="GameHelper.cs" t="Include" />

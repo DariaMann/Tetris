@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Buttons : MonoBehaviour {
@@ -109,22 +110,22 @@ public class Buttons : MonoBehaviour {
     
     public void OnChineseCheckersClick()
     {
-        Application.LoadLevel("ChineseCheckers");
+        SceneManager.LoadScene("ChineseCheckers");
     }
     
     public void OnTetrisClick()
     {
-        Application.LoadLevel("Tetris");
+        SceneManager.LoadScene("Tetris");
     }
     
     public void OnSnakeClick()
     {
-        Application.LoadLevel("Snake");
+        SceneManager.LoadScene("Snake");
     }
     
     public void On2048Click()
     {
-        Application.LoadLevel("2048");
+        SceneManager.LoadScene("2048");
     }
     
     public void OnSettingsClick()
@@ -141,7 +142,7 @@ public class Buttons : MonoBehaviour {
     }
     public void OnHomeClick()
     {
-        Application.LoadLevel("Menu");
+        SceneManager.LoadScene("Menu");
 
     }
 
