@@ -11,16 +11,7 @@ public class GUISaveArea : MonoBehaviour
         ApplySafeArea();
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.U))
-        {
-            //todo: Убрать проверку, вводилась для тестов
-            ApplySafeArea();
-        }
-    }
-
-    private void ApplySafeArea()
+    public void ApplySafeArea()
     {
         Rect safeArea = Screen.safeArea;
 

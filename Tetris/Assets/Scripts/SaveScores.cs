@@ -5,13 +5,17 @@ using System.Xml.Linq;
 using System.IO;
 using UnityEngine.UI;
 using System;
+using JetBrains.Annotations;
 using TMPro;
 
 public class SaveScores : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI ScoreText;
-    [SerializeField] private TextMeshProUGUI Record;
+    [SerializeField] private List<TextMeshProUGUI> ScoreText;
+    [SerializeField] private List<TextMeshProUGUI> Record;
     [SerializeField] private TextMeshProUGUI InfAboutRecord;
+    
+    [SerializeField, CanBeNull] private TextMeshProUGUI scoreAndRecordText;
+    
     [SerializeField] private int scene;
 
     private string path;
@@ -46,12 +50,26 @@ public class SaveScores : MonoBehaviour
             XDocument saveDoc = new XDocument(root);
             File.WriteAllText(path, saveDoc.ToString());
             record = currentScore;
-            Record.text = record.ToString();
+            foreach (var rec in Record)
+            {
+                rec.text = record.ToString();
+            }
+            if (scoreAndRecordText != null)
+            {
+                scoreAndRecordText.text = currentScore + "/" + record;
+            }
             InfAboutRecord.text = "Новый рекорд!";
         }
         else
         {
-            Record.text = record.ToString();
+            foreach (var rec in Record)
+            {
+                rec.text = record.ToString();
+            }
+            if (scoreAndRecordText != null)
+            {
+                scoreAndRecordText.text = currentScore + "/" + record;
+            }
         }
     }
     
@@ -78,7 +96,14 @@ public class SaveScores : MonoBehaviour
             sc = currentScore + sc;
         }
         currentScore = sc;
-        ScoreText.text = currentScore.ToString();
+        foreach (var score in ScoreText)
+        {
+            score.text = currentScore.ToString();
+        }
+        if (scoreAndRecordText != null)
+        {
+            scoreAndRecordText.text = currentScore + "/" + record;
+        }
         Save();
     }
 }

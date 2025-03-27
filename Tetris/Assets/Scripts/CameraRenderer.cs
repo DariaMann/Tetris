@@ -3,6 +3,9 @@
 public class CameraRenderer : MonoBehaviour
 {
     public Vector2 DefaultResolution = new Vector2(720, 1280);
+    [Range(0f, 1f)] public float horizontal = 1;
+    [Range(0f, 1f)] public float vertical = 0;
+    
     [Range(0f, 1f)] public float WidthOrHeight = 0;
 
     private Camera componentCamera;
@@ -28,13 +31,13 @@ public class CameraRenderer : MonoBehaviour
         if (Screen.orientation == ScreenOrientation.LandscapeLeft || 
              Screen.orientation == ScreenOrientation.LandscapeRight)
         {
-            WidthOrHeight = 1f;
+            WidthOrHeight = horizontal;
             orientationVertical = false;
         }
         else if (Screen.orientation == ScreenOrientation.Portrait || 
                   Screen.orientation == ScreenOrientation.PortraitUpsideDown)
         {
-            WidthOrHeight = 0f;
+            WidthOrHeight = vertical;
             orientationVertical = true;
         }
     }
@@ -47,13 +50,13 @@ public class CameraRenderer : MonoBehaviour
         if ((Screen.orientation == ScreenOrientation.LandscapeLeft || 
             Screen.orientation == ScreenOrientation.LandscapeRight) && orientationVertical)
         {
-            WidthOrHeight = 1f;
+            WidthOrHeight = horizontal;
             orientationVertical = false;
         }
         else if ((Screen.orientation == ScreenOrientation.Portrait || 
                  Screen.orientation == ScreenOrientation.PortraitUpsideDown) && !orientationVertical)
         {
-            WidthOrHeight = 0f;
+            WidthOrHeight = vertical;
             orientationVertical = true;
         }
         

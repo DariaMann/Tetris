@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using Random = UnityEngine.Random;
 public class Board : MonoBehaviour
 {
     [SerializeField] private SaveScores saveScores;
-    [SerializeField] private Image nextTetrominoImage;
+    [SerializeField] private List<Image> nextTetrominoImage;
     
     [SerializeField] private TetrominoData[] tetrominoes;
     [SerializeField] private Vector2Int boardSize = new Vector2Int(10, 20);
@@ -56,7 +57,10 @@ public class Board : MonoBehaviour
     {
         int random = Random.Range(0, tetrominoes.Length);
         _next = tetrominoes[random];
-        nextTetrominoImage.sprite = _next.sprite;
+        foreach (var next in nextTetrominoImage)
+        {
+            next.sprite = _next.sprite;
+        }
         Debug.Log("Следующая : " +  Enum.GetName(typeof(Tetromino), _next.tetromino));
     }
 

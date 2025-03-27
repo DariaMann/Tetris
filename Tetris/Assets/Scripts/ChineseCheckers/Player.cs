@@ -13,8 +13,6 @@ public class Player : MonoBehaviour, IPointerClickHandler
     [SerializeField] private SpriteRenderer icon;
     [SerializeField] private SpriteRenderer finishIcon;
     [SerializeField] private TextMeshPro winNumber;
-    [SerializeField] private GameObject currentMove;
-    [SerializeField] private float moveDelay = 1.5f; // Задержка перед ходом ИИ
     [SerializeField] private int iD = 0;
     [SerializeField] private PlayerState state;
     

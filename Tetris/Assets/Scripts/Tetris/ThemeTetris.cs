@@ -24,6 +24,17 @@ public class ThemeTetris : MonoBehaviour
     [SerializeField] private TextMeshProUGUI recordNameText;
     [SerializeField] private TextMeshProUGUI recordText;
     
+    [SerializeField] private Image nextFigureBgRight;
+    [SerializeField] private Image countLinesBgRight;
+    [SerializeField] private Image recordBgRight;
+    [SerializeField] private TextMeshProUGUI nextTextRight;
+    [SerializeField] private TextMeshProUGUI scoreNameTextRight;
+    [SerializeField] private TextMeshProUGUI scoreTextRight;
+    [SerializeField] private TextMeshProUGUI recordNameTextRight;
+    [SerializeField] private TextMeshProUGUI recordTextRight;
+    
+    [SerializeField] private TextMeshProUGUI scoreAndRecordTextTop;
+    
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
     [SerializeField] private TextMeshProUGUI settingsThemeTextButton;
@@ -96,6 +107,17 @@ public class ThemeTetris : MonoBehaviour
         recordNameText.color = _colorDark;
         recordText.color = _colorDark;
         
+        nextFigureBgRight.color = _colorLight;
+        countLinesBgRight.color = _colorLight;
+        recordBgRight.color = _colorLight;
+        nextTextRight.color = _colorDark;
+        scoreNameTextRight.color = _colorDark;
+        scoreTextRight.color = _colorDark;
+        recordNameTextRight.color = _colorDark;
+        recordTextRight.color = _colorDark;
+        
+        scoreAndRecordTextTop.color = _colorDark;
+        
         settingsBg.color = Color.white;
         settingsBackButton.color = _colorGrey;
         settingsSoundButton.color = _colorGrey;
@@ -119,6 +141,17 @@ public class ThemeTetris : MonoBehaviour
         scoreText.color = _colorLight;
         recordNameText.color = _colorLight;
         recordText.color = _colorLight;
+        
+        nextFigureBgRight.color = _colorGrey;
+        countLinesBgRight.color = _colorGrey;
+        recordBgRight.color = _colorGrey;
+        nextTextRight.color = _colorLight;
+        scoreNameTextRight.color = _colorLight;
+        scoreTextRight.color = _colorLight;
+        recordNameTextRight.color = _colorLight;
+        recordTextRight.color = _colorLight;
+        
+        scoreAndRecordTextTop.color = _colorLight;
         
         settingsBg.color = _colorDark;
         settingsBackButton.color = _colorLight;
