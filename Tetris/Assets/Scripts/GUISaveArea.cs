@@ -11,6 +11,11 @@ public class GUISaveArea : MonoBehaviour
         ApplySafeArea();
     }
 
+    private void OnEnable()
+    {
+        ApplySafeArea();
+    }
+
     public void ApplySafeArea()
     {
         Rect safeArea = Screen.safeArea;

@@ -12,7 +12,6 @@ public class SaveScores : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> ScoreText;
     [SerializeField] private List<TextMeshProUGUI> Record;
-    [SerializeField] private TextMeshProUGUI InfAboutRecord;
     
     [SerializeField, CanBeNull] private TextMeshProUGUI scoreAndRecordText;
     
@@ -58,7 +57,7 @@ public class SaveScores : MonoBehaviour
             {
                 scoreAndRecordText.text = currentScore + "/" + record;
             }
-            InfAboutRecord.text = "Новый рекорд!";
+            //todo: Новый рекорд! подсветить
         }
         else
         {

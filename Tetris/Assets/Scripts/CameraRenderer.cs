@@ -33,12 +33,14 @@ public class CameraRenderer : MonoBehaviour
         {
             WidthOrHeight = horizontal;
             orientationVertical = false;
+            OnUpdateSaveArea();
         }
         else if (Screen.orientation == ScreenOrientation.Portrait || 
                   Screen.orientation == ScreenOrientation.PortraitUpsideDown)
         {
             WidthOrHeight = vertical;
             orientationVertical = true;
+            OnUpdateSaveArea();
         }
     }
 
@@ -52,12 +54,14 @@ public class CameraRenderer : MonoBehaviour
         {
             WidthOrHeight = horizontal;
             orientationVertical = false;
+            OnUpdateSaveArea();
         }
         else if ((Screen.orientation == ScreenOrientation.Portrait || 
                  Screen.orientation == ScreenOrientation.PortraitUpsideDown) && !orientationVertical)
         {
             WidthOrHeight = vertical;
             orientationVertical = true;
+            OnUpdateSaveArea();
         }
         
         if (componentCamera.orthographic)
@@ -79,5 +83,16 @@ public class CameraRenderer : MonoBehaviour
         float vFovInRads = 2 * Mathf.Atan(Mathf.Tan(hFovInRads / 2) / aspectRatio);
 
         return vFovInRads * Mathf.Rad2Deg;
+    }
+    
+    public void OnUpdateSaveArea()
+    {
+        //todo: метод для отладки временный
+        GUISaveArea[] allSaveAreas = FindObjectsOfType<GUISaveArea>();
+        
+        foreach (var area in allSaveAreas)
+        {
+            area.ApplySafeArea();
+        }
     }
 }

@@ -23,11 +23,12 @@ public class CheckersManager: MonoBehaviour
     
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject warningPanel;
-    [SerializeField] private GameObject pauseHidePanel;
     
     [SerializeField] private GameObject finishPanel;
     [SerializeField] private RectTransform playersRatingPanel;
     [SerializeField] private GameObject playerInRatingPrefab;
+    
+    [SerializeField] private float warningSpeed = 0.5f;
 
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
@@ -284,7 +285,6 @@ public class CheckersManager: MonoBehaviour
     public void PausedGame(bool isPause)
     {
         IsPaused = isPause;
-        pauseHidePanel.SetActive(isPause);
     }
 
     private void SetHintState(bool state)
@@ -336,28 +336,28 @@ public class CheckersManager: MonoBehaviour
         HideHint();
     }
     
-    public static void ShowHintBottomPanel(RectTransform panel, bool isUp = false)
+    public void ShowHintBottomPanel(RectTransform panel, bool isUp = false)
     {
         if (isUp)
         {
-            panel.anchoredPosition = new Vector2(0f, 100f);
-            panel.DOAnchorPosY(0, 0.2f);
+            panel.anchoredPosition = new Vector2(0f, 200f);
+            panel.DOAnchorPosY(0, warningSpeed);
             return;
         }
-        panel.anchoredPosition = new Vector2(0f, -100f);
-        panel.DOAnchorPosY(0, 0.2f);
+        panel.anchoredPosition = new Vector2(0f, -200f);
+        panel.DOAnchorPosY(0, warningSpeed);
     }
     
-    public static IEnumerator HideHintBottomPanelCorouite(RectTransform panel, bool isUp = false)
+    public IEnumerator HideHintBottomPanelCorouite(RectTransform panel, bool isUp = false)
     {
         Tween myTween;
         if (isUp)
         {
-            myTween = panel.DOAnchorPosY(100, 0.2f);
+            myTween = panel.DOAnchorPosY(200, warningSpeed);
         }
         else
         {
-            myTween = panel.DOAnchorPosY(-100, 0.2f);
+            myTween = panel.DOAnchorPosY(-200, warningSpeed);
         }
         yield return myTween.WaitForCompletion();
     }

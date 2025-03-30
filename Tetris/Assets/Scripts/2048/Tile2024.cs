@@ -7,6 +7,8 @@ public class Tile2024 : MonoBehaviour
 {
     public TileState state { get; private set; }
     public TileCell cell { get; private set; }
+    
+    public Transform Grid { get; private set; }
     public bool locked { get; set; }
 
     private Image background;
@@ -27,7 +29,7 @@ public class Tile2024 : MonoBehaviour
         text.text = state.number.ToString();
     }
 
-    public void Spawn(TileCell cell)
+    public void Spawn(TileCell cell, Transform grid)
     {
         if (this.cell != null) {
             this.cell.tile = null;
@@ -35,8 +37,23 @@ public class Tile2024 : MonoBehaviour
 
         this.cell = cell;
         this.cell.tile = this;
+        Grid = grid;
 
         transform.position = cell.transform.position;
+
+
+        if (cell != null)
+        {
+            transform.SetParent(cell.transform);
+            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = new Vector2(0,0);
+            rectTransform.anchorMax = new Vector2(1f,1f);
+            
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+        }
+
+
     }
 
     public void MoveTo(TileCell cell)
@@ -65,6 +82,8 @@ public class Tile2024 : MonoBehaviour
 
     private IEnumerator Animate(Vector3 to, bool merging)
     {
+        transform.SetParent(Grid);
+        
         float elapsed = 0f;
         float duration = 0.1f;
 
@@ -78,6 +97,25 @@ public class Tile2024 : MonoBehaviour
         }
 
         transform.position = to;
+        
+        
+        
+        
+        
+        if (cell != null)
+        {
+            transform.SetParent(cell.transform);
+            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = new Vector2(0,0);
+            rectTransform.anchorMax = new Vector2(1f,1f);
+            
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+        }
+        
+        
+        
+        
 
         if (merging) {
             Destroy(gameObject);

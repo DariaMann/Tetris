@@ -9,12 +9,7 @@ public class ThemeSnake : MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image backButton;
-    [SerializeField] private Image scoreBg;
-    [SerializeField] private Image recordBg;
-    [SerializeField] private TextMeshProUGUI scoreNameText;
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI recordNameText;
-    [SerializeField] private TextMeshProUGUI recordText;
+    [SerializeField] private TextMeshProUGUI scoreAndRecordText;
     
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
@@ -82,14 +77,8 @@ public class ThemeSnake : MonoBehaviour
         bgColor.backgroundColor = Color.white;
         backButton.color = _colorGrey;
         
-        scoreNameText.color = _colorDark;
-        scoreText.color = _colorDark;
-        recordNameText.color = _colorDark;
-        recordText.color = _colorDark;
-        
-        scoreBg.color = _colorLight;
-        recordBg.color = _colorLight;
-        
+        scoreAndRecordText.color = _colorDark;
+
         settingsBg.color = Color.white;
         settingsBackButton.color = _colorGrey;
         settingsSoundButton.color = _colorGrey;
@@ -103,14 +92,8 @@ public class ThemeSnake : MonoBehaviour
         bgColor.backgroundColor = _colorDark;
         backButton.color = _colorLight;
         
-        scoreNameText.color = _colorLight;
-        scoreText.color = _colorLight;
-        recordNameText.color = _colorLight;
-        recordText.color = _colorLight;
-        
-        scoreBg.color = _colorGrey;
-        recordBg.color = _colorGrey;
-        
+        scoreAndRecordText.color = _colorLight;
+
         settingsBg.color = _colorDark;
         settingsBackButton.color = _colorLight;
         settingsSoundButton.color = _colorLight;

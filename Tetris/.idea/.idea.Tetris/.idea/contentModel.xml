@@ -30,6 +30,8 @@
         <e p="Scripts" t="Include">
           <e p="2048" t="Include">
             <e p="GameManager.cs" t="Include" />
+            <e p="OrientationManager2048.cs" t="Include" />
+            <e p="SquareUI.cs" t="Include" />
             <e p="Theme2048.cs" t="Include" />
             <e p="Tile2024.cs" t="Include" />
             <e p="TileBoard.cs" t="Include" />
