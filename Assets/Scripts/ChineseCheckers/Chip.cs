@@ -102,6 +102,7 @@ public class Chip : MonoBehaviour, IPointerClickHandler
 
     private IEnumerator MoveStepByStep(List<HexTile> path)
     {
+        HexTile fromTile = Tile;
         SetSelection(false);
         foreach (HexTile step in path)
         {
@@ -120,12 +121,14 @@ public class Chip : MonoBehaviour, IPointerClickHandler
                 yield return null;
             }
             Tile.RemoveChip();
-            _checkersManager.AddStepEventObject(Tile, this);
-            
+
             transform.position = step.Position;
             Tile = step;
             Tile.SetChip(this);
         }
+        
+        _checkersManager.AddStepEventObject(fromTile, this);
+        
         if (_checkersManager.CheckWin(Player))
         {
             _checkersManager.PlayerFinish(Player);

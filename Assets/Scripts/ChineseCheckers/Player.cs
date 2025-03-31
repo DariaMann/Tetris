@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IPointerClickHandler
     [SerializeField] private CheckersManager checkersManager;
     [SerializeField] private SpriteRenderer icon;
     [SerializeField] private SpriteRenderer finishIcon;
+    [SerializeField] private SpriteRenderer personBG;
     [SerializeField] private TextMeshPro winNumber;
     [SerializeField] private int iD = 0;
     [SerializeField] private PlayerState state;
@@ -155,6 +156,11 @@ public class Player : MonoBehaviour, IPointerClickHandler
         {
             StopPulse();
         }
+    }
+    
+    public void SetTheme(Color colorBg)
+    {
+        personBG.color = colorBg;
     }
 
     public void Reset()

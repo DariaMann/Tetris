@@ -16,6 +16,7 @@ public class ThemeChineseCheckers: MonoBehaviour
     [SerializeField] private SpriteRenderer field;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private HexMap hexMap;
+    [SerializeField] private CheckersManager checkersManager;
     
     [SerializeField] private Image warningBg;
     [SerializeField] private TextMeshProUGUI warningText;
@@ -108,6 +109,11 @@ public class ThemeChineseCheckers: MonoBehaviour
             tile.SetTheme(Color.white, _colorDark);
         }
         
+        foreach (var person in checkersManager.Players)
+        {
+            person.SetTheme(Color.white);
+        }
+        
         settingsBg.color = Color.white;
         settingsBackButton.color = _colorGrey;
         settingsSoundButton.color = _colorGrey;
@@ -134,6 +140,11 @@ public class ThemeChineseCheckers: MonoBehaviour
         foreach (var tile in hexMap.Tiles)
         {
             tile.SetTheme(_colorSoGrey, Color.white);
+        }
+        
+        foreach (var person in checkersManager.Players)
+        {
+            person.SetTheme(_colorDark);
         }
         
         settingsBg.color = _colorDark;

@@ -99,112 +99,200 @@ public class Piece : MonoBehaviour
     }
     
     void HandleTouchInput()
+{
+    Vector2 currentPos = Vector2.zero;
+    
+    // === 🖐 ОБРАБОТКА ТАЧА ===
+    if (Input.touchCount > 0)
     {
-        if (Input.touchCount > 0)
+        Touch touch = Input.GetTouch(0);
+        currentPos = touch.position;
+
+        switch (touch.phase)
         {
-            Touch touch = Input.GetTouch(0);
+            case TouchPhase.Began:
+                touchStartPos = currentPos;
+                lastTouchPos = currentPos;
+                isDragging = true;
+                break;
 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    touchStartPos = touch.position;
-                    lastTouchPos = touch.position;
-                    isDragging = true;
-                    break;
+            case TouchPhase.Moved:
+                ProcessMove(currentPos);
+                break;
 
-                case TouchPhase.Moved:
-                    if (isDragging)
-                    {
-                        Vector2 delta = touch.position - lastTouchPos;
-
-                        if (Mathf.Abs(delta.x) > moveThreshold)
-                        {
-                            if (delta.x > 0)
-                                Move(Vector2Int.right);
-                            else
-                                Move(Vector2Int.left);
-
-                            lastTouchPos = touch.position;
-                        }
-
-                        if (Mathf.Abs(delta.y) > moveThreshold)
-                        {
-                            if (delta.y < 0) // Если палец двигается вниз
-                                if (Move(Vector2Int.down)) {
-                                    // Update the step time to prevent double movement
-                                    stepTime = Time.time + stepDelay;
-                                }
-
-                            lastTouchPos = touch.position;
-                        }
-                    }
-                    break;
-
-                case TouchPhase.Ended:
-                    isDragging = false;
-
-                    // Если отпустили палец без значительного движения — поворачиваем фигуру
-                    float touchDistance = Vector2.Distance(touchStartPos, touch.position);
-                    Debug.Log($"Touch Distance: {touchDistance}, Threshold: {moveThreshold}");
-
-                    if (touchDistance < moveThreshold)
-                    {
-                        Debug.Log("Rotate triggered!");
-                        Rotate(1);
-                    }
-                    break;
-            }
+            case TouchPhase.Ended:
+                isDragging = false;
+                TryRotate(currentPos);
+                break;
         }
-        
-        if (Input.GetMouseButtonDown(0)) // Нажатие мыши
-        {
-            touchStartPos = Input.mousePosition;
-            lastTouchPos = Input.mousePosition;
-            isDragging = true;
-        }
-        else if (Input.GetMouseButton(0)) // Движение мыши с зажатой кнопкой
-        {
-            if (isDragging)
-            {
-                Vector2 delta = (Vector2)Input.mousePosition - lastTouchPos;
-
-                if (Mathf.Abs(delta.x) > moveThreshold)
-                {
-                    if (delta.x > 0)
-                        Move(Vector2Int.right);
-                    else
-                        Move(Vector2Int.left);
-
-                    lastTouchPos = Input.mousePosition;
-                }
-
-                if (Mathf.Abs(delta.y) > moveThreshold)
-                {
-                    if (delta.y < 0) // Двигаем фигуру вниз
-                        if (Move(Vector2Int.down)) {
-                            // Update the step time to prevent double movement
-                            stepTime = Time.time + stepDelay;
-                        }
-
-                    lastTouchPos = Input.mousePosition;
-                }
-            }
-        }
-        else if (Input.GetMouseButtonUp(0)) // Отпускание кнопки мыши
-        {
-            isDragging = false;
-
-            float clickDistance = Vector2.Distance(touchStartPos, Input.mousePosition);
-            Debug.Log($"Click Distance: {clickDistance}, Threshold: {moveThreshold}");
-
-            if (clickDistance < moveThreshold)
-            {
-                Debug.Log("Rotate triggered!");
-                Rotate(1);
-            }
-        }
-
     }
+    
+    // === 🖱 ОБРАБОТКА МЫШИ (ПК) ===
+//    if (Input.GetMouseButtonDown(0)) 
+//    {
+//        touchStartPos = Input.mousePosition;
+//        lastTouchPos = Input.mousePosition;
+//        isDragging = true;
+//    }
+//    else if (Input.GetMouseButton(0))
+//    {
+//        currentPos = Input.mousePosition;
+//        ProcessMove(currentPos);
+//    }
+//    else if (Input.GetMouseButtonUp(0))
+//    {
+//        isDragging = false;
+//        TryRotate(Input.mousePosition);
+//    }
+}
+
+// === 📌 ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
+
+// Обработка движения
+void ProcessMove(Vector2 currentPos)
+{
+    if (!isDragging) return;
+
+    Vector2 delta = currentPos - lastTouchPos;
+
+    if (Mathf.Abs(delta.x) > moveThreshold)
+    {
+        Move(delta.x > 0 ? Vector2Int.right : Vector2Int.left);
+        lastTouchPos = currentPos;
+    }
+
+    if (Mathf.Abs(delta.y) > moveThreshold)
+    {
+        if (delta.y < 0 && Move(Vector2Int.down)) 
+        {
+            stepTime = Time.time + stepDelay;
+        }
+        lastTouchPos = currentPos;
+    }
+}
+
+// Обработка клика (поворота)
+void TryRotate(Vector2 endPos)
+{
+    float touchDistance = Vector2.Distance(touchStartPos, endPos);
+    Debug.Log($"Touch Distance: {touchDistance}, Threshold: {moveThreshold}");
+
+    if (touchDistance < moveThreshold)
+    {
+        Debug.Log("Rotate triggered!");
+        Rotate(1);
+    }
+}
+
+    
+    
+//    void HandleTouchInput()
+//    {
+//        if (Input.touchCount > 0)
+//        {
+//            Touch touch = Input.GetTouch(0);
+//
+//            switch (touch.phase)
+//            {
+//                case TouchPhase.Began:
+//                    touchStartPos = touch.position;
+//                    lastTouchPos = touch.position;
+//                    isDragging = true;
+//                    break;
+//
+//                case TouchPhase.Moved:
+//                    if (isDragging)
+//                    {
+//                        Vector2 delta = touch.position - lastTouchPos;
+//
+//                        if (Mathf.Abs(delta.x) > moveThreshold)
+//                        {
+//                            if (delta.x > 0)
+//                                Move(Vector2Int.right);
+//                            else
+//                                Move(Vector2Int.left);
+//
+//                            lastTouchPos = touch.position;
+//                        }
+//
+//                        if (Mathf.Abs(delta.y) > moveThreshold)
+//                        {
+//                            if (delta.y < 0) // Если палец двигается вниз
+//                                if (Move(Vector2Int.down)) {
+//                                    // Update the step time to prevent double movement
+//                                    stepTime = Time.time + stepDelay;
+//                                }
+//
+//                            lastTouchPos = touch.position;
+//                        }
+//                    }
+//                    break;
+//
+//                case TouchPhase.Ended:
+//                    isDragging = false;
+//
+//                    // Если отпустили палец без значительного движения — поворачиваем фигуру
+//                    float touchDistance = Vector2.Distance(touchStartPos, touch.position);
+//                    Debug.Log($"Touch Distance: {touchDistance}, Threshold: {moveThreshold}");
+//
+//                    if (touchDistance < moveThreshold)
+//                    {
+//                        Debug.Log("Rotate triggered!");
+//                        Rotate(1);
+//                    }
+//                    break;
+//            }
+//        }
+//        
+//        if (Input.GetMouseButtonDown(0)) // Нажатие мыши
+//        {
+//            touchStartPos = Input.mousePosition;
+//            lastTouchPos = Input.mousePosition;
+//            isDragging = true;
+//        }
+//        else if (Input.GetMouseButton(0)) // Движение мыши с зажатой кнопкой
+//        {
+//            if (isDragging)
+//            {
+//                Vector2 delta = (Vector2)Input.mousePosition - lastTouchPos;
+//
+//                if (Mathf.Abs(delta.x) > moveThreshold)
+//                {
+//                    if (delta.x > 0)
+//                        Move(Vector2Int.right);
+//                    else
+//                        Move(Vector2Int.left);
+//
+//                    lastTouchPos = Input.mousePosition;
+//                }
+//
+//                if (Mathf.Abs(delta.y) > moveThreshold)
+//                {
+//                    if (delta.y < 0) // Двигаем фигуру вниз
+//                        if (Move(Vector2Int.down)) {
+//                            // Update the step time to prevent double movement
+//                            stepTime = Time.time + stepDelay;
+//                        }
+//
+//                    lastTouchPos = Input.mousePosition;
+//                }
+//            }
+//        }
+//        else if (Input.GetMouseButtonUp(0)) // Отпускание кнопки мыши
+//        {
+//            isDragging = false;
+//
+//            float clickDistance = Vector2.Distance(touchStartPos, Input.mousePosition);
+//            Debug.Log($"Click Distance: {clickDistance}, Threshold: {moveThreshold}");
+//
+//            if (clickDistance < moveThreshold)
+//            {
+//                Debug.Log("Rotate triggered!");
+//                Rotate(1);
+//            }
+//        }
+//
+//    }
 
 
     
