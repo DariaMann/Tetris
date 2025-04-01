@@ -75,7 +75,7 @@ public class HexMap : MonoBehaviour
                 {
                     continue;
                 }
-                Chip chip = CreateChip(tile, ChoseChipByType(player));
+                Chip chip = CreateChip(tile, ChoseChipByType(player), player);
                 checkersManager.Players[player].Chips.Add(chip);
                 chip.Player = checkersManager.Players[player];
                 Chips.Add(chip);
@@ -118,11 +118,22 @@ public class HexMap : MonoBehaviour
         return null;
     }
 
-    private Chip CreateChip(HexTile tile, Sprite spritePrefab)
+    private Chip CreateChip(HexTile tile, Sprite spritePrefab, int player)
     {
+        string name = "";
+        switch (player)
+        {
+            case 0: name = "Blue"; break;
+            case 1: name = "Red"; break;
+            case 2: name = "Green"; break;
+            case 3: name = "Yellow"; break;
+            case 4: name = "Violet"; break;
+            case 5: name = "Cyan"; break;
+        }
+        
         GameObject chipGameObject = Instantiate(prefabChip, tile.Position, Quaternion.identity, transform);
         SpriteRenderer spriteRenderer = chipGameObject.GetComponent<SpriteRenderer>();
-        chipGameObject.name = "Chip";
+        chipGameObject.name = "Chip"+name;
         spriteRenderer.sprite = spritePrefab;
         spriteRenderer.sortingOrder = 2;
         Destroy(chipGameObject.GetComponent<HexTile>());

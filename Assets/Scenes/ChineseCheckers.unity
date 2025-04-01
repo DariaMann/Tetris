@@ -3924,12 +3924,12 @@ MonoBehaviour:
   hexYOffset: 0.4325
   prefabChip: {fileID: 5328366108113183239, guid: 6f9b2226be33231428aa78e10d5460e7,
     type: 3}
-  redChip: {fileID: 21300000, guid: 94974d4ec977d5d4d98b0cc2bfb7205c, type: 3}
-  blackChip: {fileID: 21300000, guid: 8c30140057d58b7408f660603393dd94, type: 3}
-  greenChip: {fileID: 21300000, guid: 112bbd04caafc7a49b4ad6456a3b092b, type: 3}
-  yellowChip: {fileID: 21300000, guid: bd4c38e8a610c194e88161b9ce745941, type: 3}
-  violetChip: {fileID: 21300000, guid: 739dbfd34b0077b48897ad3888f8b97b, type: 3}
-  cyanChip: {fileID: 21300000, guid: 2b630c62a79fbd74ea014d18a9fb0f07, type: 3}
+  redChip: {fileID: 21300000, guid: c1ec843df19ec1f4e8ea4286f999f1b7, type: 3}
+  blackChip: {fileID: 21300000, guid: a15d86f39c3f25649a5cfa24e0cc8500, type: 3}
+  greenChip: {fileID: 21300000, guid: db987154ae3944f4982d7fd0eee06b28, type: 3}
+  yellowChip: {fileID: 21300000, guid: 8ed3ded1240e3c748a917059ff010e26, type: 3}
+  violetChip: {fileID: 21300000, guid: 21ae693fc6f5b244fa4e64ed8fbe0087, type: 3}
+  cyanChip: {fileID: 21300000, guid: 861828c435c88e649a9210be656e7665, type: 3}
 --- !u!212 &1282465606
 SpriteRenderer:
   m_ObjectHideFlags: 0
