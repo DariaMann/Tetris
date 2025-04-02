@@ -143,6 +143,16 @@ public class Chip : MonoBehaviour, IPointerClickHandler
         Tile = newTile;
         Tile.SetChip(this);
     }
+    
+    public void ChangeSpeed(int speedMode)
+    {
+        switch (speedMode)
+        {
+            case 1: moveSpeed = 2; break;
+            case 2: moveSpeed = 4; break;
+            case 3: moveSpeed = 5; break;
+        }
+    }
 
 
 //    public void Move(HexTile toTile)

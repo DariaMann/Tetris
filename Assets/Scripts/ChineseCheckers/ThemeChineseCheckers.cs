@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class ThemeChineseCheckers: MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image backButton;
+    [SerializeField] private Image speedButton;
     [SerializeField] private Image hintButton;
     [SerializeField] private Image undoButton;
     [SerializeField] private Image playButton;
@@ -17,6 +16,8 @@ public class ThemeChineseCheckers: MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private HexMap hexMap;
     [SerializeField] private CheckersManager checkersManager;
+    
+    [SerializeField] private TextMeshProUGUI speedTextButton;
     
     [SerializeField] private Image warningBg;
     [SerializeField] private TextMeshProUGUI warningText;
@@ -39,6 +40,8 @@ public class ThemeChineseCheckers: MonoBehaviour
     private Color _colorSoGrey;
     private Color _colorGrey;
     private Color _colorDark;
+    private Color _colorTileLight;
+    private Color _colorTileDark;
 
     private void Awake()
     {
@@ -46,6 +49,8 @@ public class ThemeChineseCheckers: MonoBehaviour
         _colorSoGrey = ColorUtility.TryParseHtmlString("#939395", out Color color3) ? color3 : Color.gray;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
+        _colorTileLight = ColorUtility.TryParseHtmlString("#F2F2F3", out Color color4) ? color4 : Color.white;
+        _colorTileDark = ColorUtility.TryParseHtmlString("#606060", out Color color5) ? color5 : Color.black;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -93,11 +98,14 @@ public class ThemeChineseCheckers: MonoBehaviour
     {
         bgColor.backgroundColor = Color.white;
         backButton.color = _colorDark;
+        speedButton.color = _colorDark;
         hintButton.color = _colorDark;
         undoButton.color = _colorDark;
         playButton.color = _colorDark;
         playIconButton.color = _colorLight;
         field.color = _colorLight;
+        
+        speedTextButton.color = Color.white;
         
         scoreText.color = _colorDark;
         
@@ -106,7 +114,7 @@ public class ThemeChineseCheckers: MonoBehaviour
 
         foreach (var tile in hexMap.Tiles)
         {
-            tile.SetTheme(Color.white, _colorDark);
+            tile.SetTheme(_colorTileLight, _colorDark);
         }
         
         foreach (var person in checkersManager.Players)
@@ -126,11 +134,14 @@ public class ThemeChineseCheckers: MonoBehaviour
     {
         bgColor.backgroundColor = _colorDark;
         backButton.color = _colorLight;
+        speedButton.color = _colorLight;
         hintButton.color = _colorLight;
         undoButton.color = _colorLight;
         playButton.color = _colorLight;
         playIconButton.color = _colorDark;
         field.color = _colorGrey;
+        
+        speedTextButton.color = _colorDark;
         
         scoreText.color = _colorLight;
         
@@ -139,7 +150,7 @@ public class ThemeChineseCheckers: MonoBehaviour
 
         foreach (var tile in hexMap.Tiles)
         {
-            tile.SetTheme(_colorSoGrey, Color.white);
+            tile.SetTheme(_colorTileDark, Color.white);
         }
         
         foreach (var person in checkersManager.Players)

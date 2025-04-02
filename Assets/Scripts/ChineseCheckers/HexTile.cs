@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,10 +9,13 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Vector2 position;
     [SerializeField] private float speedSelectionRotate = 4f; // Время одного оборота
     [SerializeField] private SpriteRenderer selection;
+    [SerializeField] private TextMeshPro numberText;
     
     private CheckersManager _checkersManager;
     private SpriteRenderer _spriteRenderer;
 
+    public int Priority { get; set; }
+    
     public int Row { get; private set; }
 
     public int Col { get; private set; }
@@ -57,6 +60,7 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
         Position = pos;
         Row = row;
         Col = col;
+        numberText.text = row + ";" + Col;
         _checkersManager = checkersManager;
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         SetOccupied(false);

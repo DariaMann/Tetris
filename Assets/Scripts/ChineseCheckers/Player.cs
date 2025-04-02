@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IPointerClickHandler
 {
@@ -144,6 +142,14 @@ public class Player : MonoBehaviour, IPointerClickHandler
         WinSteps = checkersManager.Steps;
         winNumber.text = WinNumber.ToString();
     }
+    
+    private void ResetFinish()
+    {
+        finishIcon.gameObject.SetActive(false);
+        IsFinish = false;
+        WinNumber = 0;
+        WinSteps = 0;
+    }
 
     public void SetCurrentMoveAnchor(bool active)
     {
@@ -171,6 +177,7 @@ public class Player : MonoBehaviour, IPointerClickHandler
         }
         Chips.Clear();
         
+        ResetFinish();
         IsFinish = false;
         WinNumber = 0;
         WinSteps = 0;

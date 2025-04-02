@@ -20,6 +20,101 @@ public class HexMap : MonoBehaviour
     [SerializeField] private Sprite cyanChip;
 
     public int[] RowSizes { get; set; } = { 1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1 };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PriorityOneCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(13, 0), new Vector2Int( 13, 1), new Vector2Int( 13, 2), new Vector2Int( 13, 3)} },
+        { 2, new Vector2Int[] {
+            new Vector2Int(14, 0), new Vector2Int(14, 1), new Vector2Int( 14, 2)} },
+        { 3, new Vector2Int[] { 
+            new Vector2Int( 15, 0), new Vector2Int(15, 1)} },
+        { 4, new Vector2Int[] { new Vector2Int( 16, 0)} }
+    };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PriorityTwoCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(9, 0), new Vector2Int( 10, 1), new Vector2Int( 11, 2), new Vector2Int( 12, 3)} },
+        { 2, new Vector2Int[] {
+            new Vector2Int( 10, 0), new Vector2Int( 11, 1), new Vector2Int( 12, 2)} },
+        { 3, new Vector2Int[] { 
+            new Vector2Int( 11, 0), new Vector2Int( 12, 1)} },
+        { 4, new Vector2Int[] { new Vector2Int( 12, 0)} }
+    };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PriorityThreeCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(7, 0), new Vector2Int( 6, 1), new Vector2Int( 5, 2), new Vector2Int( 4, 3)} },
+        { 2, new Vector2Int[] { 
+            new Vector2Int( 6, 0), new Vector2Int( 5, 1), new Vector2Int( 4, 2)} },
+        { 3, new Vector2Int[] { 
+            new Vector2Int( 5, 0), new Vector2Int( 4, 1)} },
+        { 4, new Vector2Int[] { new Vector2Int( 4, 0)} }
+    };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PriorityFourCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(3, 0), new Vector2Int( 3, 1), new Vector2Int( 3, 2), new Vector2Int( 3, 3)} },
+        { 2, new Vector2Int[] {
+            new Vector2Int( 2, 0), new Vector2Int( 2, 1), new Vector2Int( 2, 2)} },
+        { 3, new Vector2Int[] { new Vector2Int( 1, 0), new Vector2Int( 1, 1)} },
+        { 4, new Vector2Int[] { new Vector2Int( 0, 0)} }
+    };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PriorityFiveCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(4, 9), new Vector2Int( 5, 9), new Vector2Int( 6, 9), new Vector2Int( 7, 9)} },
+        { 2, new Vector2Int[] {
+            new Vector2Int( 4, 10), new Vector2Int( 5, 10), new Vector2Int( 6, 10)} },
+        { 3, new Vector2Int[] {
+            new Vector2Int( 4, 11), new Vector2Int( 5, 11)} },
+        { 4, new Vector2Int[] { new Vector2Int( 4, 12)} }
+    };
+    
+    public static readonly Dictionary<int, Vector2Int[]> PrioritySixCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(9, 9), new Vector2Int( 10, 9), new Vector2Int( 11, 9), new Vector2Int( 12, 9)} },
+        { 2, new Vector2Int[] {
+            new Vector2Int( 10, 10), new Vector2Int( 11, 10), new Vector2Int( 12, 10)} },
+        { 3, new Vector2Int[] {
+            new Vector2Int( 11, 11), new Vector2Int( 12, 11)} },
+        { 4, new Vector2Int[] { new Vector2Int( 12, 12) } }
+    };
+
+    public static readonly Dictionary<int, Vector2Int[]> PriorityCells = new Dictionary<int, Vector2Int[]>()
+    {
+        { 1, new Vector2Int[] {
+            new Vector2Int(13, 0), new Vector2Int( 13, 1), new Vector2Int( 13, 2), new Vector2Int( 13, 3),
+            new Vector2Int(9, 0), new Vector2Int( 10, 1), new Vector2Int( 11, 2), new Vector2Int( 12, 3),
+            new Vector2Int(7, 0), new Vector2Int( 6, 1), new Vector2Int( 5, 2), new Vector2Int( 4, 3),
+            new Vector2Int(3, 0), new Vector2Int( 3, 1), new Vector2Int( 3, 2), new Vector2Int( 3, 3),
+            new Vector2Int(4, 9), new Vector2Int( 5, 9), new Vector2Int( 6, 9), new Vector2Int( 7, 9),
+            new Vector2Int(9, 9), new Vector2Int( 10, 9), new Vector2Int( 11, 9), new Vector2Int( 12, 9)
+        } },
+        { 2, new Vector2Int[] {
+            new Vector2Int(14, 0), new Vector2Int(14, 1), new Vector2Int( 14, 2), 
+            new Vector2Int( 10, 0), new Vector2Int( 11, 1), new Vector2Int( 12, 2), 
+            new Vector2Int( 6, 0), new Vector2Int( 5, 1), new Vector2Int( 4, 2), 
+            new Vector2Int( 2, 0), new Vector2Int( 2, 1), new Vector2Int( 2, 2), 
+            new Vector2Int( 4, 10), new Vector2Int( 5, 10), new Vector2Int( 6, 10), 
+            new Vector2Int( 10, 10), new Vector2Int( 11, 10), new Vector2Int( 12, 10)
+        } },
+        { 3, new Vector2Int[] { 
+            new Vector2Int( 15, 0), new Vector2Int(15, 1), 
+            new Vector2Int( 11, 0), new Vector2Int( 12, 1),
+            new Vector2Int( 5, 0), new Vector2Int( 4, 1),
+            new Vector2Int( 1, 0), new Vector2Int( 1, 1),
+            new Vector2Int( 4, 11), new Vector2Int( 5, 11),
+            new Vector2Int( 11, 11), new Vector2Int( 12, 11) 
+        } },
+        { 4, new Vector2Int[] { new Vector2Int( 16, 0), new Vector2Int( 12, 0), new Vector2Int( 4, 0), new Vector2Int( 0, 0),
+            new Vector2Int( 4, 12),new Vector2Int( 12, 12) } }
+    };
 
     public float HexXOffset
     {
@@ -59,6 +154,61 @@ public class HexMap : MonoBehaviour
                 Tiles.Add(tile);
             }
         }
+        checkersManager.ThemeChinese.SetTheme(GameHelper.Theme);
+    }
+
+    public void SetPriority(int idPlayer)
+    {
+        var priorityCells = GetPriorityCells(idPlayer);
+        foreach (var hexTile in Tiles)
+        {
+            hexTile.Priority = GetPriority(hexTile, priorityCells);
+        }
+    
+        SetNegativePriority(idPlayer);
+    }
+
+    public void SetNegativePriority(int idPlayer)
+    {
+        var negativePriorityCells = GetPriorityCells((idPlayer + 3) % 6); // Смещение на 3 для получения противоположного набора
+        foreach (var hexTile in Tiles)
+        {
+            int priority = -GetPriority(hexTile, negativePriorityCells);
+            if (priority != 0)
+            {
+                hexTile.Priority = priority;
+            }
+        }
+    }
+
+    private Dictionary<int, Vector2Int[]> GetPriorityCells(int idPlayer)
+    {
+        switch (idPlayer)
+        {
+            case 0: return PriorityFourCells;
+            case 1: return PriorityFiveCells;
+            case 2: return PrioritySixCells;
+            case 3: return PriorityOneCells;
+            case 4: return PriorityTwoCells;
+            case 5: return PriorityThreeCells;
+            default:  return PriorityCells;
+        }
+    }
+
+    private int GetPriority(HexTile tile, Dictionary<int, Vector2Int[]> priorityCells)
+    {
+        foreach (var priority in priorityCells)
+        {
+            foreach (var priorityCell in priority.Value)
+            {
+                if (tile.Row == priorityCell.x && tile.Col == priorityCell.y)
+                {
+                    return priority.Key;
+                }
+            }
+        }
+
+        return 0;
     }
 
     public void StartFilling()

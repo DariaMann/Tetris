@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,15 +9,16 @@ using DG.Tweening;
 
 public class CheckersManager: MonoBehaviour
 {
+    [SerializeField] private ThemeChineseCheckers themeChinese;
     [SerializeField] private TextMeshProUGUI stepsText;
     [SerializeField] private HexMap hexMap;
     [SerializeField] private bool showHint;
     [SerializeField] private List<Player> players;
-    
+
     [SerializeField] private Image hint;
     [SerializeField] private Sprite hintAvailable;
     [SerializeField] private Sprite hintUnavailable;
-    
+
     [SerializeField] private Button undoButton;
     [SerializeField] private Sprite undoActiveSprite;
     [SerializeField] private Sprite undoDeactiveSprite;
@@ -29,6 +31,11 @@ public class CheckersManager: MonoBehaviour
     [SerializeField] private GameObject playerInRatingPrefab;
     
     [SerializeField] private float warningSpeed = 0.5f;
+    
+    [SerializeField] private TextMeshProUGUI speedButtonText;
+    
+    private float _waitAIMoveTime = 0.5f;
+    private int _speedMode = 0;
 
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
@@ -42,6 +49,12 @@ public class CheckersManager: MonoBehaviour
         Color.magenta,// Правый верхний
         Color.cyan    // Правый нижний
     };
+    
+    public ThemeChineseCheckers ThemeChinese
+    {
+        get => themeChinese;
+        set => themeChinese = value;
+    }
     
     public bool IsPlaying { get; set; } = false;
     
@@ -80,6 +93,7 @@ public class CheckersManager: MonoBehaviour
         {
             player.Colored(_playerColors[player.ID]);
         }
+        OnChangeSpeed();
 
         FirstStart();
 
@@ -361,6 +375,36 @@ public class CheckersManager: MonoBehaviour
         }
         yield return myTween.WaitForCompletion();
     }
+    
+    public void OnChangeSpeed()
+    {
+        switch (_speedMode)
+        {
+            case 1: _speedMode = 2; break;
+            case 2: _speedMode = 3; break;
+            case 3: _speedMode = 1; break;
+            case 0: _speedMode = 1; break;
+        }
+
+        ChangeSpeed(_speedMode);
+    }
+
+    private void ChangeSpeed(int speedMode)
+    {
+        speedButtonText.text = "x" + _speedMode;
+        
+        switch (speedMode)
+        {
+            case 1: _waitAIMoveTime = 0.5f; break;
+            case 2: _waitAIMoveTime = 0.3f; break;
+            case 3: _waitAIMoveTime = 0.1f; break;
+        }
+
+        foreach (var chip in hexMap.Chips)
+        {
+            chip.ChangeSpeed(speedMode);
+        }
+    }
 
     public void Reset()
     {
@@ -394,13 +438,8 @@ public class CheckersManager: MonoBehaviour
 
     public void PlayerFinish(Player player)
     {
-        WinCount =+ 1;
+        WinCount += 1;
         player.Finish();
-        
-        if (WinCount == 5)
-        {
-            EndGame();
-        }
     }
     
     public void EndGame()
@@ -409,6 +448,9 @@ public class CheckersManager: MonoBehaviour
         {
             Debug.Log($"Игрок {player.ID} занял место {player.WinNumber} !");
         }
+        
+        SetSelection(null); 
+        SetCurrentPlayer(null);
         
         // Остановить ход
         StopAllCoroutines();
@@ -419,7 +461,10 @@ public class CheckersManager: MonoBehaviour
 
     private void ShowFinishPanel()
     {
-        foreach (var player in players)
+        List<Player> sortedPlayers = new List<Player>(players);
+        sortedPlayers.Sort((a, b) => a.WinNumber.CompareTo(b.WinNumber));
+
+        foreach (var player in sortedPlayers)
         {
             if (player.IsActive)
             {
@@ -461,6 +506,7 @@ public class CheckersManager: MonoBehaviour
         CurrentPlayerIndex = newPlayer.ID;
         CurrentPlayer = newPlayer;
         CurrentPlayer.SetCurrentMoveAnchor(true);
+        hexMap.SetPriority(CurrentPlayerIndex);
         CheckUndoButtonState();
     }  
     
@@ -653,7 +699,8 @@ public class CheckersManager: MonoBehaviour
 
         if (!nextPlayer.IsActive || nextPlayer.IsFinish)
         {
-            Debug.LogError("Не осталось играющих игроков!");
+            Debug.Log("Не осталось играющих игроков!");
+            EndGame();
             return;
         }
 
@@ -670,59 +717,6 @@ public class CheckersManager: MonoBehaviour
         StartCoroutine(AIMove(CurrentPlayer));
     }
 
-//    private IEnumerator AIMove(Player aiPlayer)
-//    {
-//        yield return new WaitForSeconds(1f); // Задержка перед ходом
-//
-//        Chip bestChip = null;
-//        HexTile bestMove = null;
-//        int bestScore = int.MinValue;
-//
-//        foreach (var chip in aiPlayer.Chips)
-//        {
-//            List<HexTile> possibleMoves = FindWays(chip);
-//
-//            foreach (var move in possibleMoves)
-//            {
-//                int score = GetMoveScore(aiPlayer, move);
-//                if (score > bestScore)
-//                {
-//                    bestScore = score;
-//                    bestChip = chip;
-//                    bestMove = move;
-//                }
-//            }
-//        }
-//
-//        if (bestChip != null && bestMove != null)
-//        {
-//            yield return StartCoroutine(bestChip.MoveCoroutine(bestMove));
-//        }
-//
-////        yield return new WaitForSeconds(0.5f);
-//        StartNextTurn(); // Передаем ход следующему
-//    }
-//    
-
-//    private int GetMoveScore(Player player, HexTile move)
-//    {
-//        // Чем ближе к целевой зоне — тем лучше
-//        HexTile closestTarget = null;
-//        float minDistance = float.MaxValue;
-//
-//        foreach (var target in player.TargetZones)
-//        {
-//            float distance = Vector2.Distance(move.Position, target.Position);
-//            if (distance < minDistance)
-//            {
-//                minDistance = distance;
-//                closestTarget = target;
-//            }
-//        }
-//
-//        return Mathf.RoundToInt(100 - minDistance); // Чем ближе, тем выше балл
-//    }
-
     private IEnumerator AIMove(Player aiPlayer)
     {
         // Ждем, пока пауза не закончится
@@ -731,7 +725,7 @@ public class CheckersManager: MonoBehaviour
             yield return null;
         }
         
-        yield return new WaitForSeconds(0.5f); // Задержка перед ходом
+        yield return new WaitForSeconds(_waitAIMoveTime); // Задержка перед ходом
 
         Chip bestChip = null;
         HexTile bestMove = null;
@@ -747,6 +741,8 @@ public class CheckersManager: MonoBehaviour
 
                 if (score > bestScore)
                 {
+                    Debug.Log("Score = "+ score + ", Row = " + chip.Tile.Row + ", Col = " + chip.Tile.Col 
+                              + ", ToRow = " + move.Row + ", ToCol = " + move.Col);
                     bestScore = score;
                     bestChip = chip;
                     bestMove = move;
@@ -786,29 +782,51 @@ public class CheckersManager: MonoBehaviour
         {
             if (!isMovingToTargetZone)
             {
+                Debug.Log("Выход из зоны. Текущая: "+ chip.Tile.Row + "," + chip.Tile.Col + ", Следующая: "+ move.Row + "," + move.Col + ", Очки: " + score);
                 return -1000; // Запрещаем выходить
             }
             else
             {
-                score += 10; // Легкий бонус за перемещение внутри зоны
+                int priorityDiff = move.Priority - chip.Tile.Priority;
+                if (priorityDiff > 0)
+                {
+                    score += priorityDiff * 50; // Бонус за продвижение к более ценным клеткам
+                }
+                else if (priorityDiff < 0)
+                {
+                    score += priorityDiff * 100; // Большой штраф за движение обратно
+                }
             }
         }
+
+        //Если фишка все еще в стартовой зоне, даем приоритет чтобы она вышла
+        if (chip.Tile.Priority < 0 && chip.Tile.Priority < move.Priority)
+        {
+            int priorityDiff = Mathf.Abs(move.Priority) - Mathf.Abs(chip.Tile.Priority);
+            score += Mathf.Abs(priorityDiff) * 50;
+        }
         
+        //если фишка не приближается то нафиг
+        float distanceCurrentScore = GetDistanceToFinish(player, chip.Tile);
+        float distanceNextScore = GetDistanceToFinish(player, move);
+        if (Math.Abs(distanceCurrentScore - distanceNextScore) < 0.1f || distanceCurrentScore - distanceNextScore > 0.1f)
+        {
+            Debug.Log("Не приближается. Текущая: "+ chip.Tile.Row + "," + chip.Tile.Col + ", Следующая: "+ move.Row + "," + move.Col + ", Очки: " + score);
+            return -1000;
+        }
+
         // Приоритет движения к цели
         int distanceScore = GetDistanceScore(player, move);
-        score += distanceScore * 3; // Усиливаем важность движения к цели
-
-//        // Прыжки все еще важны, но не критичны
-//        if (IsJump(chip.Tile, move))
-//        {
-//            score += 30;
-//            score += CountJumpChain(chip, move) * 20;
-//        }
+        //Усиливаем важность движения к цели только если клетка уже не в цели
+        int priority = isInTargetZone ? 1 : 2;
+        score += distanceScore * priority; // Усиливаем важность движения к цели
 
         // Штраф за отклонение от цели
         float directionFactor = GetDirectionFactor(player, chip, move);
-        score += Mathf.RoundToInt(directionFactor * 50); // Если движение в сторону цели — бонус, если вбок — штраф
-
+        int fine = Mathf.RoundToInt(directionFactor * 50);
+        score += fine; // Если движение в сторону цели — бонус, если вбок — штраф
+        
+        Debug.Log("Текущая: "+ chip.Tile.Row + "," + chip.Tile.Col + ", Следующая: "+ move.Row + "," + move.Col + ", Очки: " + score);
         return score;
     }
 
@@ -820,24 +838,19 @@ public class CheckersManager: MonoBehaviour
         return Vector2.Dot(toTarget, moveDir); // 1.0 - строго в сторону цели, 0 - перпендикулярно, -1 - назад
     }
 
-    private bool IsMovingBackwards(Player player, Chip chip, HexTile move)
-    {
-        Vector2 directionToTarget = (GetClosestTarget(player, move).Position - chip.Tile.Position).normalized;
-        Vector2 moveDirection = (move.Position - chip.Tile.Position).normalized;
-
-        return Vector2.Dot(directionToTarget, moveDirection) < 0.3f; // Если угол менее 30 градусов к цели, считаем назад
-    }
-    
     private HexTile GetClosestTarget(Player player, HexTile move)
     {
-        return player.TargetZones
+        HexTile closestTarget = player.TargetZones
             .OrderBy(target => Vector2.Distance(move.Position, target.Position))
             .FirstOrDefault();
+
+        return closestTarget;
     }
 
     private int GetDistanceScore(Player player, HexTile move)
     {
         HexTile closestTarget = player.TargetZones
+            .Where(target => target.Chip == null) // Оставляем только свободные клетки
             .OrderBy(target => Vector2.Distance(move.Position, target.Position))
             .FirstOrDefault();
 
@@ -847,51 +860,25 @@ public class CheckersManager: MonoBehaviour
         return Mathf.RoundToInt(100 - distance); // Чем ближе к цели, тем лучше
     }
     
-    private bool IsJump(HexTile from, HexTile to)
+    private float GetDistanceToFinish(Player player, HexTile move)
     {
-        return Vector2.Distance(from.Position, to.Position) > hexMap.HexXOffset;
-    }
+        HexTile lastTarget = player.TargetZones // Оставляем только свободные клетки
+            .FirstOrDefault(target => target.Priority == 4);
 
-    private int CountJumpChain(Chip chip, HexTile move)
-    {
-        int chainCount = 0;
-        HashSet<HexTile> visited = new HashSet<HexTile>();
-        HexTile currentTile = move;
+        if (lastTarget == null) return 0;
 
-        while (true)
+        if (lastTarget.Chip != null)
         {
-            List<HexTile> nextJumps = GetJumpMoves(currentTile);
-            nextJumps.RemoveAll(t => visited.Contains(t));
-
-            if (nextJumps.Count == 0) break;
-
-            currentTile = nextJumps[0]; // Берем любой доступный прыжок
-            visited.Add(currentTile);
-            chainCount++;
+            lastTarget = player.TargetZones
+                .Where(target => target.Chip == null) // Оставляем только свободные клетки
+                .OrderBy(target => Vector2.Distance(move.Position, target.Position))
+                .FirstOrDefault();
         }
+        
+        if (lastTarget == null) return 0;
 
-        return chainCount;
-    }
-
-    private List<HexTile> GetJumpMoves(HexTile tile)
-    {
-        List<HexTile> jumps = new List<HexTile>();
-
-        foreach (HexTile neighbor in GetNeighbors(tile))
-        {
-            if (neighbor.IsOccupied)
-            {
-                Vector2 jumpPosition = (neighbor.Position - tile.Position) * 2 + tile.Position;
-                HexTile jumpTile = hexMap.Tiles.Find(t => Vector2.Distance(t.Position, jumpPosition) < 0.01f);
-
-                if (jumpTile != null && !jumpTile.IsOccupied)
-                {
-                    jumps.Add(jumpTile);
-                }
-            }
-        }
-
-        return jumps;
+        float distance = Vector2.Distance(move.Position, lastTarget.Position);
+        return 100 - distance; // Чем ближе к цели, тем лучше
     }
 
 }

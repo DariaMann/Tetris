@@ -1239,6 +1239,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TEST
       objectReference: {fileID: 0}
+    - target: {fileID: 4984980196398962040, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2761,7 +2766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55566f32b5374f2faf630c00111dd3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1941666057}
   rightPanel: {fileID: 1133554045}
   topPanel: {fileID: 1900849993}
 --- !u!114 &1096909559
