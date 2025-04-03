@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.SimpleLocalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Buttons : MonoBehaviour {
+    
     [SerializeField] private float timing;
     [SerializeField] private bool isPaused;
     [SerializeField] private bool exitController;
@@ -12,19 +16,42 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsPanel;
     
+    [SerializeField] private Image settingsEnglishButton;
+    [SerializeField] private Image settingsRussianButton;
+    [SerializeField] private TextMeshProUGUI settingsEnglishText;
+    [SerializeField] private TextMeshProUGUI settingsRussianText;
+    
+    [SerializeField] private Image settingsLightButton;
+    [SerializeField] private Image settingsDarkButton;
+    [SerializeField] private TextMeshProUGUI settingsLightText;
+    [SerializeField] private TextMeshProUGUI settingsDarkText;
+    
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
     [SerializeField] private Image settingsVibrationButton;
-    
+
     [SerializeField] private Sprite settingsSoundOn;
     [SerializeField] private Sprite settingsSoundOff;
     [SerializeField] private Sprite settingsMusicOn;
     [SerializeField] private Sprite settingsMusicOff;
     [SerializeField] private Sprite settingsVibrationOn;
     [SerializeField] private Sprite settingsVibrationOff;
-    
+
+    private Color _colorLight;
+    private Color _colorGrey;
+
+
+    private void Awake()
+    { 
+        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white; 
+        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
+    }
+
     void Start () {
         isPaused = false;
+
+        int languageId = GameHelper.GetLanguage();
+        ApplyLanguage(languageId);
         
         GameHelper.GetSound();
         ApplySound(GameHelper.Sound);
@@ -86,6 +113,70 @@ public class Buttons : MonoBehaviour {
     public void ApplySound(bool sound)
     {
         settingsSoundButton.sprite = sound ? settingsSoundOn : settingsSoundOff;
+    }
+
+    public void ApplyLanguage( int languageId)
+    {
+        SetLanguageSelect(languageId);
+    }
+
+    private void SetLanguageSelect(int languageId)
+    {
+        if (languageId == 0)
+        {
+            settingsEnglishButton.color = _colorLight;
+            settingsRussianButton.color = _colorGrey;
+            
+            settingsEnglishText.color = _colorGrey;
+            settingsRussianText.color = _colorLight;
+        }
+        else
+        {
+            settingsEnglishButton.color = _colorGrey;
+            settingsRussianButton.color = _colorLight;
+            
+            settingsEnglishText.color = _colorLight;
+            settingsRussianText.color = _colorGrey;
+        }
+    } 
+    
+    private void SetThemeSelect(Themes theme)
+    {
+        if (theme == Themes.Light)
+        {
+            settingsLightButton.color = _colorLight;
+            settingsDarkButton.color = _colorGrey;
+            
+            settingsLightText.color = _colorGrey;
+            settingsDarkText.color = _colorLight;
+        }
+        else
+        {
+            settingsLightButton.color = _colorGrey;
+            settingsDarkButton.color = _colorLight;
+            
+            settingsLightText.color = _colorLight;
+            settingsDarkText.color = _colorGrey;
+        }
+    }
+    
+    public void OnLanguageChanged(int languageId)
+    {
+        string language = languageId == 0 ? "English" : "Russian";
+
+        if (LocalizationManager.Language == language)
+        {
+            return;
+        }
+        
+        GameHelper.SetLanguage(languageId);
+        SetLocalization(language);
+        SetLanguageSelect(languageId);
+    }
+    
+    public void SetLocalization(string localization)
+    {
+        LocalizationManager.Language = localization;
     }
     
     public void OnMusicClick()
@@ -166,11 +257,13 @@ public class Buttons : MonoBehaviour {
     public void OnLightThemeClick()
     {
         GameHelper.SetTheme(Themes.Light);
+        SetThemeSelect(Themes.Light);
     }
     
     public void OnDarkThemeClick()
     {
         GameHelper.SetTheme(Themes.Night);
+        SetThemeSelect(Themes.Night);
     }
 
     public void OnThemeClick(Themes theme)

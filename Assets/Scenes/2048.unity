@@ -913,6 +913,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &488848301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8139209270451538485, guid: 1bef95afc134d2b409d721505ffc57f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 387378056}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508140006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1025,7 @@ GameObject:
   - component: {fileID: 560673651}
   - component: {fileID: 560673652}
   - component: {fileID: 560673653}
+  - component: {fileID: 560673654}
   m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
@@ -1068,7 +1081,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: '#Score'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f6c2978c93d3ad4aa6c524b9081b904, type: 2}
   m_sharedMaterial: {fileID: 4336211340261206716, guid: 9f6c2978c93d3ad4aa6c524b9081b904,
@@ -1138,6 +1151,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &560673654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560673650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizationKey: Tetris.score
 --- !u!1 &614737339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,6 +2213,7 @@ GameObject:
   - component: {fileID: 941259674}
   - component: {fileID: 941259676}
   - component: {fileID: 941259675}
+  - component: {fileID: 941259677}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2234,7 +2261,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Try Again
+  m_text: '#Try Again'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f6c2978c93d3ad4aa6c524b9081b904, type: 2}
   m_sharedMaterial: {fileID: 4336211340261206716, guid: 9f6c2978c93d3ad4aa6c524b9081b904,
@@ -2265,9 +2292,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2312,6 +2339,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941259673}
   m_CullTransparentMesh: 1
+--- !u!114 &941259677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941259673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizationKey: 2048.again
 --- !u!1 &961156038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,6 +2831,7 @@ GameObject:
   - component: {fileID: 1132786104}
   - component: {fileID: 1132786105}
   - component: {fileID: 1132786106}
+  - component: {fileID: 1132786107}
   m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
@@ -2846,7 +2887,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Record
+  m_text: '#Record'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f6c2978c93d3ad4aa6c524b9081b904, type: 2}
   m_sharedMaterial: {fileID: 4336211340261206716, guid: 9f6c2978c93d3ad4aa6c524b9081b904,
@@ -2916,6 +2957,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1132786107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132786103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizationKey: Tetris.record
 --- !u!1 &1133554045
 GameObject:
   m_ObjectHideFlags: 0
@@ -3366,6 +3420,7 @@ GameObject:
   - component: {fileID: 1411124307}
   - component: {fileID: 1411124309}
   - component: {fileID: 1411124308}
+  - component: {fileID: 1411124310}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3413,7 +3468,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over!
+  m_text: '#Game Over!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f6c2978c93d3ad4aa6c524b9081b904, type: 2}
   m_sharedMaterial: {fileID: 4336211340261206716, guid: 9f6c2978c93d3ad4aa6c524b9081b904,
@@ -3444,9 +3499,9 @@ MonoBehaviour:
   m_fontSize: 60
   m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -3491,6 +3546,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411124306}
   m_CullTransparentMesh: 1
+--- !u!114 &1411124310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411124306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizationKey: 2048.gameover
 --- !u!1 &1529570034
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,7 +3949,8 @@ MonoBehaviour:
   - {fileID: 930765690}
   settingsBg: {fileID: 387378065}
   settingsBackButton: {fileID: 387378064}
-  settingsThemeTextButton: {fileID: 387378063}
+  settingsThemeText: {fileID: 387378063}
+  settingsLanguageText: {fileID: 488848301}
   settingsSoundButton: {fileID: 387378061}
   settingsMusicButton: {fileID: 387378060}
   settingsVibrationButton: {fileID: 387378059}
@@ -4029,7 +4098,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 46
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512

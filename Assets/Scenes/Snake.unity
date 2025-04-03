@@ -915,7 +915,8 @@ MonoBehaviour:
   scoreAndRecordText: {fileID: 1909527672}
   settingsBg: {fileID: 1412353733348996118}
   settingsBackButton: {fileID: 1412353733348996117}
-  settingsThemeTextButton: {fileID: 1412353733348996116}
+  settingsThemeText: {fileID: 1412353733348996116}
+  settingsLanguageText: {fileID: 1412353733348996115}
   settingsSoundButton: {fileID: 1412353733348996114}
   settingsMusicButton: {fileID: 1412353733348996113}
   settingsVibrationButton: {fileID: 1412353733348996112}
@@ -1513,7 +1514,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
@@ -1908,6 +1909,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1412353733348996115 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8139209270451538485, guid: 1bef95afc134d2b409d721505ffc57f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1412353733348996110}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1412353733348996116 stripped

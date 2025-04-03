@@ -31,8 +31,6 @@ public class Player : MonoBehaviour, IPointerClickHandler
     }
 
     public Color Color { get; set; }
-    
-    public string Name { get; private set; } = "Robot";
     public int WinNumber { get; private set; } = 0;
     public int WinSteps { get; private set; } = 0;
     

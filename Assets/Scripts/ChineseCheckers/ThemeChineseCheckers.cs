@@ -24,7 +24,8 @@ public class ThemeChineseCheckers: MonoBehaviour
     
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
-    [SerializeField] private TextMeshProUGUI settingsThemeTextButton;
+    [SerializeField] private TextMeshProUGUI settingsThemeText;
+    [SerializeField] private TextMeshProUGUI settingsLanguageText;
     
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
@@ -127,7 +128,8 @@ public class ThemeChineseCheckers: MonoBehaviour
         settingsSoundButton.color = _colorGrey;
         settingsMusicButton.color = _colorGrey;
         settingsVibrationButton.color = _colorGrey;
-        settingsThemeTextButton.color = _colorDark;
+        settingsThemeText.color = _colorDark;
+        settingsLanguageText.color = _colorDark;
     } 
     
     public void SetDark()
@@ -163,6 +165,7 @@ public class ThemeChineseCheckers: MonoBehaviour
         settingsSoundButton.color = _colorLight;
         settingsMusicButton.color = _colorLight;
         settingsVibrationButton.color = _colorLight;
-        settingsThemeTextButton.color = _colorLight;
+        settingsThemeText.color = _colorLight;
+        settingsLanguageText.color = _colorLight;
     }
 }

@@ -13,7 +13,8 @@ public class ThemeMenu : MonoBehaviour
     
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
-    [SerializeField] private TextMeshProUGUI settingsThemeTextButton;
+    [SerializeField] private TextMeshProUGUI settingsThemeText;
+    [SerializeField] private TextMeshProUGUI settingsLanguageText;
     
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
@@ -30,6 +31,7 @@ public class ThemeMenu : MonoBehaviour
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
 
         GameHelper.SetFirstSettings();
+        GameHelper.GetLanguage();
         GameHelper.GetTheme();
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -86,7 +88,8 @@ public class ThemeMenu : MonoBehaviour
         settingsSoundButton.color = _colorGrey;
         settingsMusicButton.color = _colorGrey;
         settingsVibrationButton.color = _colorGrey;
-        settingsThemeTextButton.color = _colorDark;
+        settingsThemeText.color = _colorDark;
+        settingsLanguageText.color = _colorDark;
     } 
     
     public void SetDark()
@@ -107,6 +110,7 @@ public class ThemeMenu : MonoBehaviour
         settingsSoundButton.color = _colorLight;
         settingsMusicButton.color = _colorLight;
         settingsVibrationButton.color = _colorLight;
-        settingsThemeTextButton.color = _colorLight;
+        settingsThemeText.color = _colorLight;
+        settingsLanguageText.color = _colorLight;
     }
 }

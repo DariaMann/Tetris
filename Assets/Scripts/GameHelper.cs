@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.SimpleLocalization;
 using UnityEngine;
 
 public static class GameHelper
@@ -67,6 +68,17 @@ public static class GameHelper
 
         public static void SetFirstSettings()
         {
+                if (!PlayerPrefs.HasKey("Language"))
+                {
+                        string language = "English";
+                        if (Application.systemLanguage == SystemLanguage.Russian)
+                        {
+                                language = "Russian";
+                        }
+
+                        PlayerPrefs.SetString("Language", language);
+                        PlayerPrefs.Save();
+                }
                 if (!PlayerPrefs.HasKey("Theme"))
                 {
                         PlayerPrefs.SetInt("Theme", (int) Theme);
@@ -109,8 +121,28 @@ public static class GameHelper
         {
                 Theme = (Themes) PlayerPrefs.GetInt("Theme");
                 return Theme;
+        }    
+        
+        public static void SetLanguage(int languageId)
+        {
+                string language = languageId == 0 ? "English" : "Russian";
+
+                if (LocalizationManager.Language == language)
+                {
+                        return;
+                }
+        
+                PlayerPrefs.SetString("Language", language);
+                PlayerPrefs.Save();
         }
         
+        public static int GetLanguage()
+        {
+                LocalizationManager.Language = PlayerPrefs.GetString("Language") == "English" ? "English" : "Russian";
+                int languageId = LocalizationManager.Language == "English" ? 0 : 1;
+                return languageId;
+        }
+
         public static void SetSound(bool sound)
         {
                 if (sound == Sound)
@@ -130,7 +162,7 @@ public static class GameHelper
                 Sound = soundState == 0 ? true : false;
                 return Sound;
         }
-        
+
         public static void SetMusic(bool music)
         {
                 if (music == Music)

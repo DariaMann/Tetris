@@ -1,0 +1,22 @@
+Key,English,Russian
+Menu.tetris,Tetris,Тетрис
+Menu.snake,Snake,Змейка
+Menu.checkers,Chinese Checkers,Китайские шашки
+Settings.theme,Theme,Тема
+Settings.light,Light,Светлая
+Settings.dark,Dark,Темная
+Settings.language,Language,Язык
+Settings.english,English,Английский
+Settings.russian,Russian,Русский
+Pause.resume,Resume,Продолжить
+Pause.again,Again,Заново
+Pause.home,Home,Домой
+Tetris.next,Next,Следующая
+Tetris.score,Score,Очки
+Tetris.record,Record,Рекорд
+2048.gameover,Game Over!,Конец игры!
+2048.again,Try Again!,Попробуй еще!
+Сheckers.warning,Include at least two players!,Включите минимум двух игроков!
+Сheckers.steps,Steps,Круги
+Сheckers.robot,Robot,Робот
+Сheckers.player,Player,Игрок

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Assets.SimpleLocalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,16 @@ public class PlayerInRating :MonoBehaviour
     public void SetData(Player player)
     {
         number.text = player.WinNumber.ToString();
-        namePlayer.text = player.Name;
-        steps.text = "Steps: " + player.WinSteps;
+        switch (player.State)
+        {
+            case PlayerState.Robot:
+                namePlayer.text = LocalizationManager.Localize("Сheckers.robot");
+                break;
+            case PlayerState.Player:
+                namePlayer.text = LocalizationManager.Localize("Сheckers.player");
+                break;
+        }
+        steps.text = LocalizationManager.Localize("Сheckers.steps") + ": " + player.WinSteps;
         chipsType.sprite = map.ChoseChipByType(player.ID);
     }
 }

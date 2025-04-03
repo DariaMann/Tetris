@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.SimpleLocalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,7 +95,8 @@ public class CheckersManager: MonoBehaviour
             player.Colored(_playerColors[player.ID]);
         }
         OnChangeSpeed();
-
+        ChangeStepCount(0, true);
+        
         FirstStart();
 
     }
@@ -421,14 +423,18 @@ public class CheckersManager: MonoBehaviour
         hexMap.ClearChips();
     }
     
-    public void ChangeStepCount(int step)
+    public void ChangeStepCount(int step, bool isSowFirst = false)
     {
         if (step < 0)
         {
             step = 0;
         }
-        Steps = step;
-        stepsText.text = "Steps: " + Steps;
+
+        if (!isSowFirst)
+        {
+            Steps = step;
+        }
+        stepsText.text = LocalizationManager.Localize("Сheckers.steps") + ": " + step;
     }
     
     public bool CheckWin(Player player)
