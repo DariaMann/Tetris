@@ -13,6 +13,12 @@ public static class GameHelper
         public static event Action<bool> OnSoundChanged;
         public static event Action<bool> OnMusicChanged;
         public static event Action<bool> OnVibrationChanged;
+        
+        public static bool IdLoaded { get; set; } = false;
+        
+        public static MiniGameType GameType { get; set; }
+        
+        public static bool IsAutentificate { get; set; } = false;
 
         public static Themes Theme
         {
@@ -101,6 +107,10 @@ public static class GameHelper
                         int vibrationState = Vibration ? 0 : 1;
                         PlayerPrefs.SetInt("Vibration", (int) vibrationState);
                         PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("ActivatedAchievement"))
+                {
+                        GameAchievementServices.SaveList();
                 }
                 
         }

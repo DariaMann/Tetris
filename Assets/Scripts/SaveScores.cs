@@ -57,6 +57,7 @@ public class SaveScores : MonoBehaviour
             {
                 scoreAndRecordText.text = currentScore + "/" + record;
             }
+            GameServicesManager.ReportScore(record, GameHelper.GameType);
             //todo: Новый рекорд! подсветить
         }
         else
@@ -104,5 +105,31 @@ public class SaveScores : MonoBehaviour
             scoreAndRecordText.text = currentScore + "/" + record;
         }
         Save();
+        if (GameHelper.GameType == MiniGameType.Tetris)
+        {
+            if(currentScore >= 10) GameServicesManager.UnlockAchieve(AchivementServices.Tetris10Points);
+            if(currentScore >= 50) GameServicesManager.UnlockAchieve(AchivementServices.Tetris50Points);
+            if(currentScore >= 100) GameServicesManager.UnlockAchieve(AchivementServices.Tetris100Points);
+            if(currentScore >= 500) GameServicesManager.UnlockAchieve(AchivementServices.Tetris500Points);
+            if(currentScore >= 1000) GameServicesManager.UnlockAchieve(AchivementServices.Tetris1000Points);
+        }
+        else if (GameHelper.GameType == MiniGameType.Snake)
+        {
+            if(currentScore >= 10) GameServicesManager.UnlockAchieve(AchivementServices.Snake10Points);
+            if(currentScore >= 50) GameServicesManager.UnlockAchieve(AchivementServices.Snake50Points);
+            if(currentScore >= 100) GameServicesManager.UnlockAchieve(AchivementServices.Snake100Points);
+            if(currentScore >= 200) GameServicesManager.UnlockAchieve(AchivementServices.Snake200Points);
+            if(currentScore >= 300) GameServicesManager.UnlockAchieve(AchivementServices.Snake300Points);
+        }
+        else if (GameHelper.GameType == MiniGameType.G2048)
+        {
+            if(currentScore >= 1000) GameServicesManager.UnlockAchieve(AchivementServices.G1000Points);
+            if(currentScore >= 5000) GameServicesManager.UnlockAchieve(AchivementServices.G5000Points);
+            if(currentScore >= 10000) GameServicesManager.UnlockAchieve(AchivementServices.G10000Points);
+            if(currentScore >= 50000) GameServicesManager.UnlockAchieve(AchivementServices.G50000Points);
+            if(currentScore >= 100000) GameServicesManager.UnlockAchieve(AchivementServices.G100000Points);
+            if(currentScore >= 150000) GameServicesManager.UnlockAchieve(AchivementServices.G150000Points);
+            if(currentScore >= 200000) GameServicesManager.UnlockAchieve(AchivementServices.G200000Points);
+        }
     }
 }

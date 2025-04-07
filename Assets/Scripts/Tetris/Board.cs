@@ -167,6 +167,8 @@ public class Board : MonoBehaviour
 
     public void LineClear(int row)
     {
+        GameServicesManager.UnlockAchieve(AchivementServices.FirstLine);
+        
         RectInt bounds = Bounds;
         saveScores.ChangeScore(1);
 

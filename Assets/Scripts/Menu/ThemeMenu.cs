@@ -24,15 +24,12 @@ public class ThemeMenu : MonoBehaviour
     private Color _colorGrey;
     private Color _colorDark;
 
-    private void Awake()
+    private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
 
-        GameHelper.SetFirstSettings();
-        GameHelper.GetLanguage();
-        GameHelper.GetTheme();
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
     }

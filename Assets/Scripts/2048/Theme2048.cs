@@ -35,7 +35,7 @@ public class Theme2048 : MonoBehaviour
     private Color _colorGrey;
     private Color _colorDark;
 
-    private void Awake()
+    private void Start()
     {
         _lightColorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color) ? color : Color.white;
         _lightColorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color1) ? color1 : Color.gray;
@@ -48,6 +48,7 @@ public class Theme2048 : MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
+        GameHelper.GameType = MiniGameType.G2048;
     }
     
     private void ApplyTheme(Themes newTheme)

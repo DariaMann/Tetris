@@ -27,6 +27,19 @@ public class Tile2024 : MonoBehaviour
         background.color = state.backgroundColor;
         text.color = state.textColor;
         text.text = state.number.ToString();
+
+        int currentScore = state.number;
+        switch (currentScore)
+        {
+            case 128: GameServicesManager.UnlockAchieve(AchivementServices.Tile128); break;
+            case 256: GameServicesManager.UnlockAchieve(AchivementServices.Tile256); break;
+            case 512: GameServicesManager.UnlockAchieve(AchivementServices.Tile512); break;
+            case 1024: GameServicesManager.UnlockAchieve(AchivementServices.Tile1024); break;
+            case 2048: GameServicesManager.UnlockAchieve(AchivementServices.Tile2048); break;
+            case 4096: GameServicesManager.UnlockAchieve(AchivementServices.Tile4096); break;
+            case 8192: GameServicesManager.UnlockAchieve(AchivementServices.Tile8192); break;
+            case 16384: GameServicesManager.UnlockAchieve(AchivementServices.Tile16384); break;
+        }
     }
 
     public void Spawn(TileCell cell, Transform grid)

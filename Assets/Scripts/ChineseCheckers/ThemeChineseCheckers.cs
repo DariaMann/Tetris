@@ -44,7 +44,7 @@ public class ThemeChineseCheckers: MonoBehaviour
     private Color _colorTileLight;
     private Color _colorTileDark;
 
-    private void Awake()
+    private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
         _colorSoGrey = ColorUtility.TryParseHtmlString("#939395", out Color color3) ? color3 : Color.gray;
@@ -55,6 +55,7 @@ public class ThemeChineseCheckers: MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
+        GameHelper.GameType = MiniGameType.ChineseCheckers;
     }
     
     private void ApplyTheme(Themes newTheme)

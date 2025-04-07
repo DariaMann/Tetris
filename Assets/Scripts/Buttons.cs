@@ -179,6 +179,11 @@ public class Buttons : MonoBehaviour {
         LocalizationManager.Language = localization;
     }
     
+    public void OnRatingClick()
+    {
+        GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);
+    } 
+    
     public void OnMusicClick()
     {
         GameHelper.SetMusic(!GameHelper.Music);
