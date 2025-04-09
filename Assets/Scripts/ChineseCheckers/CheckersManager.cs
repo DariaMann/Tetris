@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Newtonsoft.Json;
 
 public class CheckersManager: MonoBehaviour
 {
@@ -97,8 +98,99 @@ public class CheckersManager: MonoBehaviour
         OnChangeSpeed();
         ChangeStepCount(0, true);
         
-        FirstStart();
+//        FirstStart();
 
+        LoadLastPlay();
+    }
+
+    private void LoadLastPlay()
+    {
+        SaveDataChineseCheckers saveData = LoadChineseCheckersData();
+        if (saveData == null)
+        {
+            FirstStart();
+            return;
+        }
+
+        SetPlayers(saveData.SavePlayers);
+        IsPlaying = true;
+        startPanel.SetActive(!IsPlaying);
+        ChangeStepCount(saveData.Steps);
+        
+        hexMap.StartSave(saveData.SaveChips);
+        SetCurrentPlayer(GetPlayerById(saveData.IdPlayingPlayer));
+        StartNextTurn(true);
+
+        CheckUndoButtonState();
+    }
+
+    private void SetPlayers(List<SavePlayer> SavePlayers)
+    {
+        foreach (var player in Players)
+        {
+            SavePlayer savePlayer = SavePlayers.Find(pl => pl.Id == player.ID);
+            player.ChangeState(savePlayer.State);
+            if (!player.IsActive)
+            {
+                player.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void SaveLastPlay()
+    {
+        if (!IsPlaying)
+        {
+            SaveChineseCheckersData(null);
+            return;
+        }
+        SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, Steps, Players, hexMap.Chips);
+        SaveChineseCheckersData(data);
+    }
+    
+    public static void SaveChineseCheckersData(SaveDataChineseCheckers data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSaveDataChineseCheckers(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SaveDataChineseCheckers", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SaveDataChineseCheckers LoadChineseCheckersData()
+    {
+        if (PlayerPrefs.HasKey("SaveDataChineseCheckers"))
+        {
+            string json = PlayerPrefs.GetString("SaveDataChineseCheckers");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SaveDataChineseCheckers data = DeserializeJsonSaveDataChineseCheckers(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SaveDataChineseCheckers DeserializeJsonSaveDataChineseCheckers(string jsonString)
+    {
+        SaveDataChineseCheckers data = JsonConvert.DeserializeObject<SaveDataChineseCheckers>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSaveDataChineseCheckers(SaveDataChineseCheckers data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
     }
 
     public void ResetGame()
@@ -117,6 +209,7 @@ public class CheckersManager: MonoBehaviour
     void OnApplicationQuit()
     {
         SaveData();
+        SaveLastPlay();
     }
 
     void OnApplicationPause(bool pause)
@@ -124,7 +217,14 @@ public class CheckersManager: MonoBehaviour
         if (pause)
         {
             SaveData();
+            SaveLastPlay();
         }
+    }
+    
+    private void OnDestroy()
+    {
+        // Этот метод будет вызван при выходе из сцены
+        SaveLastPlay();
     }
     
     public void LoadData()
@@ -188,6 +288,20 @@ public class CheckersManager: MonoBehaviour
         
         Debug.LogError("Ни одного играющего персонажа!");
         _firstPlayerId = -1;
+        return null;
+    }
+    
+    public Player GetPlayerById(int idPlayer)
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            if (Players[i].ID == idPlayer)
+            {
+                return Players[i];
+            }
+        }
+        
+        Debug.LogError("Нет персонажа с таким ID!");
         return null;
     }
 

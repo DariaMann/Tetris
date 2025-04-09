@@ -112,6 +112,10 @@ public static class GameHelper
                 {
                         GameAchievementServices.SaveList();
                 }
+                if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
+                {
+                        CheckersManager.SaveChineseCheckersData(null);
+                }
                 
         }
         

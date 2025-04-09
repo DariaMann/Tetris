@@ -233,6 +233,18 @@ public class HexMap : MonoBehaviour
             }
         }
     }
+    
+    public void StartSave(List<SaveChip> saveChips)
+    {
+        foreach (var data in saveChips)
+        {
+            HexTile tile = Tiles.Find(t => t.Row == data.Row && t.Col == data.Col);
+            Chip chip = CreateChip(tile, ChoseChipByType(data.IdPlayer), data.IdPlayer);
+            checkersManager.Players[data.IdPlayer].Chips.Add(chip);
+            chip.Player = checkersManager.Players[data.IdPlayer];
+            Chips.Add(chip);
+        }
+    }
 
     public void ClearChips()
     {
