@@ -6,6 +6,8 @@ public class SaveDataChineseCheckers
 {
     public int IdPlayingPlayer { get; set; }
     
+    public int FirstPlayerIndex { get; set; }
+    
     public int Steps { get; set; }
     
     public List<SavePlayer> SavePlayers { get; set; } = new List<SavePlayer>();
@@ -14,9 +16,10 @@ public class SaveDataChineseCheckers
     
     public SaveDataChineseCheckers() {}
     
-    public SaveDataChineseCheckers(int idPlayingPlayer, int steps, List<Player> players, List<Chip> chips)
+    public SaveDataChineseCheckers(int idPlayingPlayer, int firstPlayerIndex, int steps, List<Player> players, List<Chip> chips)
     {
         IdPlayingPlayer = idPlayingPlayer;
+        FirstPlayerIndex = firstPlayerIndex;
         Steps = steps;
         foreach (var player in players)
         {
@@ -35,7 +38,7 @@ public class SaveDataChineseCheckers
     
     public override string ToString()
     {
-        return "LevelStructure: " + IdPlayingPlayer + " " + Steps + " " +
+        return "LevelStructure: " + IdPlayingPlayer + " " + FirstPlayerIndex + " " + Steps + " " +
                "SavePlayers[" + string.Join(" ", SavePlayers) + "]" + " " +
                "SaveChips[" + string.Join(" ", SaveChips) + "]";
     }

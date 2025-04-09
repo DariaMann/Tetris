@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -9,14 +10,16 @@ using Random = UnityEngine.Random;
 public class Board : MonoBehaviour
 {
     [SerializeField] private SaveScores saveScores;
+    [SerializeField] private GameObject gameOver;
     [SerializeField] private List<Image> nextTetrominoImage;
-    
+
     [SerializeField] private TetrominoData[] tetrominoes;
     [SerializeField] private Vector2Int boardSize = new Vector2Int(10, 20);
 
     [SerializeField] private Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
 
     private TetrominoData _next;
+    public bool IsGameOver { get; set; }
     
     public Tilemap Tilemap { get; private set; }
     
@@ -49,9 +52,102 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        NextRandomTetromino();
-        SpawnPiece(true);
+        LoadLastPlay();
     }
+    
+    void OnApplicationQuit()
+    {
+        SaveLastPlay();
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveLastPlay();
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        SaveLastPlay();
+    }
+    
+    private void LoadLastPlay()
+    {
+        SaveDataTetris saveData = JsonHelper.LoadTetrisData();
+        if (saveData == null)
+        {
+            NextRandomTetromino();
+            SpawnPiece(true);
+            return;
+        }
+        
+        saveScores.ChangeScore(saveData.Score);
+        LoadTilemap(saveData.SaveTetrominos);
+        NextRandomTetromino(GetTetrominoDataByType(saveData.NextTetromino));
+        SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
+    }
+    
+    private void SaveLastPlay()
+    {
+        if (IsGameOver)
+        {
+            JsonHelper.SaveTetrisData(null);
+            return;
+        }
+
+        List<SaveTetramino> tetrominos = new List<SaveTetramino>();
+        BoundsInt bounds = Tilemap.cellBounds;
+        foreach (Vector3Int pos in bounds.allPositionsWithin)
+        {
+            TileBase tile = Tilemap.GetTile(pos);
+            if (tile != null)
+            {
+                bool isCurrentTetramino = false;
+                for (int i = 0; i < ActivePiece.data.cells.Length; i++)
+                {
+                    Vector3Int globalCellPos = ActivePiece.position + ActivePiece.cells[i];
+                    if (pos == globalCellPos)
+                    {
+                        isCurrentTetramino = true;
+                        break;
+                    }
+                }
+
+                if (isCurrentTetramino)
+                {
+                    continue;
+                }
+
+                TetrominoData tetromino = tetrominoes.ToList().Find(t => t.tile == tile);
+            
+                tetrominos.Add(new SaveTetramino
+                {
+                    Tetromino = tetromino.tetromino,
+                    X = pos.x,
+                    Y = pos.y,
+                    Z = pos.z
+                });
+            }
+        }
+        
+        SaveDataTetris data = new SaveDataTetris(saveScores.CurrentScore, ActivePiece.data.tetromino, _next.tetromino, tetrominos);
+        JsonHelper.SaveTetrisData(data);
+    }
+    
+    public void LoadTilemap(List<SaveTetramino> saveTetrominos)
+    {
+        Tilemap.ClearAllTiles();
+
+        foreach (SaveTetramino saved in saveTetrominos)
+        {
+            Vector3Int pos = new Vector3Int(saved.X, saved.Y, saved.Z);
+            TetrominoData tetromino = tetrominoes.ToList().Find(t => t.tetromino == saved.Tetromino);
+            Tilemap.SetTile(pos, tetromino.tile);
+        }
+    }
+
     
     public void NextRandomTetromino()
     {
@@ -66,6 +162,10 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece(bool first = false)
     {
+        if (IsGameOver)
+        {
+            return;
+        }
         TetrominoData data = _next;
         if (first)
         {
@@ -81,12 +181,47 @@ public class Board : MonoBehaviour
             GameOver();
         }
     }
+    
+    public void SpawnPiece(TetrominoData data)
+    {
+        ActivePiece.Initialize(this, spawnPosition, data);
+
+        if (IsValidPosition(ActivePiece, spawnPosition)) {
+            Set(ActivePiece);
+        } else {
+            GameOver();
+        }
+    }
+    
+    public void NextRandomTetromino(TetrominoData data)
+    {
+        _next = data;
+        foreach (var next in nextTetrominoImage)
+        {
+            next.sprite = _next.sprite;
+        }
+        Debug.Log("Следующая : " +  Enum.GetName(typeof(Tetromino), _next.tetromino));
+    }
+
+    private TetrominoData GetTetrominoDataByType(Tetromino type)
+    {
+        TetrominoData data = tetrominoes.ToList().Find(t => t.tetromino == type);
+        return data;
+    }
 
     public void GameOver()
     {
+        gameOver.SetActive(true);
+        IsGameOver = true;
+    }
+    
+    public void Again()
+    {
+        gameOver.SetActive(false);
+        IsGameOver = false;
+        
         Tilemap.ClearAllTiles();
         saveScores.ChangeScore(0);
-        // Do anything else you want on game over here..
     }
 
     public void Set(Piece piece)

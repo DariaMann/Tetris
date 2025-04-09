@@ -3,6 +3,55 @@ using UnityEngine;
 
 public static class JsonHelper
 {
+    #region Tetris
+
+    public static void SaveTetrisData(SaveDataTetris data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSaveDataTetris(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SaveDataTetris", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SaveDataTetris LoadTetrisData()
+    {
+        if (PlayerPrefs.HasKey("SaveDataTetris"))
+        {
+            string json = PlayerPrefs.GetString("SaveDataTetris");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SaveDataTetris data = DeserializeJsonSaveDataTetris(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SaveDataTetris DeserializeJsonSaveDataTetris(string jsonString)
+    {
+        SaveDataTetris data = JsonConvert.DeserializeObject<SaveDataTetris>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSaveDataTetris(SaveDataTetris data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
+    #endregion
+    
     #region 2048
 
     public static void Save2048Data(SaveData2048 data)

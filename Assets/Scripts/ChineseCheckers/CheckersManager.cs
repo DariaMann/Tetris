@@ -42,7 +42,6 @@ public class CheckersManager: MonoBehaviour
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
     private bool _isShowing;
-    private int _firstPlayerId = -1;
     private Color[] _playerColors = {
         Color.blue,   // Нижний игрок
         Color.red,    // Верхний игрок
@@ -70,6 +69,7 @@ public class CheckersManager: MonoBehaviour
     
     public int Steps { get; private set; } = -1;
     public int CurrentPlayerIndex { get; private set; } = -1;
+    public int FirstPlayerIndex { get; private set; } = -1;
     
     public Chip SelectedChip { get; private set; }
 
@@ -116,10 +116,13 @@ public class CheckersManager: MonoBehaviour
         IsPlaying = true;
         startPanel.SetActive(!IsPlaying);
         ChangeStepCount(saveData.Steps);
+        FirstPlayerIndex = saveData.FirstPlayerIndex;
         
         hexMap.StartSave(saveData.SaveChips);
         SetCurrentPlayer(GetPlayerById(saveData.IdPlayingPlayer));
         StartNextTurn(true);
+        
+        
 
         CheckUndoButtonState();
     }
@@ -131,7 +134,7 @@ public class CheckersManager: MonoBehaviour
             JsonHelper.SaveChineseCheckersData(null);
             return;
         }
-        SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, Steps, Players, hexMap.Chips);
+        SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, FirstPlayerIndex, Steps, Players, hexMap.Chips);
         JsonHelper.SaveChineseCheckersData(data);
     }
 
@@ -236,13 +239,13 @@ public class CheckersManager: MonoBehaviour
         {
             if (Players[i].IsActive)
             {
-                _firstPlayerId = Players[i].ID;
+                FirstPlayerIndex = Players[i].ID;
                 return Players[i];
             }
         }
         
         Debug.LogError("Ни одного играющего персонажа!");
-        _firstPlayerId = -1;
+        FirstPlayerIndex = -1;
         return null;
     }
     
@@ -293,7 +296,7 @@ public class CheckersManager: MonoBehaviour
             SetSelection(null);
             SetCurrentPlayer(step.Chip.Player);
             
-            if (!isFirstStep && step.Chip.Player.ID == _firstPlayerId) // Значит был пройден круг ходов
+            if (!isFirstStep && step.Chip.Player.ID == FirstPlayerIndex) // Значит был пройден круг ходов
             {
                 ChangeStepCount(Steps - 1);
             }
@@ -486,6 +489,7 @@ public class CheckersManager: MonoBehaviour
         SetCurrentPlayer(null);
         WinCount = 0;
         CurrentPlayerIndex = -1;
+        FirstPlayerIndex = -1;
         ChangeStepCount(-1);
         EventSteps.Clear();
         SetSelection(null);
@@ -753,22 +757,19 @@ public class CheckersManager: MonoBehaviour
 
         do
         {
-            if (isFirst)
-            {
-                isFirst = false;
-            }
-            else
+            if (!isFirst)
             {
                 CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Count;
             }
             nextPlayer = Players[CurrentPlayerIndex];
 
-            if (CurrentPlayerIndex == 0) // Если начинается новый круг ходов
+            if (CurrentPlayerIndex == FirstPlayerIndex && !isFirst) // Если начинается новый круг ходов
             {
                 ChangeStepCount(Steps + 1);
             }
 
             countPlayer--;
+            isFirst = false;
 
         } while ((!nextPlayer.IsActive || nextPlayer.IsFinish) && countPlayer > 0);
 

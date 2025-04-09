@@ -46,6 +46,11 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
+        if (board.IsGameOver)
+        {
+            return;
+        }
+        
         board.Clear(this);
 
         // We use a timer to allow the player to make adjustments to the piece
@@ -126,24 +131,25 @@ public class Piece : MonoBehaviour
                 break;
         }
     }
-    
+#if UNITY_EDITOR
     // === 🖱 ОБРАБОТКА МЫШИ (ПК) ===
-//    if (Input.GetMouseButtonDown(0)) 
-//    {
-//        touchStartPos = Input.mousePosition;
-//        lastTouchPos = Input.mousePosition;
-//        isDragging = true;
-//    }
-//    else if (Input.GetMouseButton(0))
-//    {
-//        currentPos = Input.mousePosition;
-//        ProcessMove(currentPos);
-//    }
-//    else if (Input.GetMouseButtonUp(0))
-//    {
-//        isDragging = false;
-//        TryRotate(Input.mousePosition);
-//    }
+    if (Input.GetMouseButtonDown(0)) 
+    {
+        touchStartPos = Input.mousePosition;
+        lastTouchPos = Input.mousePosition;
+        isDragging = true;
+    }
+    else if (Input.GetMouseButton(0))
+    {
+        currentPos = Input.mousePosition;
+        ProcessMove(currentPos);
+    }
+    else if (Input.GetMouseButtonUp(0))
+    {
+        isDragging = false;
+        TryRotate(Input.mousePosition);
+    }
+#endif
 }
 
 // === 📌 ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
