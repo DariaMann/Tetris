@@ -114,7 +114,11 @@ public static class GameHelper
                 }
                 if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
                 {
-                        CheckersManager.SaveChineseCheckersData(null);
+                        JsonHelper.SaveChineseCheckersData(null);
+                }
+                if (!PlayerPrefs.HasKey("SaveData2048"))
+                {
+                        JsonHelper.Save2048Data(null);
                 }
                 
         }

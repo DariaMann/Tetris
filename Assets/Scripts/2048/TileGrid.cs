@@ -1,21 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class TileGrid : MonoBehaviour
 {
-    public TileRow[] rows { get; private set; }
-    public TileCell[] cells { get; private set; }
+    public TileRow[] Rows { get; private set; }
+    public TileCell[] Cells { get; private set; }
 
-    public int Size => cells.Length;
-    public int Height => rows.Length;
+    public int Size => Cells.Length;
+    public int Height => Rows.Length;
     public int Width => Size / Height;
 
     private void Awake()
     {
-        rows = GetComponentsInChildren<TileRow>();
-        cells = GetComponentsInChildren<TileCell>();
+        Rows = GetComponentsInChildren<TileRow>();
+        Cells = GetComponentsInChildren<TileCell>();
 
-        for (int i = 0; i < cells.Length; i++) {
-            cells[i].coordinates = new Vector2Int(i % Width, i / Width);
+        for (int i = 0; i < Cells.Length; i++) {
+            Cells[i].Coordinates = new Vector2Int(i % Width, i / Width);
         }
     }
 
@@ -27,7 +28,7 @@ public class TileGrid : MonoBehaviour
     public TileCell GetCell(int x, int y)
     {
         if (x >= 0 && x < Width && y >= 0 && y < Height) {
-            return rows[y].cells[x];
+            return Rows[y].Cells[x];
         } else {
             return null;
         }
@@ -35,23 +36,29 @@ public class TileGrid : MonoBehaviour
 
     public TileCell GetAdjacentCell(TileCell cell, Vector2Int direction)
     {
-        Vector2Int coordinates = cell.coordinates;
+        Vector2Int coordinates = cell.Coordinates;
         coordinates.x += direction.x;
         coordinates.y -= direction.y;
 
         return GetCell(coordinates);
     }
 
+    public TileCell GetCellByCoordinates(int x, int y)
+    {
+        TileCell tileCell = Cells.ToList().Find(tile => tile.Coordinates.x == x && tile.Coordinates.y == y);
+        return tileCell;
+    } 
+
     public TileCell GetRandomEmptyCell()
     {
-        int index = Random.Range(0, cells.Length);
+        int index = Random.Range(0, Cells.Length);
         int startingIndex = index;
 
-        while (cells[index].Occupied)
+        while (Cells[index].Occupied)
         {
             index++;
 
-            if (index >= cells.Length) {
+            if (index >= Cells.Length) {
                 index = 0;
             }
 
@@ -61,7 +68,7 @@ public class TileGrid : MonoBehaviour
             }
         }
 
-        return cells[index];
+        return Cells[index];
     }
 
 }

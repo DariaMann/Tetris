@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 [JsonObject]
 public class SaveDataChineseCheckers
 {
-
     public int IdPlayingPlayer { get; set; }
     
     public int Steps { get; set; }

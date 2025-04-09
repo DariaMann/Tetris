@@ -20,6 +20,12 @@ public class SaveScores : MonoBehaviour
     private string path;
     private int currentScore = 0;
     private int record = 0;
+    
+    public int CurrentScore
+    {
+        get => currentScore;
+        set => currentScore = value;
+    }
 
     public void Awake()
     {

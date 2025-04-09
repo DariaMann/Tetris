@@ -105,7 +105,7 @@ public class CheckersManager: MonoBehaviour
 
     private void LoadLastPlay()
     {
-        SaveDataChineseCheckers saveData = LoadChineseCheckersData();
+        SaveDataChineseCheckers saveData = JsonHelper.LoadChineseCheckersData();
         if (saveData == null)
         {
             FirstStart();
@@ -123,74 +123,29 @@ public class CheckersManager: MonoBehaviour
 
         CheckUndoButtonState();
     }
+    
+    private void SaveLastPlay()
+    {
+        if (!IsPlaying)
+        {
+            JsonHelper.SaveChineseCheckersData(null);
+            return;
+        }
+        SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, Steps, Players, hexMap.Chips);
+        JsonHelper.SaveChineseCheckersData(data);
+    }
 
-    private void SetPlayers(List<SavePlayer> SavePlayers)
+    private void SetPlayers(List<SavePlayer> savePlayers)
     {
         foreach (var player in Players)
         {
-            SavePlayer savePlayer = SavePlayers.Find(pl => pl.Id == player.ID);
+            SavePlayer savePlayer = savePlayers.Find(pl => pl.Id == player.ID);
             player.ChangeState(savePlayer.State);
             if (!player.IsActive)
             {
                 player.gameObject.SetActive(false);
             }
         }
-    }
-
-    private void SaveLastPlay()
-    {
-        if (!IsPlaying)
-        {
-            SaveChineseCheckersData(null);
-            return;
-        }
-        SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, Steps, Players, hexMap.Chips);
-        SaveChineseCheckersData(data);
-    }
-    
-    public static void SaveChineseCheckersData(SaveDataChineseCheckers data)
-    {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveDataChineseCheckers(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataChineseCheckers", json);
-        PlayerPrefs.Save();
-    }
-    
-    public static SaveDataChineseCheckers LoadChineseCheckersData()
-    {
-        if (PlayerPrefs.HasKey("SaveDataChineseCheckers"))
-        {
-            string json = PlayerPrefs.GetString("SaveDataChineseCheckers");
-            // Проверка на пустую строку
-            if (string.IsNullOrEmpty(json))
-            {
-                return null;
-            }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveDataChineseCheckers data = DeserializeJsonSaveDataChineseCheckers(json);
-            return data;
-        }
-        return null;
-    }
-    
-    private static SaveDataChineseCheckers DeserializeJsonSaveDataChineseCheckers(string jsonString)
-    {
-        SaveDataChineseCheckers data = JsonConvert.DeserializeObject<SaveDataChineseCheckers>(jsonString, new JsonSerializerSettings 
-        { 
-            TypeNameHandling = TypeNameHandling.Auto,
-            //NullValueHandling = NullValueHandling.Ignore,
-        });
-        return data;
-    }
-    
-    private static string SerializeJsonSaveDataChineseCheckers(SaveDataChineseCheckers data)
-    {
-        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
-        return jsonString;
     }
 
     public void ResetGame()

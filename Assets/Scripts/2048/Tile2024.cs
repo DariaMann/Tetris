@@ -5,28 +5,28 @@ using UnityEngine.UI;
 
 public class Tile2024 : MonoBehaviour
 {
-    public TileState state { get; private set; }
-    public TileCell cell { get; private set; }
+    public TileState State { get; private set; }
+    public TileCell Cell { get; private set; }
     
     public Transform Grid { get; private set; }
-    public bool locked { get; set; }
+    public bool Locked { get; set; }
 
-    private Image background;
-    private TextMeshProUGUI text;
+    private Image _background;
+    private TextMeshProUGUI _text;
 
     private void Awake()
     {
-        background = GetComponent<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        _background = GetComponent<Image>();
+        _text = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void SetState(TileState state)
     {
-        this.state = state;
+        this.State = state;
 
-        background.color = state.backgroundColor;
-        text.color = state.textColor;
-        text.text = state.number.ToString();
+        _background.color = state.backgroundColor;
+        _text.color = state.textColor;
+        _text.text = state.number.ToString();
 
         int currentScore = state.number;
         switch (currentScore)
@@ -44,12 +44,12 @@ public class Tile2024 : MonoBehaviour
 
     public void Spawn(TileCell cell, Transform grid)
     {
-        if (this.cell != null) {
-            this.cell.tile = null;
+        if (this.Cell != null) {
+            this.Cell.Tile = null;
         }
 
-        this.cell = cell;
-        this.cell.tile = this;
+        this.Cell = cell;
+        this.Cell.Tile = this;
         Grid = grid;
 
         transform.position = cell.transform.position;
@@ -71,24 +71,24 @@ public class Tile2024 : MonoBehaviour
 
     public void MoveTo(TileCell cell)
     {
-        if (this.cell != null) {
-            this.cell.tile = null;
+        if (this.Cell != null) {
+            this.Cell.Tile = null;
         }
 
-        this.cell = cell;
-        this.cell.tile = this;
+        this.Cell = cell;
+        this.Cell.Tile = this;
 
         StartCoroutine(Animate(cell.transform.position, false));
     }
 
     public void Merge(TileCell cell)
     {
-        if (this.cell != null) {
-            this.cell.tile = null;
+        if (this.Cell != null) {
+            this.Cell.Tile = null;
         }
 
-        this.cell = null;
-        cell.tile.locked = true;
+        this.Cell = null;
+        cell.Tile.Locked = true;
 
         StartCoroutine(Animate(cell.transform.position, true));
     }
@@ -115,9 +115,9 @@ public class Tile2024 : MonoBehaviour
         
         
         
-        if (cell != null)
+        if (Cell != null)
         {
-            transform.SetParent(cell.transform);
+            transform.SetParent(Cell.transform);
             RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.anchorMin = new Vector2(0,0);
             rectTransform.anchorMax = new Vector2(1f,1f);

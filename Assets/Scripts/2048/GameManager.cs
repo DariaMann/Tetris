@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TileBoard board;
     [SerializeField] private CanvasGroup gameOver;
     [SerializeField] private SaveScores saveScores;
+
+    private bool _isGameOver = false;
 
     public SaveScores SaveScores
     {
@@ -26,22 +29,74 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LoadLastPlay();
+    }
+    
+    void OnApplicationQuit()
+    {
+        SaveLastPlay();
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveLastPlay();
+        }
+    }
+    
     private void OnDestroy()
     {
         if (Instance == this) {
             Instance = null;
         }
+        SaveLastPlay();
     }
 
-    private void Start()
+    private void LoadLastPlay()
     {
-        NewGame();
-    }
+        SaveData2048 saveData = JsonHelper.Load2048Data();
+        if (saveData == null)
+        {
+            NewGame();
+            return;
+        }
+        
+        SaveScores.ChangeScore(saveData.Score);
+        // hide game over screen
+        gameOver.alpha = 0f;
+        gameOver.interactable = false;
 
+        // update board state
+        board.ClearBoard();
+
+        foreach (var tile in saveData.SaveTiles)
+        {
+            board.CreateTile(tile);
+        }
+        
+        board.enabled = true;
+    }
+    
+    private void SaveLastPlay()
+    {
+        if (_isGameOver)
+        {
+            JsonHelper.Save2048Data(null);
+            return;
+        }
+        SaveData2048 data = new SaveData2048(SaveScores.CurrentScore, board.Tiles);
+        
+        JsonHelper.Save2048Data(data);
+    }
+    
     public void NewGame()
     {
+        _isGameOver = false;
         // reset score
-        saveScores.ChangeScore(0);
+        SaveScores.ChangeScore(0);
 
         // hide game over screen
         gameOver.alpha = 0f;
@@ -56,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        _isGameOver = true;
         board.enabled = false;
         gameOver.interactable = true;
 

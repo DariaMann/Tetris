@@ -2,9 +2,9 @@
 
 public class TileCell : MonoBehaviour
 {
-    public Vector2Int coordinates { get; set; }
-    public Tile2024 tile { get; set; }
+    public Vector2Int Coordinates { get; set; }
+    public Tile2024 Tile { get; set; }
 
-    public bool Empty => tile == null;
-    public bool Occupied => tile != null;
+    public bool Empty => Tile == null;
+    public bool Occupied => Tile != null;
 }

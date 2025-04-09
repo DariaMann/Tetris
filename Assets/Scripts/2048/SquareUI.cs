@@ -3,13 +3,13 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class SquareUI : MonoBehaviour
 {
-    private RectTransform rectTransform;
+    private RectTransform _rectTransform;
 
     public float padding = 50f; // Отступ от краёв экрана
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        _rectTransform = GetComponent<RectTransform>();
         ResizeSquare();
     }
 
@@ -20,7 +20,7 @@ public class SquareUI : MonoBehaviour
 
     void ResizeSquare()
     {
-        RectTransform parentRect = rectTransform.parent.GetComponent<RectTransform>();
+        RectTransform parentRect = _rectTransform.parent.GetComponent<RectTransform>();
         if (parentRect == null) return;
 
         // Размер родительского контейнера
@@ -32,7 +32,7 @@ public class SquareUI : MonoBehaviour
         maxSize = Mathf.Max(maxSize, 0); // Не даём значению уйти в отрицательное
 
         // Устанавливаем квадратный размер
-        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxSize);
-        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize);
+        _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxSize);
+        _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize);
     }
 }
