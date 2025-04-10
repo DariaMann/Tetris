@@ -11,10 +11,10 @@ public class Food : MonoBehaviour
         snake = FindObjectOfType<Snake>();
     }
 
-    private void Start()
-    {
-        RandomizePosition();
-    }
+//    private void Start()
+//    {
+//        RandomizePosition();
+//    }
 
     public void RandomizePosition()
     {
@@ -42,6 +42,15 @@ public class Food : MonoBehaviour
         }
 
         transform.position = new Vector2(x, y);
+        snake.FoodPos = new Vector2Int(x, y);
+    }
+    
+    public void LoadPosition(Vector2 position)
+    {
+        transform.position = position;
+        int x = Mathf.RoundToInt(transform.position.x);
+        int y = Mathf.RoundToInt(transform.position.y);
+        snake.FoodPos = new Vector2Int(x, y);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

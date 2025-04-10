@@ -5,6 +5,8 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
     [SerializeField] private SaveScores saveScores;
+    [SerializeField] private Food food;
+    [SerializeField] private GameObject gameOver;
     public Transform segmentPrefab;
     public Vector2Int direction = Vector2Int.right;
     public float speed = 20f;
@@ -19,14 +21,77 @@ public class Snake : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
+    
+    public bool IsGameOver { get; set; }
+    public Vector2Int FoodPos { get; set; }
 
     private void Start()
     {
+        LoadLastPlay();
+    }
+    
+    void OnApplicationQuit()
+    {
+        SaveLastPlay();
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveLastPlay();
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        SaveLastPlay();
+    }
+    
+    private void LoadLastPlay()
+    {
+        SaveDataSnake saveData = JsonHelper.LoadSnakeData();
+        if (saveData == null)
+        {
+            ResetState();
+            return;
+        }
+
+        LoadSave(saveData);
+    }
+    
+    private void SaveLastPlay()
+    {
+        if (IsGameOver)
+        {
+            JsonHelper.SaveSnakeData(null);
+            return;
+        }
+
+        SaveDataSnake data = new SaveDataSnake(transform.position, FoodPos, direction, saveScores.CurrentScore);
+        JsonHelper.SaveSnakeData(data);
+    }
+    
+    public void GameOver()
+    {
+        gameOver.SetActive(true);
+        IsGameOver = true;
+    }
+    
+    public void Again()
+    {
+        gameOver.SetActive(false);
+        IsGameOver = false;
+        
         ResetState();
     }
 
     private void Update()
     {
+        if (IsGameOver)
+        {
+            return;
+        }
         // Only allow turning up or down while moving in the x-axis
         if (direction.x != 0f)
         {
@@ -108,6 +173,10 @@ public class Snake : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (IsGameOver)
+        {
+            return;
+        }
         // Wait until the next update before proceeding
         if (Time.time < nextUpdate) {
             return;
@@ -130,9 +199,29 @@ public class Snake : MonoBehaviour
         int x = Mathf.RoundToInt(transform.position.x) + direction.x;
         int y = Mathf.RoundToInt(transform.position.y) + direction.y;
         transform.position = new Vector2(x, y);
-
+        RotateHead();
         // Set the next update time based on the speed
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
+    }
+
+    private void RotateHead()
+    {
+        if (direction == Vector2Int.right)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (direction == Vector2Int.up)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        } 
+        else if (direction == Vector2Int.left)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        } 
+        else if (direction == Vector2Int.down)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 270);
+        }
     }
 
     public void Grow(bool addScore = true)
@@ -152,6 +241,7 @@ public class Snake : MonoBehaviour
         
         direction = Vector2Int.right;
         transform.position = Vector3.zero;
+        RotateHead();
 
         // Start at 1 to skip destroying the head
         for (int i = 1; i < segments.Count; i++) {
@@ -166,6 +256,34 @@ public class Snake : MonoBehaviour
         for (int i = 0; i < initialSize - 1; i++) {
             Grow(false);
         }
+        
+        food.RandomizePosition();
+    }
+    
+    public void LoadSave(SaveDataSnake data)
+    {
+        saveScores.ChangeScore(data.Score);
+        
+        direction = new Vector2Int(data.DirectionX, data.DirectionY);
+        transform.position = new Vector2(data.HeadX, data.HeadY);
+        RotateHead();
+        
+        // Start at 1 to skip destroying the head
+        for (int i = 1; i < segments.Count; i++) {
+            Destroy(segments[i].gameObject);
+        }
+
+        // Clear the list but add back this as the head
+        segments.Clear();
+        segments.Add(transform);
+
+        int countSegments = initialSize + data.Score;
+        // -1 since the head is already in the list
+        for (int i = 0; i < countSegments - 1; i++) {
+            Grow(false);
+        }
+        
+        food.LoadPosition(new Vector2(data.FoodX, data.FoodY));
     }
 
     public bool Occupies(int x, int y)
@@ -189,14 +307,16 @@ public class Snake : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Obstacle"))
         {
-            ResetState();
+//            ResetState();
+            GameOver();
         }
         else if (other.gameObject.CompareTag("Wall"))
         {
             if (moveThroughWalls) {
                 Traverse(other.transform);
             } else {
-                ResetState();
+//                ResetState();
+                GameOver();
             }
         }
     }

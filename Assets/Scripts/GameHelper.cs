@@ -119,6 +119,14 @@ public static class GameHelper
                 if (!PlayerPrefs.HasKey("SaveData2048"))
                 {
                         JsonHelper.Save2048Data(null);
+                } 
+                if (!PlayerPrefs.HasKey("SaveDataTetris"))
+                {
+                        JsonHelper.SaveTetrisData(null);
+                } 
+                if (!PlayerPrefs.HasKey("SaveDataSnake"))
+                {
+                        JsonHelper.SaveSnakeData(null);
                 }
                 
         }

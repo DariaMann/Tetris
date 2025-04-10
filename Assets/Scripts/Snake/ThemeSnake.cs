@@ -10,6 +10,7 @@ public class ThemeSnake : MonoBehaviour
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image backButton;
     [SerializeField] private TextMeshProUGUI scoreAndRecordText;
+    [SerializeField] private SpriteRenderer grid;
     
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
@@ -24,12 +25,16 @@ public class ThemeSnake : MonoBehaviour
     private Color _colorLight;
     private Color _colorGrey;
     private Color _colorDark;
+    private Color _colorGridLight;
+    private Color _colorGridDark;
 
     private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
+        _colorGridLight = ColorUtility.TryParseHtmlString("#ECECEC", out Color color3) ? color3 : Color.white;
+        _colorGridDark = ColorUtility.TryParseHtmlString("#303030", out Color color4) ? color4 : Color.black;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -78,7 +83,7 @@ public class ThemeSnake : MonoBehaviour
     {
         bgColor.backgroundColor = Color.white;
         backButton.color = _colorGrey;
-        
+        grid.color = _colorGridLight;
         scoreAndRecordText.color = _colorDark;
 
         settingsBg.color = Color.white;
@@ -94,7 +99,7 @@ public class ThemeSnake : MonoBehaviour
     {
         bgColor.backgroundColor = _colorDark;
         backButton.color = _colorLight;
-        
+        grid.color = _colorGridDark;
         scoreAndRecordText.color = _colorLight;
 
         settingsBg.color = _colorDark;

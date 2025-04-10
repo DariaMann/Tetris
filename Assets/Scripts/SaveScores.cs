@@ -57,10 +57,13 @@ public class SaveScores : MonoBehaviour
             record = currentScore;
             foreach (var rec in Record)
             {
+                //todo: Продумать выделение победы рекорда
+//                rec.text = "<color=red>" + record + "</color>";
                 rec.text = record.ToString();
             }
             if (scoreAndRecordText != null)
             {
+//                scoreAndRecordText.text = currentScore + "/<color=red>" + record + "</color>";
                 scoreAndRecordText.text = currentScore + "/" + record;
             }
             GameServicesManager.ReportScore(record, GameHelper.GameType);

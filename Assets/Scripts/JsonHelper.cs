@@ -52,6 +52,55 @@ public static class JsonHelper
     
     #endregion
     
+    #region Snake
+
+    public static void SaveSnakeData(SaveDataSnake data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSaveDataSnake(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SaveDataSnake", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SaveDataSnake LoadSnakeData()
+    {
+        if (PlayerPrefs.HasKey("SaveDataSnake"))
+        {
+            string json = PlayerPrefs.GetString("SaveDataSnake");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SaveDataSnake data = DeserializeJsonSaveDataSnake(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SaveDataSnake DeserializeJsonSaveDataSnake(string jsonString)
+    {
+        SaveDataSnake data = JsonConvert.DeserializeObject<SaveDataSnake>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSaveDataSnake(SaveDataSnake data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
+    #endregion
+    
     #region 2048
 
     public static void Save2048Data(SaveData2048 data)
