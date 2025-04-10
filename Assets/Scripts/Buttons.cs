@@ -50,6 +50,9 @@ public class Buttons : MonoBehaviour {
     void Start () {
         isPaused = false;
 
+        Themes theme = GameHelper.GetTheme();
+        ApplyTheme(theme);
+        
         int languageId = GameHelper.GetLanguage();
         ApplyLanguage(languageId);
         
@@ -140,6 +143,11 @@ public class Buttons : MonoBehaviour {
         }
     } 
     
+    public void ApplyTheme(Themes theme)
+    {
+        SetThemeSelect(theme);
+    }
+    
     private void SetThemeSelect(Themes theme)
     {
         if (theme == Themes.Light)
@@ -170,15 +178,9 @@ public class Buttons : MonoBehaviour {
         }
         
         GameHelper.SetLanguage(languageId);
-        SetLocalization(language);
         SetLanguageSelect(languageId);
     }
-    
-    public void SetLocalization(string localization)
-    {
-        LocalizationManager.Language = localization;
-    }
-    
+
     public void OnRatingClick()
     {
         GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);

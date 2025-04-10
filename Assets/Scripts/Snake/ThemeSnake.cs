@@ -17,6 +17,7 @@ public class ThemeSnake : MonoBehaviour
     [SerializeField] private TextMeshProUGUI settingsThemeText;
     [SerializeField] private TextMeshProUGUI settingsLanguageText;
     
+    [SerializeField] private Image settingsRatingButton;
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
     [SerializeField] private Image settingsVibrationButton;
@@ -88,6 +89,7 @@ public class ThemeSnake : MonoBehaviour
 
         settingsBg.color = Color.white;
         settingsBackButton.color = _colorGrey;
+        settingsRatingButton.color = _colorGrey;
         settingsSoundButton.color = _colorGrey;
         settingsMusicButton.color = _colorGrey;
         settingsVibrationButton.color = _colorGrey;
@@ -104,6 +106,7 @@ public class ThemeSnake : MonoBehaviour
 
         settingsBg.color = _colorDark;
         settingsBackButton.color = _colorLight;
+        settingsRatingButton.color = _colorLight;
         settingsSoundButton.color = _colorLight;
         settingsMusicButton.color = _colorLight;
         settingsVibrationButton.color = _colorLight;

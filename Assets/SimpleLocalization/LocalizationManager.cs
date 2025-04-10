@@ -25,7 +25,7 @@ namespace Assets.SimpleLocalization
         public static string Language
         {
             get { return _language; }
-            set { _language = Application.platform == RuntimePlatform.WebGLPlayer ? "English" : value; LocalizationChanged(); }
+            set { _language = Application.platform == RuntimePlatform.WebGLPlayer ? "English" : value; LocalizationChanged();}
         }
 
 		/// <summary>
@@ -33,7 +33,10 @@ namespace Assets.SimpleLocalization
 		/// </summary>
         public static void AutoLanguage()
         {
-            Language = "English";
+	        if (Language == "")
+	        {
+		        Language = "English";
+	        }
         }
 
 		/// <summary>

@@ -101,6 +101,12 @@ public class CheckersManager: MonoBehaviour
 //        FirstStart();
 
         LoadLastPlay();
+        LocalizationManager.LocalizationChanged += Localize;
+    }
+    
+    private void Localize()
+    {
+        stepsText.text = LocalizationManager.Localize("Сheckers.steps") + ": " + Steps;
     }
 
     private void LoadLastPlay()
@@ -183,6 +189,7 @@ public class CheckersManager: MonoBehaviour
     {
         // Этот метод будет вызван при выходе из сцены
         SaveLastPlay();
+        LocalizationManager.LocalizationChanged -= Localize;
     }
     
     public void LoadData()
@@ -523,6 +530,7 @@ public class CheckersManager: MonoBehaviour
     
     public void EndGame()
     {
+        IsPlaying = false;
         foreach (var player in Players)
         {
             Debug.Log($"Игрок {player.ID} занял место {player.WinNumber} !");

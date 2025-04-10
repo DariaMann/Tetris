@@ -146,9 +146,10 @@ public static class GameHelper
         public static Themes GetTheme()
         {
                 Theme = (Themes) PlayerPrefs.GetInt("Theme");
+                Debug.Log("Theme: " + Theme.ToString());
                 return Theme;
-        }    
-        
+        }
+
         public static void SetLanguage(int languageId)
         {
                 string language = languageId == 0 ? "English" : "Russian";
@@ -157,7 +158,7 @@ public static class GameHelper
                 {
                         return;
                 }
-        
+                LocalizationManager.Language = language;
                 PlayerPrefs.SetString("Language", language);
                 PlayerPrefs.Save();
         }
@@ -166,6 +167,7 @@ public static class GameHelper
         {
                 LocalizationManager.Language = PlayerPrefs.GetString("Language") == "English" ? "English" : "Russian";
                 int languageId = LocalizationManager.Language == "English" ? 0 : 1;
+                Debug.Log("Language: " + LocalizationManager.Language);
                 return languageId;
         }
 

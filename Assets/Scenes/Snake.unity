@@ -957,6 +957,7 @@ MonoBehaviour:
   settingsBackButton: {fileID: 1412353733348996117}
   settingsThemeText: {fileID: 1412353733348996116}
   settingsLanguageText: {fileID: 1412353733348996115}
+  settingsRatingButton: {fileID: 1973315297}
   settingsSoundButton: {fileID: 1412353733348996114}
   settingsMusicButton: {fileID: 1412353733348996113}
   settingsVibrationButton: {fileID: 1412353733348996112}
@@ -1810,6 +1811,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1973315297 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5665503801205533734, guid: 1bef95afc134d2b409d721505ffc57f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1412353733348996110}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2122492575
 GameObject:
   m_ObjectHideFlags: 0

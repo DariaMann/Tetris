@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,20 +22,16 @@ public class ThemeChineseCheckers: MonoBehaviour
     
     [SerializeField] private Image warningBg;
     [SerializeField] private TextMeshProUGUI warningText;
-    
+
     [SerializeField] private Image settingsBg;
     [SerializeField] private Image settingsBackButton;
     [SerializeField] private TextMeshProUGUI settingsThemeText;
     [SerializeField] private TextMeshProUGUI settingsLanguageText;
     
+    [SerializeField] private Image settingsRatingButton;
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
     [SerializeField] private Image settingsVibrationButton;
-    
-    [SerializeField] private Color colorLight;
-    [SerializeField] private Color colorSoGrey;
-    [SerializeField] private Color colorGrey;
-    [SerializeField] private Color colorDark;
 
     private Themes _theme;
     private Color _colorLight;
@@ -121,11 +118,12 @@ public class ThemeChineseCheckers: MonoBehaviour
         
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(Color.white);
+            person.SetTheme(Color.white, _colorDark,_colorLight);
         }
         
         settingsBg.color = Color.white;
         settingsBackButton.color = _colorGrey;
+        settingsRatingButton.color = _colorGrey;
         settingsSoundButton.color = _colorGrey;
         settingsMusicButton.color = _colorGrey;
         settingsVibrationButton.color = _colorGrey;
@@ -158,11 +156,12 @@ public class ThemeChineseCheckers: MonoBehaviour
         
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(_colorDark);
+            person.SetTheme(_colorDark, _colorLight, _colorDark);
         }
         
         settingsBg.color = _colorDark;
         settingsBackButton.color = _colorLight;
+        settingsRatingButton.color = _colorLight;
         settingsSoundButton.color = _colorLight;
         settingsMusicButton.color = _colorLight;
         settingsVibrationButton.color = _colorLight;

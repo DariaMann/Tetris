@@ -162,9 +162,11 @@ public class Player : MonoBehaviour, IPointerClickHandler
         }
     }
     
-    public void SetTheme(Color colorBg)
+    public void SetTheme(Color colorBg, Color colorFinishIcon, Color colorWinNumber)
     {
         personBG.color = colorBg;
+        finishIcon.color = colorFinishIcon;
+        winNumber.color = colorWinNumber;
     }
 
     public void Reset()

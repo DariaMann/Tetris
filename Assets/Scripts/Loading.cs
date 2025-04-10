@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.SimpleLocalization;
+using UnityEngine;
 
 public class Loading: MonoBehaviour
 {

@@ -240,7 +240,7 @@ RectTransform:
   m_Children:
   - {fileID: 1435918721}
   m_Father: {fileID: 925063677}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -291,9 +291,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1282465608}
-        m_TargetAssemblyTypeName: CheckersManager, Assembly-CSharp
-        m_MethodName: HideFinishPanel
+      - m_Target: {fileID: 969235458}
+        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2604,8 +2604,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 563107928}
-  - {fileID: 1422312603}
   - {fileID: 78357051}
+  - {fileID: 1422312603}
   m_Father: {fileID: 1790285186}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4492,13 +4492,10 @@ MonoBehaviour:
   settingsBackButton: {fileID: 969235463}
   settingsThemeText: {fileID: 969235462}
   settingsLanguageText: {fileID: 1581670175}
+  settingsRatingButton: {fileID: 1966712985}
   settingsSoundButton: {fileID: 969235461}
   settingsMusicButton: {fileID: 969235460}
   settingsVibrationButton: {fileID: 969235459}
-  colorLight: {r: 0.83137256, g: 0.83137256, b: 0.84705883, a: 0}
-  colorSoGrey: {r: 0.5764706, g: 0.5764706, b: 0.58431375, a: 0}
-  colorGrey: {r: 0.27058825, g: 0.25882354, b: 0.26666668, a: 0}
-  colorDark: {r: 0.12941177, g: 0.1254902, b: 0.13333334, a: 0}
 --- !u!1 &1388110238
 GameObject:
   m_ObjectHideFlags: 0
@@ -4665,7 +4662,7 @@ RectTransform:
   m_Children:
   - {fileID: 619532758}
   m_Father: {fileID: 925063677}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -6100,6 +6097,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1966712985 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5665503801205533734, guid: 1bef95afc134d2b409d721505ffc57f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 969235456}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1992086703
 GameObject:
   m_ObjectHideFlags: 0
