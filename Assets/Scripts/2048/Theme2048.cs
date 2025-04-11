@@ -32,9 +32,12 @@ public class Theme2048 : MonoBehaviour
     private Color _lightColorDark;
     
     private Color _colorLight;
-    private Color _colorCells;
+    private Color _colorCellsDark;
     private Color _colorGrey;
     private Color _colorDark;
+    
+    private Color _colorBgBoard;
+    private Color _colorBgDark;
 
     private void Start()
     {
@@ -43,9 +46,12 @@ public class Theme2048 : MonoBehaviour
         _lightColorDark = ColorUtility.TryParseHtmlString("#BBADA0", out Color color2) ? color2 : Color.black;
         
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color3) ? color3 : Color.white;
-        _colorCells = ColorUtility.TryParseHtmlString("##878787", out Color color6) ? color6 : Color.gray;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color4) ? color4 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color5) ? color5 : Color.black;
+        
+        _colorCellsDark = ColorUtility.TryParseHtmlString("#B7A693", out Color color6) ? color6 : Color.gray;
+        _colorBgBoard = ColorUtility.TryParseHtmlString("#877564", out Color color8) ? color8 : Color.gray;
+        _colorBgDark = ColorUtility.TryParseHtmlString("#2C2926", out Color color7) ? color7 : Color.black;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -114,15 +120,15 @@ public class Theme2048 : MonoBehaviour
     
     public void SetDark()
     {
-        bgColor.backgroundColor = _colorDark;
+        bgColor.backgroundColor = _colorBgDark;
         backButton.color = _colorLight;
-        recordBg.color = _colorGrey;
-        scoreBg.color = _colorGrey;
+        recordBg.color = _colorBgBoard;
+        scoreBg.color = _colorBgBoard;
         scoreAndRecordText.color = _colorLight;
-        bgPanelBg.color = _colorGrey;
+        bgPanelBg.color = _colorBgBoard;
         foreach (var cell in cells)
         {
-            cell.color = _colorCells;
+            cell.color = _colorCellsDark;
         }
         foreach (var text in texts)
         {

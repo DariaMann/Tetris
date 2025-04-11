@@ -1623,8 +1623,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/234
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f6c2978c93d3ad4aa6c524b9081b904, type: 2}
-  m_sharedMaterial: {fileID: 4336211340261206716, guid: 9f6c2978c93d3ad4aa6c524b9081b904,
+  m_fontAsset: {fileID: 11400000, guid: 53eafe28108d26c459243c060ea37bbf, type: 2}
+  m_sharedMaterial: {fileID: 4129535435042772883, guid: 53eafe28108d26c459243c060ea37bbf,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1649,7 +1649,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.75
+  m_fontSize: 52
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2010,6 +2010,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -2037,6 +2042,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: Again
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Buttons, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}

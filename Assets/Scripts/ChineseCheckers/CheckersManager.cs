@@ -67,7 +67,7 @@ public class CheckersManager: MonoBehaviour
     
     public int WinCount { get; private set; } = 0;
     
-    public int Steps { get; private set; } = -1;
+    public int Steps { get; private set; } = 0;
     public int CurrentPlayerIndex { get; private set; } = -1;
     public int FirstPlayerIndex { get; private set; } = -1;
     
@@ -96,19 +96,13 @@ public class CheckersManager: MonoBehaviour
             player.Colored(_playerColors[player.ID]);
         }
         OnChangeSpeed();
-        ChangeStepCount(0, true);
-        
+        ChangeStepCount(Steps);
 //        FirstStart();
 
         LoadLastPlay();
         LocalizationManager.LocalizationChanged += Localize;
     }
     
-    private void Localize()
-    {
-        stepsText.text = LocalizationManager.Localize("Сheckers.steps") + ": " + Steps;
-    }
-
     private void LoadLastPlay()
     {
         SaveDataChineseCheckers saveData = JsonHelper.LoadChineseCheckersData();
@@ -272,7 +266,14 @@ public class CheckersManager: MonoBehaviour
 
     private void CheckUndoButtonState()
     {
-        bool isActive = CurrentPlayer != null && CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0;
+        if (CurrentPlayer == null)
+        {
+            undoButton.interactable = false;
+            undoButton.image.sprite = undoDeactiveSprite;
+            return;
+        }
+        bool eventsStackHaveIndexCurrentPlayer = EventSteps.Any(s => s.Chip.Player.ID == CurrentPlayer.ID);
+        bool isActive = CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0 && eventsStackHaveIndexCurrentPlayer;
 
         undoButton.interactable = isActive;
         undoButton.image.sprite = isActive ? undoActiveSprite : undoDeactiveSprite;
@@ -497,26 +498,23 @@ public class CheckersManager: MonoBehaviour
         WinCount = 0;
         CurrentPlayerIndex = -1;
         FirstPlayerIndex = -1;
-        ChangeStepCount(-1);
+        ChangeStepCount(0);
         EventSteps.Clear();
         SetSelection(null);
         hexMap.ClearChips();
     }
     
-    public void ChangeStepCount(int step, bool isSowFirst = false)
+    public void ChangeStepCount(int step)
     {
-        if (step < 0)
-        {
-            step = 0;
-        }
-
-        if (!isSowFirst)
-        {
-            Steps = step;
-        }
-        stepsText.text = LocalizationManager.Localize("Сheckers.steps") + ": " + step;
+        Steps = step;
+        Localize();
     }
     
+    private void Localize()
+    {
+        stepsText.text = LocalizationManager.Localize("Сheckers.steps") + ": " + Steps;
+    }
+
     public bool CheckWin(Player player)
     {
         return player.Chips.All(chip => player.TargetZones.Contains(chip.Tile));
@@ -570,7 +568,7 @@ public class CheckersManager: MonoBehaviour
     {
         for (int i = _playersInRating.Count-1; i >= 0; i--)
         {
-            Destroy(_playersInRating[i]);
+            Destroy(_playersInRating[i].gameObject);
         }
         _playersInRating.Clear();
 

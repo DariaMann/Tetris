@@ -42,7 +42,7 @@ public class SaveScores : MonoBehaviour
             path = Application.persistentDataPath + "/Scores2048.xml";
         }
 
-        record = Load();
+        record = GameHelper.LoadRecordData(path);
         ChangeScore(currentScore);
     }
     
@@ -50,10 +50,8 @@ public class SaveScores : MonoBehaviour
     {
         if (record < currentScore)
         {
-            XElement root = new XElement("root");
-            root.AddFirst(new XElement("score", currentScore));
-            XDocument saveDoc = new XDocument(root);
-            File.WriteAllText(path, saveDoc.ToString());
+            GameHelper.SaveRecordData(path, currentScore);
+            
             record = currentScore;
             foreach (var rec in Record)
             {
@@ -81,23 +79,7 @@ public class SaveScores : MonoBehaviour
             }
         }
     }
-    
-    public int Load()//Предыдущий результат
-    {
-        XElement root = null;
-        if (File.Exists(path))
-        {
-            root = XDocument.Parse(File.ReadAllText(path)).Element("root");
-            XElement T = root.Element("score");
-            int n = Convert.ToInt32(T.Value);
-            return (n);
-        }
-        // Если файла нет, создаем его с рекордом 0
-        XDocument newDoc = new XDocument(new XElement("root", new XElement("score", 0)));
-        File.WriteAllText(path, newDoc.ToString());
-        return 0;
-    }
-    
+
     public void ChangeScore(int sc)
     {
         if (sc != 0)

@@ -76,4 +76,9 @@ public class FpsCounter : MonoBehaviour
             area.ApplySafeArea();
         }
     }
+    
+    public void OnResetData()
+    {
+        GameHelper.ResetData();
+    }
 }

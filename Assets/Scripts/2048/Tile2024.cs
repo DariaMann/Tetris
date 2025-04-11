@@ -13,6 +13,7 @@ public class Tile2024 : MonoBehaviour
 
     private Image _background;
     private TextMeshProUGUI _text;
+    private int _maxNumber = 0;
 
     private void Awake()
     {
@@ -29,6 +30,11 @@ public class Tile2024 : MonoBehaviour
         _text.text = state.number.ToString();
 
         int currentScore = state.number;
+        if (_maxNumber < currentScore)
+        {
+            _maxNumber = currentScore;
+            GameHelper.VibrationStart();
+        }
         switch (currentScore)
         {
             case 128: GameServicesManager.UnlockAchieve(AchivementServices.Tile128); break;

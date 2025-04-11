@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Xml.Linq;
 using Assets.SimpleLocalization;
 using UnityEngine;
 
@@ -128,7 +130,45 @@ public static class GameHelper
                 {
                         JsonHelper.SaveSnakeData(null);
                 }
+        }
+        
+        public static void ResetData()
+        {
+                JsonHelper.SaveChineseCheckersData(null);
+                JsonHelper.Save2048Data(null);
+                JsonHelper.SaveTetrisData(null);
+                JsonHelper.SaveSnakeData(null);
+                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
+                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";
+                string path2048 = Application.persistentDataPath + "/Scores2048.xml";
                 
+                SaveRecordData(pathTetris,0);
+                SaveRecordData(pathSnake,0);
+                SaveRecordData(path2048,0);
+        }
+
+        public static void SaveRecordData(string path, int record)
+        { 
+                XElement root = new XElement("root");
+                root.AddFirst(new XElement("score", record));
+                XDocument saveDoc = new XDocument(root);
+                File.WriteAllText(path, saveDoc.ToString());
+        }
+        
+        public static int LoadRecordData(string path)
+        {
+                XElement root = null;
+                if (File.Exists(path))
+                {
+                        root = XDocument.Parse(File.ReadAllText(path)).Element("root");
+                        XElement T = root.Element("score");
+                        int n = Convert.ToInt32(T.Value);
+                        return (n);
+                }
+                // Если файла нет, создаем его с рекордом 0
+                XDocument newDoc = new XDocument(new XElement("root", new XElement("score", 0)));
+                File.WriteAllText(path, newDoc.ToString());
+                return 0;
         }
         
         public static void SetTheme(Themes theme)
@@ -229,6 +269,15 @@ public static class GameHelper
                 int vibrationState = PlayerPrefs.GetInt("Vibration");
                 Vibration = vibrationState == 0 ? true : false;
                 return Vibration;
+        }   
+        
+        public static void VibrationStart()
+        {
+                if (!Vibration)
+                {
+                        return;
+                }
+                Handheld.Vibrate();
         }
         
         public static void AdjustBoardSize(Camera cam)

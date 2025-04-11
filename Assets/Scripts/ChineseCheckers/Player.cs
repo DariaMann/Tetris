@@ -139,6 +139,7 @@ public class Player : MonoBehaviour, IPointerClickHandler
         WinNumber = checkersManager.WinCount;
         WinSteps = checkersManager.Steps;
         winNumber.text = WinNumber.ToString();
+        GameHelper.VibrationStart();
     }
     
     private void ResetFinish()

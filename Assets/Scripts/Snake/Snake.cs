@@ -224,7 +224,7 @@ public class Snake : MonoBehaviour
         }
     }
 
-    public void Grow(bool addScore = true)
+    public void Grow(bool addScore = true, bool untagged = false)
     {
         if (addScore)
         {
@@ -233,6 +233,10 @@ public class Snake : MonoBehaviour
         Transform segment = Instantiate(segmentPrefab);
         segment.position = segments[segments.Count - 1].position;
         segments.Add(segment);
+        if (untagged)
+        {
+            segment.gameObject.tag = "Untagged";
+        }
     }
 
     public void ResetState()
@@ -254,7 +258,7 @@ public class Snake : MonoBehaviour
 
         // -1 since the head is already in the list
         for (int i = 0; i < initialSize - 1; i++) {
-            Grow(false);
+            Grow(false, true);
         }
         
         food.RandomizePosition();
@@ -280,7 +284,14 @@ public class Snake : MonoBehaviour
         int countSegments = initialSize + data.Score;
         // -1 since the head is already in the list
         for (int i = 0; i < countSegments - 1; i++) {
-            Grow(false);
+            if (i < initialSize - 1)
+            {
+                Grow(false, true);
+            }
+            else
+            {
+                Grow(false);
+            }
         }
         
         food.LoadPosition(new Vector2(data.FoodX, data.FoodY));
@@ -308,6 +319,7 @@ public class Snake : MonoBehaviour
         else if (other.gameObject.CompareTag("Obstacle"))
         {
 //            ResetState();
+            GameHelper.VibrationStart();
             GameOver();
         }
         else if (other.gameObject.CompareTag("Wall"))
@@ -316,6 +328,7 @@ public class Snake : MonoBehaviour
                 Traverse(other.transform);
             } else {
 //                ResetState();
+                GameHelper.VibrationStart();
                 GameOver();
             }
         }

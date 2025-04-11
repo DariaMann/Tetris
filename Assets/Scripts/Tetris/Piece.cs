@@ -8,6 +8,7 @@ public class Piece : MonoBehaviour
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
 
+    public float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
     public float stepDelay = 1f;
     public float moveDelay = 0.1f;
     public float lockDelay = 0.5f;
@@ -31,6 +32,7 @@ public class Piece : MonoBehaviour
         this.position = position;
 
         rotationIndex = 0;
+        stepDelay = 1f;  
         stepTime = Time.time + stepDelay;
         moveTime = Time.time + moveDelay;
         lockTime = 0f;
@@ -52,6 +54,11 @@ public class Piece : MonoBehaviour
         }
         
         board.Clear(this);
+        
+        if (!Input.GetMouseButton(0) && Input.touchCount == 0)
+        {
+            stepDelay = 1f; // сброс к обычной скорости
+        }
 
         // We use a timer to allow the player to make adjustments to the piece
         // before it locks in place
@@ -91,7 +98,8 @@ public class Piece : MonoBehaviour
         {
             if (Move(Vector2Int.down)) {
                 // Update the step time to prevent double movement
-                stepTime = Time.time + stepDelay;
+                stepDelay = fastDropStepDelay;
+                stepTime = Time.time + stepDelay; // обновляем таймер немедленно
             }
         }
 
@@ -171,7 +179,8 @@ void ProcessMove(Vector2 currentPos)
     {
         if (delta.y < 0 && Move(Vector2Int.down)) 
         {
-            stepTime = Time.time + stepDelay;
+            stepDelay = fastDropStepDelay;
+            stepTime = Time.time + stepDelay; // обновляем таймер немедленно
         }
         lastTouchPos = currentPos;
     }
