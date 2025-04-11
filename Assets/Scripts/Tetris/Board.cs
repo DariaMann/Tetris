@@ -105,9 +105,9 @@ public class Board : MonoBehaviour
             if (tile != null)
             {
                 bool isCurrentTetramino = false;
-                for (int i = 0; i < ActivePiece.data.cells.Length; i++)
+                for (int i = 0; i < ActivePiece.Data.cells.Length; i++)
                 {
-                    Vector3Int globalCellPos = ActivePiece.position + ActivePiece.cells[i];
+                    Vector3Int globalCellPos = ActivePiece.Position + ActivePiece.Cells[i];
                     if (pos == globalCellPos)
                     {
                         isCurrentTetramino = true;
@@ -132,7 +132,7 @@ public class Board : MonoBehaviour
             }
         }
         
-        SaveDataTetris data = new SaveDataTetris(saveScores.CurrentScore, ActivePiece.data.tetromino, _next.tetromino, tetrominos);
+        SaveDataTetris data = new SaveDataTetris(saveScores.CurrentScore, ActivePiece.Data.tetromino, _next.tetromino, tetrominos);
         JsonHelper.SaveTetrisData(data);
     }
     
@@ -226,18 +226,18 @@ public class Board : MonoBehaviour
 
     public void Set(Piece piece)
     {
-        for (int i = 0; i < piece.cells.Length; i++)
+        for (int i = 0; i < piece.Cells.Length; i++)
         {
-            Vector3Int tilePosition = piece.cells[i] + piece.position;
-            Tilemap.SetTile(tilePosition, piece.data.tile);
+            Vector3Int tilePosition = piece.Cells[i] + piece.Position;
+            Tilemap.SetTile(tilePosition, piece.Data.tile);
         }
     }
 
     public void Clear(Piece piece)
     {
-        for (int i = 0; i < piece.cells.Length; i++)
+        for (int i = 0; i < piece.Cells.Length; i++)
         {
-            Vector3Int tilePosition = piece.cells[i] + piece.position;
+            Vector3Int tilePosition = piece.Cells[i] + piece.Position;
             Tilemap.SetTile(tilePosition, null);
         }
     }
@@ -247,9 +247,9 @@ public class Board : MonoBehaviour
         RectInt bounds = Bounds;
 
         // The position is only valid if every cell is valid
-        for (int i = 0; i < piece.cells.Length; i++)
+        for (int i = 0; i < piece.Cells.Length; i++)
         {
-            Vector3Int tilePosition = piece.cells[i] + position;
+            Vector3Int tilePosition = piece.Cells[i] + position;
 
             // An out of bounds tile is invalid
             if (!bounds.Contains((Vector2Int)tilePosition)) {

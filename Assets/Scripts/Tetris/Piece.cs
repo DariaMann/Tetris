@@ -2,60 +2,57 @@
 
 public class Piece : MonoBehaviour
 {
-    public Board board { get; private set; }
-    public TetrominoData data { get; private set; }
-    public Vector3Int[] cells { get; private set; }
-    public Vector3Int position { get; private set; }
-    public int rotationIndex { get; private set; }
-
-    public float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
-    public float stepDelay = 1f;
-    public float moveDelay = 0.1f;
-    public float lockDelay = 0.5f;
-
-    private float stepTime;
-    private float moveTime;
-    private float lockTime;
+    [SerializeField] private float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
+    [SerializeField] private float stepDelay = 1f;
+    [SerializeField] private float moveDelay = 0.1f;
+    [SerializeField] private float lockDelay = 0.5f;
     
-//    private Vector2 touchStartPos;
-//    private float swipeThreshold = 50f; // Минимальная дистанция свайпа в пикселях
+    private float _stepTime;
+    private float _moveTime;
+    private float _lockTime;
 
-    private Vector2 touchStartPos;
-    private Vector2 lastTouchPos;
-    private bool isDragging = false;
-    private float moveThreshold = 50f; // Минимальное расстояние для шага движения
+    private Vector2 _touchStartPos;
+    private Vector2 _lastTouchPos;
+    private bool _isDragging = false;
+    private float _moveThreshold = 50f; // Минимальное расстояние для шага движения
     
-    private bool doHardDrop = false;
-
+    private bool _doHardDrop = false;
+    
+    public Board Board { get; private set; }
+    public TetrominoData Data { get; private set; }
+    public Vector3Int[] Cells { get; private set; }
+    public Vector3Int Position { get; private set; }
+    public int RotationIndex { get; private set; }
+    
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
-        this.data = data;
-        this.board = board;
-        this.position = position;
+        Data = data;
+        Board = board;
+        Position = position;
 
-        rotationIndex = 0;
+        RotationIndex = 0;
         stepDelay = 1f;  
-        stepTime = Time.time + stepDelay;
-        moveTime = Time.time + moveDelay;
-        lockTime = 0f;
+        _stepTime = Time.time + stepDelay;
+        _moveTime = Time.time + moveDelay;
+        _lockTime = 0f;
 
-        if (cells == null) {
-            cells = new Vector3Int[data.cells.Length];
+        if (Cells == null) {
+            Cells = new Vector3Int[data.cells.Length];
         }
 
-        for (int i = 0; i < cells.Length; i++) {
-            cells[i] = (Vector3Int)data.cells[i];
+        for (int i = 0; i < Cells.Length; i++) {
+            Cells[i] = (Vector3Int)data.cells[i];
         }
     }
 
     private void Update()
     {
-        if (board.IsGameOver)
+        if (Board.IsGameOver)
         {
             return;
         }
         
-        board.Clear(this);
+        Board.Clear(this);
         
         if (!Input.GetMouseButton(0) && Input.touchCount == 0)
         {
@@ -64,7 +61,7 @@ public class Piece : MonoBehaviour
 
         // We use a timer to allow the player to make adjustments to the piece
         // before it locks in place
-        lockTime += Time.deltaTime;
+        _lockTime += Time.deltaTime;
 
         // Handle rotation
         if (Input.GetKeyDown(KeyCode.Q)) {
@@ -78,25 +75,25 @@ public class Piece : MonoBehaviour
             HardDrop();
         }
 
-        if (doHardDrop)
+        if (_doHardDrop)
         {
-            doHardDrop = false;
+            _doHardDrop = false;
             HardDrop();
         }
 
         // Allow the player to hold movement keys but only after a move delay
         // so it does not move too fast
-        if (Time.time > moveTime) {
+        if (Time.time > _moveTime) {
             HandleMoveInputs();
             HandleTouchInput();
         }
 
         // Advance the piece to the next row every x seconds
-        if (Time.time > stepTime) {
+        if (Time.time > _stepTime) {
             Step();
         }
 
-        board.Set(this);
+        Board.Set(this);
     }
 
     private void HandleMoveInputs()
@@ -107,7 +104,7 @@ public class Piece : MonoBehaviour
             if (Move(Vector2Int.down)) {
                 // Update the step time to prevent double movement
                 stepDelay = fastDropStepDelay;
-                stepTime = Time.time + stepDelay; // обновляем таймер немедленно
+                _stepTime = Time.time + stepDelay; // обновляем таймер немедленно
             }
         }
 
@@ -118,111 +115,112 @@ public class Piece : MonoBehaviour
             Move(Vector2Int.right);
         }
     }
-    
-    void HandleTouchInput()
-{
-    Vector2 currentPos = Vector2.zero;
-    
-    // === 🖐 ОБРАБОТКА ТАЧА ===
-    if (Input.touchCount > 0)
-    {
-        Touch touch = Input.GetTouch(0);
-        currentPos = touch.position;
 
-        switch (touch.phase)
+    private void HandleTouchInput()
+    {
+        Vector2 currentPos = Vector2.zero;
+
+        // === 🖐 ОБРАБОТКА ТАЧА ===
+        if (Input.touchCount > 0)
         {
-            case TouchPhase.Began:
-                touchStartPos = currentPos;
-                lastTouchPos = currentPos;
-                isDragging = true;
-                break;
+            Touch touch = Input.GetTouch(0);
+            currentPos = touch.position;
 
-            case TouchPhase.Moved:
-                ProcessMove(currentPos);
-                break;
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    _touchStartPos = currentPos;
+                    _lastTouchPos = currentPos;
+                    _isDragging = true;
+                    break;
 
-            case TouchPhase.Ended:
-                isDragging = false;
-                TryRotate(currentPos);
-                break;
+                case TouchPhase.Moved:
+                    ProcessMove(currentPos);
+                    break;
+
+                case TouchPhase.Ended:
+                    _isDragging = false;
+                    TryRotate(currentPos);
+                    break;
+            }
         }
-    }
 #if UNITY_EDITOR
-    // === 🖱 ОБРАБОТКА МЫШИ (ПК) ===
-    if (Input.GetMouseButtonDown(0)) 
-    {
-        touchStartPos = Input.mousePosition;
-        lastTouchPos = Input.mousePosition;
-        isDragging = true;
-    }
-    else if (Input.GetMouseButton(0))
-    {
-        currentPos = Input.mousePosition;
-        ProcessMove(currentPos);
-    }
-    else if (Input.GetMouseButtonUp(0))
-    {
-        isDragging = false;
-        TryRotate(Input.mousePosition);
-    }
+        // === 🖱 ОБРАБОТКА МЫШИ (ПК) ===
+        if (Input.GetMouseButtonDown(0))
+        {
+            _touchStartPos = Input.mousePosition;
+            _lastTouchPos = Input.mousePosition;
+            _isDragging = true;
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            currentPos = Input.mousePosition;
+            ProcessMove(currentPos);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            _isDragging = false;
+            TryRotate(Input.mousePosition);
+        }
 #endif
-}
+    }
 
 // === 📌 ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
 
 // Обработка движения
-void ProcessMove(Vector2 currentPos)
-{
-    if (!isDragging) return;
-
-    Vector2 delta = currentPos - lastTouchPos;
-
-    if (Mathf.Abs(delta.x) > moveThreshold)
+    private void ProcessMove(Vector2 currentPos)
     {
-        Move(delta.x > 0 ? Vector2Int.right : Vector2Int.left);
-        lastTouchPos = currentPos;
-    }
+        if (!_isDragging) return;
 
-    if (Mathf.Abs(delta.y) > moveThreshold)
-    {
-        if (delta.y < 0 && Move(Vector2Int.down)) 
+        Vector2 delta = currentPos - _lastTouchPos;
+
+        if (Mathf.Abs(delta.x) > _moveThreshold)
         {
-            stepDelay = fastDropStepDelay;
-            stepTime = Time.time + stepDelay; // обновляем таймер немедленно
+            Move(delta.x > 0 ? Vector2Int.right : Vector2Int.left);
+            _lastTouchPos = currentPos;
         }
-        lastTouchPos = currentPos;
+
+        if (Mathf.Abs(delta.y) > _moveThreshold)
+        {
+            if (delta.y < 0 && Move(Vector2Int.down))
+            {
+                stepDelay = fastDropStepDelay;
+                _stepTime = Time.time + stepDelay; // обновляем таймер немедленно
+            }
+
+            _lastTouchPos = currentPos;
+        }
     }
-}
 
 // Обработка клика (поворота)
-void TryRotate(Vector2 endPos)
-{
-    float touchDistance = Vector2.Distance(touchStartPos, endPos);
-    Debug.Log($"Touch Distance: {touchDistance}, Threshold: {moveThreshold}");
-
-    if (touchDistance < moveThreshold)
+    private void TryRotate(Vector2 endPos)
     {
-        Debug.Log("Rotate triggered!");
-        Rotate(1);
+        float touchDistance = Vector2.Distance(_touchStartPos, endPos);
+        Debug.Log($"Touch Distance: {touchDistance}, Threshold: {_moveThreshold}");
+
+        if (touchDistance < _moveThreshold)
+        {
+            Debug.Log("Rotate triggered!");
+            Rotate(1);
+        }
     }
-}
 
-private void Step()
+    private void Step()
     {
-        stepTime = Time.time + stepDelay;
+        _stepTime = Time.time + stepDelay;
 
         // Step down to the next row
         Move(Vector2Int.down);
 
         // Once the piece has been inactive for too long it becomes locked
-        if (lockTime >= lockDelay) {
+        if (_lockTime >= lockDelay) {
             Lock();
         }
     }
 
     public void OnTetraminoDownClick()
     {
-        doHardDrop = true;
+        _doHardDrop = true;
     }
 
     private void HardDrop()
@@ -236,26 +234,26 @@ private void Step()
 
     private void Lock()
     {
-        board.Set(this);
-        board.ClearLines();
-        board.SpawnPiece();
-        board.NextRandomTetromino();
+        Board.Set(this);
+        Board.ClearLines();
+        Board.SpawnPiece();
+        Board.NextRandomTetromino();
     }
 
     private bool Move(Vector2Int translation)
     {
-        Vector3Int newPosition = position;
+        Vector3Int newPosition = Position;
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
-        bool valid = board.IsValidPosition(this, newPosition);
+        bool valid = Board.IsValidPosition(this, newPosition);
 
         // Only save the movement if the new position is valid
         if (valid)
         {
-            position = newPosition;
-            moveTime = Time.time + moveDelay;
-            lockTime = 0f; // reset
+            Position = newPosition;
+            _moveTime = Time.time + moveDelay;
+            _lockTime = 0f; // reset
         }
 
         return valid;
@@ -265,32 +263,32 @@ private void Step()
     {
         // Store the current rotation in case the rotation fails
         // and we need to revert
-        int originalRotation = rotationIndex;
+        int originalRotation = RotationIndex;
 
         // Rotate all of the cells using a rotation matrix
-        rotationIndex = Wrap(rotationIndex + direction, 0, 4);
+        RotationIndex = Wrap(RotationIndex + direction, 0, 4);
         ApplyRotationMatrix(direction);
 
         // Revert the rotation if the wall kick tests fail
-        if (!TestWallKicks(rotationIndex, direction))
+        if (!TestWallKicks(RotationIndex, direction))
         {
-            rotationIndex = originalRotation;
+            RotationIndex = originalRotation;
             ApplyRotationMatrix(-direction);
         }
     }
 
     private void ApplyRotationMatrix(int direction)
     {
-        float[] matrix = Data.RotationMatrix;
+        float[] matrix = global::Data.RotationMatrix;
 
         // Rotate all of the cells using the rotation matrix
-        for (int i = 0; i < cells.Length; i++)
+        for (int i = 0; i < Cells.Length; i++)
         {
-            Vector3 cell = cells[i];
+            Vector3 cell = Cells[i];
 
             int x, y;
 
-            switch (data.tetromino)
+            switch (Data.tetromino)
             {
                 case Tetromino.I:
                 case Tetromino.O:
@@ -307,7 +305,7 @@ private void Step()
                     break;
             }
 
-            cells[i] = new Vector3Int(x, y, 0);
+            Cells[i] = new Vector3Int(x, y, 0);
         }
     }
 
@@ -315,9 +313,9 @@ private void Step()
     {
         int wallKickIndex = GetWallKickIndex(rotationIndex, rotationDirection);
 
-        for (int i = 0; i < data.wallKicks.GetLength(1); i++)
+        for (int i = 0; i < Data.wallKicks.GetLength(1); i++)
         {
-            Vector2Int translation = data.wallKicks[wallKickIndex, i];
+            Vector2Int translation = Data.wallKicks[wallKickIndex, i];
 
             if (Move(translation)) {
                 return true;
@@ -335,7 +333,7 @@ private void Step()
             wallKickIndex--;
         }
 
-        return Wrap(wallKickIndex, 0, data.wallKicks.GetLength(0));
+        return Wrap(wallKickIndex, 0, Data.wallKicks.GetLength(0));
     }
 
     private int Wrap(int input, int min, int max)
