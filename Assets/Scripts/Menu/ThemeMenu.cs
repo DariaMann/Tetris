@@ -10,16 +10,6 @@ public class ThemeMenu : MonoBehaviour
     [SerializeField] private Image settingsImage;
     [SerializeField] private List<Image> buttonsBg;
     [SerializeField] private List<TextMeshProUGUI> textsBg;
-    
-    [SerializeField] private Image settingsBg;
-    [SerializeField] private Image settingsBackButton;
-    [SerializeField] private TextMeshProUGUI settingsThemeText;
-    [SerializeField] private TextMeshProUGUI settingsLanguageText;
-    
-    [SerializeField] private Image settingsRatingButton;
-    [SerializeField] private Image settingsSoundButton;
-    [SerializeField] private Image settingsMusicButton;
-    [SerializeField] private Image settingsVibrationButton;
 
     private Color _colorLight;
     private Color _colorGrey;
@@ -80,15 +70,6 @@ public class ThemeMenu : MonoBehaviour
         {
             text.color = _colorDark;
         }
-
-        settingsBg.color = Color.white;
-        settingsBackButton.color = _colorGrey;
-        settingsRatingButton.color = _colorGrey;
-        settingsSoundButton.color = _colorGrey;
-        settingsMusicButton.color = _colorGrey;
-        settingsVibrationButton.color = _colorGrey;
-        settingsThemeText.color = _colorDark;
-        settingsLanguageText.color = _colorDark;
     } 
     
     public void SetDark()
@@ -103,14 +84,5 @@ public class ThemeMenu : MonoBehaviour
         {
             text.color = _colorLight;
         }
-        
-        settingsBg.color = _colorDark;
-        settingsBackButton.color = _colorLight;
-        settingsRatingButton.color = _colorLight;
-        settingsSoundButton.color = _colorLight;
-        settingsMusicButton.color = _colorLight;
-        settingsVibrationButton.color = _colorLight;
-        settingsThemeText.color = _colorLight;
-        settingsLanguageText.color = _colorLight;
     }
 }

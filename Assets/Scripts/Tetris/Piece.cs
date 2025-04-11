@@ -24,6 +24,8 @@ public class Piece : MonoBehaviour
     private Vector2 lastTouchPos;
     private bool isDragging = false;
     private float moveThreshold = 50f; // Минимальное расстояние для шага движения
+    
+    private bool doHardDrop = false;
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
@@ -73,6 +75,12 @@ public class Piece : MonoBehaviour
 
         // Handle hard drop
         if (Input.GetKeyDown(KeyCode.Space)) {
+            HardDrop();
+        }
+
+        if (doHardDrop)
+        {
+            doHardDrop = false;
             HardDrop();
         }
 
@@ -199,175 +207,7 @@ void TryRotate(Vector2 endPos)
     }
 }
 
-    
-    
-//    void HandleTouchInput()
-//    {
-//        if (Input.touchCount > 0)
-//        {
-//            Touch touch = Input.GetTouch(0);
-//
-//            switch (touch.phase)
-//            {
-//                case TouchPhase.Began:
-//                    touchStartPos = touch.position;
-//                    lastTouchPos = touch.position;
-//                    isDragging = true;
-//                    break;
-//
-//                case TouchPhase.Moved:
-//                    if (isDragging)
-//                    {
-//                        Vector2 delta = touch.position - lastTouchPos;
-//
-//                        if (Mathf.Abs(delta.x) > moveThreshold)
-//                        {
-//                            if (delta.x > 0)
-//                                Move(Vector2Int.right);
-//                            else
-//                                Move(Vector2Int.left);
-//
-//                            lastTouchPos = touch.position;
-//                        }
-//
-//                        if (Mathf.Abs(delta.y) > moveThreshold)
-//                        {
-//                            if (delta.y < 0) // Если палец двигается вниз
-//                                if (Move(Vector2Int.down)) {
-//                                    // Update the step time to prevent double movement
-//                                    stepTime = Time.time + stepDelay;
-//                                }
-//
-//                            lastTouchPos = touch.position;
-//                        }
-//                    }
-//                    break;
-//
-//                case TouchPhase.Ended:
-//                    isDragging = false;
-//
-//                    // Если отпустили палец без значительного движения — поворачиваем фигуру
-//                    float touchDistance = Vector2.Distance(touchStartPos, touch.position);
-//                    Debug.Log($"Touch Distance: {touchDistance}, Threshold: {moveThreshold}");
-//
-//                    if (touchDistance < moveThreshold)
-//                    {
-//                        Debug.Log("Rotate triggered!");
-//                        Rotate(1);
-//                    }
-//                    break;
-//            }
-//        }
-//        
-//        if (Input.GetMouseButtonDown(0)) // Нажатие мыши
-//        {
-//            touchStartPos = Input.mousePosition;
-//            lastTouchPos = Input.mousePosition;
-//            isDragging = true;
-//        }
-//        else if (Input.GetMouseButton(0)) // Движение мыши с зажатой кнопкой
-//        {
-//            if (isDragging)
-//            {
-//                Vector2 delta = (Vector2)Input.mousePosition - lastTouchPos;
-//
-//                if (Mathf.Abs(delta.x) > moveThreshold)
-//                {
-//                    if (delta.x > 0)
-//                        Move(Vector2Int.right);
-//                    else
-//                        Move(Vector2Int.left);
-//
-//                    lastTouchPos = Input.mousePosition;
-//                }
-//
-//                if (Mathf.Abs(delta.y) > moveThreshold)
-//                {
-//                    if (delta.y < 0) // Двигаем фигуру вниз
-//                        if (Move(Vector2Int.down)) {
-//                            // Update the step time to prevent double movement
-//                            stepTime = Time.time + stepDelay;
-//                        }
-//
-//                    lastTouchPos = Input.mousePosition;
-//                }
-//            }
-//        }
-//        else if (Input.GetMouseButtonUp(0)) // Отпускание кнопки мыши
-//        {
-//            isDragging = false;
-//
-//            float clickDistance = Vector2.Distance(touchStartPos, Input.mousePosition);
-//            Debug.Log($"Click Distance: {clickDistance}, Threshold: {moveThreshold}");
-//
-//            if (clickDistance < moveThreshold)
-//            {
-//                Debug.Log("Rotate triggered!");
-//                Rotate(1);
-//            }
-//        }
-//
-//    }
-
-
-    
-//    void HandleTouchInput()
-//    {
-//        if (Input.touchCount > 0)
-//        {
-//            // Управление для сенсорных экранов
-//            Touch touch = Input.GetTouch(0);
-//            switch (touch.phase)
-//            {
-//                case TouchPhase.Began:
-//                    touchStartPos = touch.position;
-//                    break;
-//
-//                case TouchPhase.Ended:
-//                    ProcessSwipeOrTap(touch.position);
-//                    break;
-//            }
-//        }
-//        else if (Input.GetMouseButtonDown(0)) // Левая кнопка мыши нажата
-//        {
-//            touchStartPos = Input.mousePosition;
-//        }
-//        else if (Input.GetMouseButtonUp(0)) // Отпущена
-//        {
-//            ProcessSwipeOrTap(Input.mousePosition);
-//        }
-//    }
-//
-//// Метод, который проверяет свайп или клик
-//    void ProcessSwipeOrTap(Vector2 touchEndPos)
-//    {
-//        Vector2 swipeDelta = touchEndPos - touchStartPos;
-//
-//        if (swipeDelta.magnitude < swipeThreshold)
-//        {
-//            // Одиночный тап или клик - поворачиваем фигуру
-//            Rotate(1);
-//        }
-//        else if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
-//        {
-//            // Горизонтальный свайп
-//            if (swipeDelta.x > 0)
-//                Move(Vector2Int.right); // Вправо
-//            else
-//                Move(Vector2Int.left); // Влево
-//        }
-//        else if (swipeDelta.y < 0)
-//        {
-//            // Свайп вниз
-//            if (Move(Vector2Int.down)) {
-//                // Update the step time to prevent double movement
-//                stepTime = Time.time + stepDelay;
-//            }
-//        }
-//    }
-
-
-    private void Step()
+private void Step()
     {
         stepTime = Time.time + stepDelay;
 
@@ -378,6 +218,11 @@ void TryRotate(Vector2 endPos)
         if (lockTime >= lockDelay) {
             Lock();
         }
+    }
+
+    public void OnTetraminoDownClick()
+    {
+        doHardDrop = true;
     }
 
     private void HardDrop()

@@ -16,15 +16,11 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsPanel;
     
-    [SerializeField] private Image settingsEnglishButton;
-    [SerializeField] private Image settingsRussianButton;
-    [SerializeField] private TextMeshProUGUI settingsEnglishText;
-    [SerializeField] private TextMeshProUGUI settingsRussianText;
+    [SerializeField] private GameObject settingsEnglishSelection;
+    [SerializeField] private GameObject settingsRussianSelection;
     
-    [SerializeField] private Image settingsLightButton;
-    [SerializeField] private Image settingsDarkButton;
-    [SerializeField] private TextMeshProUGUI settingsLightText;
-    [SerializeField] private TextMeshProUGUI settingsDarkText;
+    [SerializeField] private GameObject settingsLightSelection;
+    [SerializeField] private GameObject settingsDarkSelection;
     
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
@@ -36,16 +32,6 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private Sprite settingsMusicOff;
     [SerializeField] private Sprite settingsVibrationOn;
     [SerializeField] private Sprite settingsVibrationOff;
-
-    private Color _colorLight;
-    private Color _colorGrey;
-
-
-    private void Awake()
-    { 
-        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white; 
-        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-    }
 
     void Start () {
         isPaused = false;
@@ -127,19 +113,13 @@ public class Buttons : MonoBehaviour {
     {
         if (languageId == 0)
         {
-            settingsEnglishButton.color = _colorLight;
-            settingsRussianButton.color = _colorGrey;
-            
-            settingsEnglishText.color = _colorGrey;
-            settingsRussianText.color = _colorLight;
+            settingsEnglishSelection.SetActive(true);
+            settingsRussianSelection.SetActive(false);
         }
         else
         {
-            settingsEnglishButton.color = _colorGrey;
-            settingsRussianButton.color = _colorLight;
-            
-            settingsEnglishText.color = _colorLight;
-            settingsRussianText.color = _colorGrey;
+            settingsEnglishSelection.SetActive(false);
+            settingsRussianSelection.SetActive(true);
         }
     } 
     
@@ -152,19 +132,13 @@ public class Buttons : MonoBehaviour {
     {
         if (theme == Themes.Light)
         {
-            settingsLightButton.color = _colorLight;
-            settingsDarkButton.color = _colorGrey;
-            
-            settingsLightText.color = _colorGrey;
-            settingsDarkText.color = _colorLight;
+            settingsLightSelection.SetActive(true);
+            settingsDarkSelection.SetActive(false);
         }
         else
         {
-            settingsLightButton.color = _colorGrey;
-            settingsDarkButton.color = _colorLight;
-            
-            settingsLightText.color = _colorLight;
-            settingsDarkText.color = _colorGrey;
+            settingsLightSelection.SetActive(false);
+            settingsDarkSelection.SetActive(true);
         }
     }
     

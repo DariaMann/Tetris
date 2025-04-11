@@ -23,16 +23,6 @@ public class ThemeChineseCheckers: MonoBehaviour
     [SerializeField] private Image warningBg;
     [SerializeField] private TextMeshProUGUI warningText;
 
-    [SerializeField] private Image settingsBg;
-    [SerializeField] private Image settingsBackButton;
-    [SerializeField] private TextMeshProUGUI settingsThemeText;
-    [SerializeField] private TextMeshProUGUI settingsLanguageText;
-    
-    [SerializeField] private Image settingsRatingButton;
-    [SerializeField] private Image settingsSoundButton;
-    [SerializeField] private Image settingsMusicButton;
-    [SerializeField] private Image settingsVibrationButton;
-
     private Themes _theme;
     private Color _colorLight;
     private Color _colorSoGrey;
@@ -120,15 +110,6 @@ public class ThemeChineseCheckers: MonoBehaviour
         {
             person.SetTheme(Color.white, _colorDark,_colorLight);
         }
-        
-        settingsBg.color = Color.white;
-        settingsBackButton.color = _colorGrey;
-        settingsRatingButton.color = _colorGrey;
-        settingsSoundButton.color = _colorGrey;
-        settingsMusicButton.color = _colorGrey;
-        settingsVibrationButton.color = _colorGrey;
-        settingsThemeText.color = _colorDark;
-        settingsLanguageText.color = _colorDark;
     } 
     
     public void SetDark()
@@ -158,14 +139,5 @@ public class ThemeChineseCheckers: MonoBehaviour
         {
             person.SetTheme(_colorDark, _colorLight, _colorDark);
         }
-        
-        settingsBg.color = _colorDark;
-        settingsBackButton.color = _colorLight;
-        settingsRatingButton.color = _colorLight;
-        settingsSoundButton.color = _colorLight;
-        settingsMusicButton.color = _colorLight;
-        settingsVibrationButton.color = _colorLight;
-        settingsThemeText.color = _colorLight;
-        settingsLanguageText.color = _colorLight;
     }
 }
