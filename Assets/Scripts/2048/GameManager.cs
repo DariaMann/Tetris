@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Assets.SimpleLocalization;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -9,10 +12,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private TileBoard board;
-    [SerializeField] private CanvasGroup gameOver;
+    [SerializeField] private GameObject gameOver;
     [SerializeField] private SaveScores saveScores;
+    [SerializeField] private Button undoButton;
+    [SerializeField] private TextMeshProUGUI maximumText;
 
     private bool _isGameOver = false;
+
+    public int MaxNumber { get; private set; } = 2;
+    
+    public Stack<Step2048> EventSteps { get; set; } = new Stack<Step2048>();
 
     public SaveScores SaveScores
     {
@@ -32,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LoadLastPlay();
+        CheckUndoButtonState();
     }
     
     void OnApplicationQuit()
@@ -65,9 +75,9 @@ public class GameManager : MonoBehaviour
         }
         
         SaveScores.ChangeScore(saveData.Score);
+        ChangeMaximumNumber(saveData.Maximum);
         // hide game over screen
-        gameOver.alpha = 0f;
-        gameOver.interactable = false;
+        gameOver.SetActive(false);
 
         // update board state
         board.ClearBoard();
@@ -87,9 +97,19 @@ public class GameManager : MonoBehaviour
             JsonHelper.Save2048Data(null);
             return;
         }
-        SaveData2048 data = new SaveData2048(SaveScores.CurrentScore, board.Tiles);
+        SaveData2048 data = new SaveData2048(SaveScores.CurrentScore, MaxNumber, board.Tiles);
         
         JsonHelper.Save2048Data(data);
+    }
+
+    public void ChangeMaximumNumber(int newMaximum)
+    {
+        if (newMaximum > MaxNumber)
+        {
+            MaxNumber = newMaximum;
+        }
+        
+        maximumText.text = LocalizationManager.Localize("2048.maximum") + ": " + MaxNumber;
     }
     
     public void NewGame()
@@ -99,40 +119,34 @@ public class GameManager : MonoBehaviour
         SaveScores.ChangeScore(0);
 
         // hide game over screen
-        gameOver.alpha = 0f;
-        gameOver.interactable = false;
+        gameOver.SetActive(false);
 
         // update board state
         board.ClearBoard();
         board.CreateTile();
         board.CreateTile();
         board.enabled = true;
+        
+        EventSteps.Clear();
+        CheckUndoButtonState();
     }
 
     public void GameOver()
     {
         _isGameOver = true;
         board.enabled = false;
-        gameOver.interactable = true;
-
-        StartCoroutine(Fade(gameOver, 1f, 1f));
+        gameOver.SetActive(true);
     }
-
-    private IEnumerator Fade(CanvasGroup canvasGroup, float to, float delay = 0f)
+    
+    public void CheckUndoButtonState()
     {
-        yield return new WaitForSeconds(delay);
-
-        float elapsed = 0f;
-        float duration = 0.5f;
-        float from = canvasGroup.alpha;
-
-        while (elapsed < duration)
+        if (EventSteps.Count > 0)
         {
-            canvasGroup.alpha = Mathf.Lerp(from, to, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
+            undoButton.interactable = true;
         }
-
-        canvasGroup.alpha = to;
+        else
+        {
+            undoButton.interactable = false;
+        }
     }
 }

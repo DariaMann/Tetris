@@ -5,14 +5,13 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
     [SerializeField] private SaveScores saveScores;
-    [SerializeField] private Food food;
+    [SerializeField] private FoodController foodController;
     [SerializeField] private GameObject gameOver;
     public Transform segmentPrefab;
     public Vector2Int direction = Vector2Int.right;
     public float speed = 20f;
     public float speedMultiplier = 1f;
     public int initialSize = 4;
-    public bool moveThroughWalls = false;
 
     private readonly List<Transform> segments = new List<Transform>();
     private Vector2Int input;
@@ -21,9 +20,8 @@ public class Snake : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
-    
+
     public bool IsGameOver { get; set; }
-    public Vector2Int FoodPos { get; set; }
 
     private void Start()
     {
@@ -68,7 +66,7 @@ public class Snake : MonoBehaviour
             return;
         }
 
-        SaveDataSnake data = new SaveDataSnake(transform.position, FoodPos, direction, saveScores.CurrentScore);
+        SaveDataSnake data = new SaveDataSnake(transform.position, foodController.Foods, direction, saveScores.CurrentScore);
         JsonHelper.SaveSnakeData(data);
     }
     
@@ -96,18 +94,22 @@ public class Snake : MonoBehaviour
         if (direction.x != 0f)
         {
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-                input = Vector2Int.up;
+//                input = Vector2Int.up;
+                TryChangeDirection(Vector2Int.up);
             } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-                input = Vector2Int.down;
+//                input = Vector2Int.down;
+                TryChangeDirection(Vector2Int.down);
             }
         }
         // Only allow turning left or right while moving in the y-axis
         else if (direction.y != 0f)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-                input = Vector2Int.right;
+//                input = Vector2Int.right;
+                TryChangeDirection(Vector2Int.right);
             } else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-                input = Vector2Int.left;
+//                input = Vector2Int.left;
+                TryChangeDirection(Vector2Int.left);
             }
         }
         
@@ -151,22 +153,26 @@ public class Snake : MonoBehaviour
         {
             if (swipeDelta.x > 0 && direction.y != 0f) // Двигаемся вправо, если змейка идет вверх или вниз
             {
-                input = Vector2Int.right;
+//                input = Vector2Int.right;
+                TryChangeDirection(Vector2Int.right);
             }
             else if (swipeDelta.x < 0 && direction.y != 0f) // Двигаемся влево, если змейка идет вверх или вниз
             {
-                input = Vector2Int.left;
+//                input = Vector2Int.left;
+                TryChangeDirection(Vector2Int.left);
             }
         }
         else
         {
             if (swipeDelta.y > 0 && direction.x != 0f) // Двигаемся вверх, если змейка идет влево или вправо
             {
-                input = Vector2Int.up;
+//                input = Vector2Int.up;
+                TryChangeDirection(Vector2Int.up);
             }
             else if (swipeDelta.y < 0 && direction.x != 0f) // Двигаемся вниз, если змейка идет влево или вправо
             {
-                input = Vector2Int.down;
+//                input = Vector2Int.down;
+                TryChangeDirection(Vector2Int.down);
             }
         }
     }
@@ -261,7 +267,8 @@ public class Snake : MonoBehaviour
             Grow(false, true);
         }
         
-        food.RandomizePosition();
+        foodController.Reset();
+        foodController.CreateNewFoods();
     }
     
     public void LoadSave(SaveDataSnake data)
@@ -293,8 +300,8 @@ public class Snake : MonoBehaviour
                 Grow(false);
             }
         }
-        
-        food.LoadPosition(new Vector2(data.FoodX, data.FoodY));
+
+        foodController.LoadedFood(data.SaveFoods);
     }
 
     public bool Occupies(int x, int y)
@@ -324,7 +331,7 @@ public class Snake : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Wall"))
         {
-            if (moveThroughWalls) {
+            if (GameHelper.SnakeSettings.MoveThroughWalls) {
                 Traverse(other.transform);
             } else {
 //                ResetState();
@@ -345,6 +352,17 @@ public class Snake : MonoBehaviour
         }
 
         transform.position = position;
+    }
+    
+    private void TryChangeDirection(Vector2Int newDirection)
+    {
+        // Запретить поворот назад
+        if (newDirection + direction != Vector2Int.zero)
+        {
+            input = newDirection;
+            direction = newDirection;
+            RotateHead();
+        }
     }
 
 }

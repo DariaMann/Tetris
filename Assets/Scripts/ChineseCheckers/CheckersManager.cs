@@ -22,8 +22,6 @@ public class CheckersManager: MonoBehaviour
     [SerializeField] private Sprite hintUnavailable;
 
     [SerializeField] private Button undoButton;
-    [SerializeField] private Sprite undoActiveSprite;
-    [SerializeField] private Sprite undoDeactiveSprite;
     
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject warningPanel;
@@ -42,14 +40,14 @@ public class CheckersManager: MonoBehaviour
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
     private bool _isShowing;
-    private Color[] _playerColors = {
-        Color.blue,   // Нижний игрок
-        Color.red,    // Верхний игрок
-        Color.green,  // Левый верхний
-        Color.yellow, // Левый нижний
-        Color.magenta,// Правый верхний
-        Color.cyan    // Правый нижний
-    };
+    private Color[] _playerColors;
+
+    private Color _blue;
+    private Color _red;
+    private Color _green;
+    private Color _yellow;
+    private Color _purple;
+    private Color _cyan;
     
     public ThemeChineseCheckers ThemeChinese
     {
@@ -87,6 +85,16 @@ public class CheckersManager: MonoBehaviour
 
     void Start()
     {
+        
+        _blue = ColorUtility.TryParseHtmlString("#305EFB", out Color blue) ? blue : Color.blue;
+        _red = ColorUtility.TryParseHtmlString("#FA2D34", out Color red) ? red : Color.red;
+        _green = ColorUtility.TryParseHtmlString("#14E200", out Color green) ? green : Color.green;
+        _yellow = ColorUtility.TryParseHtmlString("#FEBF01", out Color yellow) ? yellow : Color.yellow;
+        _purple = ColorUtility.TryParseHtmlString("#E200F5", out Color magenta) ? magenta : Color.magenta;
+        _cyan = ColorUtility.TryParseHtmlString("#13F5DF", out Color cyan) ? cyan : Color.cyan;
+
+        _playerColors = new[] {_blue, _red, _green, _yellow, _purple, _cyan};
+        
         SetFirstSettings();
         LoadData();
         hexMap.GenerateBoard();
@@ -269,14 +277,12 @@ public class CheckersManager: MonoBehaviour
         if (CurrentPlayer == null)
         {
             undoButton.interactable = false;
-            undoButton.image.sprite = undoDeactiveSprite;
             return;
         }
         bool eventsStackHaveIndexCurrentPlayer = EventSteps.Any(s => s.Chip.Player.ID == CurrentPlayer.ID);
         bool isActive = CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0 && eventsStackHaveIndexCurrentPlayer;
 
         undoButton.interactable = isActive;
-        undoButton.image.sprite = isActive ? undoActiveSprite : undoDeactiveSprite;
     }
 
     public void AddStepEventObject(HexTile fromTile, Chip chip)
@@ -846,6 +852,51 @@ public class CheckersManager: MonoBehaviour
         StartNextTurn(); // Передаем ход следующему
     }
 
+    private List<Chip> CheckAnotherChipInTargetZone(Player player)
+    {
+        List<Chip> chips = new List<Chip>();
+        foreach (var tile in player.TargetZones)
+        {
+            if (tile.Chip != null && tile.Chip.Player.ID != player.ID)
+            {
+                chips.Add(tile.Chip);
+            }
+        }
+
+        return chips;
+    }
+
+    private List<HexTile> CheckMovesInTargetZone(Player player, List<HexTile> possibleMoves)
+    {
+        List<HexTile> possibleMovesInTarget = new List<HexTile>();
+        foreach (var tile in possibleMoves)
+        {
+            if (player.TargetZones.Contains(tile))
+            {
+                possibleMovesInTarget.Add(tile);
+            }
+        }
+
+        return possibleMovesInTarget;
+    }
+
+    private bool IsBlockedAnotherChip(HexTile futureTile, Player player)
+    {
+        List<Chip> chips = CheckAnotherChipInTargetZone(player);
+        
+        foreach (var chip in chips)
+        {
+            List<HexTile> possibleMoves = FindWays(chip);
+            List<HexTile> possibleMovesInTarget = CheckMovesInTargetZone(player, possibleMoves);
+            if (possibleMovesInTarget.Count == 1 && possibleMovesInTarget[0] == futureTile)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
     private int EvaluateMove(Player player, Chip chip, HexTile move)
     {
         int score = 0;
@@ -856,6 +907,11 @@ public class CheckersManager: MonoBehaviour
         // 1. Если фишка еще не в TargetZones, даем высокий приоритет ходу в нее
         if (!isInTargetZone && isMovingToTargetZone)
         {
+            bool blockedAnotherChip = IsBlockedAnotherChip(move, player);
+            if (blockedAnotherChip)
+            {
+                return -1000; // Запрещаем выходить
+            }
             score += 300; // Максимальный приоритет входа
         }
 
@@ -869,6 +925,11 @@ public class CheckersManager: MonoBehaviour
             }
             else
             {
+                bool blockedAnotherChip = IsBlockedAnotherChip(move, player);
+                if (blockedAnotherChip)
+                {
+                    return -1000; // Запрещаем выходить
+                }
                 int priorityDiff = move.Priority - chip.Tile.Priority;
                 if (priorityDiff > 0)
                 {

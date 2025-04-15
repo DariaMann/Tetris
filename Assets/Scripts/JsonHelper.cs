@@ -54,6 +54,51 @@ public static class JsonHelper
     
     #region Snake
 
+    public static void SaveSnakeSettings(SnakeSettings data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSnakeSettings(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SnakeSettings", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SnakeSettings LoadSnakeSettings()
+    {
+        if (PlayerPrefs.HasKey("SnakeSettings"))
+        {
+            string json = PlayerPrefs.GetString("SnakeSettings");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SnakeSettings data = DeserializeJsonSnakeSettings(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SnakeSettings DeserializeJsonSnakeSettings(string jsonString)
+    {
+        SnakeSettings data = JsonConvert.DeserializeObject<SnakeSettings>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSnakeSettings(SnakeSettings data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
     public static void SaveSnakeData(SaveDataSnake data)
     {
 //        string json = JsonUtility.ToJson(data);

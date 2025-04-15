@@ -12,17 +12,28 @@ public class ThemeMenu : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> textsBg;
 
     private Color _colorLight;
-    private Color _colorGrey;
+//    private Color _colorGrey;
     private Color _colorDark;
+    
+    private Color _colorBgLight;
+    private Color _colorBgDark;
 
     private void Start()
     {
-        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
-        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
+//        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
+//        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
+//        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
+        
+        _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
+//        _colorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
+        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
+        
+        _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
+        _colorBgDark = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgDark) ? colorBgDark : Color.black;
 
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
+        GameHelper.GameType = MiniGameType.None;
     }
     
     private void ApplyTheme(Themes newTheme)
@@ -60,29 +71,29 @@ public class ThemeMenu : MonoBehaviour
     
     public void SetLight()
     {
-        bgColor.backgroundColor = Color.white;
-        settingsImage.color = _colorDark;
+        bgColor.backgroundColor = _colorBgLight;
+        settingsImage.color = _colorLight;
+        foreach (var button in buttonsBg)
+        {
+            button.color = _colorDark;
+        }
+        foreach (var text in textsBg)
+        {
+            text.color = _colorLight;
+        }
+    } 
+    
+    public void SetDark()
+    {
+        bgColor.backgroundColor = _colorBgDark;
+        settingsImage.color = _colorBgDark;
         foreach (var button in buttonsBg)
         {
             button.color = _colorLight;
         }
         foreach (var text in textsBg)
         {
-            text.color = _colorDark;
-        }
-    } 
-    
-    public void SetDark()
-    {
-        bgColor.backgroundColor = _colorDark;
-        settingsImage.color = _colorLight;
-        foreach (var button in buttonsBg)
-        {
-            button.color = _colorGrey;
-        }
-        foreach (var text in textsBg)
-        {
-            text.color = _colorLight;
+            text.color = _colorBgDark;
         }
     }
 }

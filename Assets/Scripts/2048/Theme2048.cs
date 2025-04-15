@@ -14,6 +14,7 @@ public class Theme2048 : MonoBehaviour
     [SerializeField] private Image backButton;
     [SerializeField] private Image undoButton;
     [SerializeField] private TextMeshProUGUI scoreAndRecordText;
+    [SerializeField] private TextMeshProUGUI maximumText;
     [SerializeField] private List<Image> cells;
     [SerializeField] private List<TextMeshProUGUI> texts;
 
@@ -86,6 +87,7 @@ public class Theme2048 : MonoBehaviour
         recordBg.color = _lightColorDark;
         scoreBg.color = _lightColorDark;
         scoreAndRecordText.color = _lightColorDark;
+        maximumText.color = _lightColorDark;
         bgPanelBg.color = _lightColorDark;
         foreach (var cell in cells)
         {
@@ -105,6 +107,7 @@ public class Theme2048 : MonoBehaviour
         recordBg.color = _colorBgBoard;
         scoreBg.color = _colorBgBoard;
         scoreAndRecordText.color = _colorLight;
+        maximumText.color = _colorLight;
         bgPanelBg.color = _colorBgBoard;
         foreach (var cell in cells)
         {

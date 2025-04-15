@@ -12,7 +12,7 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private float timing;
     [SerializeField] private bool isPaused;
     [SerializeField] private bool exitController;
-    [SerializeField] private int scene;
+    [SerializeField] private bool havePausePanel = true;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsPanel;
     
@@ -56,7 +56,7 @@ public class Buttons : MonoBehaviour {
     }
 	
 	void Update () {
-        if (scene == 2 || scene == 3 || scene == 4 || scene == 5)
+        if (havePausePanel)
         {
             Time.timeScale = timing;
             if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)

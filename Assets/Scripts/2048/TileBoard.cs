@@ -43,7 +43,7 @@ public class TileBoard : MonoBehaviour
     public void CreateTile(SaveTile2024 saveTile)
     {
         Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
-        tile.SetState(tileStates[saveTile.StateNumber]);
+        tile.SetState(tileStates[saveTile.StateNumber], true);
         tile.Spawn(_grid.GetCellByCoordinates(saveTile.X, saveTile.Y), _grid.transform);
         _tiles.Add(tile);
     }
@@ -120,7 +120,8 @@ public class TileBoard : MonoBehaviour
     private void Move(Vector2Int direction, int startX, int incrementX, int startY, int incrementY)
     {
         bool changed = false;
-
+        bool saveLast = false;
+        
         for (int x = startX; x >= 0 && x < _grid.Width; x += incrementX)
         {
             for (int y = startY; y >= 0 && y < _grid.Height; y += incrementY)
@@ -128,7 +129,8 @@ public class TileBoard : MonoBehaviour
                 TileCell cell = _grid.GetCell(x, y);
 
                 if (cell.Occupied) {
-                    changed |= MoveTile(cell.Tile, direction);
+                    changed = MoveTile(cell.Tile, direction, saveLast);
+                    saveLast = changed;
                 }
             }
         }
@@ -136,9 +138,11 @@ public class TileBoard : MonoBehaviour
         if (changed) {
             StartCoroutine(WaitForChanges());
         }
+
+        GameManager.Instance.CheckUndoButtonState();
     }
 
-    private bool MoveTile(Tile2024 tile, Vector2Int direction)
+    private bool MoveTile(Tile2024 tile, Vector2Int direction, bool saveLast)
     {
         TileCell newCell = null;
         TileCell adjacent = _grid.GetAdjacentCell(tile.Cell, direction);
@@ -149,6 +153,10 @@ public class TileBoard : MonoBehaviour
             {
                 if (CanMerge(tile, adjacent.Tile))
                 {
+                    if (!saveLast)
+                    {
+                        GameManager.Instance.EventSteps.Push(CreateStepEvent());
+                    }
                     MergeTiles(tile, adjacent.Tile);
                     return true;
                 }
@@ -162,6 +170,10 @@ public class TileBoard : MonoBehaviour
 
         if (newCell != null)
         {
+            if (!saveLast)
+            {
+                GameManager.Instance.EventSteps.Push(CreateStepEvent());
+            }
             tile.MoveTo(newCell);
             return true;
         }
@@ -250,6 +262,50 @@ public class TileBoard : MonoBehaviour
         }
 
         return true;
+    }
+    
+    public void OnUndo()
+    {
+        if (GameManager.Instance.EventSteps.Count > 0)
+        {
+            RestoreStepEvent(GameManager.Instance.EventSteps.Pop());
+        }
+    }
+    
+    private Step2048 CreateStepEvent()
+    {
+        Step2048 step = new Step2048();
+    
+        foreach (var tile in _tiles)
+        {
+            TileEvent tileSnap = new TileEvent()
+            {
+                X = tile.Cell.Coordinates.x,
+                Y = tile.Cell.Coordinates.y,
+                StateIndex = tile.State.index
+            };
+            step.Tiles.Add(tileSnap);
+        }
+
+        step.Steps = GameManager.Instance.SaveScores.CurrentScore;
+
+        return step;
+    }
+    
+    private void RestoreStepEvent(Step2048 step)
+    {
+        ClearBoard();
+
+        foreach (var tileSnap in step.Tiles)
+        {
+            Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
+            tile.SetState(tileStates[tileSnap.StateIndex]);
+            tile.Spawn(_grid.GetCellByCoordinates(tileSnap.X, tileSnap.Y), _grid.transform);
+            _tiles.Add(tile);
+        }
+
+        GameManager.Instance.SaveScores.ChangeScore(step.Steps);
+        GameManager.Instance.CheckUndoButtonState();
     }
 
 }

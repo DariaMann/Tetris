@@ -3,22 +3,20 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class Food : MonoBehaviour
 {
-    public Collider2D gridArea;
-    private Snake snake;
+    private Snake _snake;
+    private FoodController _foodController;
+    
+    public Vector2Int Position { get; set; }
 
     private void Awake()
     {
-        snake = FindObjectOfType<Snake>();
+        _snake = FindObjectOfType<Snake>();
+        _foodController = FindObjectOfType<FoodController>();
     }
-
-//    private void Start()
-//    {
-//        RandomizePosition();
-//    }
-
+    
     public void RandomizePosition()
     {
-        Bounds bounds = gridArea.bounds;
+        Bounds bounds = _foodController.GridArea.bounds;
 
         // Pick a random position inside the bounds
         // Round the values to ensure it aligns with the grid
@@ -26,7 +24,7 @@ public class Food : MonoBehaviour
         int y = Mathf.RoundToInt(Random.Range(bounds.min.y, bounds.max.y));
 
         // Prevent the food from spawning on the snake
-        while (snake.Occupies(x, y))
+        while (_snake.Occupies(x, y))
         {
             x++;
 
@@ -41,8 +39,8 @@ public class Food : MonoBehaviour
             }
         }
 
+        Position = new Vector2Int(x, y);
         transform.position = new Vector2(x, y);
-        snake.FoodPos = new Vector2Int(x, y);
     }
     
     public void LoadPosition(Vector2 position)
@@ -50,11 +48,22 @@ public class Food : MonoBehaviour
         transform.position = position;
         int x = Mathf.RoundToInt(transform.position.x);
         int y = Mathf.RoundToInt(transform.position.y);
-        snake.FoodPos = new Vector2Int(x, y);
+        Position = new Vector2Int(x, y);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (GameHelper.SnakeSettings.ManyFood)
+        {
+            _foodController.CreateNewFoods();
+            if (_foodController.Foods.Count > 1)
+            {
+                _foodController.Foods.Remove(this);
+                Destroy(gameObject);
+                return;
+            }
+        }
+
         RandomizePosition();
     }
 

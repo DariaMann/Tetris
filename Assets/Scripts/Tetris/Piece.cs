@@ -7,6 +7,10 @@ public class Piece : MonoBehaviour
     [SerializeField] private float moveDelay = 0.1f;
     [SerializeField] private float lockDelay = 0.5f;
     
+    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
+    
+    private bool _isFastSwipingDown = false;
+    
     private float _stepTime;
     private float _moveTime;
     private float _lockTime;
@@ -132,6 +136,7 @@ public class Piece : MonoBehaviour
                     _touchStartPos = currentPos;
                     _lastTouchPos = currentPos;
                     _isDragging = true;
+                    _isFastSwipingDown = false;
                     break;
 
                 case TouchPhase.Moved:
@@ -140,6 +145,7 @@ public class Piece : MonoBehaviour
 
                 case TouchPhase.Ended:
                     _isDragging = false;
+                    _isFastSwipingDown = false;
                     TryRotate(currentPos);
                     break;
             }
@@ -151,6 +157,7 @@ public class Piece : MonoBehaviour
             _touchStartPos = Input.mousePosition;
             _lastTouchPos = Input.mousePosition;
             _isDragging = true;
+            _isFastSwipingDown = false;
         }
         else if (Input.GetMouseButton(0))
         {
@@ -160,6 +167,7 @@ public class Piece : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             _isDragging = false;
+            _isFastSwipingDown = false;
             TryRotate(Input.mousePosition);
         }
 #endif
@@ -190,6 +198,24 @@ public class Piece : MonoBehaviour
 
             _lastTouchPos = currentPos;
         }
+        // Проверяем на длинный свайп вниз
+//        float totalSwipeDown = _touchStartPos.y - currentPos.y;
+//        
+//        Debug.Log($"TotalSwipeDown: {totalSwipeDown}, Threshold: {_moveThreshold * longSwipeThreshold}");
+//
+//        if (!_isFastSwipingDown && totalSwipeDown > _moveThreshold * longSwipeThreshold)
+//        {
+//            _isFastSwipingDown = true;
+//        }
+//
+//        // Если уже в режиме быстрого свайпа — ускоряем фигуру
+//        if (_isFastSwipingDown && Move(Vector2Int.down))
+//        {
+//            stepDelay = fastDropStepDelay;
+//            _stepTime = Time.time + stepDelay;
+//        }
+//
+//        _lastTouchPos = currentPos;
     }
 
 // Обработка клика (поворота)

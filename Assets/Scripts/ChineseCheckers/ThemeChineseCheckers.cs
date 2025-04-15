@@ -7,16 +7,18 @@ using UnityEngine.UI;
 public class ThemeChineseCheckers: MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
+    [SerializeField] private Image bgStartPanel;
     [SerializeField] private Image backButton;
     [SerializeField] private Image speedButton;
     [SerializeField] private Image hintButton;
-    [SerializeField] private Image undoButton;
+    [SerializeField] private Button undoButton;
     [SerializeField] private Image playButton;
     [SerializeField] private Image playIconButton;
     [SerializeField] private SpriteRenderer field;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private HexMap hexMap;
     [SerializeField] private CheckersManager checkersManager;
+    [SerializeField] private List<Image> backgounds;
     
     [SerializeField] private TextMeshProUGUI speedTextButton;
     
@@ -30,6 +32,16 @@ public class ThemeChineseCheckers: MonoBehaviour
     private Color _colorDark;
     private Color _colorTileLight;
     private Color _colorTileDark;
+    
+    private Color _lightColorLight;
+    private Color _lightColorGrey;
+    private Color _lightColorDark;
+    
+    private Color _colorBgBoard;
+    private Color _colorBgField;
+    
+    private Color _colorBgStartPanelLight;
+    private Color _colorBgStartPanelDark;
 
     private void Start()
     {
@@ -39,6 +51,16 @@ public class ThemeChineseCheckers: MonoBehaviour
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
         _colorTileLight = ColorUtility.TryParseHtmlString("#F2F2F3", out Color color4) ? color4 : Color.white;
         _colorTileDark = ColorUtility.TryParseHtmlString("#606060", out Color color5) ? color5 : Color.black;
+        
+        _lightColorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
+        _lightColorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
+        _lightColorDark = ColorUtility.TryParseHtmlString("#BBADA0", out Color color8) ? color8 : Color.black;
+        
+        _colorBgBoard = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgBoard) ? colorBgBoard : Color.gray;
+        _colorBgField = ColorUtility.TryParseHtmlString("#6C6258", out Color colorBgField ) ? colorBgField  : Color.gray;
+        
+        _colorBgStartPanelLight = ColorUtility.TryParseHtmlString("#EEE4DA", out Color colorBgStartPanelLight) ? colorBgStartPanelLight : Color.white;
+        _colorBgStartPanelDark = ColorUtility.TryParseHtmlString("#000000", out Color colorBgStartPanelDark) ? colorBgStartPanelDark : Color.gray;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -85,59 +107,101 @@ public class ThemeChineseCheckers: MonoBehaviour
     
     public void SetLight()
     {
-        bgColor.backgroundColor = Color.white;
-        backButton.color = _colorDark;
-        speedButton.color = _colorDark;
-        hintButton.color = _colorDark;
-        undoButton.color = _colorDark;
-        playButton.color = _colorDark;
-        playIconButton.color = _colorLight;
-        field.color = _colorLight;
+        bgColor.backgroundColor = _lightColorLight;
+        bgStartPanel.color = _colorBgStartPanelLight;
         
-        speedTextButton.color = Color.white;
+        Color c = bgStartPanel.color;
+        c.a = 0.7f; // нужная альфа, например, 30%
+        bgStartPanel.color  = c;
         
-        scoreText.color = _colorDark;
+//        backButton.color = _lightColorDark;
+//        speedButton.color = _lightColorDark;
+//        hintButton.color = _lightColorDark;
+        undoButton.image.color = _colorBgBoard;
         
-        warningBg.color = _colorLight;
-        warningText.color = _colorDark;
+        ColorBlock colors = undoButton.colors;
 
-        foreach (var tile in hexMap.Tiles)
+        // Изменяем только альфу отключенного цвета
+        Color disabled = colors.disabledColor;
+        disabled.a = 0.2f; // нужная альфа, например, 30%
+        colors.disabledColor = disabled;
+
+        undoButton.colors = colors;
+        
+//        playButton.color = _lightColorDark;
+//        playIconButton.color = _lightColorLight;
+        field.color = _lightColorDark;
+//        
+        speedTextButton.color = _lightColorLight;
+//        
+//        scoreText.color = _lightColorDark;
+//        
+//        warningBg.color = _lightColorDark;
+//        warningText.color = _lightColorLight;
+        
+        foreach (var bg in backgounds)
         {
-            tile.SetTheme(_colorTileLight, _colorDark);
+            bg.color = _lightColorLight;
         }
+
+//        foreach (var tile in hexMap.Tiles)
+//        {
+//            tile.SetTheme(_lightColorGrey, Color.white);
+//        }
         
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(Color.white, _colorDark,_colorLight);
+            person.SetTheme(_lightColorLight, _colorBgBoard, _lightColorLight);
         }
     } 
     
     public void SetDark()
     {
-        bgColor.backgroundColor = _colorDark;
-        backButton.color = _colorLight;
-        speedButton.color = _colorLight;
-        hintButton.color = _colorLight;
-        undoButton.color = _colorLight;
-        playButton.color = _colorLight;
-        playIconButton.color = _colorDark;
-        field.color = _colorGrey;
+        bgColor.backgroundColor = _colorBgBoard;
+        bgStartPanel.color = _colorBgStartPanelDark;
         
-        speedTextButton.color = _colorDark;
+        Color c = bgStartPanel.color;
+        c.a = 0.5f; // нужная альфа, например, 30%
+        bgStartPanel.color  = c;
         
-        scoreText.color = _colorLight;
+//        backButton.color = _colorLight;
+//        speedButton.color = _colorLight;
+//        hintButton.color = _colorLight;
+        undoButton.image.color = _lightColorDark;
         
-        warningBg.color = _colorGrey;
-        warningText.color = _colorLight;
+        ColorBlock colors = undoButton.colors;
 
-        foreach (var tile in hexMap.Tiles)
+        // Изменяем только альфу отключенного цвета
+        Color disabled = colors.disabledColor;
+        disabled.a = 0.3f; // нужная альфа, например, 30%
+        colors.disabledColor = disabled;
+
+        undoButton.colors = colors;
+        
+//        playButton.color = _colorLight;
+//        playIconButton.color = _colorDark;
+        field.color = _colorBgField;
+//        
+        speedTextButton.color = _colorBgBoard;
+//        
+//        scoreText.color = _colorLight;
+//        
+//        warningBg.color = _colorGrey;
+//        warningText.color = _colorLight;
+        
+        foreach (var bg in backgounds)
         {
-            tile.SetTheme(_colorTileDark, Color.white);
+            bg.color = _colorBgBoard;
         }
+
+//        foreach (var tile in hexMap.Tiles)
+//        {
+//            tile.SetTheme(_colorTileDark, Color.white);
+//        }
         
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(_colorDark, _colorLight, _colorDark);
+            person.SetTheme(_colorBgBoard, _lightColorLight,_colorBgBoard);
         }
     }
 }

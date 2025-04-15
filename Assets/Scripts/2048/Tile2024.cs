@@ -13,7 +13,6 @@ public class Tile2024 : MonoBehaviour
 
     private Image _background;
     private TextMeshProUGUI _text;
-    private int _maxNumber = 0;
 
     private void Awake()
     {
@@ -21,7 +20,7 @@ public class Tile2024 : MonoBehaviour
         _text = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetState(TileState state)
+    public void SetState(TileState state, bool isLoadData = false)
     {
         this.State = state;
 
@@ -30,10 +29,13 @@ public class Tile2024 : MonoBehaviour
         _text.text = state.number.ToString();
 
         int currentScore = state.number;
-        if (_maxNumber < currentScore)
+        if (GameManager.Instance.MaxNumber < currentScore)
         {
-            _maxNumber = currentScore;
-            GameHelper.VibrationStart();
+            if (!isLoadData)
+            {
+                GameHelper.VibrationStart();
+            }
+            GameManager.Instance.ChangeMaximumNumber(currentScore);
         }
         switch (currentScore)
         {

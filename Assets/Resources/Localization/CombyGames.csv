@@ -16,7 +16,10 @@ Tetris.score,Score,Очки
 Tetris.record,Record,Рекорд
 2048.gameover,Game Over!,Конец игры!
 2048.again,Try Again!,Попробуй еще!
+2048.maximum,Maximum,Максимум
 Сheckers.warning,Include at least two players!,Включите минимум двух игроков!
-Сheckers.steps,Steps,Круги
+Сheckers.steps,Moves,Ходы
 Сheckers.robot,Robot,Робот
 Сheckers.player,Player,Игрок
+Snake.manyfood,Lots of food,Много еды
+Snake.movewalls,Move through walls,Двигаться сквозь стены

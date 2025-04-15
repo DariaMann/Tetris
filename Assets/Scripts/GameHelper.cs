@@ -18,6 +18,8 @@ public static class GameHelper
         
         public static bool IdLoaded { get; set; } = false;
         
+        public static SnakeSettings SnakeSettings { get; set; }
+        
         public static MiniGameType GameType { get; set; }
         
         public static bool IsAutentificate { get; set; } = false;
@@ -130,6 +132,12 @@ public static class GameHelper
                 {
                         JsonHelper.SaveSnakeData(null);
                 }
+                
+                if (!PlayerPrefs.HasKey("SnakeSettings"))
+                {
+                        SnakeSettings = new SnakeSettings();
+                        JsonHelper.SaveSnakeSettings(SnakeSettings);
+                }
         }
         
         public static void ResetData()
@@ -188,6 +196,13 @@ public static class GameHelper
                 Theme = (Themes) PlayerPrefs.GetInt("Theme");
                 Debug.Log("Theme: " + Theme.ToString());
                 return Theme;
+        }
+        
+        public static SnakeSettings GetSnakeSettings()
+        {
+                SnakeSettings = JsonHelper.LoadSnakeSettings();
+                Debug.Log("SnakeSettings: " + SnakeSettings.ToString());
+                return SnakeSettings;
         }
 
         public static void SetLanguage(int languageId)

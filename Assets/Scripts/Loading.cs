@@ -14,6 +14,7 @@ public class Loading: MonoBehaviour
         GameAchievementServices.LoadList();
         GameHelper.GetLanguage();
         GameHelper.GetTheme();
+        GameHelper.GetSnakeSettings();
         GameServicesManager.AuthenticateUser();
         GameHelper.IdLoaded = true;
     }
