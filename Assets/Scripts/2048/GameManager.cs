@@ -117,7 +117,8 @@ public class GameManager : MonoBehaviour
         _isGameOver = false;
         // reset score
         SaveScores.ChangeScore(0);
-
+        ChangeMaximumNumber(MaxNumber);
+        
         // hide game over screen
         gameOver.SetActive(false);
 

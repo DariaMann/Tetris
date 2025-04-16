@@ -32,7 +32,7 @@ public static class GameHelper
                         if (_theme != value) // Изменяем только если значение новое
                         {
                                 _theme = value;
-                                OnThemeChanged?.Invoke(_theme); // Вызываем событие
+                                InvokeThemeChange(); // Вызываем событие
                         }
                 }
         }
@@ -74,6 +74,11 @@ public static class GameHelper
                                 OnVibrationChanged?.Invoke(_vibration); // Вызываем событие
                         }
                 }
+        }
+
+        public static void InvokeThemeChange()
+        {
+                OnThemeChanged?.Invoke(_theme);
         }
 
         public static void SetFirstSettings()

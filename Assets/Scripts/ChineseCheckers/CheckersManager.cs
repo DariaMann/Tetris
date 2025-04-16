@@ -35,7 +35,6 @@ public class CheckersManager: MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedButtonText;
     
     private float _waitAIMoveTime = 0.5f;
-    private int _speedMode = 0;
 
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
@@ -48,6 +47,8 @@ public class CheckersManager: MonoBehaviour
     private Color _yellow;
     private Color _purple;
     private Color _cyan;
+
+    public int SpeedMode { get; set; } = 0;
     
     public ThemeChineseCheckers ThemeChinese
     {
@@ -130,8 +131,6 @@ public class CheckersManager: MonoBehaviour
         SetCurrentPlayer(GetPlayerById(saveData.IdPlayingPlayer));
         StartNextTurn(true);
         
-        
-
         CheckUndoButtonState();
     }
     
@@ -279,8 +278,8 @@ public class CheckersManager: MonoBehaviour
             undoButton.interactable = false;
             return;
         }
-        bool eventsStackHaveIndexCurrentPlayer = EventSteps.Any(s => s.Chip.Player.ID == CurrentPlayer.ID);
-        bool isActive = CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0 && eventsStackHaveIndexCurrentPlayer;
+//        bool eventsStackHaveIndexCurrentPlayer = EventSteps.Any(s => s.Chip.Player.ID == CurrentPlayer.ID);
+        bool isActive = CurrentPlayer.State == PlayerState.Player && EventSteps.Count > 0;// && eventsStackHaveIndexCurrentPlayer;
 
         undoButton.interactable = isActive;
     }
@@ -290,7 +289,8 @@ public class CheckersManager: MonoBehaviour
         Step eventCode = new Step
         {
             FromTile = fromTile,
-            Chip = chip
+            Chip = chip,
+            BeforeStepsCount = Steps
         };
         EventSteps.Push(eventCode);
     }
@@ -310,10 +310,16 @@ public class CheckersManager: MonoBehaviour
             SetSelection(null);
             SetCurrentPlayer(step.Chip.Player);
             
-            if (!isFirstStep && step.Chip.Player.ID == FirstPlayerIndex) // Значит был пройден круг ходов
-            {
-                ChangeStepCount(Steps - 1);
-            }
+//            if (!isFirstStep && step.Chip.Player.ID == FirstPlayerIndex) // Значит был пройден круг ходов
+//            if (step.Chip.Player.ID == FirstPlayerIndex) // Значит был пройден круг ходов
+//            {
+//                if (Steps > 0)
+//                {
+//                    ChangeStepCount(Steps - 1);
+//                }
+//            }
+
+            ChangeStepCount(step.BeforeStepsCount);
 
             isFirstStep = false;
         } while (!nextNotRobot);
@@ -466,22 +472,22 @@ public class CheckersManager: MonoBehaviour
     
     public void OnChangeSpeed()
     {
-        switch (_speedMode)
+        switch (SpeedMode)
         {
-            case 1: _speedMode = 2; break;
-            case 2: _speedMode = 3; break;
-            case 3: _speedMode = 1; break;
-            case 0: _speedMode = 1; break;
+            case 1: SpeedMode = 2; break;
+            case 2: SpeedMode = 3; break;
+            case 3: SpeedMode = 1; break;
+            case 0: SpeedMode = 1; break;
         }
 
-        ChangeSpeed(_speedMode);
+        ChangeSpeed();
     }
 
-    private void ChangeSpeed(int speedMode)
+    private void ChangeSpeed()
     {
-        speedButtonText.text = "x" + _speedMode;
+        speedButtonText.text = "x" + SpeedMode;
         
-        switch (speedMode)
+        switch (SpeedMode)
         {
             case 1: _waitAIMoveTime = 0.5f; break;
             case 2: _waitAIMoveTime = 0.3f; break;
@@ -490,7 +496,7 @@ public class CheckersManager: MonoBehaviour
 
         foreach (var chip in hexMap.Chips)
         {
-            chip.ChangeSpeed(speedMode);
+            chip.ChangeSpeed(SpeedMode);
         }
     }
 
@@ -506,6 +512,7 @@ public class CheckersManager: MonoBehaviour
         FirstPlayerIndex = -1;
         ChangeStepCount(0);
         EventSteps.Clear();
+        CheckUndoButtonState();
         SetSelection(null);
         hexMap.ClearChips();
     }

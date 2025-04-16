@@ -129,7 +129,7 @@ public class TileBoard : MonoBehaviour
                 TileCell cell = _grid.GetCell(x, y);
 
                 if (cell.Occupied) {
-                    changed = MoveTile(cell.Tile, direction, saveLast);
+                    changed |= MoveTile(cell.Tile, direction, saveLast);
                     saveLast = changed;
                 }
             }
@@ -304,7 +304,7 @@ public class TileBoard : MonoBehaviour
             _tiles.Add(tile);
         }
 
-        GameManager.Instance.SaveScores.ChangeScore(step.Steps);
+        GameManager.Instance.SaveScores.ChangeScore(step.Steps, false);
         GameManager.Instance.CheckUndoButtonState();
     }
 

@@ -21,6 +21,7 @@ public class Buttons : MonoBehaviour {
     
     [SerializeField] private GameObject settingsLightSelection;
     [SerializeField] private GameObject settingsDarkSelection;
+    [SerializeField] private GameObject settingsAutoSelection;
     
     [SerializeField] private Image settingsSoundButton;
     [SerializeField] private Image settingsMusicButton;
@@ -32,6 +33,8 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private Sprite settingsMusicOff;
     [SerializeField] private Sprite settingsVibrationOn;
     [SerializeField] private Sprite settingsVibrationOff;
+    
+    private Coroutine _themeCoroutine;
 
     void Start () {
         isPaused = false;
@@ -85,6 +88,33 @@ public class Buttons : MonoBehaviour {
                 pauseMenu.SetActive(false);
             }
         }
+
+        if (_themeCoroutine == null && GameHelper.Theme == Themes.Auto)
+        {
+            _themeCoroutine = StartCoroutine(MonitorTheme());
+        }
+        
+        if (_themeCoroutine != null && GameHelper.Theme != Themes.Auto)
+        {
+            StopCoroutine(_themeCoroutine);
+            _themeCoroutine = null;
+        }
+    }
+    
+    private IEnumerator MonitorTheme()
+    {
+        bool lastDark = ThemeManager.IsSystemDarkTheme();
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            Debug.Log("Check Theme Auto");
+            bool currentDark = ThemeManager.IsSystemDarkTheme();
+            if (currentDark != lastDark)
+            {
+                GameHelper.InvokeThemeChange();
+                lastDark = currentDark;
+            }
+        }
     }
     
     public void OnDestroy()
@@ -92,6 +122,11 @@ public class Buttons : MonoBehaviour {
         GameHelper.OnSoundChanged -= ApplySound;
         GameHelper.OnMusicChanged -= ApplyMusic;
         GameHelper.OnVibrationChanged -= ApplyVibration;
+        if (_themeCoroutine != null)
+        {
+            StopCoroutine(_themeCoroutine);
+            _themeCoroutine = null;
+        }
     }
     
     public void OnSoundClick()
@@ -134,11 +169,19 @@ public class Buttons : MonoBehaviour {
         {
             settingsLightSelection.SetActive(true);
             settingsDarkSelection.SetActive(false);
+            settingsAutoSelection.SetActive(false);
         }
-        else
+        else if (theme == Themes.Night)
         {
             settingsLightSelection.SetActive(false);
             settingsDarkSelection.SetActive(true);
+            settingsAutoSelection.SetActive(false);
+        }
+        else if (theme == Themes.Auto)
+        {
+            settingsLightSelection.SetActive(false);
+            settingsDarkSelection.SetActive(false);
+            settingsAutoSelection.SetActive(true);
         }
     }
     
@@ -235,6 +278,12 @@ public class Buttons : MonoBehaviour {
         }
     }
     
+    public void OnAutoThemeClick()
+    {
+        GameHelper.SetTheme(Themes.Auto);
+        SetThemeSelect(Themes.Auto);
+    }
+    
     public void OnLightThemeClick()
     {
         GameHelper.SetTheme(Themes.Light);
@@ -250,6 +299,7 @@ public class Buttons : MonoBehaviour {
     public void OnThemeClick(Themes theme)
     {
         GameHelper.SetTheme(theme);
+        SetThemeSelect(theme);
     }
     
 }

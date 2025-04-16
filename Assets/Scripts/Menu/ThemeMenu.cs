@@ -64,8 +64,22 @@ public class ThemeMenu : MonoBehaviour
     {
         switch (theme)
         {
+            case Themes.Auto: SetAuto(); break;
             case Themes.Light: SetLight(); break;
             case Themes.Night: SetDark(); break;
+        }
+    }
+
+    public void SetAuto()
+    {
+        bool isDark = ThemeManager.IsSystemDarkTheme();
+        if (isDark)
+        {
+            SetDark();
+        }
+        else
+        {
+            SetLight();
         }
     }
     

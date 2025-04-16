@@ -10,28 +10,6 @@ public class ThemeSettings : MonoBehaviour
     [SerializeField] private ScrollRect scrollRect;
     
     [SerializeField] private Image settingsBg;
-    [SerializeField] private Image settingsBackButton;
-    [SerializeField] private TextMeshProUGUI settingsThemeText;
-    [SerializeField] private TextMeshProUGUI settingsLanguageText;
-    
-    [SerializeField] private Image settingsRatingButton;
-    [SerializeField] private Image settingsSoundButton;
-    [SerializeField] private Image settingsMusicButton;
-    [SerializeField] private Image settingsVibrationButton;
-    
-    [SerializeField] private Image settingsLightButton;
-    [SerializeField] private Image settingsDarkButton;
-    [SerializeField] private TextMeshProUGUI settingsLightText;
-    [SerializeField] private TextMeshProUGUI settingsDarkText;
-    [SerializeField] private Image settingsLightSelection;
-    [SerializeField] private Image settingsDarkSelection;
-    
-    [SerializeField] private Image settingsEnglishButton;
-    [SerializeField] private Image settingsRussianButton;
-    [SerializeField] private TextMeshProUGUI settingsEnglishText;
-    [SerializeField] private TextMeshProUGUI settingsRussianText;
-    [SerializeField] private Image settingsEnglishSelection;
-    [SerializeField] private Image settingsRussianSelection;
     
     [SerializeField] private List<Image> lightImages = new List<Image>();
     [SerializeField] private List<TextMeshProUGUI> lightTexts = new List<TextMeshProUGUI>();
@@ -46,7 +24,6 @@ public class ThemeSettings : MonoBehaviour
 
     private Themes _theme;
     private Color _colorLight;
-    private Color _colorGrey;
     private Color _colorDark;
     
     private Color _colorBgLight;
@@ -62,7 +39,6 @@ public class ThemeSettings : MonoBehaviour
 //        _colorBgDark = ColorUtility.TryParseHtmlString("#212022", out Color colorBgDark1) ? colorBgDark1 : Color.black;
 
         _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-        _colorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
         
         _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
@@ -98,7 +74,7 @@ public class ThemeSettings : MonoBehaviour
     
     private void ApplyTheme(Themes newTheme)
     {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
+        Debug.Log($"Theme changed to {newTheme.ToString()}");
         // Здесь можно добавить код смены оформления игры
         SetTheme(newTheme);
     }
@@ -149,8 +125,22 @@ public class ThemeSettings : MonoBehaviour
     {
         switch (theme)
         {
+            case Themes.Auto: SetAuto(); break;
             case Themes.Light: SetLight(); break;
             case Themes.Night: SetDark(); break;
+        }
+    }
+
+    public void SetAuto()
+    {
+        bool isDark = ThemeManager.IsSystemDarkTheme();
+        if (isDark)
+        {
+            SetDark();
+        }
+        else
+        {
+            SetLight();
         }
     }
     

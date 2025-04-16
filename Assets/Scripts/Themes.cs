@@ -1,5 +1,6 @@
 ﻿public enum Themes
 {
-    Night = 0,
-    Light = 1
+    Auto = 0,
+    Night = 1,
+    Light = 2
 }

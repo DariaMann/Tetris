@@ -78,6 +78,7 @@ public class Chip : MonoBehaviour, IPointerClickHandler
         Tile = tile;
         tile.SetChip(this);
         SetSelection(false);
+        ChangeSpeed(_checkersManager.SpeedMode);
     }
     
     public IEnumerator MoveCoroutine(HexTile toTile)

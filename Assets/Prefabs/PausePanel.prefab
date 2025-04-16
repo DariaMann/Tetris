@@ -268,6 +268,7 @@ MonoBehaviour:
   settingsRussianSelection: {fileID: 2828475428940174276}
   settingsLightSelection: {fileID: 504771077472748879}
   settingsDarkSelection: {fileID: 6869877777200471171}
+  settingsAutoSelection: {fileID: 8690734017505487811}
   settingsSoundButton: {fileID: 3050266035362203907}
   settingsMusicButton: {fileID: 3050266034910641619}
   settingsVibrationButton: {fileID: 3050266033961557841}
@@ -340,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7254902, g: 0.654902, b: 0.58431375, a: 1}
+  m_Color: {r: 0.73333335, g: 0.6784314, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -474,7 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7254902, g: 0.654902, b: 0.58431375, a: 1}
+  m_Color: {r: 0.73333335, g: 0.6784314, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -608,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7254902, g: 0.654902, b: 0.58431375, a: 1}
+  m_Color: {r: 0.73333335, g: 0.6784314, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1179,7 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7254902, g: 0.654902, b: 0.58431375, a: 1}
+  m_Color: {r: 0.73333335, g: 0.6784314, b: 0.627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1760,6 +1761,41 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6316542225239668869}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAutoThemeClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Buttons, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558813555575959411, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9279abb9fc8d201488df4ba16d42200b, type: 3}
 --- !u!1 &389240903360131959 stripped
@@ -1831,6 +1867,12 @@ RectTransform:
 --- !u!1 &6869877777200471171 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7952152475789288147, guid: 9279abb9fc8d201488df4ba16d42200b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3534496658258378320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8690734017505487811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5302633904062780819, guid: 9279abb9fc8d201488df4ba16d42200b,
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}

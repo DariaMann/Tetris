@@ -80,11 +80,14 @@ public class SaveScores : MonoBehaviour
         }
     }
 
-    public void ChangeScore(int sc)
+    public void ChangeScore(int sc, bool isAdd = true)
     {
-        if (sc != 0)
+        if (isAdd)
         {
-            sc = currentScore + sc;
+            if (sc != 0)
+            {
+                sc = currentScore + sc;
+            }
         }
         currentScore = sc;
         foreach (var score in ScoreText)
