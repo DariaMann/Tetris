@@ -20,6 +20,8 @@ public static class GameHelper
         
         public static SnakeSettings SnakeSettings { get; set; }
         
+        public static TetrisSettings TetrisSettings { get; set; }
+        
         public static MiniGameType GameType { get; set; }
         
         public static bool IsAutentificate { get; set; } = false;
@@ -73,6 +75,59 @@ public static class GameHelper
                                 _vibration = value;
                                 OnVibrationChanged?.Invoke(_vibration); // Вызываем событие
                         }
+                }
+        }
+        
+        public static int GetTypeBySpeedTetris(float speedType)
+        {
+                float speed = Mathf.Round(speedType * 10f) / 10f;
+
+                if (Mathf.Approximately(speed, 1.3f)) return 1;
+                if (Mathf.Approximately(speed, 1f)) return 2;
+                if (Mathf.Approximately(speed, 0.7f)) return 3;
+                if (Mathf.Approximately(speed, 0.4f)) return 4;
+                if (Mathf.Approximately(speed, 0.3f)) return 5;
+
+                return 2;
+        }
+        
+        public static float GetSpeedByTypeTetris(int speedType)
+        {
+                switch (speedType)
+                {
+                        case 1: return 1.3f;
+                        case 2: return 1;
+                        case 3: return 0.7f;
+                        case 4: return 0.4f;
+                        case 5: return 0.3f;
+                        default: return 1;
+                }
+        }
+        
+        public static int GetTypeBySpeedSnake(float speedType)
+        {
+                int speed = Mathf.RoundToInt(speedType);
+                switch (speed)
+                {
+                        case 3: return 1;
+                        case 6: return 2;
+                        case 8: return 3;
+                        case 10: return 4;
+                        case 12: return 5;
+                        default: return 2;
+                }
+        }
+        
+        public static int GetSpeedByTypeSnake(int speedType)
+        {
+                switch (speedType)
+                {
+                        case 1: return 3;
+                        case 2: return 6;
+                        case 3: return 8;
+                        case 4: return 10;
+                        case 5: return 12;
+                        default: return 6;
                 }
         }
 
@@ -137,6 +192,12 @@ public static class GameHelper
                 {
                         JsonHelper.SaveSnakeData(null);
                 }
+                
+                if (!PlayerPrefs.HasKey("TetrisSettings"))
+                {
+                        TetrisSettings = new TetrisSettings();
+                        JsonHelper.SaveTetrisSettings(TetrisSettings);
+                } 
                 
                 if (!PlayerPrefs.HasKey("SnakeSettings"))
                 {
@@ -208,6 +269,13 @@ public static class GameHelper
                 SnakeSettings = JsonHelper.LoadSnakeSettings();
                 Debug.Log("SnakeSettings: " + SnakeSettings.ToString());
                 return SnakeSettings;
+        }   
+        
+        public static TetrisSettings GetTetrisSettings()
+        {
+                TetrisSettings = JsonHelper.LoadTetrisSettings();
+                Debug.Log("TetrisSettings: " + TetrisSettings.ToString());
+                return TetrisSettings;
         }
 
         public static void SetLanguage(int languageId)

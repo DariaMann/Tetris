@@ -8,4 +8,6 @@ public class SnakeSettings
     public bool MoveThroughWalls { get; set; } = true;
     
     public bool Acceleration { get; set; } = false;
+
+    public float Speed { get; set; } = 6;
 }

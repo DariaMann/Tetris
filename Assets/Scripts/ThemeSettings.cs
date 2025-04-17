@@ -21,6 +21,15 @@ public class ThemeSettings : MonoBehaviour
     [SerializeField] private Toggle manyFoodToggle;
     [SerializeField] private Toggle moveThroughWallsToggle;
     [SerializeField] private Toggle accelerationToggle;
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private Slider speed;
+    [SerializeField] private TextMeshProUGUI textSlider;
+    
+    [SerializeField] private GameObject tetrisSettings;
+    [SerializeField] private Toggle accelerationTetrisToggle;
+    [SerializeField] private TextMeshProUGUI speedTetrisText;
+    [SerializeField] private Slider speedTetris;
+    [SerializeField] private TextMeshProUGUI textTetrisSlider;
 
     private Themes _theme;
     private Color _colorLight;
@@ -50,11 +59,13 @@ public class ThemeSettings : MonoBehaviour
         
         if (GameHelper.GameType == MiniGameType.Snake)
         {
+            tetrisSettings.SetActive(false);
             snakeSettings.SetActive(true);
             // Сначала отключаем обработчики
             manyFoodToggle.onValueChanged.RemoveListener(OnManyFoodsToggle);
             moveThroughWallsToggle.onValueChanged.RemoveListener(OnMoveThroughWallsToggle);
             accelerationToggle.onValueChanged.RemoveListener(OnAccelerationToggle);
+            speed.onValueChanged.RemoveListener(OnSpeedSlider);
 
             // Устанавливаем значения
             SetSnakeSettings();
@@ -63,10 +74,27 @@ public class ThemeSettings : MonoBehaviour
             manyFoodToggle.onValueChanged.AddListener(OnManyFoodsToggle);
             moveThroughWallsToggle.onValueChanged.AddListener(OnMoveThroughWallsToggle);
             accelerationToggle.onValueChanged.AddListener(OnAccelerationToggle);
+            speed.onValueChanged.RemoveListener(OnSpeedSlider);
+        }
+        else if (GameHelper.GameType == MiniGameType.Tetris)
+        {
+            snakeSettings.SetActive(false);
+            tetrisSettings.SetActive(true);
+            // Сначала отключаем обработчики
+            accelerationTetrisToggle.onValueChanged.RemoveListener(OnAccelerationTetrisToggle);
+            speedTetris.onValueChanged.RemoveListener(OnSpeedTetrisSlider);
+
+            // Устанавливаем значения
+            SetTetrisSettings();
+
+            // Подключаем обработчики обратно
+            accelerationTetrisToggle.onValueChanged.AddListener(OnAccelerationTetrisToggle);
+            speedTetris.onValueChanged.RemoveListener(OnSpeedTetrisSlider);
         }
         else
         {
             snakeSettings.SetActive(false);
+            tetrisSettings.SetActive(false);
         }
         
         RefreshUI();
@@ -89,6 +117,10 @@ public class ThemeSettings : MonoBehaviour
         manyFoodToggle.isOn = GameHelper.SnakeSettings.ManyFood;
         moveThroughWallsToggle.isOn = GameHelper.SnakeSettings.MoveThroughWalls;
         accelerationToggle.isOn = GameHelper.SnakeSettings.Acceleration;
+        int speedType = GameHelper.GetTypeBySpeedSnake(GameHelper.SnakeSettings.Speed);
+        speed.value = speedType;
+        textSlider.text = speedType.ToString();
+        ShowSnakeSpeedParameters(!GameHelper.SnakeSettings.Acceleration);
     }
     
     public void OnManyFoodsToggle(bool change)
@@ -107,6 +139,53 @@ public class ThemeSettings : MonoBehaviour
     {
         GameHelper.SnakeSettings.Acceleration = change;
         JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        ShowSnakeSpeedParameters(!change);
+    }
+    
+    public void OnSpeedSlider(Single change)
+    {
+        int speedType = (int) change;
+        GameHelper.SnakeSettings.Speed = GameHelper.GetSpeedByTypeSnake(speedType);
+        textSlider.text = speedType.ToString();
+        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+    }
+    
+    public void ShowSnakeSpeedParameters(bool isShow)
+    {
+        speedText.gameObject.SetActive(isShow);
+        speed.gameObject.SetActive(isShow);
+        RefreshUI();
+    }
+    
+    public void SetTetrisSettings()
+    {
+        accelerationTetrisToggle.isOn = GameHelper.TetrisSettings.Acceleration;
+        int speedType = GameHelper.GetTypeBySpeedTetris(GameHelper.TetrisSettings.Speed);
+        speedTetris.value = speedType;
+        textTetrisSlider.text = speedType.ToString();
+        ShowTetrisSpeedParameters(!GameHelper.TetrisSettings.Acceleration);
+    }
+    
+    public void OnAccelerationTetrisToggle(bool change)
+    {
+        GameHelper.TetrisSettings.Acceleration = change;
+        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+        ShowTetrisSpeedParameters(!change);
+    }
+    
+    public void OnSpeedTetrisSlider(Single change)
+    {
+        int speedType = (int) change;
+        GameHelper.TetrisSettings.Speed = GameHelper.GetSpeedByTypeTetris(speedType);
+        textTetrisSlider.text = speedType.ToString();
+        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+    }
+    
+    public void ShowTetrisSpeedParameters(bool isShow)
+    {
+        speedTetrisText.gameObject.SetActive(isShow);
+        speedTetris.gameObject.SetActive(isShow);
+        RefreshUI();
     }
 
     private void Update()

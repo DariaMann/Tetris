@@ -19,6 +19,13 @@ public class Board : MonoBehaviour
     [SerializeField] private Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
 
     private TetrominoData _next;
+    
+    public SaveScores SaveScores
+    {
+        get => saveScores;
+        set => saveScores = value;
+    }
+
     public bool IsGameOver { get; set; }
     
     public Tilemap Tilemap { get; private set; }

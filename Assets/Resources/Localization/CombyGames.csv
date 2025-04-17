@@ -24,3 +24,5 @@ Tetris.record,Record,Рекорд
 Сheckers.player,Player,Игрок
 Snake.manyfood,Lots of food,Много еды
 Snake.movewalls,Move through walls,Двигаться сквозь стены
+Snake.speed,Speed,Скорость
+Snake.acceleration,Acceleration,Ускорение

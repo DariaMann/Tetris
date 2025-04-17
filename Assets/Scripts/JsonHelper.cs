@@ -5,6 +5,51 @@ public static class JsonHelper
 {
     #region Tetris
 
+    public static void SaveTetrisSettings(TetrisSettings data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonTetrisSettings(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("TetrisSettings", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static TetrisSettings LoadTetrisSettings()
+    {
+        if (PlayerPrefs.HasKey("TetrisSettings"))
+        {
+            string json = PlayerPrefs.GetString("TetrisSettings");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            TetrisSettings data = DeserializeJsonTetrisSettings(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static TetrisSettings DeserializeJsonTetrisSettings(string jsonString)
+    {
+        TetrisSettings data = JsonConvert.DeserializeObject<TetrisSettings>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonTetrisSettings(TetrisSettings data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
     public static void SaveTetrisData(SaveDataTetris data)
     {
 //        string json = JsonUtility.ToJson(data);

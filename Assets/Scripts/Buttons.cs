@@ -57,6 +57,14 @@ public class Buttons : MonoBehaviour {
         ApplyVibration(GameHelper.Vibration);
         GameHelper.OnVibrationChanged += ApplyVibration;
     }
+    
+    void OnApplicationPause(bool pause)
+    {
+        if (pause && GameHelper.GameType != MiniGameType.None)
+        {
+            OnPauseClick();
+        }
+    }
 	
 	void Update () {
         if (havePausePanel)

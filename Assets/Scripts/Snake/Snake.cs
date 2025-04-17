@@ -12,6 +12,8 @@ public class Snake : MonoBehaviour
     public float speed = 20f;
     public float speedMultiplier = 1f;
     public int initialSize = 4;
+    public int minSpeed = 3;
+    public int maxSpeed = 12;
 
     private readonly List<Transform> segments = new List<Transform>();
     private Vector2Int input;
@@ -207,6 +209,7 @@ public class Snake : MonoBehaviour
         transform.position = new Vector2(x, y);
         RotateHead();
         // Set the next update time based on the speed
+        SetSaveSpeed(GameHelper.SnakeSettings);
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
 
@@ -232,16 +235,17 @@ public class Snake : MonoBehaviour
 
     public void Grow(bool addScore = true, bool untagged = false)
     {
-        if (addScore)
-        {
-            saveScores.ChangeScore(1);
-        }
         Transform segment = Instantiate(segmentPrefab);
         segment.position = segments[segments.Count - 1].position;
         segments.Add(segment);
         if (untagged)
         {
             segment.gameObject.tag = "Untagged";
+        }
+        if (addScore)
+        {
+            saveScores.ChangeScore(1);
+            Acceleration();
         }
     }
 
@@ -363,6 +367,35 @@ public class Snake : MonoBehaviour
             direction = newDirection;
             RotateHead();
         }
+    }
+
+    private void Acceleration()
+    {
+        if (!GameHelper.SnakeSettings.Acceleration)
+        {
+            return;
+        }
+        GameHelper.SnakeSettings.Speed = Mathf.Max(minSpeed, minSpeed + (segments.Count - initialSize) * 0.1f);
+        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        SetAccelerationSpeed(GameHelper.SnakeSettings.Speed);
+    }
+    
+    private void SetSaveSpeed(SnakeSettings snakeSettings)
+    {
+        if (snakeSettings.Acceleration)
+        {
+//            SetAccelerationSpeed(snakeSettings.AccelerationSpeed);
+            Acceleration();
+        }
+        else
+        {
+            SetAccelerationSpeed(GameHelper.SnakeSettings.Speed);
+        }
+    }
+
+    private void SetAccelerationSpeed(float accelerationSpeed)
+    {
+        speed = accelerationSpeed;
     }
 
 }

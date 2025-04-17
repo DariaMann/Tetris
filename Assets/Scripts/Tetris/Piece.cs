@@ -5,10 +5,24 @@ public class Piece : MonoBehaviour
     [SerializeField] private float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
     [SerializeField] private float stepDelay = 1f;
     [SerializeField] private float moveDelay = 0.1f;
+    
+    [SerializeField] private float baseMoveDelay = 0.1f;   // Базовая задержка между движениями
+    [SerializeField] private float minMoveDelay = 0.02f;   // Минимально возможная задержка
+    
     [SerializeField] private float lockDelay = 0.5f;
     
-    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
-    
+    [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
+    [SerializeField] private float minDelay = 0.3f; // самая быстрая скорость
+    [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
+//    
+//    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
+//    
+//    [SerializeField] private float minStepDelay = 0.1f;      // Минимальная задержка между падениями
+//    [SerializeField] private float delayDecreaseStep = 0.05f; // На сколько уменьшать
+//    [SerializeField] private float delayDecreaseInterval = 10f; // Интервал (в секундах), через который ускоряется падение
+
+    private float _nextSpeedUpTime;
+
     private bool _isFastSwipingDown = false;
     
     private float _stepTime;
@@ -35,7 +49,7 @@ public class Piece : MonoBehaviour
         Position = position;
 
         RotationIndex = 0;
-        stepDelay = 1f;  
+        stepDelay = GameHelper.TetrisSettings.Speed;  
         _stepTime = Time.time + stepDelay;
         _moveTime = Time.time + moveDelay;
         _lockTime = 0f;
@@ -59,8 +73,8 @@ public class Piece : MonoBehaviour
         Board.Clear(this);
         
         if (!Input.GetMouseButton(0) && Input.touchCount == 0)
-        {
-            stepDelay = 1f; // сброс к обычной скорости
+        { 
+            stepDelay = GameHelper.TetrisSettings.Speed; // сброс к обычной скорости
         }
 
         // We use a timer to allow the player to make adjustments to the piece
@@ -95,6 +109,11 @@ public class Piece : MonoBehaviour
         // Advance the piece to the next row every x seconds
         if (Time.time > _stepTime) {
             Step();
+        }
+
+        if (GameHelper.TetrisSettings.Acceleration)
+        {
+            SetSaveSpeed(GameHelper.TetrisSettings);
         }
 
         Board.Set(this);
@@ -184,6 +203,12 @@ public class Piece : MonoBehaviour
 
         if (Mathf.Abs(delta.x) > _moveThreshold)
         {
+            float swipeLength = Mathf.Abs(currentPos.x - _touchStartPos.x);
+    
+            // Чем длиннее свайп, тем меньше задержка (быстрее движение)
+            float t = Mathf.InverseLerp(_moveThreshold, _moveThreshold * 5f, swipeLength);
+            moveDelay = Mathf.Lerp(baseMoveDelay, minMoveDelay, t);
+            
             Move(delta.x > 0 ? Vector2Int.right : Vector2Int.left);
             _lastTouchPos = currentPos;
         }
@@ -369,6 +394,35 @@ public class Piece : MonoBehaviour
         } else {
             return min + (input - min) % (max - min);
         }
+    }
+    
+    private void Acceleration()
+    {
+        if (!GameHelper.TetrisSettings.Acceleration)
+        {
+            return;
+        }
+        GameHelper.TetrisSettings.Speed = Mathf.Max(minDelay, maxDelay - Board.SaveScores.CurrentScore * scoreFactor);
+        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+        SetAccelerationSpeed(GameHelper.TetrisSettings.Speed);
+    }
+    
+    private void SetSaveSpeed(TetrisSettings tetrisSettings)
+    {
+        if (tetrisSettings.Acceleration)
+        {
+//            SetAccelerationSpeed(snakeSettings.AccelerationSpeed);
+            Acceleration();
+        }
+        else
+        {
+            SetAccelerationSpeed(GameHelper.TetrisSettings.Speed);
+        }
+    }
+
+    private void SetAccelerationSpeed(float accelerationSpeed)
+    {
+        stepDelay = accelerationSpeed;
     }
 
 }
