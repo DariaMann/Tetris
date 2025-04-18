@@ -183,6 +183,10 @@ public static class GameHelper
                 if (!PlayerPrefs.HasKey("SaveData2048"))
                 {
                         JsonHelper.Save2048Data(null);
+                }   
+                if (!PlayerPrefs.HasKey("SaveDataLines98"))
+                {
+                        JsonHelper.SaveLines98Data(null);
                 } 
                 if (!PlayerPrefs.HasKey("SaveDataTetris"))
                 {
@@ -212,13 +216,16 @@ public static class GameHelper
                 JsonHelper.Save2048Data(null);
                 JsonHelper.SaveTetrisData(null);
                 JsonHelper.SaveSnakeData(null);
+                JsonHelper.SaveLines98Data(null);
                 string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
                 string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";
                 string path2048 = Application.persistentDataPath + "/Scores2048.xml";
+                string pathLines98 = Application.persistentDataPath + "/ScoresLines98.xml";
                 
                 SaveRecordData(pathTetris,0);
                 SaveRecordData(pathSnake,0);
                 SaveRecordData(path2048,0);
+                SaveRecordData(pathLines98,0);
         }
 
         public static void SaveRecordData(string path, int record)

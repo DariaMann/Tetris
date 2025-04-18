@@ -231,6 +231,11 @@ public class Buttons : MonoBehaviour {
         settingsVibrationButton.sprite = vibration ? settingsVibrationOn : settingsVibrationOff;
     }
     
+    public void OnLines98Click()
+    {
+        SceneManager.LoadScene("Lines98");
+    }
+    
     public void OnChineseCheckersClick()
     {
         SceneManager.LoadScene("ChineseCheckers");

@@ -288,4 +288,53 @@ public static class JsonHelper
     }
     
     #endregion
+    
+    #region Lines98
+
+    public static void SaveLines98Data(SaveDataLines98 data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSaveDataLines98(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SaveDataLines98", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SaveDataLines98 LoadLines98Data()
+    {
+        if (PlayerPrefs.HasKey("SaveDataLines98"))
+        {
+            string json = PlayerPrefs.GetString("SaveDataLines98");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SaveDataLines98 data = DeserializeJsonSaveDataLines98(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SaveDataLines98 DeserializeJsonSaveDataLines98(string jsonString)
+    {
+        SaveDataLines98 data = JsonConvert.DeserializeObject<SaveDataLines98>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSaveDataLines98(SaveDataLines98 data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
+    #endregion
 }

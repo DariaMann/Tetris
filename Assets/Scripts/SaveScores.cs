@@ -41,6 +41,11 @@ public class SaveScores : MonoBehaviour
         {
             path = Application.persistentDataPath + "/Scores2048.xml";
         }
+        
+        else if (scene == 4)
+        {
+            path = Application.persistentDataPath + "/ScoresLines98.xml";
+        }
 
         record = GameHelper.LoadRecordData(path);
         ChangeScore(currentScore);
