@@ -9,7 +9,7 @@ public class SaveDataChineseCheckers
     public int FirstPlayerIndex { get; set; }
     
     public int Steps { get; set; }
-    
+
     public List<SavePlayer> SavePlayers { get; set; } = new List<SavePlayer>();
     
     public List<SaveChip> SaveChips { get; set; } = new List<SaveChip>();

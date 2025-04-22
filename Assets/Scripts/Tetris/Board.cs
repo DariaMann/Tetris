@@ -96,6 +96,7 @@ public class Board : MonoBehaviour
         }
         
         saveScores.ChangeScore(saveData.Score);
+        saveScores.IsWin = saveData.IsWin;
         LoadTilemap(saveData.SaveTetrominos);
         NextRandomTetromino(GetTetrominoDataByType(saveData.NextTetromino));
         SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
@@ -144,7 +145,7 @@ public class Board : MonoBehaviour
             }
         }
         
-        SaveDataTetris data = new SaveDataTetris(saveScores.CurrentScore, ActivePiece.Data.tetromino, _next.tetromino, tetrominos);
+        SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, saveScores.CurrentScore, ActivePiece.Data.tetromino, _next.tetromino, tetrominos);
         JsonHelper.SaveTetrisData(data);
     }
     

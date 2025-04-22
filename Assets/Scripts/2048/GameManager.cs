@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         }
         
         SaveScores.ChangeScore(saveData.Score);
+        saveScores.IsWin = saveData.IsWin;
         ChangeMaximumNumber(saveData.Maximum);
         // hide game over screen
         gameOver.ShowGameOverPanel(false);
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
             JsonHelper.Save2048Data(null);
             return;
         }
-        SaveData2048 data = new SaveData2048(SaveScores.CurrentScore, MaxNumber, board.Tiles);
+        SaveData2048 data = new SaveData2048(SaveScores.IsWin, SaveScores.CurrentScore, MaxNumber, board.Tiles);
         
         JsonHelper.Save2048Data(data);
     }

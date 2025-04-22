@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 [JsonObject]
 public class SaveData2048
 {
+    public bool IsWin { get; set; }
+    
     public int Score { get; set; }
 
     public int Maximum { get; set; } = 2;
@@ -12,8 +14,9 @@ public class SaveData2048
     
     public SaveData2048() {}
 
-    public SaveData2048(int score, int maximum, List<Tile2024> tiles)
+    public SaveData2048(bool isWin, int score, int maximum, List<Tile2024> tiles)
     {
+        IsWin = isWin;
         Score = score;
         if (maximum > Maximum)
         {
@@ -28,7 +31,7 @@ public class SaveData2048
     
     public override string ToString()
     {
-        return "SaveData2048: " + Score + " " + Maximum + " " +
+        return "SaveData2048: " + IsWin + " " + Score + " " + Maximum + " " +
                "SaveTiles[" + string.Join(" ", SaveTiles) + "]";
     }
 }

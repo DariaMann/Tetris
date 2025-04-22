@@ -28,6 +28,6 @@ public class PlayerInRating :MonoBehaviour
                 break;
         }
         steps.text = LocalizationManager.Localize("Сheckers.steps") + ": " + player.WinSteps;
-        chipsType.sprite = map.ChoseChipByType(player.ID);
+        chipsType.sprite = map.ChooseChipByColor(player.Color);
     }
 }

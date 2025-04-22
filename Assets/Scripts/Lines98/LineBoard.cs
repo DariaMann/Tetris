@@ -79,6 +79,7 @@ public class LineBoard : MonoBehaviour
 
         ShowFuture = saveData.ShowFuture;
         saveScores.ChangeScore(saveData.Score, false);
+        saveScores.IsWin = saveData.IsWin;
         GenerateGrid();
         SpawnLoadedBalls(saveData.SaveBalls);
         SpawnLoadedBalls(saveData.SaveFutureBalls, true);
@@ -92,7 +93,7 @@ public class LineBoard : MonoBehaviour
             JsonHelper.SaveLines98Data(null);
             return;
         }
-        SaveDataLines98 data = new SaveDataLines98(ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
+        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
         
         JsonHelper.SaveLines98Data(data);
     }
@@ -150,7 +151,7 @@ public class LineBoard : MonoBehaviour
     
     public void AddStepEventObject()
     {
-        SaveDataLines98 data = new SaveDataLines98(ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
+        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
         EventSteps.Push(data);
         CheckUndoButtonState();
     }

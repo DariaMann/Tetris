@@ -66,7 +66,7 @@ public class Snake : MonoBehaviour
             return;
         }
 
-        SaveDataSnake data = new SaveDataSnake(transform.position, foodController.Foods, direction, saveScores.CurrentScore);
+        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, transform.position, foodController.Foods, direction, saveScores.CurrentScore);
         JsonHelper.SaveSnakeData(data);
     }
 
@@ -274,6 +274,7 @@ public class Snake : MonoBehaviour
     public void LoadSave(SaveDataSnake data)
     {
         saveScores.ChangeScore(data.Score);
+        saveScores.IsWin = data.IsWin;
         
         direction = new Vector2Int(data.DirectionX, data.DirectionY);
         transform.position = new Vector2(data.HeadX, data.HeadY);

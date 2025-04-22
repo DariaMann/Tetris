@@ -53,7 +53,6 @@ public class SaveScores : MonoBehaviour
         }
 
         CurrentRecord = GameHelper.LoadRecordData(path);
-        IsWin = false;
         ChangeScore(currentScore);
     }
     
@@ -61,7 +60,7 @@ public class SaveScores : MonoBehaviour
     {
         if (CurrentRecord < currentScore)
         {
-            if (CurrentRecord != 0 && currentScore != 0)
+            if (CurrentRecord > 0 || currentScore > 0)
             {
                 IsWin = true;
             }

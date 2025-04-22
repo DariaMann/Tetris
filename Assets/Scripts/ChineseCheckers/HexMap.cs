@@ -12,12 +12,6 @@ public class HexMap : MonoBehaviour
     [SerializeField] private float hexYOffset = 0.4325f; // Вертикальный шаг между рядами
 
     [SerializeField] private GameObject prefabChip;
-    [SerializeField] private Sprite redChip;
-    [SerializeField] private Sprite blackChip;
-    [SerializeField] private Sprite greenChip;
-    [SerializeField] private Sprite yellowChip;
-    [SerializeField] private Sprite violetChip;
-    [SerializeField] private Sprite cyanChip;
 
     public int[] RowSizes { get; set; } = { 1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1 };
     
@@ -225,7 +219,7 @@ public class HexMap : MonoBehaviour
                 {
                     continue;
                 }
-                Chip chip = CreateChip(tile, ChoseChipByType(player), player);
+                Chip chip = CreateChip(tile, ChooseChipByColor(checkersManager.Players[player].Color), player);
                 checkersManager.Players[player].Chips.Add(chip);
                 chip.Player = checkersManager.Players[player];
                 Chips.Add(chip);
@@ -239,7 +233,7 @@ public class HexMap : MonoBehaviour
         foreach (var data in saveChips)
         {
             HexTile tile = Tiles.Find(t => t.Row == data.Row && t.Col == data.Col);
-            Chip chip = CreateChip(tile, ChoseChipByType(data.IdPlayer), data.IdPlayer);
+            Chip chip = CreateChip(tile, ChooseChipByColor( checkersManager.Players[data.IdPlayer].Color), data.IdPlayer);
             checkersManager.Players[data.IdPlayer].Chips.Add(chip);
             chip.Player = checkersManager.Players[data.IdPlayer];
             Chips.Add(chip);
@@ -264,17 +258,10 @@ public class HexMap : MonoBehaviour
         checkersManager.SetSelection(null);
     }
     
-    public Sprite ChoseChipByType(int color)
+    public Sprite ChooseChipByColor(Color playerColor)
     {
-        switch (color)
-        {
-            case 0: return blackChip;
-            case 1: return redChip;
-            case 2: return greenChip;
-            case 3: return yellowChip;
-            case 4: return violetChip;
-            case 5: return cyanChip;
-        }
+        if (checkersManager.СolorToChipMap.TryGetValue(playerColor, out var chip))
+            return chip;
 
         Debug.LogError("Нет фигуры такого цвета");
         return null;

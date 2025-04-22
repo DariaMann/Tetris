@@ -5,6 +5,8 @@ using UnityEngine;
 [JsonObject]
 public class SaveDataSnake
 {
+    public bool IsWin { get; set; }
+    
     public int Score { get; set; }
 
     public int HeadX { get; set; }
@@ -19,8 +21,9 @@ public class SaveDataSnake
     
     public SaveDataSnake() {}
     
-    public SaveDataSnake(Vector3 headPos, List<Food> foods, Vector2Int direction, int score)
+    public SaveDataSnake(bool isWin, Vector3 headPos, List<Food> foods, Vector2Int direction, int score)
     {
+        IsWin = isWin;
         Score = score;
         HeadX = Mathf.RoundToInt(headPos.x);
         HeadY = Mathf.RoundToInt(headPos.y); 
@@ -34,7 +37,7 @@ public class SaveDataSnake
     
     public override string ToString()
     {
-        return "SaveDataSnake: " + Score + " " + HeadX + " " + HeadY + " " + DirectionX + " " + DirectionY + " " +
+        return "SaveDataSnake: " + IsWin + " " + Score + " " + HeadX + " " + HeadY + " " + DirectionX + " " + DirectionY + " " +
                "SaveFoods[" + string.Join(" ", SaveFoods) + "]";
     }
 }

@@ -35,12 +35,18 @@ public class CheckersManager: MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI speedButtonText;
     
+    [SerializeField] private Sprite redChip;
+    [SerializeField] private Sprite blackChip;
+    [SerializeField] private Sprite greenChip;
+    [SerializeField] private Sprite yellowChip;
+    [SerializeField] private Sprite violetChip;
+    [SerializeField] private Sprite cyanChip;
+    
     private float _waitAIMoveTime = 0.5f;
 
     private List<PlayerInRating> _playersInRating = new List<PlayerInRating>();
     private float _showingTime = 2;
     private bool _isShowing;
-    private Color[] _playerColors;
 
     private Color _blue;
     private Color _red;
@@ -48,7 +54,15 @@ public class CheckersManager: MonoBehaviour
     private Color _yellow;
     private Color _purple;
     private Color _cyan;
+    
+    private int _blueColorIndex = 0;
+    
+    public Dictionary<Color, Sprite> СolorToChipMap { get; set; }
 
+    public Color[] PlayerColors { get; set; }
+
+    public int OffsetColors { get; set; } = 0;
+    
     public int SpeedMode { get; set; } = 0;
     
     public ThemeChineseCheckers ThemeChinese
@@ -87,7 +101,6 @@ public class CheckersManager: MonoBehaviour
 
     void Start()
     {
-        
         _blue = ColorUtility.TryParseHtmlString("#305EFB", out Color blue) ? blue : Color.blue;
         _red = ColorUtility.TryParseHtmlString("#FA2D34", out Color red) ? red : Color.red;
         _green = ColorUtility.TryParseHtmlString("#14E200", out Color green) ? green : Color.green;
@@ -95,22 +108,95 @@ public class CheckersManager: MonoBehaviour
         _purple = ColorUtility.TryParseHtmlString("#E200F5", out Color magenta) ? magenta : Color.magenta;
         _cyan = ColorUtility.TryParseHtmlString("#13F5DF", out Color cyan) ? cyan : Color.cyan;
 
-        _playerColors = new[] {_blue, _red, _green, _yellow, _purple, _cyan};
+        PlayerColors = new[] {_blue, _red, _green, _yellow, _purple, _cyan};
+
+        СolorToChipMap = new Dictionary<Color, Sprite>
+        {
+            { _blue, blackChip },
+            { _red, redChip },
+            { _green, greenChip },
+            { _yellow, yellowChip },
+            { _purple, violetChip },
+            { _cyan, cyanChip }
+        };
         
         SetFirstSettings();
         LoadData();
+        ReorderColorsByBlueIndex(_blueColorIndex);
         hexMap.GenerateBoard();
         SetupTargetZones();
-        foreach (var player in Players)
-        {
-            player.Colored(_playerColors[player.ID]);
-        }
+        SetPlayerColors();
         OnChangeSpeed();
         ChangeStepCount(Steps);
 //        FirstStart();
 
         LoadLastPlay();
         LocalizationManager.LocalizationChanged += Localize;
+    }
+
+    public void OnChangeColorClick()
+    {
+        ShiftColorsRight();
+        SetPlayerColors();
+        _blueColorIndex = GetBlueIndex();
+    }
+    
+    private void ShiftColorsRight()
+    {
+        var lastColor = PlayerColors[PlayerColors.Length - 1]; // последний элемент
+        for (int i = PlayerColors.Length - 1; i > 0; i--)
+        {
+            PlayerColors[i] = PlayerColors[i - 1];
+        }
+        PlayerColors[0] = lastColor;
+    }
+    
+    private void ReorderColorsByBlueIndex(int blueIndex)
+    {
+        var originalOrder = new[] { _blue, _red, _green, _yellow, _purple, _cyan };
+
+        // Клонируем, чтобы не изменять оригинал
+        PlayerColors = (Color[])originalOrder.Clone();
+
+        // Сдвигаем вправо, пока _blue не окажется на нужной позиции
+        while (IndexOfColor(PlayerColors, _blue) != blueIndex)
+        {
+            ShiftColorsRight();
+        }
+
+        SetPlayerColors();
+    }
+
+// Поиск индекса нужного цвета
+    private int IndexOfColor(Color[] colors, Color target)
+    {
+        for (int i = 0; i < colors.Length; i++)
+        {
+            if (colors[i] == target)
+                return i;
+        }
+        return -1;
+    }
+
+    private int GetBlueIndex()
+    {
+        for (int i = 0; i < PlayerColors.Length; i++)
+        {
+            if (PlayerColors[i] == _blue)
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public void SetPlayerColors()
+    {
+        foreach (var player in Players)
+        {
+            player.Colored(PlayerColors[player.ID]);
+        }
     }
     
     private void LoadLastPlay()
@@ -191,6 +277,7 @@ public class CheckersManager: MonoBehaviour
     {
         // Этот метод будет вызван при выходе из сцены
         SaveLastPlay();
+        SaveData();
         LocalizationManager.LocalizationChanged -= Localize;
     }
     
@@ -202,6 +289,7 @@ public class CheckersManager: MonoBehaviour
             player.ChangeState(state);
         }
         ShowHint = PlayerPrefs.GetInt("CCStateHint") == 1;
+        _blueColorIndex = PlayerPrefs.GetInt("CCBlueColorIndex");
         SetHintState(ShowHint);
     }
     
@@ -213,6 +301,13 @@ public class CheckersManager: MonoBehaviour
         }
 
         SaveHintState();
+        SaveBlueColorIndex();
+    }
+    
+    private void SaveBlueColorIndex()
+    {
+        PlayerPrefs.SetInt("CCBlueColorIndex", _blueColorIndex);
+        PlayerPrefs.Save();
     }
     
     private void SaveHintState()
@@ -239,6 +334,11 @@ public class CheckersManager: MonoBehaviour
         if (!PlayerPrefs.HasKey("CCStateHint"))
         {
             SaveHintState();
+        }  
+        
+        if (!PlayerPrefs.HasKey("CCBlueColorIndex"))
+        {
+            SaveBlueColorIndex();
         }
     }
     
