@@ -10,7 +10,7 @@ public class LineBoard : MonoBehaviour
     [SerializeField] private int gridSize = 9;
     [SerializeField] private ThemeLines98 theme;
     [SerializeField] private SaveScores saveScores;
-    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameOver gameOver;
     [SerializeField] private Button undoButton;
     
     [SerializeField] private Image hint;
@@ -24,8 +24,6 @@ public class LineBoard : MonoBehaviour
 
 //    private LineTile[,] _cells;
 
-    private bool  _isGameOver = false;
-    
     public int GenerateCount { get; set; } = 3;
     
     public bool ShowFuture
@@ -89,7 +87,7 @@ public class LineBoard : MonoBehaviour
 
     private void SaveLastPlay()
     {
-        if (_isGameOver)
+        if (gameOver.IsGameOver)
         {
             JsonHelper.SaveLines98Data(null);
             return;
@@ -311,11 +309,10 @@ public class LineBoard : MonoBehaviour
 
         SelectedBall = ball;
     }
-    
+
     public void Again()
     {
-        gameOver.SetActive(false);
-        _isGameOver = false;
+        gameOver.ShowGameOverPanel(false);
         
         saveScores.ChangeScore(0, false);
         ResetAll();
@@ -326,8 +323,7 @@ public class LineBoard : MonoBehaviour
 
     public void GameOver()
     {
-        gameOver.SetActive(true);
-        _isGameOver = true;
+        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
     public void SpawnRandomBalls(int count, bool isFuture = false)

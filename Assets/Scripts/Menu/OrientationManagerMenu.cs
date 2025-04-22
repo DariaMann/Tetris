@@ -12,7 +12,7 @@ public class OrientationManagerMenu: MonoBehaviour
     private int _type = -1; //0 - планшет горизонт, 1 - планшет вертикаль, 2 - телефон вертикаль
     void Update()
     {
-        bool isTablet = IsTablet();
+        bool isTablet = GameHelper.IsTablet();
         if (Screen.width > Screen.height) // Горизонтальная ориентация
         {
             if (_type == 0)
@@ -70,16 +70,6 @@ public class OrientationManagerMenu: MonoBehaviour
         buttonsPanel.offsetMax = new Vector2(0, 0);
         buttonslLayoutGroup.padding.top = 60;
         RefreshUI();
-    }
-    
-    private bool IsTablet()
-    {
-        float dpi = Screen.dpi;
-        float width = Screen.width / dpi;
-        float height = Screen.height / dpi;
-        float diagonalInInches = Mathf.Sqrt(width * width + height * height);
-
-        return diagonalInInches >= 6.5f; // Обычно планшеты > 6.5 дюймов
     }
     
     public void RefreshUI()

@@ -9,8 +9,9 @@ using Random = UnityEngine.Random;
 [DefaultExecutionOrder(-1)]
 public class Board : MonoBehaviour
 {
+    [SerializeField] private GameOver gameOver;
+
     [SerializeField] private SaveScores saveScores;
-    [SerializeField] private GameObject gameOver;
     [SerializeField] private List<Image> nextTetrominoImage;
 
     [SerializeField] private TetrominoData[] tetrominoes;
@@ -20,14 +21,18 @@ public class Board : MonoBehaviour
 
     private TetrominoData _next;
     
+    public GameOver GameOverPanel
+    {
+        get => gameOver;
+        set => gameOver = value;
+    }
+    
     public SaveScores SaveScores
     {
         get => saveScores;
         set => saveScores = value;
     }
 
-    public bool IsGameOver { get; set; }
-    
     public Tilemap Tilemap { get; private set; }
     
     public Piece ActivePiece { get; private set; }
@@ -98,7 +103,7 @@ public class Board : MonoBehaviour
     
     private void SaveLastPlay()
     {
-        if (IsGameOver)
+        if (gameOver.IsGameOver)
         {
             JsonHelper.SaveTetrisData(null);
             return;
@@ -169,7 +174,7 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece(bool first = false)
     {
-        if (IsGameOver)
+        if (gameOver.IsGameOver)
         {
             return;
         }
@@ -218,14 +223,12 @@ public class Board : MonoBehaviour
 
     public void GameOver()
     {
-        gameOver.SetActive(true);
-        IsGameOver = true;
+        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
     public void Again()
     {
-        gameOver.SetActive(false);
-        IsGameOver = false;
+        gameOver.ShowGameOverPanel(false);
         
         Tilemap.ClearAllTiles();
         saveScores.ChangeScore(0);

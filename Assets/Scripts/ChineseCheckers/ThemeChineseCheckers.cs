@@ -42,6 +42,11 @@ public class ThemeChineseCheckers: MonoBehaviour
     
     private Color _colorBgStartPanelLight;
     private Color _colorBgStartPanelDark;
+    
+    private void Awake()
+    {
+        GameHelper.GameType = MiniGameType.ChineseCheckers;
+    }
 
     private void Start()
     {
@@ -64,7 +69,6 @@ public class ThemeChineseCheckers: MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
-        GameHelper.GameType = MiniGameType.ChineseCheckers;
     }
     
     private void ApplyTheme(Themes newTheme)

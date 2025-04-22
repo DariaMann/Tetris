@@ -24,6 +24,11 @@ public class ThemeSnake : MonoBehaviour
     private Color _colorBgDark;
     
     private Color _colorWallDark;
+    
+    private void Awake()
+    {
+        GameHelper.GameType = MiniGameType.Snake;
+    }
 
     private void Start()
     {
@@ -46,7 +51,6 @@ public class ThemeSnake : MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
-        GameHelper.GameType = MiniGameType.Snake;
     }
     
     private void ApplyTheme(Themes newTheme)

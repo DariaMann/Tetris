@@ -6,7 +6,7 @@ public class Snake : MonoBehaviour
 {
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private FoodController foodController;
-    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameOver gameOver;
     public Transform segmentPrefab;
     public Vector2Int direction = Vector2Int.right;
     public float speed = 20f;
@@ -22,8 +22,6 @@ public class Snake : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
-
-    public bool IsGameOver { get; set; }
 
     private void Start()
     {
@@ -62,7 +60,7 @@ public class Snake : MonoBehaviour
     
     private void SaveLastPlay()
     {
-        if (IsGameOver)
+        if (gameOver.IsGameOver)
         {
             JsonHelper.SaveSnakeData(null);
             return;
@@ -71,24 +69,22 @@ public class Snake : MonoBehaviour
         SaveDataSnake data = new SaveDataSnake(transform.position, foodController.Foods, direction, saveScores.CurrentScore);
         JsonHelper.SaveSnakeData(data);
     }
-    
+
     public void GameOver()
     {
-        gameOver.SetActive(true);
-        IsGameOver = true;
+        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
     public void Again()
     {
-        gameOver.SetActive(false);
-        IsGameOver = false;
+        gameOver.ShowGameOverPanel(false);
         
         ResetState();
     }
 
     private void Update()
     {
-        if (IsGameOver)
+        if (gameOver.IsGameOver)
         {
             return;
         }
@@ -181,7 +177,7 @@ public class Snake : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsGameOver)
+        if (gameOver.IsGameOver)
         {
             return;
         }

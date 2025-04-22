@@ -10,6 +10,7 @@ public class ThemeSettings : MonoBehaviour
     [SerializeField] private ScrollRect scrollRect;
     
     [SerializeField] private Image settingsBg;
+    [SerializeField] private Image settingsBackBg;
     
     [SerializeField] private List<Image> lightImages = new List<Image>();
     [SerializeField] private List<TextMeshProUGUI> lightTexts = new List<TextMeshProUGUI>();
@@ -226,6 +227,7 @@ public class ThemeSettings : MonoBehaviour
     public void SetLight()
     {
         settingsBg.color = _colorBgLight;
+        settingsBackBg.color = _colorBgLight;
 //        settingsBackButton.color = _colorGrey;
 //        settingsRatingButton.color = _colorGrey;
 //        settingsSoundButton.color = _colorGrey;
@@ -279,6 +281,7 @@ public class ThemeSettings : MonoBehaviour
     public void SetDark()
     {
         settingsBg.color = _colorBgDark;
+        settingsBackBg.color = _colorBgDark;
 //        settingsBackButton.color = _colorLight;
 //        settingsRatingButton.color = _colorLight;
 //        settingsSoundButton.color = _colorLight;

@@ -7,7 +7,7 @@ public class OrientationManager2048 : MonoBehaviour
     
     void Update()
     {
-        bool isTablet = IsTablet();
+        bool isTablet = GameHelper.IsTablet();
         if (Screen.width > Screen.height) // Горизонтальная ориентация
         {
             HorizontalOrientationTablet();
@@ -41,15 +41,5 @@ public class OrientationManager2048 : MonoBehaviour
     {
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
-    }
-    
-    private bool IsTablet()
-    {
-        float dpi = Screen.dpi;
-        float width = Screen.width / dpi;
-        float height = Screen.height / dpi;
-        float diagonalInInches = Mathf.Sqrt(width * width + height * height);
-
-        return diagonalInInches >= 6.5f; // Обычно планшеты > 6.5 дюймов
     }
 }

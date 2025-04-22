@@ -87,6 +87,7 @@ public static class GameHelper
                 if (Mathf.Approximately(speed, 0.7f)) return 3;
                 if (Mathf.Approximately(speed, 0.4f)) return 4;
                 if (Mathf.Approximately(speed, 0.3f)) return 5;
+                if (Mathf.Approximately(speed, 0.1f)) return 6;
 
                 return 2;
         }
@@ -100,6 +101,7 @@ public static class GameHelper
                         case 3: return 0.7f;
                         case 4: return 0.4f;
                         case 5: return 0.3f;
+                        case 6: return 0.1f;
                         default: return 1;
                 }
         }
@@ -134,6 +136,35 @@ public static class GameHelper
         public static void InvokeThemeChange()
         {
                 OnThemeChanged?.Invoke(_theme);
+        }
+        
+        private static bool IsTabletEditor()
+        {
+                float dpi = Screen.dpi;
+                float width = Screen.width / dpi;
+                float height = Screen.height / dpi;
+                float diagonalInInches = Mathf.Sqrt(width * width + height * height);
+
+                return diagonalInInches >= 6.5f; // Обычно планшеты > 6.5 дюймов
+        }
+    
+        public static bool IsTablet()
+        {
+#if UNITY_EDITOR
+                return IsTabletEditor(); // или добавь флаг для симуляции
+#elif UNITY_IOS
+    return SystemInfo.deviceModel.StartsWith("iPad") || 
+           UnityEngine.iOS.Device.generation.ToString().Contains("iPad");
+#elif UNITY_ANDROID
+    float dpi = Screen.dpi;
+    if (dpi == 0) dpi = 160f;
+    float width = Screen.width / dpi;
+    float height = Screen.height / dpi;
+    float diagonalInInches = Mathf.Sqrt(width * width + height * height);
+    return diagonalInInches >= 7f;
+#else
+    return false;
+#endif
         }
 
         public static void SetFirstSettings()

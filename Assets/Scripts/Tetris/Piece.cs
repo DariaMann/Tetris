@@ -12,8 +12,12 @@ public class Piece : MonoBehaviour
     [SerializeField] private float lockDelay = 0.5f;
     
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
-    [SerializeField] private float minDelay = 0.3f; // самая быстрая скорость
+    [SerializeField] private float minDelay = 0.1f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
+    
+    [SerializeField] private float rotateDelay = 0.05f;
+    
+    private float _nextRotateTime;
 //    
 //    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
 //    
@@ -49,7 +53,7 @@ public class Piece : MonoBehaviour
         Position = position;
 
         RotationIndex = 0;
-        stepDelay = GameHelper.TetrisSettings.Speed;  
+        SetAccelerationSpeed(GameHelper.TetrisSettings.Speed);  
         _stepTime = Time.time + stepDelay;
         _moveTime = Time.time + moveDelay;
         _lockTime = 0f;
@@ -65,7 +69,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        if (Board.IsGameOver)
+        if (Board.GameOverPanel.IsGameOver)
         {
             return;
         }
@@ -74,18 +78,23 @@ public class Piece : MonoBehaviour
         
         if (!Input.GetMouseButton(0) && Input.touchCount == 0)
         { 
-            stepDelay = GameHelper.TetrisSettings.Speed; // сброс к обычной скорости
+            SetAccelerationSpeed(GameHelper.TetrisSettings.Speed); // сброс к обычной скорости
         }
 
         // We use a timer to allow the player to make adjustments to the piece
         // before it locks in place
         _lockTime += Time.deltaTime;
 
-        // Handle rotation
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            Rotate(-1);
-        } else if (Input.GetKeyDown(KeyCode.E)) {
-            Rotate(1);
+        // Handle rotation (по нажатию клавиши)
+        if (Time.time >= _nextRotateTime)
+        {
+            if (Input.GetKeyDown(KeyCode.Q)) {
+                Rotate(-1);
+                _nextRotateTime = Time.time + rotateDelay;
+            } else if (Input.GetKeyDown(KeyCode.E)) {
+                Rotate(1);
+                _nextRotateTime = Time.time + rotateDelay;
+            }
         }
 
         // Handle hard drop
@@ -126,7 +135,9 @@ public class Piece : MonoBehaviour
         {
             if (Move(Vector2Int.down)) {
                 // Update the step time to prevent double movement
-                stepDelay = fastDropStepDelay;
+                
+//                SetAccelerationSpeed(fastDropStepDelay);
+//                stepDelay = fastDropStepDelay;
                 _stepTime = Time.time + stepDelay; // обновляем таймер немедленно
             }
         }
@@ -217,7 +228,7 @@ public class Piece : MonoBehaviour
         {
             if (delta.y < 0 && Move(Vector2Int.down))
             {
-                stepDelay = fastDropStepDelay;
+//                stepDelay = fastDropStepDelay;
                 _stepTime = Time.time + stepDelay; // обновляем таймер немедленно
             }
 
@@ -249,10 +260,11 @@ public class Piece : MonoBehaviour
         float touchDistance = Vector2.Distance(_touchStartPos, endPos);
         Debug.Log($"Touch Distance: {touchDistance}, Threshold: {_moveThreshold}");
 
-        if (touchDistance < _moveThreshold)
+        if (touchDistance < _moveThreshold && Time.time >= _nextRotateTime)
         {
             Debug.Log("Rotate triggered!");
             Rotate(1);
+            _nextRotateTime = Time.time + rotateDelay;
         }
     }
 
@@ -423,6 +435,12 @@ public class Piece : MonoBehaviour
     private void SetAccelerationSpeed(float accelerationSpeed)
     {
         stepDelay = accelerationSpeed;
+
+        // Дополнительно масштабируем другие задержки
+        float speedFactor = Mathf.InverseLerp(maxDelay, minDelay, accelerationSpeed);
+    
+        rotateDelay = Mathf.Lerp(0.05f, 0.01f, speedFactor); // подбери границы по ощущениям
+        moveDelay = Mathf.Lerp(baseMoveDelay, minMoveDelay, speedFactor);
     }
 
 }

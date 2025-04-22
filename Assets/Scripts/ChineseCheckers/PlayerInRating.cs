@@ -11,11 +11,14 @@ public class PlayerInRating :MonoBehaviour
     [SerializeField] private TextMeshProUGUI namePlayer;
     [SerializeField] private TextMeshProUGUI steps;
     [SerializeField] private Image chipsType;
+    
+    public PlayerState State { get; set; }
 
     public void SetData(Player player)
     {
         number.text = player.WinNumber.ToString();
-        switch (player.State)
+        State = player.State;
+        switch (State)
         {
             case PlayerState.Robot:
                 namePlayer.text = LocalizationManager.Localize("Сheckers.robot");

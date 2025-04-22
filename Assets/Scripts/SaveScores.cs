@@ -14,13 +14,18 @@ public class SaveScores : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> Record;
     
     [SerializeField, CanBeNull] private TextMeshProUGUI scoreAndRecordText;
+    [SerializeField, CanBeNull] private TextMeshProUGUI maximumText;
     
     [SerializeField] private int scene;
 
     private string path;
     private int currentScore = 0;
-    private int record = 0;
+    private int maximum = 0;
+
+    public int CurrentRecord { get; set; } = 0;
     
+    public bool IsWin { get; set; }
+
     public int CurrentScore
     {
         get => currentScore;
@@ -47,40 +52,46 @@ public class SaveScores : MonoBehaviour
             path = Application.persistentDataPath + "/ScoresLines98.xml";
         }
 
-        record = GameHelper.LoadRecordData(path);
+        CurrentRecord = GameHelper.LoadRecordData(path);
+        IsWin = false;
         ChangeScore(currentScore);
     }
     
     public void Save()
     {
-        if (record < currentScore)
+        if (CurrentRecord < currentScore)
         {
+            if (CurrentRecord != 0 && currentScore != 0)
+            {
+                IsWin = true;
+            }
             GameHelper.SaveRecordData(path, currentScore);
             
-            record = currentScore;
+            CurrentRecord = currentScore;
             foreach (var rec in Record)
             {
                 //todo: Продумать выделение победы рекорда
 //                rec.text = "<color=red>" + record + "</color>";
-                rec.text = record.ToString();
+                rec.text = CurrentRecord.ToString();
             }
             if (scoreAndRecordText != null)
             {
 //                scoreAndRecordText.text = currentScore + "/<color=red>" + record + "</color>";
-                scoreAndRecordText.text = currentScore + "/" + record;
+                scoreAndRecordText.text = currentScore + "/" + CurrentRecord;
             }
-            GameServicesManager.ReportScore(record, GameHelper.GameType);
+            GameServicesManager.ReportScore(CurrentRecord, GameHelper.GameType);
             //todo: Новый рекорд! подсветить
         }
         else
         {
+            IsWin = false;
             foreach (var rec in Record)
             {
-                rec.text = record.ToString();
+                rec.text = CurrentRecord.ToString();
             }
             if (scoreAndRecordText != null)
             {
-                scoreAndRecordText.text = currentScore + "/" + record;
+                scoreAndRecordText.text = currentScore + "/" + CurrentRecord;
             }
         }
     }
@@ -101,7 +112,7 @@ public class SaveScores : MonoBehaviour
         }
         if (scoreAndRecordText != null)
         {
-            scoreAndRecordText.text = currentScore + "/" + record;
+            scoreAndRecordText.text = currentScore + "/" + CurrentRecord;
         }
         Save();
         if (GameHelper.GameType == MiniGameType.Tetris)
@@ -130,5 +141,15 @@ public class SaveScores : MonoBehaviour
             if(currentScore >= 150000) GameServicesManager.UnlockAchieve(AchivementServices.G150000Points);
             if(currentScore >= 200000) GameServicesManager.UnlockAchieve(AchivementServices.G200000Points);
         }
+    }
+
+    public void ChangeMaximum(int max)
+    {
+        if (maximumText == null)
+        {
+            return;
+        }
+        maximum = max;
+        maximumText.text = maximum.ToString();
     }
 }

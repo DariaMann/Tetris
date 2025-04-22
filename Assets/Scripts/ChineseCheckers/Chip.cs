@@ -149,9 +149,9 @@ public class Chip : MonoBehaviour, IPointerClickHandler
     {
         switch (speedMode)
         {
-            case 1: moveSpeed = 2; break;
-            case 2: moveSpeed = 4; break;
-            case 3: moveSpeed = 5; break;
+            case 1: moveSpeed = 5; break;
+            case 2: moveSpeed = 9; break;
+            case 3: moveSpeed = 13; break;
         }
     }
 

@@ -9,15 +9,13 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
-
     [SerializeField] private TileBoard board;
-    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameOver gameOver;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private Button undoButton;
     [SerializeField] private TextMeshProUGUI maximumText;
 
-    private bool _isGameOver = false;
+    public static GameManager Instance { get; private set; }
 
     public int MaxNumber { get; private set; } = 2;
     
@@ -77,7 +75,7 @@ public class GameManager : MonoBehaviour
         SaveScores.ChangeScore(saveData.Score);
         ChangeMaximumNumber(saveData.Maximum);
         // hide game over screen
-        gameOver.SetActive(false);
+        gameOver.ShowGameOverPanel(false);
 
         // update board state
         board.ClearBoard();
@@ -89,10 +87,10 @@ public class GameManager : MonoBehaviour
         
         board.enabled = true;
     }
-    
+
     private void SaveLastPlay()
     {
-        if (_isGameOver)
+        if (gameOver.IsGameOver)
         {
             JsonHelper.Save2048Data(null);
             return;
@@ -109,18 +107,19 @@ public class GameManager : MonoBehaviour
             MaxNumber = newMaximum;
         }
         
+        SaveScores.ChangeMaximum(newMaximum);
+        
         maximumText.text = LocalizationManager.Localize("2048.maximum") + ": " + MaxNumber;
     }
     
     public void NewGame()
     {
-        _isGameOver = false;
         // reset score
         SaveScores.ChangeScore(0);
         ChangeMaximumNumber(MaxNumber);
         
         // hide game over screen
-        gameOver.SetActive(false);
+        gameOver.ShowGameOverPanel(false);
 
         // update board state
         board.ClearBoard();
@@ -134,9 +133,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        _isGameOver = true;
         board.enabled = false;
-        gameOver.SetActive(true);
+        
+        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
     public void CheckUndoButtonState()

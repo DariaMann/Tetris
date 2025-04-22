@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Newtonsoft.Json;
+using Random = UnityEngine.Random;
 
 public class CheckersManager: MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class CheckersManager: MonoBehaviour
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject warningPanel;
     
-    [SerializeField] private GameObject finishPanel;
+    [SerializeField] private GameOver gameOver;
     [SerializeField] private RectTransform playersRatingPanel;
     [SerializeField] private GameObject playerInRatingPrefab;
     
@@ -55,7 +56,7 @@ public class CheckersManager: MonoBehaviour
         get => themeChinese;
         set => themeChinese = value;
     }
-    
+
     public bool IsPlaying { get; set; } = false;
     
     public Stack<Step> EventSteps { get; set; } = new Stack<Step>();
@@ -574,7 +575,7 @@ public class CheckersManager: MonoBehaviour
             }   
         }
         
-        finishPanel.SetActive(true);
+        gameOver.ShowGameOverPanel(true, _playersInRating[0].State == PlayerState.Player);
     }
     
     public void HideFinishPanel()
@@ -585,7 +586,7 @@ public class CheckersManager: MonoBehaviour
         }
         _playersInRating.Clear();
 
-        finishPanel.SetActive(false);
+        gameOver.ShowGameOverPanel(false);
     }
 
     public void SetCurrentPlayer(Player newPlayer)

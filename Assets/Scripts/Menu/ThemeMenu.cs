@@ -17,6 +17,11 @@ public class ThemeMenu : MonoBehaviour
     
     private Color _colorBgLight;
     private Color _colorBgDark;
+    
+    private void Awake()
+    {
+        GameHelper.GameType = MiniGameType.None;
+    }
 
     private void Start()
     {
@@ -33,7 +38,6 @@ public class ThemeMenu : MonoBehaviour
 
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
-        GameHelper.GameType = MiniGameType.None;
     }
     
     private void ApplyTheme(Themes newTheme)

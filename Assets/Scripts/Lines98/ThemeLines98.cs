@@ -19,6 +19,11 @@ public class ThemeLines98: MonoBehaviour
     private Color _colorGrey;
     private Color _colorDark;
 
+    private void Awake()
+    {
+        GameHelper.GameType = MiniGameType.Lines98;
+    }
+
     private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
@@ -27,7 +32,6 @@ public class ThemeLines98: MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
-        GameHelper.GameType = MiniGameType.Lines98;
     }
     
     private void ApplyTheme(Themes newTheme)

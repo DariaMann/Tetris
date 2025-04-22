@@ -49,6 +49,11 @@ public class ThemeTetris : MonoBehaviour
     
     private Color _colorGrid;
     private Color _colorSelectLight;
+    
+    private void Awake()
+    {
+        GameHelper.GameType = MiniGameType.Tetris;
+    }
 
     private void Start()
     {
@@ -67,7 +72,6 @@ public class ThemeTetris : MonoBehaviour
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
-        GameHelper.GameType = MiniGameType.Tetris;
     }
     
     private void ApplyTheme(Themes newTheme)
