@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class GameOver : MonoBehaviour
 {
     [SerializeField, CanBeNull] private GameObject maximumParam;
-    [SerializeField] private List<GameObject> confetti = new List<GameObject>();
+    [SerializeField] private List<ParticleSystem> confetti = new List<ParticleSystem>();
     
     [SerializeField] private CanvasGroup background;
     [SerializeField] private RectTransform headerPanel;
@@ -23,13 +23,52 @@ public class GameOver : MonoBehaviour
 
     private bool _isMaximumEnable = false;
     private bool _gameOverAnimationCompleted = false;
-    private GameObject _chosenConfetti;
+    private bool _isWin = false;
+    private ParticleSystem _chosenConfetti;
     
     public bool IsGameOver { get; set; }
 
     private void Start()
     {
         SetData();
+    }
+    
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            InterruptGameOverAnimation();
+        }
+        else
+        {
+            ResumeParticles();
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        InterruptGameOverAnimation();
+    }
+    
+    private void ResumeParticles()
+    {
+        if (_chosenConfetti != null && _chosenConfetti.isPlaying == false && _chosenConfetti.loop)
+        {
+            _chosenConfetti.Play();
+            Debug.Log("Confetti resumed");
+        }
+    }
+    
+    private void InterruptGameOverAnimation()
+    {
+        if (!_gameOverAnimationCompleted)
+        {
+            // Остановить все анимации (только если они активны)
+            DOTween.KillAll(); // Или конкретную sequence, если ты хранишь её как поле
+
+            // Принудительно завершить всё вручную
+            FastShowPanel(_isWin);
+        }
     }
 
     public void SetData()
@@ -45,22 +84,23 @@ public class GameOver : MonoBehaviour
     {
         _gameOverAnimationCompleted = false;
         _chosenConfetti = null;
+        _isWin = isWin;
         if (isShow)
         {
             foreach (var conf in confetti)
             {
-                conf.SetActive(false);
+                conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(true);
+            IsGameOver = true;
             StartCoroutine(GameOverFallbackTimer(2f, isWin)); // Через 2 секунды проверим, дошло ли всё до конца
             PlayGameOverAnimation(isWin);
-            IsGameOver = true;
         }
         else
         {
             foreach (var conf in confetti)
             {
-                conf.SetActive(false);
+                conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(false);
             IsGameOver = false;
@@ -91,7 +131,7 @@ public class GameOver : MonoBehaviour
                 {
                     int randomIndex = Random.Range(0, confetti.Count);
                     _chosenConfetti = confetti[randomIndex];
-                    _chosenConfetti.SetActive(true);
+                    _chosenConfetti.gameObject.SetActive(true);
                 }
             });
 
@@ -164,11 +204,11 @@ public class GameOver : MonoBehaviour
             {
                 int randomIndex = Random.Range(0, confetti.Count);
                 _chosenConfetti = confetti[randomIndex];
-                _chosenConfetti.SetActive(true);
+                _chosenConfetti.gameObject.SetActive(true);
             }
             else
             {
-                _chosenConfetti.SetActive(true);
+                _chosenConfetti.gameObject.SetActive(true);
             }
         }
         

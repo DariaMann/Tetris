@@ -21,6 +21,8 @@ public class Snake : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
+    
+    public bool IsPaused { get; private set; } = false;
 
     private void Start()
     {
@@ -43,6 +45,11 @@ public class Snake : MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+    }
+    
+    public void PausedGame(bool isPause)
+    {
+        IsPaused = isPause;
     }
     
     private void LoadLastPlay()
@@ -83,7 +90,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (gameOver.IsGameOver)
+        if (gameOver.IsGameOver || IsPaused)
         {
             return;
         }
@@ -168,7 +175,7 @@ public class Snake : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (gameOver.IsGameOver)
+        if (gameOver.IsGameOver || IsPaused)
         {
             return;
         }
