@@ -56,6 +56,7 @@ public class CheckersManager: MonoBehaviour
     private Color _cyan;
     
     private int _blueColorIndex = 0;
+    private int _countGames = 0;
     
     public Dictionary<Color, Sprite> СolorToChipMap { get; set; }
 
@@ -290,7 +291,20 @@ public class CheckersManager: MonoBehaviour
         }
         ShowHint = PlayerPrefs.GetInt("CCStateHint") == 1;
         _blueColorIndex = PlayerPrefs.GetInt("CCBlueColorIndex");
+        _countGames = PlayerPrefs.GetInt("CCCountGames");
         SetHintState(ShowHint);
+    }
+
+    public void ChangeCountGames()
+    {
+        _countGames += 1;
+        SaveCountGames();
+        if(_countGames >= 10) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay10Games);
+        if(_countGames >= 50) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay50Games);
+        if(_countGames >= 100) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay100Games);
+        if(_countGames >= 300) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay300Games);
+        if(_countGames >= 500) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay500Games);
+        if(_countGames >= 1000) GameServicesManager.UnlockAchieve(AchivementServices.ChineseCheckersPlay1000Games);
     }
     
     public void SaveData()
@@ -304,6 +318,12 @@ public class CheckersManager: MonoBehaviour
         SaveBlueColorIndex();
     }
     
+    private void SaveCountGames()
+    {
+        PlayerPrefs.SetInt("CCCountGames", _countGames);
+        PlayerPrefs.Save();
+    }
+      
     private void SaveBlueColorIndex()
     {
         PlayerPrefs.SetInt("CCBlueColorIndex", _blueColorIndex);
@@ -339,6 +359,11 @@ public class CheckersManager: MonoBehaviour
         if (!PlayerPrefs.HasKey("CCBlueColorIndex"))
         {
             SaveBlueColorIndex();
+        }    
+        
+        if (!PlayerPrefs.HasKey("CCCountGames"))
+        {
+            SaveCountGames();
         }
     }
     
@@ -655,7 +680,8 @@ public class CheckersManager: MonoBehaviour
         StopAllCoroutines();
 
         // Показать сообщение о победе (можно добавить UI)
-        ShowFinishPanel();
+        ShowFinishPanel(); 
+        ChangeCountGames();
     }
 
     private void ShowFinishPanel()

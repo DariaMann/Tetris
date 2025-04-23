@@ -1405,10 +1405,10 @@ MonoBehaviour:
   segmentPrefab: {fileID: 7230300645724204659, guid: 72eb0a9c85ec466468187296ea741892,
     type: 3}
   direction: {x: 1, y: 0}
-  speed: 6
+  speed: 20
   speedMultiplier: 1
   initialSize: 4
-  minSpeed: 5
+  minSpeed: 3
   maxSpeed: 12
 --- !u!61 &1904228803
 BoxCollider2D:
@@ -1770,6 +1770,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1782396952}
     m_Modifications:
+    - target: {fileID: 405432245918990912, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 235.50873
+      objectReference: {fileID: 0}
     - target: {fileID: 405432245918990912, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -263,7 +263,8 @@ MonoBehaviour:
   exitController: 0
   havePausePanel: 1
   pauseMenu: {fileID: 5201487513918864525}
-  settingsPanel: {fileID: 3050266035529126982}
+  settingsPanel: {fileID: 3050266035529126983}
+  settingsCanvasGroup: {fileID: 1427114859410250504}
   settingsEnglishSelection: {fileID: 389240903360131959}
   settingsRussianSelection: {fileID: 2828475428940174276}
   settingsLightSelection: {fileID: 504771077472748879}
@@ -1652,6 +1653,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1427114859410250504 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2504894869086922072, guid: 9279abb9fc8d201488df4ba16d42200b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3534496658258378320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2828475428940174276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1607167765325409684, guid: 9279abb9fc8d201488df4ba16d42200b,
@@ -1694,12 +1701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3050266035529126982 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1970805562755820054, guid: 9279abb9fc8d201488df4ba16d42200b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3534496658258378320}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3050266035529126983 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1970805562755820055, guid: 9279abb9fc8d201488df4ba16d42200b,

@@ -140,6 +140,17 @@ public class SaveScores : MonoBehaviour
             if(currentScore >= 150000) GameServicesManager.UnlockAchieve(AchivementServices.G150000Points);
             if(currentScore >= 200000) GameServicesManager.UnlockAchieve(AchivementServices.G200000Points);
         }
+        else if (GameHelper.GameType == MiniGameType.Lines98)
+        {
+            if(currentScore >= 100) GameServicesManager.UnlockAchieve(AchivementServices.Lines98100Points);
+            if(currentScore >= 200) GameServicesManager.UnlockAchieve(AchivementServices.Lines98200Points);
+            if(currentScore >= 300) GameServicesManager.UnlockAchieve(AchivementServices.Lines98300Points);
+            if(currentScore >= 400) GameServicesManager.UnlockAchieve(AchivementServices.Lines98400Points);
+            if(currentScore >= 500) GameServicesManager.UnlockAchieve(AchivementServices.Lines98500Points);
+            if(currentScore >= 700) GameServicesManager.UnlockAchieve(AchivementServices.Lines98700Points);
+            if(currentScore >= 900) GameServicesManager.UnlockAchieve(AchivementServices.Lines98900Points);
+            if(currentScore >= 1000) GameServicesManager.UnlockAchieve(AchivementServices.Lines981000Points);
+        }
     }
 
     public void ChangeMaximum(int max)

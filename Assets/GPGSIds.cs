@@ -24,16 +24,26 @@
 
 public static class GPGSIds
 {
+        public const string achievement_lines_98_200_points = "CgkImZqemP4FEAIQIA"; // <GPGSID>
         public const string leaderboard_snake = "CgkImZqemP4FEAIQHA"; // <GPGSID>
+        public const string achievement_lines_98_100_points = "CgkImZqemP4FEAIQHw"; // <GPGSID>
         public const string achievement_128_tile = "CgkImZqemP4FEAIQAQ"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_1000_games = "CgkImZqemP4FEAIQLA"; // <GPGSID>
         public const string achievement_4096_tile = "CgkImZqemP4FEAIQBg"; // <GPGSID>
         public const string achievement_snake_200_points = "CgkImZqemP4FEAIQGA"; // <GPGSID>
+        public const string achievement_lines_98_300_points = "CgkImZqemP4FEAIQIQ"; // <GPGSID>
         public const string achievement_2048_tile = "CgkImZqemP4FEAIQBQ"; // <GPGSID>
         public const string achievement_tetris_10_points = "CgkImZqemP4FEAIQEg"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_100_games = "CgkImZqemP4FEAIQKQ"; // <GPGSID>
+        public const string achievement_lines_98_900_points = "CgkImZqemP4FEAIQJQ"; // <GPGSID>
         public const string achievement_tetris_100_points = "CgkImZqemP4FEAIQGg"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_10_games = "CgkImZqemP4FEAIQJw"; // <GPGSID>
         public const string leaderboard_2048 = "CgkImZqemP4FEAIQHQ"; // <GPGSID>
+        public const string achievement_lines_98_400_points = "CgkImZqemP4FEAIQIg"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_50_games = "CgkImZqemP4FEAIQKA"; // <GPGSID>
         public const string achievement_2048_10000_points = "CgkImZqemP4FEAIQCg"; // <GPGSID>
         public const string achievement_snake_50_points = "CgkImZqemP4FEAIQFg"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_300_games = "CgkImZqemP4FEAIQKg"; // <GPGSID>
         public const string achievement_2048_150000_points = "CgkImZqemP4FEAIQDg"; // <GPGSID>
         public const string achievement_1024_tile = "CgkImZqemP4FEAIQBA"; // <GPGSID>
         public const string achievement_2048_50000_points = "CgkImZqemP4FEAIQCw"; // <GPGSID>
@@ -42,6 +52,8 @@ public static class GPGSIds
         public const string leaderboard_tetris = "CgkImZqemP4FEAIQGw"; // <GPGSID>
         public const string achievement_tetris_1000_points = "CgkImZqemP4FEAIQEQ"; // <GPGSID>
         public const string achievement_256_tile = "CgkImZqemP4FEAIQAg"; // <GPGSID>
+        public const string leaderboard_lines_98 = "CgkImZqemP4FEAIQHg"; // <GPGSID>
+        public const string achievement_lines_98_500_points = "CgkImZqemP4FEAIQIw"; // <GPGSID>
         public const string achievement_16384_tile = "CgkImZqemP4FEAIQCA"; // <GPGSID>
         public const string achievement_8192_tile = "CgkImZqemP4FEAIQBw"; // <GPGSID>
         public const string achievement_tetris_50_points = "CgkImZqemP4FEAIQEw"; // <GPGSID>
@@ -49,8 +61,11 @@ public static class GPGSIds
         public const string achievement_2048_200000_points = "CgkImZqemP4FEAIQDw"; // <GPGSID>
         public const string achievement_tetris_500_points = "CgkImZqemP4FEAIQFA"; // <GPGSID>
         public const string achievement_2048_1000_points = "CgkImZqemP4FEAIQDQ"; // <GPGSID>
+        public const string achievement_lines_98_1000_points = "CgkImZqemP4FEAIQJg"; // <GPGSID>
+        public const string achievement_lines_98_700_points = "CgkImZqemP4FEAIQJA"; // <GPGSID>
         public const string achievement_snake_300_points = "CgkImZqemP4FEAIQGQ"; // <GPGSID>
         public const string achievement_snake_10_points = "CgkImZqemP4FEAIQFQ"; // <GPGSID>
+        public const string achievement_chinese_checkers_play_500_games = "CgkImZqemP4FEAIQKw"; // <GPGSID>
         public const string achievement_512_tile = "CgkImZqemP4FEAIQAw"; // <GPGSID>
         public const string achievement_2048_5000_points = "CgkImZqemP4FEAIQCQ"; // <GPGSID>
 

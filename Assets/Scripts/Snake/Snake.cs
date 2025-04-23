@@ -16,7 +16,6 @@ public class Snake : MonoBehaviour
     public int maxSpeed = 12;
 
     private readonly List<Transform> segments = new List<Transform>();
-    private Vector2Int input;
     private float nextUpdate;
     
     private Vector2 touchStartPos;
@@ -88,25 +87,21 @@ public class Snake : MonoBehaviour
         {
             return;
         }
-        // Only allow turning up or down while moving in the x-axis
+
+        // Мгновенное реагирование на клавиши
         if (direction.x != 0f)
         {
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-//                input = Vector2Int.up;
                 TryChangeDirection(Vector2Int.up);
             } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-//                input = Vector2Int.down;
                 TryChangeDirection(Vector2Int.down);
             }
         }
-        // Only allow turning left or right while moving in the y-axis
         else if (direction.y != 0f)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-//                input = Vector2Int.right;
                 TryChangeDirection(Vector2Int.right);
             } else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-//                input = Vector2Int.left;
                 TryChangeDirection(Vector2Int.left);
             }
         }
@@ -151,12 +146,10 @@ public class Snake : MonoBehaviour
         {
             if (swipeDelta.x > 0 && direction.y != 0f) // Двигаемся вправо, если змейка идет вверх или вниз
             {
-//                input = Vector2Int.right;
                 TryChangeDirection(Vector2Int.right);
             }
             else if (swipeDelta.x < 0 && direction.y != 0f) // Двигаемся влево, если змейка идет вверх или вниз
             {
-//                input = Vector2Int.left;
                 TryChangeDirection(Vector2Int.left);
             }
         }
@@ -164,12 +157,10 @@ public class Snake : MonoBehaviour
         {
             if (swipeDelta.y > 0 && direction.x != 0f) // Двигаемся вверх, если змейка идет влево или вправо
             {
-//                input = Vector2Int.up;
                 TryChangeDirection(Vector2Int.up);
             }
             else if (swipeDelta.y < 0 && direction.x != 0f) // Двигаемся вниз, если змейка идет влево или вправо
             {
-//                input = Vector2Int.down;
                 TryChangeDirection(Vector2Int.down);
             }
         }
@@ -184,11 +175,6 @@ public class Snake : MonoBehaviour
         // Wait until the next update before proceeding
         if (Time.time < nextUpdate) {
             return;
-        }
-
-        // Set the new direction based on the input
-        if (input != Vector2Int.zero) {
-            direction = input;
         }
 
         // Set each segment's position to be the same as the one it follows. We
@@ -360,7 +346,6 @@ public class Snake : MonoBehaviour
         // Запретить поворот назад
         if (newDirection + direction != Vector2Int.zero)
         {
-            input = newDirection;
             direction = newDirection;
             RotateHead();
         }

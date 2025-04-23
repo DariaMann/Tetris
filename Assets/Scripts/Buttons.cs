@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.SimpleLocalization;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +15,8 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private bool exitController;
     [SerializeField] private bool havePausePanel = true;
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private RectTransform settingsPanel;
+    [SerializeField] private CanvasGroup settingsCanvasGroup; // Убедись, что есть CanvasGroup на панели настроек
     
     [SerializeField] private GameObject settingsEnglishSelection;
     [SerializeField] private GameObject settingsRussianSelection;
@@ -258,11 +260,11 @@ public class Buttons : MonoBehaviour {
     
     public void OnSettingsClick()
     {
-        settingsPanel.SetActive(true);
+        settingsPanel.gameObject.SetActive(true);
     }
     public void OnBackSettingsClick()
     {
-        settingsPanel.SetActive(false);
+        settingsPanel.gameObject.SetActive(false);
     }
     public void OnResumeClick(bool state)
     {
