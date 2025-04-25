@@ -9,6 +9,14 @@ public class SquareUIGrid : MonoBehaviour
     
     public float padding = 50f; // Отступ от краёв экрана
     public int gridSize = 9;    // Кол-во клеток по одной стороне (для Lines 98 — 9)
+    
+    public float CellSize { get; set; }
+    
+    public float Padding
+    {
+        get => padding;
+        set => padding = value;
+    }
 
     void Start()
     {
@@ -22,7 +30,7 @@ public class SquareUIGrid : MonoBehaviour
         ResizeSquare(); // Подстраиваем каждый кадр
     }
 
-    void ResizeSquare()
+    public void ResizeSquare()
     {
         RectTransform parentRect = _rectTransform.parent.GetComponent<RectTransform>();
         if (parentRect == null) return;
@@ -40,6 +48,8 @@ public class SquareUIGrid : MonoBehaviour
         // Вычисляем размер клетки
         float spacingTotal = grid.spacing.x * (gridSize - 1);
         float cellSize = (maxSize - spacingTotal) / gridSize;
+
+        CellSize = cellSize;
 
         grid.cellSize = new Vector2(cellSize, cellSize);
     }

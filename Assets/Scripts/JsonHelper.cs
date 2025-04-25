@@ -336,5 +336,54 @@ public static class JsonHelper
         return jsonString;
     }
     
+    #endregion 
+    
+    #region Blocks
+
+    public static void SaveBlocksData(SaveDataBlocks data)
+    {
+//        string json = JsonUtility.ToJson(data);
+        string json = SerializeJsonSaveDataBlocks(data);
+        Debug.Log("Serialize: " + json);
+        PlayerPrefs.SetString("SaveDataBlocks", json);
+        PlayerPrefs.Save();
+    }
+    
+    public static SaveDataBlocks LoadBlocksData()
+    {
+        if (PlayerPrefs.HasKey("SaveDataBlocks"))
+        {
+            string json = PlayerPrefs.GetString("SaveDataBlocks");
+            // Проверка на пустую строку
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+            SaveDataBlocks data = DeserializeJsonSaveDataBlocks(json);
+            return data;
+        }
+        return null;
+    }
+    
+    private static SaveDataBlocks DeserializeJsonSaveDataBlocks(string jsonString)
+    {
+        SaveDataBlocks data = JsonConvert.DeserializeObject<SaveDataBlocks>(jsonString, new JsonSerializerSettings 
+        { 
+            TypeNameHandling = TypeNameHandling.Auto,
+            //NullValueHandling = NullValueHandling.Ignore,
+        });
+        return data;
+    }
+    
+    private static string SerializeJsonSaveDataBlocks(SaveDataBlocks data)
+    {
+        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+        return jsonString;
+    }
+    
     #endregion
 }

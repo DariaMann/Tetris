@@ -10,6 +10,7 @@ TagManager:
   - Food
   - Obstacle
   - Wall
+  - Block
   layers:
   - Default
   - TransparentFX

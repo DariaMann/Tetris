@@ -247,6 +247,11 @@ public class Buttons : MonoBehaviour {
         SceneManager.LoadScene("ChineseCheckers");
     }
     
+    public void OnBlocksClick()
+    {
+        SceneManager.LoadScene("Blocks");
+    }  
+    
     public void OnTetrisClick()
     {
         SceneManager.LoadScene("Tetris");
