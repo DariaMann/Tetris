@@ -12,7 +12,7 @@ public class Piece : MonoBehaviour
     [SerializeField] private float lockDelay = 0.5f;
     
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
-    [SerializeField] private float minDelay = 0.1f; // самая быстрая скорость
+    [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
     
     [SerializeField] private float rotateDelay = 0.05f;

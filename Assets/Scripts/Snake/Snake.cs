@@ -54,7 +54,7 @@ public class Snake : MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataSnake saveData = JsonHelper.LoadSnakeData();
+        SaveDataSnake saveData = GameHelper.SaveSnake.SaveDataSnake;
         if (saveData == null)
         {
             ResetState();
@@ -68,12 +68,14 @@ public class Snake : MonoBehaviour
     {
         if (gameOver.IsGameOver)
         {
-            JsonHelper.SaveSnakeData(null);
+            GameHelper.SaveSnake.SaveDataSnake = null;
+            JsonHelper.SaveSnake(GameHelper.SaveSnake);
             return;
         }
 
         SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, transform.position, foodController.Foods, direction, saveScores.CurrentScore);
-        JsonHelper.SaveSnakeData(data);
+        GameHelper.SaveSnake.SaveDataSnake = data;
+        JsonHelper.SaveSnake(GameHelper.SaveSnake);
     }
 
     public void GameOver()

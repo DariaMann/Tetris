@@ -3,7 +3,7 @@
 [JsonObject]
 public class SnakeSettings
 {
-    public bool ManyFood { get; set; } = false;
+    public bool ManyFood { get; set; } = true;
     
     public bool MoveThroughWalls { get; set; } = true;
     

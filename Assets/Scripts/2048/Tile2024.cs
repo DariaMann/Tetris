@@ -29,7 +29,7 @@ public class Tile2024 : MonoBehaviour
         _text.text = state.number.ToString();
 
         int currentScore = state.number;
-        if (GameManager.Instance.MaxNumber < currentScore)
+        if (GameHelper.Save2048.Maximum < currentScore)
         {
             if (!isLoadData)
             {

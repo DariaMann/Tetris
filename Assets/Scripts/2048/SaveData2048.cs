@@ -8,20 +8,14 @@ public class SaveData2048
     
     public int Score { get; set; }
 
-    public int Maximum { get; set; } = 2;
-    
     public List<SaveTile2024> SaveTiles { get; set; } = new List<SaveTile2024>();
     
     public SaveData2048() {}
 
-    public SaveData2048(bool isWin, int score, int maximum, List<Tile2024> tiles)
+    public SaveData2048(bool isWin, int score, List<Tile2024> tiles)
     {
         IsWin = isWin;
         Score = score;
-        if (maximum > Maximum)
-        {
-            Maximum = maximum;
-        }
         foreach (var tile in tiles)
         {
             SaveTile2024 saveTile = new SaveTile2024(tile.State.index, tile.Cell.Coordinates.x, tile.Cell.Coordinates.y);
@@ -31,7 +25,7 @@ public class SaveData2048
     
     public override string ToString()
     {
-        return "SaveData2048: " + IsWin + " " + Score + " " + Maximum + " " +
+        return "SaveData2048: " + IsWin + " " + Score + " " +
                "SaveTiles[" + string.Join(" ", SaveTiles) + "]";
     }
 }

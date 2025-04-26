@@ -833,9 +833,10 @@ MonoBehaviour:
   - {fileID: 294964395}
   Record:
   - {fileID: 710671026}
+  maximums: []
   scoreAndRecordText: {fileID: 1909527672}
-  maximumText: {fileID: 0}
   scene: 2
+  gameType: 2
 --- !u!114 &967543834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2180,9 +2181,59 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1904228802}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2905685545101265196}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Again
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: InterruptGameOverAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Snake, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameOver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2905685545193295946, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_RootOrder
@@ -2350,9 +2401,59 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1412353733348996111}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2905685545101265196}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHomeClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: InterruptGameOverAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Buttons, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameOver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3412666917191259207, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_AnchoredPosition.y

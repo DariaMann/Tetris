@@ -1298,9 +1298,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1711273320}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 628597250}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1308,8 +1333,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: InterruptGameOverAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameOver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2905685544349794113, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -1487,13 +1527,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 387378058}
     - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 628597250}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnHomeClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: InterruptGameOverAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameOver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407529248641733294, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3412666917191259207, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -1564,11 +1644,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6069135994011368994, guid: b4ab13f31979df0478b09c67d17f2139,
-        type: 3}
-      propertyPath: haveMaximum
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6536912273652770040, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -4013,7 +4088,6 @@ MonoBehaviour:
   gameOver: {fileID: 628597250}
   saveScores: {fileID: 1711273322}
   undoButton: {fileID: 2092548283}
-  maximumText: {fileID: 1613420486}
 --- !u!4 &1711273321
 Transform:
   m_ObjectHideFlags: 0
@@ -4047,9 +4121,13 @@ MonoBehaviour:
   Record:
   - {fileID: 930765690}
   - {fileID: 628597248}
+  maximums:
+  - {fileID: 628597251}
+  maximumTexts:
+  - {fileID: 1613420486}
   scoreAndRecordText: {fileID: 1900849995}
-  maximumText: {fileID: 628597251}
   scene: 3
+  gameType: 3
 --- !u!114 &1711273324
 MonoBehaviour:
   m_ObjectHideFlags: 0

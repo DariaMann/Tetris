@@ -11,7 +11,21 @@ public class PlayerInRating :MonoBehaviour
     [SerializeField] private TextMeshProUGUI namePlayer;
     [SerializeField] private TextMeshProUGUI steps;
     [SerializeField] private Image chipsType;
-    
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform rectTransform;
+
+    public CanvasGroup CanvasGroup
+    {
+        get => canvasGroup;
+        set => canvasGroup = value;
+    }
+
+    public RectTransform RectTransform
+    {
+        get => rectTransform;
+        set => rectTransform = value;
+    }
+
     public PlayerState State { get; set; }
 
     public void SetData(Player player)

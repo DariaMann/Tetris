@@ -11,6 +11,7 @@ public class Loading: MonoBehaviour
             return;
         }
         GameHelper.SetFirstSettings();
+        GameHelper.Loading();
         GameAchievementServices.LoadList();
         GameHelper.GetLanguage();
         GameHelper.GetTheme();

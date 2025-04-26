@@ -6,26 +6,18 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GameOver : MonoBehaviour
+public class GameOverChineseCheckers: MonoBehaviour
 {
     [SerializeField] private List<ParticleSystem> confetti = new List<ParticleSystem>();
     
     [SerializeField] private CanvasGroup background;
     [SerializeField] private RectTransform headerPanel;
-    
-    [SerializeField] private CanvasGroup scorePanelGroup;
-    [SerializeField] private RectTransform scorePanel;
-    [SerializeField] private CanvasGroup ratingPanelGroup;
-    [SerializeField] private RectTransform ratingPanel;   
-    [SerializeField] private CanvasGroup maximumPanelGroup;
-    [SerializeField] private RectTransform maximumPanel;
-    
     [SerializeField] private CanvasGroup buttonsGroup; // "домой" и "заново"
 
-    private bool _isMaximumEnable = false;
     private bool _gameOverAnimationCompleted = false;
     private bool _isWin = false;
     private ParticleSystem _chosenConfetti;
+    private List<PlayerInRating> _playerPanels;
     
     public bool IsGameOver { get; set; }
 
@@ -33,7 +25,7 @@ public class GameOver : MonoBehaviour
     {
         if (pauseStatus)
         {
-            InterruptGameOverAnimation();
+            InterruptGameOverAnimation(_playerPanels);
         }
         else
         {
@@ -43,7 +35,7 @@ public class GameOver : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        InterruptGameOverAnimation();
+        InterruptGameOverAnimation(_playerPanels);
     }
     
     private void ResumeParticles()
@@ -55,7 +47,7 @@ public class GameOver : MonoBehaviour
         }
     }
     
-    public void InterruptGameOverAnimation()
+    private void InterruptGameOverAnimation(List<PlayerInRating> playerPanels)
     {
         if (!_gameOverAnimationCompleted)
         {
@@ -63,19 +55,18 @@ public class GameOver : MonoBehaviour
             DOTween.KillAll(); // Или конкретную sequence, если ты хранишь её как поле
 
             // Принудительно завершить всё вручную
-            FastShowPanel(_isWin);
+            FastShowPanel(_isWin, playerPanels);
         }
     }
-    
-    public void ShowGameOverPanel(bool isShow, bool isWin = false)
+
+    public void ShowGameOverPanel(bool isShow, List<PlayerInRating> playerPanels, bool isWin = false)
     {
-        InterruptGameOverAnimation();
+        _playerPanels = playerPanels;
+        InterruptGameOverAnimation(playerPanels);
         
         _gameOverAnimationCompleted = false;
         _chosenConfetti = null;
         _isWin = isWin;
-        _isMaximumEnable = GameHelper.GameType == MiniGameType.G2048;
-        maximumPanel.gameObject.SetActive(_isMaximumEnable);
         if (isShow)
         {
             foreach (var conf in confetti)
@@ -84,8 +75,8 @@ public class GameOver : MonoBehaviour
             }
             gameObject.SetActive(true);
             IsGameOver = true;
-            StartCoroutine(GameOverFallbackTimer(2f, isWin)); // Через 2 секунды проверим, дошло ли всё до конца
-            PlayGameOverAnimation(isWin);
+            StartCoroutine(GameOverFallbackTimer(4f, isWin, playerPanels));
+            PlayGameOverAnimation(isWin, playerPanels);
         }
         else
         {
@@ -97,8 +88,8 @@ public class GameOver : MonoBehaviour
             IsGameOver = false;
         }
     }
-
-    private void PlayGameOverAnimation(bool isWin)
+    
+    private void PlayGameOverAnimation(bool isWin, List<PlayerInRating> playerPanels)
     {
         try
         {
@@ -125,28 +116,16 @@ public class GameOver : MonoBehaviour
                 }
             });
 
-            // 4. Панель с очками — fade in + пульс
-            scorePanelGroup.alpha = 0;
-            scorePanel.localScale = Vector3.one;
-            sequence.Append(scorePanelGroup.DOFade(1, 0.3f));
-            sequence.Join(scorePanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
-
-            // 5. Панель с рейтингом
-            ratingPanelGroup.alpha = 0;
-            ratingPanel.localScale = Vector3.one;
-            sequence.Append(ratingPanelGroup.DOFade(1, 0.3f));
-            sequence.Join(ratingPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
-
-            // 6. Панель максимума, если включена
-            if (_isMaximumEnable)
+            // 4. Панели с игроками — fade in + пульс
+            foreach (var player in playerPanels)
             {
-                maximumPanelGroup.alpha = 0;
-                maximumPanel.localScale = Vector3.one;
-                sequence.Append(maximumPanelGroup.DOFade(1, 0.3f));
-                sequence.Join(maximumPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
+                player.CanvasGroup.alpha = 0;
+                player.RectTransform.localScale = Vector3.one;
+                sequence.Append(player.CanvasGroup.DOFade(1, 0.3f));
+                sequence.Join(player.RectTransform.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
             }
 
-            // 7. Кнопки — плавно появляются
+            // 5. Кнопки — плавно появляются
             buttonsGroup.interactable = false;
             buttonsGroup.alpha = 0;
             sequence.Append(buttonsGroup.DOFade(1, 0.3f));
@@ -157,7 +136,7 @@ public class GameOver : MonoBehaviour
                 if (!_gameOverAnimationCompleted)
                 {
                     Debug.Log("Твин был прерван. Выполняем аварийно.");
-                    FastShowPanel(isWin);
+                    FastShowPanel(isWin, playerPanels);
                 }
             });
 
@@ -174,22 +153,22 @@ public class GameOver : MonoBehaviour
         {
             Debug.LogError("Ошибка во время анимации GameOver: " + ex.Message);
 
-            FastShowPanel(isWin);
+            FastShowPanel(isWin, playerPanels);
         }
     }
 
-    private void FastShowPanel(bool isWin)
+    private void FastShowPanel(bool isWin, List<PlayerInRating> playerPanels)
     {
         // Резервный план: быстро показать всё вручную
         background.alpha = 1;
         headerPanel.anchoredPosition = new Vector2(headerPanel.anchoredPosition.x, -156.7322f);
-        scorePanelGroup.alpha = 1;
-        ratingPanelGroup.alpha = 1;
         buttonsGroup.alpha = 1;
         buttonsGroup.interactable = true;
 
-        if (_isMaximumEnable)
-            maximumPanelGroup.alpha = 1;
+        foreach (var player in playerPanels)
+        {
+            player.CanvasGroup.alpha = 1;
+        }
 
         // Активируем нужное после сбоя
         if (isWin)
@@ -209,14 +188,14 @@ public class GameOver : MonoBehaviour
         _gameOverAnimationCompleted = true;
     }
     
-    private IEnumerator GameOverFallbackTimer(float time, bool isWin)
+    private IEnumerator GameOverFallbackTimer(float time, bool isWin, List<PlayerInRating> playerPanels)
     {
         yield return new WaitForSeconds(time);
 
         if (!_gameOverAnimationCompleted)
         {
             Debug.LogWarning("Анимация не завершилась. Выполняем аварийно.");
-            FastShowPanel(isWin); // тут всё вручную — альфа = 1, позиции выставить и т.п.
+            FastShowPanel(isWin, playerPanels); // тут всё вручную — альфа = 1, позиции выставить и т.п.
         }
     }
 }

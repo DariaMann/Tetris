@@ -47,7 +47,7 @@ public class LineBoard : MonoBehaviour
     private void Start()
     {
         LoadLastPlay();
-        CheckUndoButtonState();
+        SetHintState(ShowFuture);
     }
 
     void OnApplicationQuit()
@@ -70,7 +70,7 @@ public class LineBoard : MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataLines98 saveData = JsonHelper.LoadLines98Data();
+        SaveDataLines98 saveData = GameHelper.SaveLines98.SaveDataLines98;
         if (saveData == null)
         {
             NewGame();
@@ -83,6 +83,7 @@ public class LineBoard : MonoBehaviour
         GenerateGrid();
         SpawnLoadedBalls(saveData.SaveBalls);
         SpawnLoadedBalls(saveData.SaveFutureBalls, true);
+        CheckUndoButtonState();
     }
     
 
@@ -90,12 +91,14 @@ public class LineBoard : MonoBehaviour
     {
         if (gameOver.IsGameOver)
         {
-            JsonHelper.SaveLines98Data(null);
+            GameHelper.SaveLines98.SaveDataLines98 = null;
+            JsonHelper.SaveLines98(GameHelper.SaveLines98);
             return;
         }
         SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
         
-        JsonHelper.SaveLines98Data(data);
+        GameHelper.SaveLines98.SaveDataLines98 = data;
+        JsonHelper.SaveLines98(GameHelper.SaveLines98);
     }
 
     private void NewGame()

@@ -13,12 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameOver gameOver;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private Button undoButton;
-    [SerializeField] private TextMeshProUGUI maximumText;
 
     public static GameManager Instance { get; private set; }
 
-    public int MaxNumber { get; private set; } = 2;
-    
     public Stack<Step2048> EventSteps { get; set; } = new Stack<Step2048>();
 
     public SaveScores SaveScores
@@ -65,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadLastPlay()
     {
-        SaveData2048 saveData = JsonHelper.Load2048Data();
+        SaveData2048 saveData = GameHelper.Save2048.SaveData2048;
         if (saveData == null)
         {
             NewGame();
@@ -74,7 +71,7 @@ public class GameManager : MonoBehaviour
         
         SaveScores.ChangeScore(saveData.Score);
         saveScores.IsWin = saveData.IsWin;
-        ChangeMaximumNumber(saveData.Maximum);
+        ChangeMaximumNumber(GameHelper.Save2048.Maximum);
         // hide game over screen
         gameOver.ShowGameOverPanel(false);
 
@@ -87,37 +84,39 @@ public class GameManager : MonoBehaviour
         }
         
         board.enabled = true;
+        
+        CheckUndoButtonState();
     }
 
     private void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
-            JsonHelper.Save2048Data(null);
+            GameHelper.Save2048.SaveData2048 = null;
+            JsonHelper.Save2048(GameHelper.Save2048);
             return;
         }
-        SaveData2048 data = new SaveData2048(SaveScores.IsWin, SaveScores.CurrentScore, MaxNumber, board.Tiles);
-        
-        JsonHelper.Save2048Data(data);
+        SaveData2048 data = new SaveData2048(SaveScores.IsWin, SaveScores.CurrentScore, board.Tiles);
+        GameHelper.Save2048.SaveData2048 = data;
+        JsonHelper.Save2048(GameHelper.Save2048);
     }
 
     public void ChangeMaximumNumber(int newMaximum)
     {
-        if (newMaximum > MaxNumber)
+        if (newMaximum > GameHelper.Save2048.Maximum)
         {
-            MaxNumber = newMaximum;
+            GameHelper.Save2048.Maximum = newMaximum;
+            JsonHelper.Save2048(GameHelper.Save2048);
         }
         
         SaveScores.ChangeMaximum(newMaximum);
-        
-        maximumText.text = LocalizationManager.Localize("2048.maximum") + ": " + MaxNumber;
     }
     
     public void NewGame()
     {
         // reset score
         SaveScores.ChangeScore(0);
-        ChangeMaximumNumber(MaxNumber);
+        ChangeMaximumNumber(GameHelper.Save2048.Maximum);
         
         // hide game over screen
         gameOver.ShowGameOverPanel(false);

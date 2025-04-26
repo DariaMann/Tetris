@@ -921,7 +921,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38227638178448478ac596a898875026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumParam: {fileID: 3999143955912327119}
   confetti:
   - {fileID: 4889109477787835702}
   - {fileID: 5644848915940072768}
@@ -932,8 +931,8 @@ MonoBehaviour:
   scorePanel: {fileID: 4671173774663243755}
   ratingPanelGroup: {fileID: 6007268793827906021}
   ratingPanel: {fileID: 4299056362945093842}
-  maximumPanelGroup: {fileID: 0}
-  maximumPanel: {fileID: 0}
+  maximumPanelGroup: {fileID: 6520592229110538733}
+  maximumPanel: {fileID: 1071575446114832197}
   buttonsGroup: {fileID: 6311900411413619845}
 --- !u!225 &7865548087649871176
 CanvasGroup:
@@ -1050,7 +1049,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1068,19 +1067,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7651660988635224244}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
-        m_MethodName: OnHomeClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3752085312721521276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,6 +1159,7 @@ GameObject:
   - component: {fileID: 1071575446114832197}
   - component: {fileID: 2198693084782322734}
   - component: {fileID: 8779358101451552375}
+  - component: {fileID: 6520592229110538733}
   m_Layer: 5
   m_Name: Maximum
   m_TagString: Untagged
@@ -1229,6 +1217,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!225 &6520592229110538733
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3999143955912327119}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4403980093479538632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,7 +2086,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2104,19 +2104,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2897985868593908347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Snake, Assembly-CSharp
-        m_MethodName: Again
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &8107983241163358967
 GameObject:
   m_ObjectHideFlags: 0

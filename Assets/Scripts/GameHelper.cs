@@ -16,6 +16,16 @@ public static class GameHelper
         public static event Action<bool> OnMusicChanged;
         public static event Action<bool> OnVibrationChanged;
         
+        public static Save2048 Save2048 { get; set; } = new Save2048(0,2,null);
+        
+        public static SaveTetris SaveTetris { get; set; } = new SaveTetris(0, null);
+        
+        public static SaveSnake SaveSnake { get; set; } = new SaveSnake(0, null);
+        
+        public static SaveLines98 SaveLines98 { get; set; } = new SaveLines98(0, null);
+        
+        public static SaveBlocks SaveBlocks { get; set; } = new SaveBlocks(0, null);
+        
         public static bool IdLoaded { get; set; } = false;
         
         public static SnakeSettings SnakeSettings { get; set; }
@@ -87,7 +97,7 @@ public static class GameHelper
                 if (Mathf.Approximately(speed, 0.7f)) return 3;
                 if (Mathf.Approximately(speed, 0.4f)) return 4;
                 if (Mathf.Approximately(speed, 0.3f)) return 5;
-                if (Mathf.Approximately(speed, 0.1f)) return 6;
+                if (Mathf.Approximately(speed, 0.2f)) return 6;
 
                 return 2;
         }
@@ -101,7 +111,7 @@ public static class GameHelper
                         case 3: return 0.7f;
                         case 4: return 0.4f;
                         case 5: return 0.3f;
-                        case 6: return 0.1f;
+                        case 6: return 0.2f;
                         default: return 1;
                 }
         }
@@ -167,6 +177,15 @@ public static class GameHelper
 #endif
         }
 
+        public static void Loading()
+        {
+                Save2048 = JsonHelper.Load2048();
+                SaveTetris = JsonHelper.LoadTetris();
+                SaveSnake = JsonHelper.LoadSnake();
+                SaveLines98 = JsonHelper.LoadLines98();
+                SaveBlocks = JsonHelper.LoadBlocks();
+        }
+        
         public static void SetFirstSettings()
         {
                 if (!PlayerPrefs.HasKey("Language"))
@@ -207,30 +226,30 @@ public static class GameHelper
                 {
                         GameAchievementServices.SaveList();
                 }
-                if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
-                {
-                        JsonHelper.SaveChineseCheckersData(null);
-                }
-                if (!PlayerPrefs.HasKey("SaveData2048"))
-                {
-                        JsonHelper.Save2048Data(null);
-                }   
-                if (!PlayerPrefs.HasKey("SaveDataLines98"))
-                {
-                        JsonHelper.SaveLines98Data(null);
-                } 
-                if (!PlayerPrefs.HasKey("SaveDataTetris"))
-                {
-                        JsonHelper.SaveTetrisData(null);
-                } 
-                if (!PlayerPrefs.HasKey("SaveDataSnake"))
-                {
-                        JsonHelper.SaveSnakeData(null);
-                }
-                if (!PlayerPrefs.HasKey("SaveDataBlocks"))
-                {
-                        JsonHelper.SaveBlocksData(null);
-                }
+//                if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
+//                {
+//                        JsonHelper.SaveChineseCheckersData(null);
+//                }
+//                if (!PlayerPrefs.HasKey("SaveData2048"))
+//                {
+//                        JsonHelper.Save2048(null);
+//                }   
+//                if (!PlayerPrefs.HasKey("SaveDataLines98"))
+//                {
+//                        JsonHelper.SaveLines98Data(null);
+//                } 
+//                if (!PlayerPrefs.HasKey("SaveDataTetris"))
+//                {
+//                        JsonHelper.SaveTetrisData(null);
+//                } 
+//                if (!PlayerPrefs.HasKey("SaveDataSnake"))
+//                {
+//                        JsonHelper.SaveSnakeData(null);
+//                }
+//                if (!PlayerPrefs.HasKey("SaveDataBlocks"))
+//                {
+//                        JsonHelper.SaveBlocksData(null);
+//                }
                 
                 if (!PlayerPrefs.HasKey("TetrisSettings"))
                 {
@@ -248,22 +267,34 @@ public static class GameHelper
         public static void ResetData()
         {
                 JsonHelper.SaveChineseCheckersData(null);
-                JsonHelper.Save2048Data(null);
-                JsonHelper.SaveTetrisData(null);
-                JsonHelper.SaveSnakeData(null);
-                JsonHelper.SaveLines98Data(null);
-                JsonHelper.SaveBlocksData(null);
-                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
-                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";
-                string path2048 = Application.persistentDataPath + "/Scores2048.xml";
-                string pathLines98 = Application.persistentDataPath + "/ScoresLines98.xml";
-                string pathBlocks = Application.persistentDataPath + "/ScoresBlocks.xml";
                 
-                SaveRecordData(pathTetris,0);
-                SaveRecordData(pathSnake,0);
-                SaveRecordData(path2048,0);
-                SaveRecordData(pathLines98,0);
-                SaveRecordData(pathBlocks,0);
+                JsonHelper.Save2048(null);
+                Save2048 = JsonHelper.Load2048();
+                
+                JsonHelper.SaveTetris(null);
+                SaveTetris = JsonHelper.LoadTetris();
+                
+                JsonHelper.SaveSnake(null);
+                SaveSnake = JsonHelper.LoadSnake();
+                
+                JsonHelper.SaveLines98(null);
+                SaveLines98 = JsonHelper.LoadLines98();
+                
+                JsonHelper.SaveBlocks(null);
+                SaveBlocks = JsonHelper.LoadBlocks();
+                
+//                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
+//                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";
+//                string path2048 = Application.persistentDataPath + "/Scores2048.xml";
+//                string pathLines98 = Application.persistentDataPath + "/ScoresLines98.xml";
+//                string pathBlocks = Application.persistentDataPath + "/ScoresBlocks.xml";
+                
+//                SaveRecordData(pathTetris,0);
+//                SaveRecordData(pathSnake,0);
+//                SaveRecordData(path2048,0);
+
+//                SaveRecordData(pathLines98,0);
+//                SaveRecordData(pathBlocks,0);
         }
 
         public static void SaveRecordData(string path, int record)
@@ -273,7 +304,7 @@ public static class GameHelper
                 XDocument saveDoc = new XDocument(root);
                 File.WriteAllText(path, saveDoc.ToString());
         }
-        
+
         public static int LoadRecordData(string path)
         {
                 XElement root = null;
@@ -289,7 +320,7 @@ public static class GameHelper
                 File.WriteAllText(path, newDoc.ToString());
                 return 0;
         }
-        
+
         public static void SetTheme(Themes theme)
         {
                 if (theme == Theme)

@@ -117,7 +117,7 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
         ResetRectTransform();
         foreach (var square in Squares)
         {
-            Destroy(square);
+            Destroy(square.gameObject);
         }
         Squares.Clear();
     }

@@ -73,7 +73,7 @@ public class BlocksBoard : MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataBlocks saveData = JsonHelper.LoadBlocksData();
+        SaveDataBlocks saveData = GameHelper.SaveBlocks.SaveDataBlocks;
         if (saveData == null)
         {
             NewGame();
@@ -85,6 +85,7 @@ public class BlocksBoard : MonoBehaviour
         GenerateGrid();
         FullLoadGrid(saveData.SaveBlocksTile);
         CreateBlocks(saveData.Blocks);
+        CheckUndoButtonState();
     }
 
 
@@ -92,12 +93,14 @@ public class BlocksBoard : MonoBehaviour
     {
         if (gameOver.IsGameOver)
         {
-            JsonHelper.SaveBlocksData(null);
+            GameHelper.SaveBlocks.SaveDataBlocks = null;
+            JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
             return;
         }
         SaveDataBlocks data = new SaveDataBlocks(saveScores.IsWin, saveScores.CurrentScore, Tiles, blocks);
-        
-        JsonHelper.SaveBlocksData(data);
+
+        GameHelper.SaveBlocks.SaveDataBlocks = data;
+        JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
     }
     
     private void NewGame()

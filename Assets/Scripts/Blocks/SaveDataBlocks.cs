@@ -9,7 +9,7 @@ public class SaveDataBlocks
     public List<SaveBlocksTile> SaveBlocksTile { get; set; } = new List<SaveBlocksTile>();
     
     public List<SaveBlock> Blocks { get; set; } = new List<SaveBlock>();
-    
+
     public SaveDataBlocks() {}
 
     public SaveDataBlocks(bool isWin, int score, List<BlockTile> blockTiles, List<Block> blocks)

@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 2583568633419782575}
   - component: {fileID: 66811695729120314}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,8 +263,8 @@ MonoBehaviour:
   exitController: 0
   havePausePanel: 1
   pauseMenu: {fileID: 5201487513918864525}
+  gameOver: {fileID: 0}
   settingsPanel: {fileID: 3050266035529126983}
-  settingsCanvasGroup: {fileID: 1427114859410250504}
   settingsEnglishSelection: {fileID: 389240903360131959}
   settingsRussianSelection: {fileID: 2828475428940174276}
   settingsLightSelection: {fileID: 504771077472748879}
@@ -1650,12 +1650,6 @@ GameObject:
 --- !u!1 &504771077472748879 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3894561879693736735, guid: 9279abb9fc8d201488df4ba16d42200b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3534496658258378320}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &1427114859410250504 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 2504894869086922072, guid: 9279abb9fc8d201488df4ba16d42200b,
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}

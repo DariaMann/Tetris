@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
+using System.IO;
 
 public static class JsonHelper
 {
@@ -50,35 +51,38 @@ public static class JsonHelper
         return jsonString;
     }
     
-    public static void SaveTetrisData(SaveDataTetris data)
+    public static void SaveTetris(SaveTetris data)
     {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveDataTetris(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataTetris", json);
-        PlayerPrefs.Save();
+        if (data == null)
+        {
+            data = new SaveTetris(0, null);
+        }
+        string json = SerializeJsonTetris(data);
+        Debug.Log("SaveTetris: " + json);
+        string path = Application.persistentDataPath + "/Tetris.json";
+        File.WriteAllText(path, json);
     }
     
-    public static SaveDataTetris LoadTetrisData()
+    public static SaveTetris LoadTetris()
     {
-        if (PlayerPrefs.HasKey("SaveDataTetris"))
+        string path = Application.persistentDataPath + "/Tetris.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveDataTetris");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveDataTetris data = DeserializeJsonSaveDataTetris(json);
+            SaveTetris data = DeserializeJsonTetris(json);
             return data;
         }
-        return null;
+
+        return new SaveTetris();
     }
     
-    private static SaveDataTetris DeserializeJsonSaveDataTetris(string jsonString)
+    private static SaveTetris DeserializeJsonTetris(string jsonString)
     {
-        SaveDataTetris data = JsonConvert.DeserializeObject<SaveDataTetris>(jsonString, new JsonSerializerSettings 
+        SaveTetris data = JsonConvert.DeserializeObject<SaveTetris>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -86,7 +90,7 @@ public static class JsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveDataTetris(SaveDataTetris data)
+    private static string SerializeJsonTetris(SaveTetris data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {
@@ -144,35 +148,38 @@ public static class JsonHelper
         return jsonString;
     }
     
-    public static void SaveSnakeData(SaveDataSnake data)
+    public static void SaveSnake(SaveSnake data)
     {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveDataSnake(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataSnake", json);
-        PlayerPrefs.Save();
+        if (data == null)
+        {
+            data = new SaveSnake(0, null);
+        }
+        string json = SerializeJsonSnake(data);
+        Debug.Log("SaveSnake: " + json);
+        string path = Application.persistentDataPath + "/Snake.json";
+        File.WriteAllText(path, json);
     }
     
-    public static SaveDataSnake LoadSnakeData()
+    public static SaveSnake LoadSnake()
     {
-        if (PlayerPrefs.HasKey("SaveDataSnake"))
+        string path = Application.persistentDataPath + "/Snake.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveDataSnake");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveDataSnake data = DeserializeJsonSaveDataSnake(json);
+            SaveSnake data = DeserializeJsonSnake(json);
             return data;
         }
-        return null;
+
+        return new SaveSnake();
     }
-    
-    private static SaveDataSnake DeserializeJsonSaveDataSnake(string jsonString)
+
+    private static SaveSnake DeserializeJsonSnake(string jsonString)
     {
-        SaveDataSnake data = JsonConvert.DeserializeObject<SaveDataSnake>(jsonString, new JsonSerializerSettings 
+        SaveSnake data = JsonConvert.DeserializeObject<SaveSnake>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -180,7 +187,7 @@ public static class JsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveDataSnake(SaveDataSnake data)
+    private static string SerializeJsonSnake(SaveSnake data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {
@@ -193,35 +200,38 @@ public static class JsonHelper
     
     #region 2048
 
-    public static void Save2048Data(SaveData2048 data)
+    public static void Save2048(Save2048 data)
     {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveData2048(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveData2048", json);
-        PlayerPrefs.Save();
+        if (data == null)
+        {
+            data = new Save2048(0, 2, null);
+        }
+        string json = SerializeJson2048(data);
+        Debug.Log("Save2048: " + json);
+        string path = Application.persistentDataPath + "/2048.json";
+        File.WriteAllText(path, json);
     }
     
-    public static SaveData2048 Load2048Data()
+    public static Save2048 Load2048()
     {
-        if (PlayerPrefs.HasKey("SaveData2048"))
+        string path = Application.persistentDataPath + "/2048.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveData2048");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveData2048 data = DeserializeJsonSaveData2048(json);
+            Save2048 data = DeserializeJson2048(json);
             return data;
         }
-        return null;
+
+        return new Save2048();
     }
     
-    private static SaveData2048 DeserializeJsonSaveData2048(string jsonString)
+    private static Save2048 DeserializeJson2048(string jsonString)
     {
-        SaveData2048 data = JsonConvert.DeserializeObject<SaveData2048>(jsonString, new JsonSerializerSettings 
+        Save2048 data = JsonConvert.DeserializeObject<Save2048>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -229,14 +239,59 @@ public static class JsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveData2048(SaveData2048 data)
+    private static string SerializeJson2048(Save2048 data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto
         });
         return jsonString;
-    }
+    }    
+    
+//    public static void Save2048Data(SaveData2048 data)
+//    {
+////        string json = JsonUtility.ToJson(data);
+//        string json = SerializeJsonSaveData2048(data);
+//        Debug.Log("Serialize: " + json);
+//        PlayerPrefs.SetString("SaveData2048", json);
+//        PlayerPrefs.Save();
+//    }
+//    
+//    public static SaveData2048 Load2048Data()
+//    {
+//        if (PlayerPrefs.HasKey("SaveData2048"))
+//        {
+//            string json = PlayerPrefs.GetString("SaveData2048");
+//            // Проверка на пустую строку
+//            if (string.IsNullOrEmpty(json))
+//            {
+//                return null;
+//            }
+////            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
+//            SaveData2048 data = DeserializeJsonSaveData2048(json);
+//            return data;
+//        }
+//        return null;
+//    }
+//    
+//    private static SaveData2048 DeserializeJsonSaveData2048(string jsonString)
+//    {
+//        SaveData2048 data = JsonConvert.DeserializeObject<SaveData2048>(jsonString, new JsonSerializerSettings 
+//        { 
+//            TypeNameHandling = TypeNameHandling.Auto,
+//            //NullValueHandling = NullValueHandling.Ignore,
+//        });
+//        return data;
+//    }
+//    
+//    private static string SerializeJsonSaveData2048(SaveData2048 data)
+//    {
+//        string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
+//        {
+//            TypeNameHandling = TypeNameHandling.Auto
+//        });
+//        return jsonString;
+//    }
     
     #endregion
     
@@ -244,27 +299,26 @@ public static class JsonHelper
 
     public static void SaveChineseCheckersData(SaveDataChineseCheckers data)
     {
-//        string json = JsonUtility.ToJson(data);
         string json = SerializeJsonSaveDataChineseCheckers(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataChineseCheckers", json);
-        PlayerPrefs.Save();
+        Debug.Log("SaveChineseCheckers: " + json);
+        string path = Application.persistentDataPath + "/ChineseCheckers.json";
+        File.WriteAllText(path, json);
     }
     
     public static SaveDataChineseCheckers LoadChineseCheckersData()
     {
-        if (PlayerPrefs.HasKey("SaveDataChineseCheckers"))
+        string path = Application.persistentDataPath + "/ChineseCheckers.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveDataChineseCheckers");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
             SaveDataChineseCheckers data = DeserializeJsonSaveDataChineseCheckers(json);
             return data;
         }
+
         return null;
     }
     
@@ -291,35 +345,38 @@ public static class JsonHelper
     
     #region Lines98
 
-    public static void SaveLines98Data(SaveDataLines98 data)
+    public static void SaveLines98(SaveLines98 data)
     {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveDataLines98(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataLines98", json);
-        PlayerPrefs.Save();
+        if (data == null)
+        {
+            data = new SaveLines98(0, null);
+        }
+        string json = SerializeJsonLines98(data);
+        Debug.Log("SaveLines98: " + json);
+        string path = Application.persistentDataPath + "/Lines98.json";
+        File.WriteAllText(path, json);
     }
     
-    public static SaveDataLines98 LoadLines98Data()
+    public static SaveLines98 LoadLines98()
     {
-        if (PlayerPrefs.HasKey("SaveDataLines98"))
+        string path = Application.persistentDataPath + "/Lines98.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveDataLines98");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveDataLines98 data = DeserializeJsonSaveDataLines98(json);
+            SaveLines98 data = DeserializeJsonLines98(json);
             return data;
         }
-        return null;
+
+        return new SaveLines98();
     }
     
-    private static SaveDataLines98 DeserializeJsonSaveDataLines98(string jsonString)
+    private static SaveLines98 DeserializeJsonLines98(string jsonString)
     {
-        SaveDataLines98 data = JsonConvert.DeserializeObject<SaveDataLines98>(jsonString, new JsonSerializerSettings 
+        SaveLines98 data = JsonConvert.DeserializeObject<SaveLines98>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -327,7 +384,7 @@ public static class JsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveDataLines98(SaveDataLines98 data)
+    private static string SerializeJsonLines98(SaveLines98 data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {
@@ -340,35 +397,38 @@ public static class JsonHelper
     
     #region Blocks
 
-    public static void SaveBlocksData(SaveDataBlocks data)
+    public static void SaveBlocks(SaveBlocks data)
     {
-//        string json = JsonUtility.ToJson(data);
-        string json = SerializeJsonSaveDataBlocks(data);
-        Debug.Log("Serialize: " + json);
-        PlayerPrefs.SetString("SaveDataBlocks", json);
-        PlayerPrefs.Save();
+        if (data == null)
+        {
+            data = new SaveBlocks(0, null);
+        }
+        string json = SerializeJsonBlocks(data);
+        Debug.Log("SaveBlocks: " + json);
+        string path = Application.persistentDataPath + "/Blocks.json";
+        File.WriteAllText(path, json);
     }
     
-    public static SaveDataBlocks LoadBlocksData()
+    public static SaveBlocks LoadBlocks()
     {
-        if (PlayerPrefs.HasKey("SaveDataBlocks"))
+        string path = Application.persistentDataPath + "/Blocks.json";
+        if (File.Exists(path))
         {
-            string json = PlayerPrefs.GetString("SaveDataBlocks");
-            // Проверка на пустую строку
+            string json = File.ReadAllText(path);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
             }
-//            SaveDataChineseCheckers data = JsonUtility.FromJson<SaveDataChineseCheckers>(json);
-            SaveDataBlocks data = DeserializeJsonSaveDataBlocks(json);
+            SaveBlocks data = DeserializeJsonBlocks(json);
             return data;
         }
-        return null;
+
+        return new SaveBlocks();
     }
-    
-    private static SaveDataBlocks DeserializeJsonSaveDataBlocks(string jsonString)
+
+    private static SaveBlocks DeserializeJsonBlocks(string jsonString)
     {
-        SaveDataBlocks data = JsonConvert.DeserializeObject<SaveDataBlocks>(jsonString, new JsonSerializerSettings 
+        SaveBlocks data = JsonConvert.DeserializeObject<SaveBlocks>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -376,7 +436,7 @@ public static class JsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveDataBlocks(SaveDataBlocks data)
+    private static string SerializeJsonBlocks(SaveBlocks data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {

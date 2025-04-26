@@ -25,12 +25,16 @@ public class ThemeSettings : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private Slider speed;
     [SerializeField] private TextMeshProUGUI textSlider;
+    [SerializeField] private Image backgroundSnakeSlider;
+    [SerializeField] private Image fillSnakeSlider;
     
     [SerializeField] private GameObject tetrisSettings;
     [SerializeField] private Toggle accelerationTetrisToggle;
     [SerializeField] private TextMeshProUGUI speedTetrisText;
     [SerializeField] private Slider speedTetris;
     [SerializeField] private TextMeshProUGUI textTetrisSlider;
+    [SerializeField] private Image backgroundTetrisSlider;
+    [SerializeField] private Image fillTetrisSlider;
 
     private Themes _theme;
     private Color _colorLight;
@@ -153,9 +157,48 @@ public class ThemeSettings : MonoBehaviour
     
     public void ShowSnakeSpeedParameters(bool isShow)
     {
-        speedText.gameObject.SetActive(isShow);
-        speed.gameObject.SetActive(isShow);
-        RefreshUI();
+//        speedText.gameObject.SetActive(isShow);
+//        speed.gameObject.SetActive(isShow);
+//        RefreshUI();
+
+        if (isShow)
+        {
+            Color c = speedText.color;
+            c.a = 1f; // нет прозрачности
+            speedText.color = c;
+            speed.interactable = true;
+            
+            Color c1 = textSlider.color;
+            c1.a = 1f; // нет прозрачности
+            textSlider.color = c1;
+            
+            Color c2 = backgroundSnakeSlider.color;
+            c2.a = 1f; // нет прозрачности
+            backgroundSnakeSlider.color = c2;
+            
+            Color c3 = fillSnakeSlider.color;
+            c3.a = 1f; // нет прозрачности
+            fillSnakeSlider.color = c3;
+        }
+        else
+        {
+            Color c = speedText.color;
+            c.a = 0.5f; // 30% прозрачности
+            speedText.color = c;
+            speed.interactable = false;
+            
+            Color c1 = textSlider.color;
+            c1.a = 0.5f; // нет прозрачности
+            textSlider.color = c1;
+            
+            Color c2 = backgroundSnakeSlider.color;
+            c2.a = 0.5f; // нет прозрачности
+            backgroundSnakeSlider.color = c2;
+            
+            Color c3 = fillSnakeSlider.color;
+            c3.a = 0.5f; // нет прозрачности
+            fillSnakeSlider.color = c3;
+        }
     }
     
     public void SetTetrisSettings()
@@ -184,9 +227,48 @@ public class ThemeSettings : MonoBehaviour
     
     public void ShowTetrisSpeedParameters(bool isShow)
     {
-        speedTetrisText.gameObject.SetActive(isShow);
-        speedTetris.gameObject.SetActive(isShow);
-        RefreshUI();
+//        speedTetrisText.gameObject.SetActive(isShow);
+//        speedTetris.gameObject.SetActive(isShow);
+//        RefreshUI();
+        
+        if (isShow)
+        {
+            Color c = speedTetrisText.color;
+            c.a = 1f; // нет прозрачности
+            speedTetrisText.color = c;
+            speedTetris.interactable = true;
+            
+            Color c1 = textTetrisSlider.color;
+            c1.a = 1f; // нет прозрачности
+            textTetrisSlider.color = c1;
+            
+            Color c2 = backgroundTetrisSlider.color;
+            c2.a = 1f; // нет прозрачности
+            backgroundTetrisSlider.color = c2;
+            
+            Color c3 = fillTetrisSlider.color;
+            c3.a = 1f; // нет прозрачности
+            fillTetrisSlider.color = c3;
+        }
+        else
+        {
+            Color c = speedTetrisText.color;
+            c.a = 0.5f; // 30% прозрачности
+            speedTetrisText.color = c;
+            speedTetris.interactable = false;
+            
+            Color c1 = textTetrisSlider.color;
+            c1.a = 0.5f; // нет прозрачности
+            textTetrisSlider.color = c1;
+            
+            Color c2 = backgroundTetrisSlider.color;
+            c2.a = 0.5f; // нет прозрачности
+            backgroundTetrisSlider.color = c2;
+            
+            Color c3 = fillTetrisSlider.color;
+            c3.a = 0.5f; // нет прозрачности
+            fillTetrisSlider.color = c3;
+        }
     }
 
     private void Update()
@@ -276,6 +358,9 @@ public class ThemeSettings : MonoBehaviour
 //        {
 //            light.color = _colorGrey;
 //        }
+
+        ShowSnakeSpeedParameters(!GameHelper.SnakeSettings.Acceleration);
+        ShowTetrisSpeedParameters(!GameHelper.TetrisSettings.Acceleration);
     } 
     
     public void SetDark()
@@ -330,6 +415,9 @@ public class ThemeSettings : MonoBehaviour
 //        {
 //            light.color = _colorGrey;
 //        }
+
+        ShowSnakeSpeedParameters(!GameHelper.SnakeSettings.Acceleration);
+        ShowTetrisSpeedParameters(!GameHelper.TetrisSettings.Acceleration);
     }
     
     public void RefreshUI()

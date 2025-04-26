@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using System.IO;
 using UnityEngine.UI;
 using System;
+using Assets.SimpleLocalization;
 using JetBrains.Annotations;
 using TMPro;
 
@@ -12,17 +13,21 @@ public class SaveScores : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> ScoreText;
     [SerializeField] private List<TextMeshProUGUI> Record;
+    [SerializeField] private List<TextMeshProUGUI> maximums = new List<TextMeshProUGUI>();
+    [SerializeField] private List<TextMeshProUGUI> maximumTexts = new List<TextMeshProUGUI>();
     
     [SerializeField, CanBeNull] private TextMeshProUGUI scoreAndRecordText;
-    [SerializeField, CanBeNull] private TextMeshProUGUI maximumText;
     
     [SerializeField] private int scene;
+    [SerializeField] private MiniGameType gameType;
 
     private string path;
     private int currentScore = 0;
     private int maximum = 0;
 
     public int CurrentRecord { get; set; } = 0;
+    
+    public int Maximum { get; set; } = 0;
     
     public bool IsWin { get; set; }
 
@@ -34,30 +39,65 @@ public class SaveScores : MonoBehaviour
 
     public void Awake()
     {
-        if (scene == 1)
+//        if (scene == 1)
+//        {
+//            path = Application.persistentDataPath + "/ScoresTetris.xml";
+//        }
+//        else if (scene == 2)
+//        {
+//            path = Application.persistentDataPath + "/ScoresSnake.xml";
+//        }
+////        else if (scene == 3)
+////        {
+////            path = Application.persistentDataPath + "/Scores2048.xml";
+////        }
+//        
+//        else if (scene == 4)
+//        {
+//            path = Application.persistentDataPath + "/ScoresLines98.xml";
+//        } 
+//        
+//        else if (scene == 5)
+//        {
+//            path = Application.persistentDataPath + "/ScoresBlocks.xml";
+//        } 
+//        
+//        Debug.Log(path);
+//        CurrentRecord = GameHelper.LoadRecordData(path, "score");
+//        if (scene == 3)
+//        {
+//            Maximum = GameHelper.LoadRecordData(path, "maximum");
+//        }
+        switch (gameType)
         {
-            path = Application.persistentDataPath + "/ScoresTetris.xml";
-        }
-        else if (scene == 2)
-        {
-            path = Application.persistentDataPath + "/ScoresSnake.xml";
-        }
-        else if (scene == 3)
-        {
-            path = Application.persistentDataPath + "/Scores2048.xml";
-        }
-        
-        else if (scene == 4)
-        {
-            path = Application.persistentDataPath + "/ScoresLines98.xml";
-        } 
-        
-        else if (scene == 5)
-        {
-            path = Application.persistentDataPath + "/ScoresBlocks.xml";
+            case MiniGameType.G2048:
+            {
+                CurrentRecord = GameHelper.Save2048.Record;
+                Maximum = GameHelper.Save2048.Maximum;
+                break;
+            } 
+            case MiniGameType.Tetris:
+            {
+                CurrentRecord = GameHelper.SaveTetris.Record;
+                break;
+            } 
+            case MiniGameType.Snake:
+            {
+                CurrentRecord = GameHelper.SaveSnake.Record;
+                break;
+            } 
+            case MiniGameType.Lines98:
+            {
+                CurrentRecord = GameHelper.SaveLines98.Record;
+                break;
+            } 
+            case MiniGameType.Blocks:
+            {
+                CurrentRecord = GameHelper.SaveBlocks.Record;
+                break;
+            } 
         }
 
-        CurrentRecord = GameHelper.LoadRecordData(path);
         ChangeScore(currentScore);
     }
     
@@ -69,7 +109,33 @@ public class SaveScores : MonoBehaviour
             {
                 IsWin = true;
             }
-            GameHelper.SaveRecordData(path, currentScore);
+
+            if (gameType == MiniGameType.G2048)
+            {
+                GameHelper.Save2048.Record = currentScore;
+                GameHelper.Save2048.Maximum = maximum;
+                JsonHelper.Save2048(GameHelper.Save2048);
+            }
+            else if (gameType == MiniGameType.Tetris)
+            {
+                GameHelper.SaveTetris.Record = currentScore;
+                JsonHelper.SaveTetris(GameHelper.SaveTetris);
+            }
+            else if (gameType == MiniGameType.Snake)
+            {
+                GameHelper.SaveSnake.Record = currentScore;
+                JsonHelper.SaveSnake(GameHelper.SaveSnake);
+            }
+            else if (gameType == MiniGameType.Lines98)
+            {
+                GameHelper.SaveLines98.Record = currentScore;
+                JsonHelper.SaveLines98(GameHelper.SaveLines98);
+            }
+            else if (gameType == MiniGameType.Blocks)
+            {
+                GameHelper.SaveBlocks.Record = currentScore;
+                JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
+            }
             
             CurrentRecord = currentScore;
             foreach (var rec in Record)
@@ -160,11 +226,18 @@ public class SaveScores : MonoBehaviour
 
     public void ChangeMaximum(int max)
     {
-        if (maximumText == null)
+        if (maximums.Count <= 0)
         {
             return;
         }
         maximum = max;
-        maximumText.text = maximum.ToString();
+        foreach (var maxText in maximums)
+        {
+            maxText.text = maximum.ToString();
+        }      
+        foreach (var maxText in maximumTexts)
+        {
+            maxText.text = LocalizationManager.Localize("2048.maximum") + ": " + maximum;
+        }
     }
 }

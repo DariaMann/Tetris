@@ -27,13 +27,15 @@ public class CheckersManager: MonoBehaviour
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject warningPanel;
     
-    [SerializeField] private GameOver gameOver;
+    [SerializeField] private GameOverChineseCheckers gameOver;
     [SerializeField] private RectTransform playersRatingPanel;
     [SerializeField] private GameObject playerInRatingPrefab;
     
     [SerializeField] private float warningSpeed = 0.5f;
     
     [SerializeField] private TextMeshProUGUI speedButtonText;
+    
+    [SerializeField] private RectTransform changeColorButton;
     
     [SerializeField] private Sprite redChip;
     [SerializeField] private Sprite blackChip;
@@ -140,6 +142,28 @@ public class CheckersManager: MonoBehaviour
         ShiftColorsRight();
         SetPlayerColors();
         _blueColorIndex = GetBlueIndex();
+//        changeColorButton.Rotate(0f, 0f, GetRotateZChangeColorButton());
+        float z = GetRotateZChangeColorButton();
+        changeColorButton.localEulerAngles = new Vector3(
+            changeColorButton.localEulerAngles.x,
+            changeColorButton.localEulerAngles.y,
+            z // нужный угол по Z
+        );
+    }
+
+    private float GetRotateZChangeColorButton()
+    {
+        switch (_blueColorIndex)
+        {
+            case 0: return 0f;
+            case 1: return -60f;
+            case 2: return -120f;
+            case 3: return -180f;
+            case 4: return -240f;
+            case 5: return -300f;
+        }
+
+        return 0f;
     }
     
     private void ShiftColorsRight()
@@ -293,6 +317,7 @@ public class CheckersManager: MonoBehaviour
         _blueColorIndex = PlayerPrefs.GetInt("CCBlueColorIndex");
         _countGames = PlayerPrefs.GetInt("CCCountGames");
         SetHintState(ShowHint);
+        changeColorButton.Rotate(0f, 0f, GetRotateZChangeColorButton());
     }
 
     public void ChangeCountGames()
@@ -700,10 +725,10 @@ public class CheckersManager: MonoBehaviour
                 _playersInRating.Add(playerInRating);
             }   
         }
-        
-        gameOver.ShowGameOverPanel(true, _playersInRating[0].State == PlayerState.Player);
+
+        gameOver.ShowGameOverPanel(true, _playersInRating, _playersInRating[0].State == PlayerState.Player);
     }
-    
+
     public void HideFinishPanel()
     {
         for (int i = _playersInRating.Count-1; i >= 0; i--)
@@ -712,7 +737,7 @@ public class CheckersManager: MonoBehaviour
         }
         _playersInRating.Clear();
 
-        gameOver.ShowGameOverPanel(false);
+        gameOver.ShowGameOverPanel(false, null);
     }
 
     public void SetCurrentPlayer(Player newPlayer)

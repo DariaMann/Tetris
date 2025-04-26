@@ -87,7 +87,7 @@ public class Board : MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataTetris saveData = JsonHelper.LoadTetrisData();
+        SaveDataTetris saveData = GameHelper.SaveTetris.SaveDataTetris;
         if (saveData == null)
         {
             NextRandomTetromino();
@@ -106,7 +106,8 @@ public class Board : MonoBehaviour
     {
         if (gameOver.IsGameOver)
         {
-            JsonHelper.SaveTetrisData(null);
+            GameHelper.SaveTetris.SaveDataTetris = null;
+            JsonHelper.SaveTetris(GameHelper.SaveTetris);
             return;
         }
 
@@ -146,7 +147,8 @@ public class Board : MonoBehaviour
         }
         
         SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, saveScores.CurrentScore, ActivePiece.Data.tetromino, _next.tetromino, tetrominos);
-        JsonHelper.SaveTetrisData(data);
+        GameHelper.SaveTetris.SaveDataTetris = data;
+        JsonHelper.SaveTetris(GameHelper.SaveTetris);
     }
     
     public void LoadTilemap(List<SaveTetramino> saveTetrominos)
