@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BlocksBoard : MonoBehaviour
 {
-    [SerializeField] private ThemeBlocks theme;
+    [SerializeField] private ThemeBlocks themeBlocks;
     [SerializeField] private SquareUIGrid squareUiGrid;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
@@ -25,6 +26,12 @@ public class BlocksBoard : MonoBehaviour
         set => blocks = value;
     }
 
+    public ThemeBlocks ThemeBlocks
+    {
+        get => themeBlocks;
+        set => themeBlocks = value;
+    }
+    
     public List<BlockTile> Tiles { get; set; } = new List<BlockTile>();
     
     public Stack<SaveDataBlocks> EventSteps { get; set; } = new Stack<SaveDataBlocks>();
@@ -71,6 +78,11 @@ public class BlocksBoard : MonoBehaviour
         SaveLastPlay();
     }
     
+    public void OnChangeBlocks()
+    {
+        CreateBlocks();
+    }
+    
     private void LoadLastPlay()
     {
         SaveDataBlocks saveData = GameHelper.SaveBlocks.SaveDataBlocks;
@@ -85,6 +97,7 @@ public class BlocksBoard : MonoBehaviour
         GenerateGrid();
         FullLoadGrid(saveData.SaveBlocksTile);
         CreateBlocks(saveData.Blocks);
+        CheckInteractableBlocks();
         CheckUndoButtonState();
     }
 
@@ -115,8 +128,9 @@ public class BlocksBoard : MonoBehaviour
         gameOver.ShowGameOverPanel(false);
         
         saveScores.ChangeScore(0, false);
-        ResetGrid();
+        ResetAll();
         CreateBlocks();
+        CheckInteractableBlocks();
         CheckUndoButtonState();
     }
     
@@ -157,6 +171,12 @@ public class BlocksBoard : MonoBehaviour
         }
     }
     
+    public void ResetAll()
+    {
+        ResetGrid();
+        EventSteps.Clear();
+    }  
+    
     public void ResetGrid()
     {
         foreach (var tile in Tiles)
@@ -187,6 +207,7 @@ public class BlocksBoard : MonoBehaviour
             ResetGrid();
             FullLoadGrid(saveData.SaveBlocksTile);
             CreateBlocks(saveData.Blocks);
+            CheckInteractableBlocks();
             CheckUndoButtonState();
         }
     }
@@ -222,7 +243,11 @@ public class BlocksBoard : MonoBehaviour
     {
         for (int i = 0; i < blockTypes.Count; i++)
         {
-            blocks[i].CreateBlock(blockTypes[i].BlockShape);
+            if (blockTypes[i].BlockShape != null)
+            {
+                blocks[i].CreateBlock(blockTypes[i].BlockShape);
+            }
+
             if (!blockTypes[i].IsEnable)
             {
                 blocks[i].Deactivate();
@@ -316,11 +341,31 @@ public class BlocksBoard : MonoBehaviour
         GetSelectedBlock().Deactivate();
         
         var (tilesToClear, score) = CheckLinesAndGetScore();
-
-        foreach (var tile in tilesToClear)
+        
+        if (tilesToClear.Count == 0)
         {
-            tile.Explode();
+            CheckInteractableBlocks(); // если нечего очищать — сразу вызвать
         }
+        else
+        {
+            List<Tween> tweens = new List<Tween>();
+
+            foreach (var tile in tilesToClear)
+            {
+                var tween = tile.Explode();
+                tweens.Add(tween);
+            }
+
+            // Когда завершится последняя анимация — вызываем метод
+            DOTween.Sequence()
+                .AppendInterval(tweens.Max(t => t.Duration())) // дождаться самой долгой
+                .OnComplete(CheckInteractableBlocks);
+        }
+
+//        foreach (var tile in tilesToClear)
+//        {
+//            tile.Explode();
+//        }
 
         if (score > 0)
         {
@@ -330,8 +375,9 @@ public class BlocksBoard : MonoBehaviour
         if (IsAllBlocksDeactivated())
         {
             CreateBlocks();
+            CheckInteractableBlocks();
         }
-        
+
 //        if (!CheckGameOver(blocks))
 //        {
 //            Debug.Log("Игра окончена — нет возможных ходов!");
@@ -370,7 +416,13 @@ public class BlocksBoard : MonoBehaviour
 //        return false;
 //    }
     
-    BlockTile GetTile(int x, int y) => Tiles[y * gridSize + x];
+    public BlockTile GetTile(int x, int y)
+    {
+        if (x < 0 || x >= gridSize || y < 0 || y >= gridSize)
+            return null;
+
+        return Tiles[y * gridSize + x];
+    }
 
     private (List<BlockTile> tilesToClear, int score) CheckLinesAndGetScore()
     {
@@ -598,6 +650,71 @@ public class BlocksBoard : MonoBehaviour
 
         return result;
     }
+
+    public void CheckInteractableBlocks()
+    {
+        int countNotInteractable = 0;
+        int countActive = 0;
+        
+        foreach (var block in blocks)
+        {
+            if (!block.IsActive)
+            {
+                continue;
+            }
+            bool anyAvailable = HasAnyValidPlacement(block.BlockShape);
+            block.SetInteractable(anyAvailable);
+
+            if (!anyAvailable)
+            {
+                countNotInteractable += 1;
+            }
+            countActive += 1;
+        }
+
+        if (countNotInteractable == countActive && countActive > 0)
+        {
+            GameOver();
+        }
+    }
+    
+    public bool HasAnyValidPlacement(BlockShape shape)
+    {
+        int shapeWidth = shape.columns;
+        int shapeHeight = shape.rows;
+
+        for (int y = 0; y <= 9 - shapeHeight; y++) // 9 — высота поля
+        {
+            for (int x = 0; x <= 9 - shapeWidth; x++) // 9 — ширина поля
+            {
+                bool canPlace = true;
+
+                for (int dy = 0; dy < shapeHeight; dy++)
+                {
+                    for (int dx = 0; dx < shapeWidth; dx++)
+                    {
+                        if (!shape.board[dy].column[dx]) continue; // Пропускаем пустые ячейки
+
+                        BlockTile tile = GetTile(x + dx, y + dy);
+                        if (tile == null || tile.IsOccupied)
+                        {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+
+                    if (!canPlace)
+                        break;
+                }
+
+                if (canPlace)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
 
 
 //    public List<BlockTile> GetHoveredTilesByProximity(List<GameObject> blocks)

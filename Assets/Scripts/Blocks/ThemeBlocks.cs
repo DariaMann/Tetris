@@ -72,6 +72,30 @@ public class ThemeBlocks: MonoBehaviour
         }
     }
 
+    public Sprite GetTileSprite(Themes theme)
+    {
+        switch (theme)
+        {
+            case Themes.Auto: return GetAutoTileSprite();
+            case Themes.Light: return lightBlockSprite;
+            case Themes.Night: return darkBlockSprite;
+            default: return lightBlockSprite;
+        }
+    }
+    
+    public Sprite GetAutoTileSprite()
+    {
+        bool isDark = ThemeManager.IsSystemDarkTheme();
+        if (isDark)
+        {
+            return darkBlockSprite;
+        }
+        else
+        {
+            return lightBlockSprite;
+        }
+    }
+
     public void SetTheme(Themes theme)
     {
         switch (theme)

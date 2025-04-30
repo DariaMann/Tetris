@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private BlocksBoard blocksBoard;
     [SerializeField] private GameObject blockImage;
     [SerializeField] private float offsetX;
     [SerializeField] private Vector2 squareSize = new Vector2(58, 58);
     [SerializeField] private Vector3 blockSelectedScale = new Vector3(1, 1, 1);
-    [SerializeField] private Vector2 offset = new Vector2(0, 700 );
+    [SerializeField] private Vector2 offset = new Vector2(0, 500 );
 
     private Vector2 _startAnchoredPosition;
     private Vector2 _startSizeDelta;
@@ -33,6 +33,8 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
     public bool IsActive { get; set; } = true;
 
     public bool IsSelected { get; set; }
+
+    public bool IsInteractable { get; set; } = true;
     
     public int TotalSquareNumber { get; set; }
     
@@ -72,6 +74,15 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
             square.SetTheme(mainSprite);
         }
     }
+    
+    public void SetInteractable(bool isActivate)
+    {
+        IsInteractable = isActivate;
+        foreach (var square in Squares)
+        {
+            square.SetInteractable(isActivate);
+        }
+    }
 
     private void ResetRectTransform()
     {
@@ -106,7 +117,7 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
 
         foreach (var square in Squares)
         {
-            square?.GetComponent<BlockSquare>().Deactivate();
+            square.Deactivate();
         }
 
         IsActive = false;
@@ -182,16 +193,10 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
                 Destroy(hideBlock);
             }
         }
+
+        SetTheme(blocksBoard.ThemeBlocks.GetTileSprite(GameHelper.Theme));
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.R))
-        {
-            Resize(blocksBoard.SquareUiGrid.CellSize);
-        }
-    }
-    
     public void RepositionX(float offset)
     {
         OffsetX = offset;
@@ -394,22 +399,7 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
 
         return number;
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        
-    }
-
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         IsSelected = true;
@@ -439,7 +429,18 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
            tile.ActivateSelected(true);
 //           blocksBoard.CheckPotentialForDelete();
        }
+       
+       foreach (var tile in blocksBoard.Tiles)
+       {
+           tile.ActivateFutureDelete(false); // свой метод для подсветки
+       }
 
+       var toDestroy = GetPreviewDestroyedTiles(hovered);
+
+       foreach (var tile in toDestroy)
+       {
+           tile.ActivateFutureDelete(true); // свой метод для подсветки
+       }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -447,5 +448,98 @@ public class Block: MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPoi
         _rectTransform.localScale = StartScale;
         BlocksEvents.CheckIfBlockCanBePlaced();
         IsSelected = false;
+        
+        foreach (var tile in blocksBoard.Tiles)
+        {
+            tile.ActivateFutureDelete(false); // свой метод для подсветки
+        }
     }
+
+    public List<BlockTile> GetPreviewDestroyedTiles(List<BlockTile> hoveredTiles)
+    {
+        HashSet<BlockTile> result = new HashSet<BlockTile>();
+
+        foreach (var tile in blocksBoard.Tiles)
+        {
+            bool isOccupied = tile.IsOccupied || hoveredTiles.Contains(tile);
+            tile.TempOccupied = isOccupied; // создадим временное поле, чтобы ничего реально не менять
+        }
+
+        int size = 9; // размер поля 9x9
+
+        // Проверка по строкам
+        for (int y = 0; y < size; y++)
+        {
+            bool fullRow = true;
+            List<BlockTile> rowTiles = new List<BlockTile>();
+
+            for (int x = 0; x < size; x++)
+            {
+                var tile = blocksBoard.GetTile(x, y);
+                rowTiles.Add(tile);
+                if (!tile.TempOccupied)
+                {
+                    fullRow = false;
+                }
+            }
+
+            if (fullRow)
+                result.UnionWith(rowTiles);
+        }
+
+        // Проверка по столбцам
+        for (int x = 0; x < size; x++)
+        {
+            bool fullColumn = true;
+            List<BlockTile> columnTiles = new List<BlockTile>();
+
+            for (int y = 0; y < size; y++)
+            {
+                var tile = blocksBoard.GetTile(x, y);
+                columnTiles.Add(tile);
+                if (!tile.TempOccupied)
+                {
+                    fullColumn = false;
+                }
+            }
+
+            if (fullColumn)
+                result.UnionWith(columnTiles);
+        }
+
+        // Проверка по квадратам 3x3
+        for (int blockY = 0; blockY < size; blockY += 3)
+        {
+            for (int blockX = 0; blockX < size; blockX += 3)
+            {
+                bool fullBlock = true;
+                List<BlockTile> blockTiles = new List<BlockTile>();
+
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int x = 0; x < 3; x++)
+                    {
+                        var tile = blocksBoard.GetTile(blockX + x, blockY + y);
+                        blockTiles.Add(tile);
+                        if (!tile.TempOccupied)
+                        {
+                            fullBlock = false;
+                        }
+                    }
+                }
+
+                if (fullBlock)
+                    result.UnionWith(blockTiles);
+            }
+        }
+
+        // Убираем временные метки
+        foreach (var tile in blocksBoard.Tiles)
+        {
+            tile.TempOccupied = false;
+        }
+
+        return result.ToList();
+    }
+
 }

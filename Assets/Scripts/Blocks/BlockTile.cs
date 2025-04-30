@@ -10,12 +10,6 @@ public class BlockTile : MonoBehaviour
     [SerializeField] private Image activeImage;
     [SerializeField] private Image futureDeleteImage;
     
-    [Header("Explode Settings")]
-    [SerializeField] private float explosionScale = 1.5f;
-    [SerializeField] private float explosionDuration = 0.2f;
-    [SerializeField] private Ease explosionEase = Ease.OutBack;
-    [SerializeField] private float rotationDegrees = 360f;
-    
     private bool _IsDark;
     private RectTransform _rectTransform;
     private Sprite _mainLightSprite;
@@ -24,9 +18,9 @@ public class BlockTile : MonoBehaviour
 
     public bool IsSelected { get; set; }
     
-    public int SquareIndex { get; set; }
-    
     public bool IsOccupied { get; set; }
+    
+    public bool TempOccupied { get; set; }
     
     public BlocksBoard BlocksBoard { get; set; }
     public Vector2Int GridPosition { get; set; }
@@ -95,7 +89,7 @@ public class BlockTile : MonoBehaviour
         futureDeleteImage.gameObject.SetActive(isActivate);
     }
     
-    public void Explode()
+    public Tween Explode()
     {
         // Сохраняем начальные значения
         Vector3 originalScale = _rectTransform.localScale;
@@ -119,6 +113,8 @@ public class BlockTile : MonoBehaviour
             color.a = originalColor.a;
             activeImage.color = color;
         });
+
+        return sequence;
     }
     
     public void ActivateSelected(bool isActivate)
@@ -131,58 +127,4 @@ public class BlockTile : MonoBehaviour
         IsSelected = isActivate;
         hooverImage.gameObject.SetActive(isActivate);
     }
-
-//    private void OnTriggerEnter2D(Collider2D other)
-//    {
-//        if (other.gameObject.CompareTag("Block"))
-//        {
-//            if (!IsOccupied)
-//            {
-//                IsSelected = true;
-//                hooverImage.gameObject.SetActive(true);
-////                if (BlocksBoard.CheckShowHoover(this))
-////                {
-////                    hooverImage.gameObject.SetActive(true);
-//////                    BlocksBoard.CheckPotentialForDelete();
-////                }
-////                else
-////                {
-////                    hooverImage.gameObject.SetActive(false);
-////                }
-//            }
-//        }
-//    }
-//
-//    private void OnTriggerStay2D(Collider2D other)
-//    {
-//        if (other.gameObject.CompareTag("Block"))
-//        {
-//            IsSelected = true;
-//            if (!IsOccupied)
-//            {
-//                hooverImage.gameObject.SetActive(true);
-////                if (BlocksBoard.CheckShowHoover(this))
-////                {
-////                    hooverImage.gameObject.SetActive(true);
-//////                    BlocksBoard.CheckPotentialForDelete();
-////                }
-////                else
-////                {
-////                    hooverImage.gameObject.SetActive(false);
-////                }
-//            }
-//        }
-//    }
-//
-//    private void OnTriggerExit2D(Collider2D other)
-//    {
-//        if (other.gameObject.CompareTag("Block"))
-//        {
-//            if (!IsOccupied)
-//            {
-//                hooverImage.gameObject.SetActive(false);
-//                IsSelected = false;
-//            }
-//        }
-//    }
 }
