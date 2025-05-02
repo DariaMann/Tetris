@@ -23,7 +23,7 @@ public class Loading: MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 60; // или 120, если устройство поддерживает
+//        Application.targetFrameRate = 60; // или 120, если устройство поддерживает
         QualitySettings.vSyncCount = 0;   // отключить VSync
     }
 }

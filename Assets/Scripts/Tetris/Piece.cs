@@ -1,7 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private Slider moveSlider;
+    [SerializeField] private Slider rotateSlider;
+    [SerializeField] private TextMeshProUGUI moveText;
+    [SerializeField] private TextMeshProUGUI rotateText;
+
     [SerializeField] private float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
     [SerializeField] private float stepDelay = 1f;
     [SerializeField] private float moveDelay = 0.1f;
@@ -39,13 +48,20 @@ public class Piece : MonoBehaviour
     private float _moveThreshold = 50f; // Минимальное расстояние для шага движения
     
     private bool _doHardDrop = false;
+
+    public bool IsTestChange { get; private set; } = false;
     
     public Board Board { get; private set; }
     public TetrominoData Data { get; private set; }
     public Vector3Int[] Cells { get; private set; }
     public Vector3Int Position { get; private set; }
     public int RotationIndex { get; private set; }
-    
+
+    private void Start()
+    {
+        SetTest();
+    }
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         Data = data;
@@ -69,6 +85,12 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
+        speedText.text = "Speed: " + stepDelay;
+        if (IsTestChange)
+        {
+            moveDelay = moveSlider.value;
+            rotateDelay = rotateSlider.value;
+        }
         if (Board.GameOverPanel.IsGameOver)
         {
             return;
@@ -436,6 +458,11 @@ public class Piece : MonoBehaviour
     {
         stepDelay = accelerationSpeed;
 
+        if (IsTestChange)
+        {
+            return;
+        }
+
         // Дополнительно масштабируем другие задержки
         float speedFactor = Mathf.InverseLerp(maxDelay, minDelay, accelerationSpeed);
     
@@ -443,4 +470,50 @@ public class Piece : MonoBehaviour
         moveDelay = Mathf.Lerp(baseMoveDelay, minMoveDelay, speedFactor);
     }
 
+    public void SetTest()
+    {
+        IsTestChange = false;
+        moveSlider.interactable = false;
+        rotateSlider.interactable = false;
+        moveText.text = "0";
+        rotateText.text = "0";
+    }
+    
+    public void OnTestChangeToggle(bool change)
+    {
+        if (GameHelper.TetrisSettings.Acceleration)
+        {
+            IsTestChange = false;
+            return;
+        }
+        IsTestChange = change;
+
+        if (!IsTestChange)
+        {
+            Acceleration();
+            moveSlider.interactable = false;
+            rotateSlider.interactable = false;
+        }
+        else
+        {
+            moveSlider.interactable = true;
+            rotateSlider.interactable = true;
+            moveSlider.value = moveDelay;
+            rotateSlider.value = rotateDelay;
+            
+            moveText.text = moveDelay.ToString("F3");
+            rotateText.text = rotateDelay.ToString("F3");
+        }
+    }
+
+    public void OnTestMoveSliderChange(float change)
+    {
+        moveText.text = change.ToString("F3");
+    }
+    
+    public void OnTestRotateSliderChange(float change)
+    {
+        rotateText.text = change.ToString("F3");
+    }
+    
 }

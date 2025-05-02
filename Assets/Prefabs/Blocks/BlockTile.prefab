@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 2760846673635427187}
   - component: {fileID: 8906379217097136951}
   - component: {fileID: 1761392318728024285}
-  - component: {fileID: 2574216834392568152}
-  - component: {fileID: 152008849503891486}
   - component: {fileID: -993526935467677419}
   m_Layer: 5
   m_Name: BlockTile
@@ -82,53 +80,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!61 &2574216834392568152
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027844895679765509}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 70, y: 70}
-  m_EdgeRadius: 0
---- !u!50 &152008849503891486
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027844895679765509}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &-993526935467677419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,13 +95,6 @@ MonoBehaviour:
   hooverImage: {fileID: 8658053235231874604}
   activeImage: {fileID: 4926593802661211663}
   futureDeleteImage: {fileID: 8152133267510711495}
-  image: {fileID: 1761392318728024285}
-  lightTileLight: {fileID: 21300000, guid: 56f48c0c95030b942a8626516b875441, type: 3}
-  darkTileLight: {fileID: 21300000, guid: 776404cb8649b6f4b884ecb346c72f5d, type: 3}
-  explosionScale: 1.5
-  explosionDuration: 0.2
-  explosionEase: 27
-  rotationDegrees: 360
 --- !u!1 &5629691284680448513
 GameObject:
   m_ObjectHideFlags: 0
