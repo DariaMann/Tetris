@@ -21,6 +21,8 @@ public class Board : MonoBehaviour
 
     private TetrominoData _next;
     
+    public bool IsPaused { get; private set; } = false;
+    
     public GameOver GameOverPanel
     {
         get => gameOver;
@@ -227,6 +229,11 @@ public class Board : MonoBehaviour
     public void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
+    }
+    
+    public void PausedGame(bool isPause)
+    {
+        IsPaused = isPause;
     }
     
     public void Again()

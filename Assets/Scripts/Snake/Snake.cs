@@ -21,7 +21,9 @@ public class Snake : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
-    
+    private bool hasMovedThisFrame = false;
+    private readonly Queue<Vector2Int> directionQueue = new Queue<Vector2Int>();
+
     public bool IsPaused { get; private set; } = false;
 
     private void Start()
@@ -174,35 +176,69 @@ public class Snake : MonoBehaviour
             }
         }
     }
-
-    private void FixedUpdate()
+    
+    private void Move()
     {
-        if (gameOver.IsGameOver || IsPaused)
-        {
-            return;
-        }
-        // Wait until the next update before proceeding
-        if (Time.time < nextUpdate) {
-            return;
-        }
-
-        // Set each segment's position to be the same as the one it follows. We
-        // must do this in reverse order so the position is set to the previous
-        // position, otherwise they will all be stacked on top of each other.
+        // Перемещаем тело змейки
         for (int i = segments.Count - 1; i > 0; i--) {
             segments[i].position = segments[i - 1].position;
         }
 
-        // Move the snake in the direction it is facing
-        // Round the values to ensure it aligns to the grid
+        // Перемещаем голову
         int x = Mathf.RoundToInt(transform.position.x) + direction.x;
         int y = Mathf.RoundToInt(transform.position.y) + direction.y;
         transform.position = new Vector2(x, y);
         RotateHead();
-        // Set the next update time based on the speed
+    }
+    
+    private void FixedUpdate()
+    {
+        hasMovedThisFrame = false;
+
+        if (gameOver.IsGameOver || IsPaused)
+            return;
+
+        if (Time.time < nextUpdate)
+            return;
+
+        // Применить следующее направление
+        ApplyNextDirection();
+
+        Move();
+        hasMovedThisFrame = true;
+
         SetSaveSpeed(GameHelper.SnakeSettings);
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
+
+//    private void FixedUpdate()
+//    {
+//        if (gameOver.IsGameOver || IsPaused)
+//        {
+//            return;
+//        }
+//        // Wait until the next update before proceeding
+//        if (Time.time < nextUpdate) {
+//            return;
+//        }
+//
+//        // Set each segment's position to be the same as the one it follows. We
+//        // must do this in reverse order so the position is set to the previous
+//        // position, otherwise they will all be stacked on top of each other.
+//        for (int i = segments.Count - 1; i > 0; i--) {
+//            segments[i].position = segments[i - 1].position;
+//        }
+//
+//        // Move the snake in the direction it is facing
+//        // Round the values to ensure it aligns to the grid
+//        int x = Mathf.RoundToInt(transform.position.x) + direction.x;
+//        int y = Mathf.RoundToInt(transform.position.y) + direction.y;
+//        transform.position = new Vector2(x, y);
+//        RotateHead();
+//        // Set the next update time based on the speed
+//        SetSaveSpeed(GameHelper.SnakeSettings);
+//        nextUpdate = Time.time + (1f / (speed * speedMultiplier));
+//    }
 
     private void RotateHead()
     {
@@ -352,10 +388,24 @@ public class Snake : MonoBehaviour
     
     private void TryChangeDirection(Vector2Int newDirection)
     {
-        // Запретить поворот назад
-        if (newDirection + direction != Vector2Int.zero)
+        // Если это первое направление в кадре — проверяем противоположность с текущим
+        Vector2Int lastDirection = directionQueue.Count > 0 ? directionQueue.Peek() : direction;
+
+        if (newDirection + lastDirection != Vector2Int.zero)
         {
-            direction = newDirection;
+            // Добавляем только если это не последнее в очереди
+            if (directionQueue.Count == 0 || directionQueue.Peek() != newDirection)
+            {
+                directionQueue.Enqueue(newDirection);
+            }
+        }
+    }
+    
+    private void ApplyNextDirection()
+    {
+        if (directionQueue.Count > 0)
+        {
+            direction = directionQueue.Dequeue();
             RotateHead();
         }
     }

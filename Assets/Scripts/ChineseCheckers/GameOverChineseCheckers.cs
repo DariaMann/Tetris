@@ -15,6 +15,7 @@ public class GameOverChineseCheckers: MonoBehaviour
     [SerializeField] private CanvasGroup buttonsGroup; // "домой" и "заново"
 
     private bool _gameOverAnimationCompleted = false;
+    private Sequence _gameOverSequence;
     private bool _isWin = false;
     private ParticleSystem _chosenConfetti;
     private List<PlayerInRating> _playerPanels;
@@ -51,10 +52,11 @@ public class GameOverChineseCheckers: MonoBehaviour
     {
         if (!_gameOverAnimationCompleted)
         {
-            // Остановить все анимации (только если они активны)
-            DOTween.KillAll(); // Или конкретную sequence, если ты хранишь её как поле
+            if (_gameOverSequence != null && _gameOverSequence.IsActive())
+            {
+                _gameOverSequence.Kill();
+            }
 
-            // Принудительно завершить всё вручную
             FastShowPanel(_isWin, playerPanels);
         }
     }
@@ -93,20 +95,25 @@ public class GameOverChineseCheckers: MonoBehaviour
     {
         try
         {
-            Sequence sequence = DOTween.Sequence();
+            
+            if (_gameOverSequence != null && _gameOverSequence.IsActive())
+            {
+                _gameOverSequence.Kill();
+            }
+            _gameOverSequence = DOTween.Sequence();
 
             // 1. Задний фон появляется
             background.alpha = 0;
-            sequence.Append(background.DOFade(1, 0.3f));
+            _gameOverSequence.Append(background.DOFade(1, 0.3f));
 
             // 2. Панель заголовка спускается сверху с прыжком
             Vector2 finalPos = new Vector2(headerPanel.anchoredPosition.x, -156.7322f);
             float screenHeight = ((RectTransform) headerPanel.parent).rect.height;
             headerPanel.anchoredPosition = new Vector2(finalPos.x, screenHeight + 200);
-            sequence.Append(headerPanel.DOAnchorPos(finalPos, 0.5f).SetEase(Ease.OutBack));
+            _gameOverSequence.Append(headerPanel.DOAnchorPos(finalPos, 0.5f).SetEase(Ease.OutBack));
 
             // 3. Конфетти (только при победе)
-            sequence.AppendCallback(() =>
+            _gameOverSequence.AppendCallback(() =>
             {
                 if (isWin)
                 {
@@ -121,18 +128,18 @@ public class GameOverChineseCheckers: MonoBehaviour
             {
                 player.CanvasGroup.alpha = 0;
                 player.RectTransform.localScale = Vector3.one;
-                sequence.Append(player.CanvasGroup.DOFade(1, 0.3f));
-                sequence.Join(player.RectTransform.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
+                _gameOverSequence.Append(player.CanvasGroup.DOFade(1, 0.3f));
+                _gameOverSequence.Join(player.RectTransform.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
             }
 
             // 5. Кнопки — плавно появляются
             buttonsGroup.interactable = false;
             buttonsGroup.alpha = 0;
-            sequence.Append(buttonsGroup.DOFade(1, 0.3f));
+            _gameOverSequence.Append(buttonsGroup.DOFade(1, 0.3f));
             
-            sequence.AppendCallback(() => { buttonsGroup.interactable = true; });
+            _gameOverSequence.AppendCallback(() => { buttonsGroup.interactable = true; });
             
-            sequence.OnKill(() => {
+            _gameOverSequence.OnKill(() => {
                 if (!_gameOverAnimationCompleted)
                 {
                     Debug.Log("Твин был прерван. Выполняем аварийно.");
@@ -141,7 +148,7 @@ public class GameOverChineseCheckers: MonoBehaviour
             });
 
             // ✅ Страховка: что-то в конце обязательно выполняется
-            sequence.OnComplete(() =>
+            _gameOverSequence.OnComplete(() =>
             {
                 Debug.Log("Анимация GameOver завершилась безопасно");
 

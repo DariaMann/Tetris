@@ -1,31 +1,19 @@
-﻿using System;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Piece : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI speedText;
-    [SerializeField] private Slider moveSlider;
-    [SerializeField] private Slider rotateSlider;
-    [SerializeField] private TextMeshProUGUI moveText;
-    [SerializeField] private TextMeshProUGUI rotateText;
-
-    [SerializeField] private float fastDropStepDelay = 0.05f;   // Новый delay для ускоренного падения
     [SerializeField] private float stepDelay = 1f;
-    [SerializeField] private float moveDelay = 0.1f;
-    
-    [SerializeField] private float baseMoveDelay = 0.1f;   // Базовая задержка между движениями
-    [SerializeField] private float minMoveDelay = 0.02f;   // Минимально возможная задержка
-    
+    [SerializeField] private float moveDelay = 0.02f;
+    [SerializeField] private float rotateDelay = 0.01f;
+
     [SerializeField] private float lockDelay = 0.5f;
     
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
-    
-    [SerializeField] private float rotateDelay = 0.05f;
-    
+
     private float _nextRotateTime;
 //    
 //    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
@@ -49,18 +37,11 @@ public class Piece : MonoBehaviour
     
     private bool _doHardDrop = false;
 
-    public bool IsTestChange { get; private set; } = false;
-    
     public Board Board { get; private set; }
     public TetrominoData Data { get; private set; }
     public Vector3Int[] Cells { get; private set; }
     public Vector3Int Position { get; private set; }
     public int RotationIndex { get; private set; }
-
-    private void Start()
-    {
-        SetTest();
-    }
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
@@ -85,13 +66,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        speedText.text = "Speed: " + stepDelay;
-        if (IsTestChange)
-        {
-            moveDelay = moveSlider.value;
-            rotateDelay = rotateSlider.value;
-        }
-        if (Board.GameOverPanel.IsGameOver)
+        if (Board.GameOverPanel.IsGameOver || Board.IsPaused)
         {
             return;
         }
@@ -236,12 +211,6 @@ public class Piece : MonoBehaviour
 
         if (Mathf.Abs(delta.x) > _moveThreshold)
         {
-            float swipeLength = Mathf.Abs(currentPos.x - _touchStartPos.x);
-    
-            // Чем длиннее свайп, тем меньше задержка (быстрее движение)
-            float t = Mathf.InverseLerp(_moveThreshold, _moveThreshold * 5f, swipeLength);
-            moveDelay = Mathf.Lerp(baseMoveDelay, minMoveDelay, t);
-            
             Move(delta.x > 0 ? Vector2Int.right : Vector2Int.left);
             _lastTouchPos = currentPos;
         }
@@ -250,35 +219,46 @@ public class Piece : MonoBehaviour
         {
             if (delta.y < 0 && Move(Vector2Int.down))
             {
-//                stepDelay = fastDropStepDelay;
                 _stepTime = Time.time + stepDelay; // обновляем таймер немедленно
             }
 
             _lastTouchPos = currentPos;
         }
-        // Проверяем на длинный свайп вниз
-//        float totalSwipeDown = _touchStartPos.y - currentPos.y;
-//        
-//        Debug.Log($"TotalSwipeDown: {totalSwipeDown}, Threshold: {_moveThreshold * longSwipeThreshold}");
-//
-//        if (!_isFastSwipingDown && totalSwipeDown > _moveThreshold * longSwipeThreshold)
-//        {
-//            _isFastSwipingDown = true;
-//        }
-//
-//        // Если уже в режиме быстрого свайпа — ускоряем фигуру
-//        if (_isFastSwipingDown && Move(Vector2Int.down))
-//        {
-//            stepDelay = fastDropStepDelay;
-//            _stepTime = Time.time + stepDelay;
-//        }
-//
-//        _lastTouchPos = currentPos;
     }
+    
+    private bool IsPointerOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+#if UNITY_EDITOR
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+#else
+    if (Input.touchCount == 0)
+        return false;
+
+    PointerEventData pointerData = new PointerEventData(EventSystem.current)
+    {
+        position = Input.GetTouch(0).position
+    };
+#endif
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        return results.Count > 0;
+    }
+
 
 // Обработка клика (поворота)
     private void TryRotate(Vector2 endPos)
     {
+        if (IsPointerOverUI())
+                return;
+        
         float touchDistance = Vector2.Distance(_touchStartPos, endPos);
         Debug.Log($"Touch Distance: {touchDistance}, Threshold: {_moveThreshold}");
 
@@ -457,63 +437,5 @@ public class Piece : MonoBehaviour
     private void SetAccelerationSpeed(float accelerationSpeed)
     {
         stepDelay = accelerationSpeed;
-
-        if (IsTestChange)
-        {
-            return;
-        }
-
-        // Дополнительно масштабируем другие задержки
-        float speedFactor = Mathf.InverseLerp(maxDelay, minDelay, accelerationSpeed);
-    
-        rotateDelay = Mathf.Lerp(0.05f, 0.01f, speedFactor); // подбери границы по ощущениям
-        moveDelay = Mathf.Lerp(baseMoveDelay, minMoveDelay, speedFactor);
     }
-
-    public void SetTest()
-    {
-        IsTestChange = false;
-        moveSlider.interactable = false;
-        rotateSlider.interactable = false;
-        moveText.text = "0";
-        rotateText.text = "0";
-    }
-    
-    public void OnTestChangeToggle(bool change)
-    {
-        if (GameHelper.TetrisSettings.Acceleration)
-        {
-            IsTestChange = false;
-            return;
-        }
-        IsTestChange = change;
-
-        if (!IsTestChange)
-        {
-            Acceleration();
-            moveSlider.interactable = false;
-            rotateSlider.interactable = false;
-        }
-        else
-        {
-            moveSlider.interactable = true;
-            rotateSlider.interactable = true;
-            moveSlider.value = moveDelay;
-            rotateSlider.value = rotateDelay;
-            
-            moveText.text = moveDelay.ToString("F3");
-            rotateText.text = rotateDelay.ToString("F3");
-        }
-    }
-
-    public void OnTestMoveSliderChange(float change)
-    {
-        moveText.text = change.ToString("F3");
-    }
-    
-    public void OnTestRotateSliderChange(float change)
-    {
-        rotateText.text = change.ToString("F3");
-    }
-    
 }

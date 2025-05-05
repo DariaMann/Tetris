@@ -21,6 +21,7 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private RectTransform _rectTransform;
     private Canvas _canvas;
     private bool _isDraggable = true;
+    private int _originalSiblingIndex;
     
     public Vector3 StartScale { get; set; } = new Vector3(0.7f, 0.7f, 0.7f);
     
@@ -404,6 +405,11 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         IsSelected = true;
         _rectTransform.localScale = blockSelectedScale;
+        
+        _originalSiblingIndex = transform.GetSiblingIndex();  // Сохраняем текущий индекс в иерархии
+
+        // Поднимаем объект, чтобы он оказался наверху среди детей
+        transform.SetAsLastSibling();  // Это поставит объект в конец списка дочерних элементов родителя
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -453,6 +459,9 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             tile.ActivateFutureDelete(false); // свой метод для подсветки
         }
+        
+        // Возвращаем объект на его первоначальное место в иерархии
+        transform.SetSiblingIndex(_originalSiblingIndex);  // Возвращаем на прежнее место по индексу
     }
 
     public List<BlockTile> GetPreviewDestroyedTiles(List<BlockTile> hoveredTiles)

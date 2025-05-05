@@ -24,6 +24,7 @@ public class GameOver : MonoBehaviour
 
     private bool _isMaximumEnable = false;
     private bool _gameOverAnimationCompleted = false;
+    private Sequence _gameOverSequence;
     private bool _isWin = false;
     private ParticleSystem _chosenConfetti;
     
@@ -59,10 +60,11 @@ public class GameOver : MonoBehaviour
     {
         if (!_gameOverAnimationCompleted)
         {
-            // Остановить все анимации (только если они активны)
-            DOTween.KillAll(); // Или конкретную sequence, если ты хранишь её как поле
-
-            // Принудительно завершить всё вручную
+            if (_gameOverSequence != null && _gameOverSequence.IsActive())
+            {
+                _gameOverSequence.Kill();
+            }
+            
             FastShowPanel(_isWin);
         }
     }
@@ -102,20 +104,24 @@ public class GameOver : MonoBehaviour
     {
         try
         {
-            Sequence sequence = DOTween.Sequence();
+            if (_gameOverSequence != null && _gameOverSequence.IsActive())
+            {
+                _gameOverSequence.Kill();
+            }
+            _gameOverSequence = DOTween.Sequence();
 
             // 1. Задний фон появляется
             background.alpha = 0;
-            sequence.Append(background.DOFade(1, 0.3f));
+            _gameOverSequence.Append(background.DOFade(1, 0.3f));
 
             // 2. Панель заголовка спускается сверху с прыжком
             Vector2 finalPos = new Vector2(headerPanel.anchoredPosition.x, -156.7322f);
             float screenHeight = ((RectTransform) headerPanel.parent).rect.height;
             headerPanel.anchoredPosition = new Vector2(finalPos.x, screenHeight + 200);
-            sequence.Append(headerPanel.DOAnchorPos(finalPos, 0.5f).SetEase(Ease.OutBack));
+            _gameOverSequence.Append(headerPanel.DOAnchorPos(finalPos, 0.5f).SetEase(Ease.OutBack));
 
             // 3. Конфетти (только при победе)
-            sequence.AppendCallback(() =>
+            _gameOverSequence.AppendCallback(() =>
             {
                 if (isWin)
                 {
@@ -128,32 +134,32 @@ public class GameOver : MonoBehaviour
             // 4. Панель с очками — fade in + пульс
             scorePanelGroup.alpha = 0;
             scorePanel.localScale = Vector3.one;
-            sequence.Append(scorePanelGroup.DOFade(1, 0.3f));
-            sequence.Join(scorePanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
+            _gameOverSequence.Append(scorePanelGroup.DOFade(1, 0.3f));
+            _gameOverSequence.Join(scorePanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
 
             // 5. Панель с рейтингом
             ratingPanelGroup.alpha = 0;
             ratingPanel.localScale = Vector3.one;
-            sequence.Append(ratingPanelGroup.DOFade(1, 0.3f));
-            sequence.Join(ratingPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
+            _gameOverSequence.Append(ratingPanelGroup.DOFade(1, 0.3f));
+            _gameOverSequence.Join(ratingPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
 
             // 6. Панель максимума, если включена
             if (_isMaximumEnable)
             {
                 maximumPanelGroup.alpha = 0;
                 maximumPanel.localScale = Vector3.one;
-                sequence.Append(maximumPanelGroup.DOFade(1, 0.3f));
-                sequence.Join(maximumPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
+                _gameOverSequence.Append(maximumPanelGroup.DOFade(1, 0.3f));
+                _gameOverSequence.Join(maximumPanel.DOPunchScale(Vector3.one * 0.2f, 0.4f, 1, 0.5f));
             }
 
             // 7. Кнопки — плавно появляются
             buttonsGroup.interactable = false;
             buttonsGroup.alpha = 0;
-            sequence.Append(buttonsGroup.DOFade(1, 0.3f));
+            _gameOverSequence.Append(buttonsGroup.DOFade(1, 0.3f));
             
-            sequence.AppendCallback(() => { buttonsGroup.interactable = true; });
+            _gameOverSequence.AppendCallback(() => { buttonsGroup.interactable = true; });
             
-            sequence.OnKill(() => {
+            _gameOverSequence.OnKill(() => {
                 if (!_gameOverAnimationCompleted)
                 {
                     Debug.Log("Твин был прерван. Выполняем аварийно.");
@@ -162,7 +168,7 @@ public class GameOver : MonoBehaviour
             });
 
             // ✅ Страховка: что-то в конце обязательно выполняется
-            sequence.OnComplete(() =>
+            _gameOverSequence.OnComplete(() =>
             {
                 Debug.Log("Анимация GameOver завершилась безопасно");
 
