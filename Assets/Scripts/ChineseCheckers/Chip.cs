@@ -38,6 +38,7 @@ public class Chip : MonoBehaviour, IPointerClickHandler
         {
             _checkersManager.SetSelection(this);
             ShowAvailableWay();
+            AudioManager.Instance.PlayClickChipSound();
         }
         else
         {

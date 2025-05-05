@@ -1,0 +1,65 @@
+﻿using UnityEngine;
+
+public class AudioManager : MonoBehaviour
+{
+    public static AudioManager Instance;
+
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource soundSource;
+
+    [SerializeField] private AudioClip clickSound;
+    [SerializeField] private AudioClip clickChipSound;
+    [SerializeField] private AudioClip successLineSound;
+//    [SerializeField] private AudioClip winSound;
+//    [SerializeField] private AudioClip loseSound;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Чтобы не удалялся при смене сцен
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    public void PlayClickSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(clickSound);
+    }
+
+    public void PlayClickChipSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(clickChipSound);
+    }  
+    
+    public void PlaySuccessLineSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(successLineSound);
+    }
+
+    public void ToggleMusic(bool isOn)
+    {
+        musicSource.mute = !isOn;
+    }
+
+    public void ToggleSound(bool isOn)
+    {
+        soundSource.mute = !isOn;
+    }
+}

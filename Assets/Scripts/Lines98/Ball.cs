@@ -52,6 +52,7 @@ public class Ball : MonoBehaviour, IPointerClickHandler
         {
             _lineBoard.SetSelection(this);
             ActivateJumpAnimation(true);
+            AudioManager.Instance.PlayClickChipSound();
         }
         else
         {

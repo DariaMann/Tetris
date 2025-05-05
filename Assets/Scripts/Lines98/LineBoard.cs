@@ -192,6 +192,7 @@ public class LineBoard : MonoBehaviour
             }
 
             AddScore(ballsToRemove.Count); // подсчет очков
+            AudioManager.Instance.PlaySuccessLineSound();
         }
 
         return haveDeleted;

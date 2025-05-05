@@ -59,6 +59,9 @@ public class Buttons : MonoBehaviour {
         GameHelper.GetVibration();
         ApplyVibration(GameHelper.Vibration);
         GameHelper.OnVibrationChanged += ApplyVibration;
+        
+        AudioManager.Instance.ToggleMusic(GameHelper.Music);
+        AudioManager.Instance.ToggleSound(GameHelper.Sound);
     }
     
     void OnApplicationPause(bool pause)
@@ -121,7 +124,7 @@ public class Buttons : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log("Check Theme Auto");
+//            Debug.Log("Check Theme Auto");
             bool currentDark = ThemeManager.IsSystemDarkTheme();
             if (currentDark != lastDark)
             {
@@ -151,6 +154,7 @@ public class Buttons : MonoBehaviour {
     public void ApplySound(bool sound)
     {
         settingsSoundButton.sprite = sound ? settingsSoundOn : settingsSoundOff;
+        AudioManager.Instance.ToggleSound(sound);
     }
 
     public void ApplyLanguage( int languageId)
@@ -225,6 +229,7 @@ public class Buttons : MonoBehaviour {
     public void ApplyMusic(bool music)
     {
         settingsMusicButton.sprite = music ? settingsMusicOn : settingsMusicOff;
+        AudioManager.Instance.ToggleMusic(music);
     }
     
     public void OnVibrationClick()

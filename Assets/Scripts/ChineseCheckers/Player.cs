@@ -77,6 +77,8 @@ public class Player : MonoBehaviour, IPointerClickHandler
         }
 
         ChangeState(newState);
+        
+        AudioManager.Instance.PlayClickSound();
 //        if (State == PlayerState.None && checkersManager.CurrentPlayer == this && !IsPlaying)
 //        {
 //            StopPlayer
@@ -140,6 +142,7 @@ public class Player : MonoBehaviour, IPointerClickHandler
         WinSteps = checkersManager.Steps;
         winNumber.text = WinNumber.ToString();
         GameHelper.VibrationStart();
+        AudioManager.Instance.PlaySuccessLineSound();
     }
     
     private void ResetFinish()

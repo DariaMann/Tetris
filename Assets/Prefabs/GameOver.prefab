@@ -958,6 +958,7 @@ GameObject:
   - component: {fileID: 6723450953687724259}
   - component: {fileID: 7651660988635224244}
   - component: {fileID: 3407529248641733294}
+  - component: {fileID: 8566625255451990702}
   m_Layer: 5
   m_Name: HomeButton
   m_TagString: Untagged
@@ -1068,6 +1069,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8566625255451990702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660727221834873222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3752085312721521276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,6 +2008,7 @@ GameObject:
   - component: {fileID: 2455111430553019916}
   - component: {fileID: 2897985868593908347}
   - component: {fileID: 2697888069900217603}
+  - component: {fileID: 7255233616191121004}
   m_Layer: 5
   m_Name: AgainButton
   m_TagString: Untagged
@@ -2105,6 +2119,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7255233616191121004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636857284106774343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8107983241163358967
 GameObject:
   m_ObjectHideFlags: 0

@@ -289,17 +289,25 @@ public class Board : MonoBehaviour
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
+        bool clearLines = false;
 
         // Clear from bottom to top
         while (row < bounds.yMax)
         {
             // Only advance to the next row if the current is not cleared
             // because the tiles above will fall down when a row is cleared
-            if (IsLineFull(row)) {
+            if (IsLineFull(row))
+            {
+                clearLines = true;
                 LineClear(row);
             } else {
                 row++;
             }
+        }
+
+        if (clearLines)
+        {
+            AudioManager.Instance.PlaySuccessLineSound();
         }
     }
 
@@ -324,7 +332,7 @@ public class Board : MonoBehaviour
     {
         GameServicesManager.UnlockAchieve(AchivementServices.FirstLine);
         GameHelper.VibrationStart();
-        
+
         RectInt bounds = Bounds;
         saveScores.ChangeScore(1);
 

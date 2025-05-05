@@ -358,8 +358,11 @@ public class BlocksBoard : MonoBehaviour
 
             // Когда завершится последняя анимация — вызываем метод
             DOTween.Sequence()
-                .AppendInterval(tweens.Max(t => t.Duration())) // дождаться самой долгой
-                .OnComplete(CheckInteractableBlocks);
+                .AppendInterval(tweens.Max(t => t.Duration()))
+                .OnComplete(() => {
+                    CheckInteractableBlocks();
+                    AudioManager.Instance.PlaySuccessLineSound();
+                });
         }
 
 //        foreach (var tile in tilesToClear)
