@@ -78,11 +78,7 @@ public class Player : MonoBehaviour, IPointerClickHandler
 
         ChangeState(newState);
         
-        AudioManager.Instance.PlayClickSound();
-//        if (State == PlayerState.None && checkersManager.CurrentPlayer == this && !IsPlaying)
-//        {
-//            StopPlayer
-//        }
+        AudioManager.Instance.PlayClick4Sound();
     }
     
     public void ChangeState(PlayerState newState, bool firstVisit = false)

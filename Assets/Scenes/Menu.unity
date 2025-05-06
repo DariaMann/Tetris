@@ -3646,26 +3646,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio
       objectReference: {fileID: 0}
-    - target: {fileID: 8918117754810790806, guid: 8717f4ab9bfb8c7488d9fb75e9b7f94c,
-        type: 3}
-      propertyPath: clickChip
-      value: 
-      objectReference: {fileID: 8300000, guid: 457ab400e693dd748861c43220dcb41d, type: 3}
-    - target: {fileID: 8918117754810790806, guid: 8717f4ab9bfb8c7488d9fb75e9b7f94c,
-        type: 3}
-      propertyPath: successLine
-      value: 
-      objectReference: {fileID: 8300000, guid: bb382f531cc266442bc5b61dc6557bbc, type: 3}
-    - target: {fileID: 8918117754810790806, guid: 8717f4ab9bfb8c7488d9fb75e9b7f94c,
-        type: 3}
-      propertyPath: clickChipSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 457ab400e693dd748861c43220dcb41d, type: 3}
-    - target: {fileID: 8918117754810790806, guid: 8717f4ab9bfb8c7488d9fb75e9b7f94c,
-        type: 3}
-      propertyPath: successLineSound
-      value: 
-      objectReference: {fileID: 8300000, guid: bb382f531cc266442bc5b61dc6557bbc, type: 3}
     - target: {fileID: 9104155550076896073, guid: 8717f4ab9bfb8c7488d9fb75e9b7f94c,
         type: 3}
       propertyPath: m_RootOrder

@@ -1,30 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TMP_InputField minDistanceSwipeText;
+    [SerializeField] private TMP_InputField moveDelayText;
+    
     [SerializeField] private float stepDelay = 1f;
     [SerializeField] private float moveDelay = 0.02f;
     [SerializeField] private float rotateDelay = 0.01f;
-
-    [SerializeField] private float lockDelay = 0.5f;
+    
+    [SerializeField] private float minDistanceSwipe = 100f;
+    private float maxTimeSwipe = 0.2f;
+    
+    private float lockDelay = 0.5f;
     
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
-
+    
+    private float _touchStartTime;
     private float _nextRotateTime;
-//    
-//    [SerializeField] private float longSwipeThreshold = 2f; // пикселей — можно подбирать
-//    
-//    [SerializeField] private float minStepDelay = 0.1f;      // Минимальная задержка между падениями
-//    [SerializeField] private float delayDecreaseStep = 0.05f; // На сколько уменьшать
-//    [SerializeField] private float delayDecreaseInterval = 10f; // Интервал (в секундах), через который ускоряется падение
-
     private float _nextSpeedUpTime;
-
-    private bool _isFastSwipingDown = false;
     
     private float _stepTime;
     private float _moveTime;
@@ -64,8 +65,27 @@ public class Piece : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        minDistanceSwipeText.text = minDistanceSwipe.ToString("F3");
+        moveDelayText.text = moveDelay.ToString("F3");
+    }
+
+    public void ChangeMinDistanceSwipe(string newText)
+    {
+        minDistanceSwipe = (float) Convert.ToDouble(newText);
+    }   
+    
+    public void ChangeMoveDelay(string newText)
+    {
+        moveDelay = (float) Convert.ToDouble(newText);
+    }
+    
     private void Update()
     {
+        speedText.text = "Speed: " + stepDelay.ToString("F3");
+
+
         if (Board.GameOverPanel.IsGameOver || Board.IsPaused)
         {
             return;
@@ -160,10 +180,10 @@ public class Piece : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
+                    _touchStartTime = Time.time;
                     _touchStartPos = currentPos;
                     _lastTouchPos = currentPos;
                     _isDragging = true;
-                    _isFastSwipingDown = false;
                     break;
 
                 case TouchPhase.Moved:
@@ -172,7 +192,6 @@ public class Piece : MonoBehaviour
 
                 case TouchPhase.Ended:
                     _isDragging = false;
-                    _isFastSwipingDown = false;
                     TryRotate(currentPos);
                     break;
             }
@@ -181,10 +200,10 @@ public class Piece : MonoBehaviour
         // === 🖱 ОБРАБОТКА МЫШИ (ПК) ===
         if (Input.GetMouseButtonDown(0))
         {
+            _touchStartTime = Time.time;
             _touchStartPos = Input.mousePosition;
             _lastTouchPos = Input.mousePosition;
             _isDragging = true;
-            _isFastSwipingDown = false;
         }
         else if (Input.GetMouseButton(0))
         {
@@ -194,7 +213,6 @@ public class Piece : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             _isDragging = false;
-            _isFastSwipingDown = false;
             TryRotate(Input.mousePosition);
         }
 #endif
@@ -257,11 +275,23 @@ public class Piece : MonoBehaviour
     private void TryRotate(Vector2 endPos)
     {
         if (IsPointerOverUI())
-                return;
-        
-        float touchDistance = Vector2.Distance(_touchStartPos, endPos);
-        Debug.Log($"Touch Distance: {touchDistance}, Threshold: {_moveThreshold}");
+            return;
 
+        float touchDistance = Vector2.Distance(_touchStartPos, endPos);
+        float verticalDistance = _touchStartPos.y - endPos.y;
+        float swipeDuration = Time.time - _touchStartTime;
+        
+        // Проверка на резкий свайп вниз
+        if (verticalDistance > minDistanceSwipe &&
+            swipeDuration < maxTimeSwipe &&
+            Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * 0.5f) // важное ограничение!
+        {
+            Debug.Log("Hard drop via fast vertical swipe");
+            _doHardDrop = true;
+            return;
+        }
+
+        // Иначе обычный поворот
         if (touchDistance < _moveThreshold && Time.time >= _nextRotateTime)
         {
             Debug.Log("Rotate triggered!");
@@ -299,6 +329,8 @@ public class Piece : MonoBehaviour
 
     private void Lock()
     {
+        AudioManager.Instance.PlayClickChipSound();
+        
         Board.Set(this);
         Board.ClearLines();
         Board.SpawnPiece();

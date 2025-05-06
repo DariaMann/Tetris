@@ -121,6 +121,7 @@ public class TileBoard : MonoBehaviour
     {
         bool changed = false;
         bool saveLast = false;
+        bool isMerge = false;
         
         for (int x = startX; x >= 0 && x < _grid.Width; x += incrementX)
         {
@@ -129,20 +130,29 @@ public class TileBoard : MonoBehaviour
                 TileCell cell = _grid.GetCell(x, y);
 
                 if (cell.Occupied) {
-                    changed |= MoveTile(cell.Tile, direction, saveLast);
+                    changed |= MoveTile(cell.Tile, direction, saveLast, ref isMerge);
                     saveLast = changed;
                 }
             }
         }
 
         if (changed) {
+            if (isMerge)
+            {
+                AudioManager.Instance.PlaySuccessLineSound();
+            }
+            else
+            {
+                 AudioManager.Instance.PlayClickChipSound();
+            }
+            
             StartCoroutine(WaitForChanges());
         }
 
         GameManager.Instance.CheckUndoButtonState();
     }
 
-    private bool MoveTile(Tile2024 tile, Vector2Int direction, bool saveLast)
+    private bool MoveTile(Tile2024 tile, Vector2Int direction, bool saveLast, ref bool isMerge)
     {
         TileCell newCell = null;
         TileCell adjacent = _grid.GetAdjacentCell(tile.Cell, direction);
@@ -158,6 +168,7 @@ public class TileBoard : MonoBehaviour
                         GameManager.Instance.EventSteps.Push(CreateStepEvent());
                     }
                     MergeTiles(tile, adjacent.Tile);
+                    isMerge = true;
                     return true;
                 }
 

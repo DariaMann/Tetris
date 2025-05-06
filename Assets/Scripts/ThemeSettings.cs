@@ -77,9 +77,13 @@ public class ThemeSettings : MonoBehaviour
 
             // Подключаем обработчики обратно
             manyFoodToggle.onValueChanged.AddListener(OnManyFoodsToggle);
+            manyFoodToggle.onValueChanged.AddListener(PlayClickSound);
             moveThroughWallsToggle.onValueChanged.AddListener(OnMoveThroughWallsToggle);
+            moveThroughWallsToggle.onValueChanged.AddListener(PlayClickSound);
             accelerationToggle.onValueChanged.AddListener(OnAccelerationToggle);
-            speed.onValueChanged.RemoveListener(OnSpeedSlider);
+            accelerationToggle.onValueChanged.AddListener(PlayClickSound);
+            speed.onValueChanged.AddListener(OnSpeedSlider);
+            speed.onValueChanged.AddListener(PlayClickSound);
         }
         else if (GameHelper.GameType == MiniGameType.Tetris)
         {
@@ -94,7 +98,9 @@ public class ThemeSettings : MonoBehaviour
 
             // Подключаем обработчики обратно
             accelerationTetrisToggle.onValueChanged.AddListener(OnAccelerationTetrisToggle);
-            speedTetris.onValueChanged.RemoveListener(OnSpeedTetrisSlider);
+            accelerationTetrisToggle.onValueChanged.AddListener(PlayClickSound);
+            speedTetris.onValueChanged.AddListener(OnSpeedTetrisSlider);
+            speedTetris.onValueChanged.AddListener(PlayClickSound);
         }
         else
         {
@@ -103,6 +109,22 @@ public class ThemeSettings : MonoBehaviour
         }
         
         RefreshUI();
+    }
+    
+    private void PlayClickSound(bool change)
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayClickSound();
+        }
+    }   
+    
+    private void PlayClickSound(float change)
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayClickSound();
+        }
     }
     
     private void ApplyTheme(Themes newTheme)

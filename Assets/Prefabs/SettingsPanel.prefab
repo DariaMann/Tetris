@@ -669,7 +669,6 @@ GameObject:
   - component: {fileID: 4847359914886122233}
   - component: {fileID: 64501216581096529}
   - component: {fileID: 1235523952}
-  - component: {fileID: 6891787443557944434}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -779,18 +778,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6891787443557944434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675848469867443896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &872619167554486073
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,7 +789,6 @@ GameObject:
   - component: {fileID: 214122644574783576}
   - component: {fileID: 5015391400529256858}
   - component: {fileID: 1937500736}
-  - component: {fileID: 6319564081207614640}
   m_Layer: 5
   m_Name: Toggle (1)
   m_TagString: Untagged
@@ -912,18 +898,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6319564081207614640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 872619167554486073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1159609635523403844
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,7 +4716,6 @@ GameObject:
   - component: {fileID: 5435765324797115008}
   - component: {fileID: 631802811003201435}
   - component: {fileID: 181505528}
-  - component: {fileID: 5411689780757325959}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -4818,7 +4791,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6570180477309927290}
   m_Direction: 0
   m_MinValue: 1
-  m_MaxValue: 5
+  m_MaxValue: 6
   m_WholeNumbers: 1
   m_Value: 3
   m_OnValueChanged:
@@ -4856,18 +4829,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5411689780757325959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4394599592776991422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4610064197748789286
 GameObject:
   m_ObjectHideFlags: 0
@@ -5573,7 +5534,6 @@ GameObject:
   - component: {fileID: 8617786872672909278}
   - component: {fileID: 7512477747903919308}
   - component: {fileID: 1540183696}
-  - component: {fileID: 5697415661934025099}
   m_Layer: 5
   m_Name: Toggle (2)
   m_TagString: Untagged
@@ -5683,18 +5643,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5697415661934025099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5866734280097450659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5912295439752374609
 GameObject:
   m_ObjectHideFlags: 0
@@ -6368,7 +6316,6 @@ GameObject:
   - component: {fileID: 8465607965030505199}
   - component: {fileID: 92080342308266210}
   - component: {fileID: 1837152215}
-  - component: {fileID: 4678420977842189348}
   m_Layer: 5
   m_Name: Toggle (1)
   m_TagString: Untagged
@@ -6478,18 +6425,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &4678420977842189348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7426906469107893969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7952152475789288147
 GameObject:
   m_ObjectHideFlags: 0
@@ -7274,7 +7209,6 @@ GameObject:
   - component: {fileID: 1226244229721878557}
   - component: {fileID: 2643202794355045484}
   - component: {fileID: 1768933346}
-  - component: {fileID: 172441678853707597}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -7388,18 +7322,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &172441678853707597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9057337243122446358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45eaeaa57874faa8eed2743d0728631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9118819315338660170
 GameObject:
   m_ObjectHideFlags: 0

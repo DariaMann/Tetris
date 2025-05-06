@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +8,12 @@ public class Snake : MonoBehaviour
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private FoodController foodController;
     [SerializeField] private GameOver gameOver;
-    public Transform segmentPrefab;
-    public Vector2Int direction = Vector2Int.right;
-    public float speed = 20f;
-    public float speedMultiplier = 1f;
-    public int initialSize = 4;
-    public int minSpeed = 3;
-    public int maxSpeed = 12;
+    [SerializeField] private Transform segmentPrefab;
+    [SerializeField] private Vector2Int direction = Vector2Int.right;
+    [SerializeField] private float speed = 20f;
+    [SerializeField] private float speedMultiplier = 1f;
+    [SerializeField] private int initialSize = 4;
+    private int minSpeed = 5;
 
     private readonly List<Transform> segments = new List<Transform>();
     private float nextUpdate;
@@ -99,24 +99,38 @@ public class Snake : MonoBehaviour
             return;
         }
 
+        HandleInput();
+        
+        // Обновление позиции змейки
+        if (Time.time >= nextUpdate)
+        {
+            ApplyNextDirection();
+            Move();
+            hasMovedThisFrame = true;
+
+            SetSaveSpeed(GameHelper.SnakeSettings);
+            nextUpdate = Time.time + (1f / (speed * speedMultiplier));
+        }
+    }
+    
+    private void HandleInput()
+    {
         // Мгновенное реагирование на клавиши
         if (direction.x != 0f)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                 TryChangeDirection(Vector2Int.up);
-            } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                 TryChangeDirection(Vector2Int.down);
-            }
         }
         else if (direction.y != 0f)
         {
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 TryChangeDirection(Vector2Int.right);
-            } else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
                 TryChangeDirection(Vector2Int.left);
-            }
         }
-        
+
         // Свайпы на телефоне
         if (Input.touchCount > 0)
         {
@@ -191,25 +205,25 @@ public class Snake : MonoBehaviour
         RotateHead();
     }
     
-    private void FixedUpdate()
-    {
-        hasMovedThisFrame = false;
-
-        if (gameOver.IsGameOver || IsPaused)
-            return;
-
-        if (Time.time < nextUpdate)
-            return;
-
-        // Применить следующее направление
-        ApplyNextDirection();
-
-        Move();
-        hasMovedThisFrame = true;
-
-        SetSaveSpeed(GameHelper.SnakeSettings);
-        nextUpdate = Time.time + (1f / (speed * speedMultiplier));
-    }
+//    private void FixedUpdate()
+//    {
+//        hasMovedThisFrame = false;
+//
+//        if (gameOver.IsGameOver || IsPaused)
+//            return;
+//
+//        if (Time.time < nextUpdate)
+//            return;
+//
+//        // Применить следующее направление
+//        ApplyNextDirection();
+//
+//        Move();
+//        hasMovedThisFrame = true;
+//
+//        SetSaveSpeed(GameHelper.SnakeSettings);
+//        nextUpdate = Time.time + (1f / (speed * speedMultiplier));
+//    }
 
 //    private void FixedUpdate()
 //    {
@@ -260,7 +274,7 @@ public class Snake : MonoBehaviour
         }
     }
 
-    public void Grow(bool addScore = true, bool untagged = false)
+    public Transform Grow(bool addScore = true, bool untagged = false)
     {
         Transform segment = Instantiate(segmentPrefab);
         segment.position = segments[segments.Count - 1].position;
@@ -273,6 +287,17 @@ public class Snake : MonoBehaviour
         {
             saveScores.ChangeScore(1);
             Acceleration();
+        }
+
+        return segment;
+    }
+    
+    public IEnumerator DelayedAddTrigger(List<Transform> segmentsSnake)
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (var segment in segmentsSnake)
+        {
+            segment.gameObject.tag = "Obstacle";
         }
     }
 
@@ -320,6 +345,8 @@ public class Snake : MonoBehaviour
         segments.Clear();
         segments.Add(transform);
 
+        List<Transform> segmentsSnake = new List<Transform>();
+        
         int countSegments = initialSize + data.Score;
         // -1 since the head is already in the list
         for (int i = 0; i < countSegments - 1; i++) {
@@ -329,9 +356,12 @@ public class Snake : MonoBehaviour
             }
             else
             {
-                Grow(false);
+                Transform seg = Grow(false, true);
+                segmentsSnake.Add(seg);
             }
         }
+
+        StartCoroutine(DelayedAddTrigger(segmentsSnake));
 
         foodController.LoadedFood(data.SaveFoods);
     }
@@ -353,6 +383,7 @@ public class Snake : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
+            AudioManager.Instance.PlaySuccessLineSound();
             Grow();
         }
         else if (other.gameObject.CompareTag("Obstacle"))

@@ -344,6 +344,7 @@ public class BlocksBoard : MonoBehaviour
         
         if (tilesToClear.Count == 0)
         {
+            AudioManager.Instance.PlayClickChipSound();
             CheckInteractableBlocks(); // если нечего очищать — сразу вызвать
         }
         else

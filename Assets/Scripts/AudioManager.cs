@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip clickSound;
     [SerializeField] private AudioClip clickChipSound;
     [SerializeField] private AudioClip successLineSound;
+    [SerializeField] private AudioClip checkersDownSound;
+    [SerializeField] private AudioClip click4Sound;
 //    [SerializeField] private AudioClip winSound;
 //    [SerializeField] private AudioClip loseSound;
 
@@ -26,6 +28,24 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+    public void PlayClick4Sound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(click4Sound);
+    }   
+    
+    public void PlayCheckersDownSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(checkersDownSound);
+    }
+
     public void PlayClickSound()
     {
         if (!GameHelper.Sound)

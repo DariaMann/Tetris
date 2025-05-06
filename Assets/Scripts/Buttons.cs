@@ -234,7 +234,12 @@ public class Buttons : MonoBehaviour {
     
     public void OnVibrationClick()
     {
-        GameHelper.SetVibration(!GameHelper.Vibration);
+        bool newVibrationState = !GameHelper.Vibration;
+        if (newVibrationState)
+        {
+            GameHelper.VibrationStart();
+        }
+        GameHelper.SetVibration(newVibrationState);
     }
     
     public void ApplyVibration(bool vibration)

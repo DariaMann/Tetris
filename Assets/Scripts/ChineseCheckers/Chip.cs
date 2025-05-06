@@ -127,6 +127,7 @@ public class Chip : MonoBehaviour, IPointerClickHandler
             transform.position = step.Position;
             Tile = step;
             Tile.SetChip(this);
+            AudioManager.Instance.PlayCheckersDownSound();
         }
         
         _checkersManager.AddStepEventObject(fromTile, this);

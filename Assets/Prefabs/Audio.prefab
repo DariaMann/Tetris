@@ -49,6 +49,10 @@ MonoBehaviour:
   musicSource: {fileID: 5334538500149418904}
   soundSource: {fileID: 3682909898589384053}
   clickSound: {fileID: 8300000, guid: 43abc624976044240b8450e17a6791c6, type: 3}
+  clickChipSound: {fileID: 8300000, guid: 2d02ba1e6fb9c4f45b4e028eaf279038, type: 3}
+  successLineSound: {fileID: 8300000, guid: bb382f531cc266442bc5b61dc6557bbc, type: 3}
+  checkersDownSound: {fileID: 8300000, guid: 43abc624976044240b8450e17a6791c6, type: 3}
+  click4Sound: {fileID: 8300000, guid: 676af56a5501707489b7518e6342fe96, type: 3}
 --- !u!1 &3843142974686231940
 GameObject:
   m_ObjectHideFlags: 0

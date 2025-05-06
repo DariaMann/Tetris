@@ -403,6 +403,13 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!IsActive || !IsInteractable)
+        {
+            return;
+        }
+        
+        AudioManager.Instance.PlayClickChipSound();
+        
         IsSelected = true;
         _rectTransform.localScale = blockSelectedScale;
         
