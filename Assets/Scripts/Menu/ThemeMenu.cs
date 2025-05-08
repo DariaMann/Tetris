@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class ThemeMenu : MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Image settingsImage;
     [SerializeField] private List<Image> buttonsBg;
+    [SerializeField] private List<Image> buttonsIcons;
     [SerializeField] private List<TextMeshProUGUI> textsBg;
 
     private Color _colorLight;
@@ -90,10 +90,13 @@ public class ThemeMenu : MonoBehaviour
     public void SetLight()
     {
         bgColor.backgroundColor = _colorBgLight;
-        settingsImage.color = _colorLight;
         foreach (var button in buttonsBg)
         {
             button.color = _colorDark;
+        }
+        foreach (var button in buttonsIcons)
+        {
+            button.color = _colorLight;
         }
         foreach (var text in textsBg)
         {
@@ -104,10 +107,13 @@ public class ThemeMenu : MonoBehaviour
     public void SetDark()
     {
         bgColor.backgroundColor = _colorBgDark;
-        settingsImage.color = _colorBgDark;
         foreach (var button in buttonsBg)
         {
             button.color = _colorLight;
+        }
+        foreach (var button in buttonsIcons)
+        {
+            button.color = _colorBgDark;
         }
         foreach (var text in textsBg)
         {

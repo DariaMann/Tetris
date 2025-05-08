@@ -366,11 +366,6 @@ public class BlocksBoard : MonoBehaviour
                 });
         }
 
-//        foreach (var tile in tilesToClear)
-//        {
-//            tile.Explode();
-//        }
-
         if (score > 0)
         {
             saveScores.ChangeScore(score);
@@ -382,44 +377,8 @@ public class BlocksBoard : MonoBehaviour
             CheckInteractableBlocks();
         }
 
-//        if (!CheckGameOver(blocks))
-//        {
-//            Debug.Log("Игра окончена — нет возможных ходов!");
-//            GameOver();
-//        }
     }
 
-//    public bool CheckShowHoover(BlockTile checkTile)
-//    {
-//        var selectedTiles = new List<BlockTile>();
-//        foreach (var tile in Tiles)
-//        {
-//            if (tile.IsSelected && !tile.IsOccupied)
-//            {
-//                selectedTiles.Add(tile);
-////                tile.Activate();
-//            }
-//        }
-//
-//        var selectedBlock = GetSelectedBlock();
-//        if (selectedBlock == null)
-//        {
-//            return false;
-//        }
-//
-//        if (selectedBlock.TotalSquareNumber != selectedTiles.Count)
-//        {
-//            return false;
-//        }
-//
-//        if (selectedTiles.Contains(checkTile))
-//        {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-    
     public BlockTile GetTile(int x, int y)
     {
         if (x < 0 || x >= gridSize || y < 0 || y >= gridSize)
@@ -433,6 +392,7 @@ public class BlocksBoard : MonoBehaviour
         List<BlockTile> tilesToClear = new List<BlockTile>();
         HashSet<BlockTile> uniqueTiles = new HashSet<BlockTile>();
         int score = 0;
+        int comboCount = 0;
 
         // Проверка по горизонтали
         for (int y = 0; y < gridSize; y++)
@@ -454,7 +414,8 @@ public class BlocksBoard : MonoBehaviour
                     uniqueTiles.Add(GetTile(x, y));
                 }
 
-                score += 10; // например, 10 баллов за строку
+                score += 10;
+                comboCount++;
             }
         }
 
@@ -478,7 +439,8 @@ public class BlocksBoard : MonoBehaviour
                     uniqueTiles.Add(GetTile(x, y));
                 }
 
-                score += 10; // например, 10 баллов за колонку
+                score += 10;
+                comboCount++;
             }
         }
 
@@ -518,9 +480,17 @@ public class BlocksBoard : MonoBehaviour
                         }
                     }
 
-                    score += 20; // например, 20 баллов за квадрат 3x3
+                    score += 20;
+                    comboCount++;
                 }
             }
+        }
+
+        // ✅ Добавляем 20% за каждую дополнительную комбинацию
+        if (comboCount > 1)
+        {
+            float bonusMultiplier = 1 + 0.2f * (comboCount - 1); // например, при 3 комбинациях: 1 + 0.2 * 2 = 1.4
+            score = Mathf.RoundToInt(score * bonusMultiplier);
         }
 
         tilesToClear = new List<BlockTile>(uniqueTiles);
@@ -614,45 +584,68 @@ public class BlocksBoard : MonoBehaviour
     {
         List<BlockTile> result = new List<BlockTile>();
 
-        var blocks = draggedBlock.Squares;
-
-        if (blocks.Count == 0)
+        if (draggedBlock.BlockShape == null)
             return result;
 
-        // 1. Выбираем "опорный" блок — например, первый в списке
-        var pivotBlock = blocks[0];
-        Vector2 pivotWorldPos = pivotBlock.transform.position;
+        var shape = draggedBlock.BlockShape;
 
-        // 2. Ищем ближайший Tile к pivot-блоку
+        // Найти ближайший Tile к первой клетке фигуры (pivot)
+        var pivotBlock = draggedBlock.Squares[0];
+        Vector3 pivotWorldPos = pivotBlock.transform.position;
+
         var centerTile = Tiles
-            .Where(t => !t.IsOccupied)
             .OrderBy(t => Vector2.Distance(t.transform.position, pivotWorldPos))
-            .FirstOrDefault();
+            .FirstOrDefault(t => !t.IsOccupied);
 
         if (centerTile == null)
             return result;
 
-        Vector2 centerTilePos = centerTile.transform.position;
+        Vector2Int centerGridPos = centerTile.GridPosition;
 
-        // 3. Считаем смещения от pivot-блока до всех остальных
-        foreach (var block in blocks)
+        // Найти смещение в Grid координатах между pivot блоком и его Grid позицией в Shape
+        Vector2Int pivotLocalIndex = GetFirstTrueCell(shape); // например, (0,0) — зависит от формы
+        if (pivotLocalIndex == new Vector2Int(-1, -1)) return result;
+
+        int shapeRowCount = shape.rows;
+        int shapeColCount = shape.columns;
+
+        int pivotRow = pivotLocalIndex.y;
+        int pivotCol = pivotLocalIndex.x;
+
+        for (int row = 0; row < shapeRowCount; row++)
         {
-            Vector2 offset = (Vector2)block.transform.position - pivotWorldPos;
-            Vector2 targetPos = centerTilePos + offset;
-
-            var nearestTile = Tiles
-                .OrderBy(t => Vector2.Distance(t.transform.position, targetPos))
-                .FirstOrDefault();
-
-            if (nearestTile == null || nearestTile.IsOccupied || result.Contains(nearestTile))
+            for (int col = 0; col < shapeColCount; col++)
             {
-                return new List<BlockTile>(); // хотя бы одна клетка недоступна — всё отменяем
-            }
+                if (!shape.board[row].column[col])
+                    continue;
 
-            result.Add(nearestTile);
+                // 🧠 БЕЗ инверсии
+                Vector2Int offset = new Vector2Int(col - pivotCol, row - pivotRow);
+                Vector2Int targetGridPos = centerGridPos + offset;
+
+                var tile = Tiles.FirstOrDefault(t => t.GridPosition == targetGridPos);
+                if (tile == null || tile.IsOccupied || result.Contains(tile))
+                    return new List<BlockTile>();
+
+                result.Add(tile);
+            }
         }
 
         return result;
+    }
+
+// Вспомогательный метод: находит первую включённую ячейку в фигуре
+    private Vector2Int GetFirstTrueCell(BlockShape shape)
+    {
+        for (int row = 0; row < shape.rows; row++)
+        {
+            for (int col = 0; col < shape.columns; col++)
+            {
+                if (shape.board[row].column[col])
+                    return new Vector2Int(col, row);
+            }
+        }
+        return new Vector2Int(-1, -1);
     }
 
     public void CheckInteractableBlocks()
@@ -718,32 +711,5 @@ public class BlocksBoard : MonoBehaviour
 
         return false;
     }
-
-
-
-//    public List<BlockTile> GetHoveredTilesByProximity(List<GameObject> blocks)
-//    {
-//        var hovered = new List<BlockTile>();
-//
-//        var allTiles = Tiles; // доступ к списку всех BlockTile
-//
-////        var blocks = GetComponentsInChildren<Transform>()
-////            .Where(t => t.CompareTag("Block")).ToList();
-//
-//        foreach (var block in blocks)
-//        {
-//            var closest = allTiles
-//                .Where(t => !t.IsOccupied)
-//                .OrderBy(t => Vector2.Distance(t.transform.position, block.transform.position))
-//                .FirstOrDefault();
-//
-//            if (closest != null && !hovered.Contains(closest))
-//            {
-//                hovered.Add(closest);
-//            }
-//        }
-//
-//        return hovered;
-//    }
 
 }

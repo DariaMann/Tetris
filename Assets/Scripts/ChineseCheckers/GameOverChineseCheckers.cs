@@ -77,6 +77,7 @@ public class GameOverChineseCheckers: MonoBehaviour
             }
             gameObject.SetActive(true);
             IsGameOver = true;
+            GameHelper.IsGameOver = IsGameOver;
             StartCoroutine(GameOverFallbackTimer(4f, isWin, playerPanels));
             PlayGameOverAnimation(isWin, playerPanels);
         }
@@ -88,6 +89,7 @@ public class GameOverChineseCheckers: MonoBehaviour
             }
             gameObject.SetActive(false);
             IsGameOver = false;
+            GameHelper.IsGameOver = IsGameOver;
         }
     }
     

@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Piece : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI speedText;
-    [SerializeField] private TMP_InputField minDistanceSwipeText;
-    [SerializeField] private TMP_InputField moveDelayText;
-    
     [SerializeField] private float stepDelay = 1f;
-    [SerializeField] private float moveDelay = 0.02f;
-    [SerializeField] private float rotateDelay = 0.01f;
-    
-    [SerializeField] private float minDistanceSwipe = 100f;
-    private float maxTimeSwipe = 0.2f;
-    
-    private float lockDelay = 0.5f;
-    
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
-    [SerializeField] private float scoreFactor = 0.03f; // насколько быстро убывает stepDelay с ростом счёта
+    [SerializeField] private float scoreFactor = 0.02f; // насколько быстро убывает stepDelay с ростом счёта
+    
+    private float _minDistanceSwipe = 100f;
+    private float _maxTimeSwipe = 0.2f;
+    private float _lockDelay = 0.5f;
     
     private float _touchStartTime;
     private float _nextRotateTime;
@@ -53,7 +43,7 @@ public class Piece : MonoBehaviour
         RotationIndex = 0;
         SetAccelerationSpeed(GameHelper.TetrisSettings.Speed);  
         _stepTime = Time.time + stepDelay;
-        _moveTime = Time.time + moveDelay;
+        _moveTime = Time.time;
         _lockTime = 0f;
 
         if (Cells == null) {
@@ -65,27 +55,8 @@ public class Piece : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        minDistanceSwipeText.text = minDistanceSwipe.ToString("F3");
-        moveDelayText.text = moveDelay.ToString("F3");
-    }
-
-    public void ChangeMinDistanceSwipe(string newText)
-    {
-        minDistanceSwipe = (float) Convert.ToDouble(newText);
-    }   
-    
-    public void ChangeMoveDelay(string newText)
-    {
-        moveDelay = (float) Convert.ToDouble(newText);
-    }
-    
     private void Update()
     {
-        speedText.text = "Speed: " + stepDelay.ToString("F3");
-
-
         if (Board.GameOverPanel.IsGameOver || Board.IsPaused)
         {
             return;
@@ -107,10 +78,10 @@ public class Piece : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q)) {
                 Rotate(-1);
-                _nextRotateTime = Time.time + rotateDelay;
+                _nextRotateTime = Time.time;
             } else if (Input.GetKeyDown(KeyCode.E)) {
                 Rotate(1);
-                _nextRotateTime = Time.time + rotateDelay;
+                _nextRotateTime = Time.time;
             }
         }
 
@@ -282,8 +253,8 @@ public class Piece : MonoBehaviour
         float swipeDuration = Time.time - _touchStartTime;
         
         // Проверка на резкий свайп вниз
-        if (verticalDistance > minDistanceSwipe &&
-            swipeDuration < maxTimeSwipe &&
+        if (verticalDistance > _minDistanceSwipe &&
+            swipeDuration < _maxTimeSwipe &&
             Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * 0.5f) // важное ограничение!
         {
             Debug.Log("Hard drop via fast vertical swipe");
@@ -296,7 +267,7 @@ public class Piece : MonoBehaviour
         {
             Debug.Log("Rotate triggered!");
             Rotate(1);
-            _nextRotateTime = Time.time + rotateDelay;
+            _nextRotateTime = Time.time;
         }
     }
 
@@ -308,7 +279,7 @@ public class Piece : MonoBehaviour
         Move(Vector2Int.down);
 
         // Once the piece has been inactive for too long it becomes locked
-        if (_lockTime >= lockDelay) {
+        if (_lockTime >= _lockDelay) {
             Lock();
         }
     }
@@ -349,7 +320,7 @@ public class Piece : MonoBehaviour
         if (valid)
         {
             Position = newPosition;
-            _moveTime = Time.time + moveDelay;
+            _moveTime = Time.time;
             _lockTime = 0f; // reset
         }
 

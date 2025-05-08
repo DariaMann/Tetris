@@ -3,12 +3,9 @@ using UnityEngine.UI;
 
 public class OrientationManagerMenu: MonoBehaviour
 {
-    [SerializeField] private RectTransform buttonsPanel;
-    [SerializeField] private VerticalLayoutGroup buttonslLayoutGroup;
+    [SerializeField] private GameObject settingsUpButton;
+    [SerializeField] private GameObject settingsCornerUpButton;
     
-    [SerializeField] private RectTransform layoutGroupParent;
-    [SerializeField] private ScrollRect scrollRect;
-
     private int _type = -1; //0 - планшет горизонт, 1 - планшет вертикаль, 2 - телефон вертикаль
     void Update()
     {
@@ -22,8 +19,6 @@ public class OrientationManagerMenu: MonoBehaviour
 
             _type = 0;
             HorizontalOrientationTablet();
-            
-//            panel.anchoredPosition = landscapePosition;
         }
         else // Вертикальная ориентация
         {
@@ -47,35 +42,24 @@ public class OrientationManagerMenu: MonoBehaviour
                 _type = 1;
                 VerticalOrientationTablet();
             }
-//            panel.anchoredPosition = portraitPosition;
         }
     }
     
     private void VerticalOrientationTablet()
     {
-        buttonsPanel.offsetMax = new Vector2(0, -160);
-        buttonslLayoutGroup.padding.top = 0;
-        RefreshUI();
+        settingsUpButton.SetActive(true);
+        settingsCornerUpButton.SetActive(false);
     }
     
     private void VerticalOrientationPhone()
     {
-        buttonsPanel.offsetMax= new Vector2(0, -160);
-        buttonslLayoutGroup.padding.top = 0;
-        RefreshUI();
+        settingsUpButton.SetActive(true);
+        settingsCornerUpButton.SetActive(false);
     }
 
     private void HorizontalOrientationTablet()
     {
-        buttonsPanel.offsetMax = new Vector2(0, 0);
-        buttonslLayoutGroup.padding.top = 60;
-        RefreshUI();
-    }
-    
-    public void RefreshUI()
-    {
-        Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroupParent);
-        scrollRect.verticalNormalizedPosition = 1f; // Обновление скролла
+        settingsUpButton.SetActive(false);
+        settingsCornerUpButton.SetActive(true);
     }
 }

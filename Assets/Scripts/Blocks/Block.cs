@@ -429,7 +429,24 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
        RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvas.transform as RectTransform,
            eventData.position, Camera.main, out pos);
        _rectTransform.localPosition = pos + offset;
+       
+       // Получаем границы фигуры и поля
+       Bounds blockBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(_canvas.transform, _rectTransform);
+       RectTransform boardRect = blocksBoard.GetComponent<RectTransform>();
+       Bounds boardBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(_canvas.transform, boardRect);
 
+       // Проверяем, пересекаются ли они хотя бы частично
+       if (!blockBounds.Intersects(boardBounds))
+       {
+           foreach (var tile in blocksBoard.Tiles)
+           {
+               tile.ActivateSelected(false);
+               tile.ActivateFutureDelete(false);
+           }
+
+           return;
+       }
+       
        foreach (var tile in blocksBoard.Tiles)
        {
            tile.ActivateSelected(false);

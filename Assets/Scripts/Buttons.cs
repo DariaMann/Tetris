@@ -16,7 +16,6 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private bool exitController;
     [SerializeField] private bool havePausePanel = true;
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField, CanBeNull] private GameOver gameOver;
     [SerializeField] private RectTransform settingsPanel;
     
     [SerializeField] private GameObject settingsEnglishSelection;
@@ -68,7 +67,7 @@ public class Buttons : MonoBehaviour {
     {
         if (pause && GameHelper.GameType != MiniGameType.None)
         {
-            if (gameOver != null && !gameOver.IsGameOver)
+            if (!GameHelper.IsGameOver)
             {
                 OnPauseClick();
             }

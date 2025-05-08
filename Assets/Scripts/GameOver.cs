@@ -86,6 +86,7 @@ public class GameOver : MonoBehaviour
             }
             gameObject.SetActive(true);
             IsGameOver = true;
+            GameHelper.IsGameOver = IsGameOver;
             StartCoroutine(GameOverFallbackTimer(2f, isWin)); // Через 2 секунды проверим, дошло ли всё до конца
             PlayGameOverAnimation(isWin);
         }
@@ -97,6 +98,7 @@ public class GameOver : MonoBehaviour
             }
             gameObject.SetActive(false);
             IsGameOver = false;
+            GameHelper.IsGameOver = IsGameOver;
         }
     }
 
