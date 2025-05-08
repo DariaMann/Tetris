@@ -109,7 +109,7 @@ public class CheckersManager: MonoBehaviour
         _green = ColorUtility.TryParseHtmlString("#14E200", out Color green) ? green : Color.green;
         _yellow = ColorUtility.TryParseHtmlString("#FEBF01", out Color yellow) ? yellow : Color.yellow;
         _purple = ColorUtility.TryParseHtmlString("#E200F5", out Color magenta) ? magenta : Color.magenta;
-        _cyan = ColorUtility.TryParseHtmlString("#13F5DF", out Color cyan) ? cyan : Color.cyan;
+        _cyan = ColorUtility.TryParseHtmlString("#10D9C5", out Color cyan) ? cyan : Color.cyan;
 
         PlayerColors = new[] {_blue, _red, _green, _yellow, _purple, _cyan};
 

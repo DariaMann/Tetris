@@ -212,6 +212,8 @@ public static class GameServicesManager
             case AchivementServices.Tetris100Points: return GPGSIds.achievement_tetris_100_points;
             case AchivementServices.Tetris500Points: return GPGSIds.achievement_tetris_500_points;
             case AchivementServices.Tetris1000Points: return GPGSIds.achievement_tetris_1000_points;
+            case AchivementServices.Tetris1500Points: return GPGSIds.achievement_tetris_1500_points;
+            case AchivementServices.Tetris2000Points: return GPGSIds.achievement_tetris_2000_points;
             case AchivementServices.Snake10Points: return GPGSIds.achievement_snake_10_points;
             case AchivementServices.Snake50Points: return GPGSIds.achievement_snake_50_points;
             case AchivementServices.Snake100Points: return GPGSIds.achievement_snake_100_points;
@@ -240,6 +242,24 @@ public static class GameServicesManager
             case AchivementServices.Lines98700Points: return GPGSIds.achievement_lines_98_700_points;
             case AchivementServices.Lines98900Points: return GPGSIds.achievement_lines_98_900_points;
             case AchivementServices.Lines981000Points: return GPGSIds.achievement_lines_98_1000_points;
+            case AchivementServices.Lines982000Points: return GPGSIds.achievement_lines_98_2000_points;
+            case AchivementServices.Lines983000Points: return GPGSIds.achievement_lines_98_3000_points;
+            case AchivementServices.Lines984000Points: return GPGSIds.achievement_lines_98_4000_points;
+            case AchivementServices.Lines985000Points: return GPGSIds.achievement_lines_98_5000_points;
+            case AchivementServices.Lines986000Points: return GPGSIds.achievement_lines_98_6000_points;
+            case AchivementServices.Lines987000Points: return GPGSIds.achievement_lines_98_7000_points;
+            case AchivementServices.Blocks100Points: return GPGSIds.achievement_blocks_100_points;
+            case AchivementServices.Blocks300Points: return GPGSIds.achievement_blocks_300_points;
+            case AchivementServices.Blocks500Points: return GPGSIds.achievement_blocks_500_points;
+            case AchivementServices.Blocks700Points: return GPGSIds.achievement_blocks_700_points;
+            case AchivementServices.Blocks900Points: return GPGSIds.achievement_blocks_900_points;
+            case AchivementServices.Blocks1000Points: return GPGSIds.achievement_blocks_1000_points;
+            case AchivementServices.Blocks1500Points: return GPGSIds.achievement_blocks_1500_points;
+            case AchivementServices.Blocks2000Points: return GPGSIds.achievement_blocks_2000_points;
+            case AchivementServices.Blocks3000Points: return GPGSIds.achievement_blocks_3000_points;
+            case AchivementServices.Blocks4000Points: return GPGSIds.achievement_blocks_4000_points;
+            case AchivementServices.Blocks5000Points: return GPGSIds.achievement_blocks_5000_points;
+            case AchivementServices.Blocks6000Points: return GPGSIds.achievement_blocks_6000_points;
             default: return "";
         }
     }
