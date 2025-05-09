@@ -9,6 +9,9 @@ using Random = UnityEngine.Random;
 [DefaultExecutionOrder(-1)]
 public class Board : MonoBehaviour
 {
+    [SerializeField] private GameObject scorePlusPrefab;
+    [SerializeField] private Canvas mainCanvas;
+    
     [SerializeField] private GameOver gameOver;
 
     [SerializeField] private SaveScores saveScores;
@@ -284,12 +287,57 @@ public class Board : MonoBehaviour
 
         return true;
     }
+    
+    public Vector3 GetWorldCenterOfMultipleRows(List<int> rows)
+    {
+        Vector3 sum = Vector3.zero;
+        int count = 0;
+        BoundsInt  bounds = Tilemap.cellBounds;
+
+        foreach (int row in rows)
+        {
+            for (int col = bounds.xMin; col < bounds.xMax; col++)
+            {
+                Vector3Int cellPos = new Vector3Int(col, row, 0);
+                sum += Tilemap.GetCellCenterWorld(cellPos);
+                count++;
+            }
+        }
+
+        return count > 0 ? sum / count : Vector3.zero;
+    }
+
+    public void ShowScorePlusAnimationFromUI(List<int> deletedBlocks, int score)
+    {
+        if (deletedBlocks == null || deletedBlocks.Count == 0) return;
+
+        Vector3 worldCenter = GetWorldCenterOfMultipleRows(deletedBlocks);
+        Vector2 screenPos = Camera.main.WorldToScreenPoint(worldCenter);
+
+        // Переводим в локальные координаты канваса
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            mainCanvas.transform as RectTransform,
+            screenPos,
+            mainCanvas.worldCamera,
+            out Vector2 localPoint
+        );
+
+        // Спавн текста
+        GameObject go = Instantiate(scorePlusPrefab, mainCanvas.transform);
+        RectTransform rect = go.GetComponent<RectTransform>();
+        go.transform.SetSiblingIndex(4);
+        rect.anchoredPosition = localPoint;
+
+        go.GetComponent<ScorePlusAnimation>().Play(score);
+    }
 
     public void ClearLines()
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
         bool clearLines = false;
+        int countScoreAdd = 0;
+        List<int> rows = new List<int>();
 
         // Clear from bottom to top
         while (row < bounds.yMax)
@@ -299,6 +347,8 @@ public class Board : MonoBehaviour
             if (IsLineFull(row))
             {
                 clearLines = true;
+                countScoreAdd += 1;
+                rows.Add(row);
                 LineClear(row);
             } else {
                 row++;
@@ -307,6 +357,7 @@ public class Board : MonoBehaviour
 
         if (clearLines)
         {
+            ShowScorePlusAnimationFromUI(rows, countScoreAdd);
             AudioManager.Instance.PlaySuccessLineSound();
         }
     }

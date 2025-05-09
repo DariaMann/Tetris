@@ -340,8 +340,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1904d688ae38413abe8bf213efa35fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSnapDistance: 50
-  requiredCoverage: 0.7
+  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
+    type: 3}
+  mainCanvas: {fileID: 1517224688}
   themeBlocks: {fileID: 1120935474}
   squareUiGrid: {fileID: 457196495}
   saveScores: {fileID: 1120935471}

@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class BlocksBoard : MonoBehaviour
 {
+    [SerializeField] private GameObject scorePlusPrefab;
+    [SerializeField] private Canvas mainCanvas;
     [SerializeField] private ThemeBlocks themeBlocks;
     [SerializeField] private SquareUIGrid squareUiGrid;
     [SerializeField] private SaveScores saveScores;
@@ -363,6 +365,10 @@ public class BlocksBoard : MonoBehaviour
                 .OnComplete(() => {
                     CheckInteractableBlocks();
                     AudioManager.Instance.PlaySuccessLineSound();
+                    
+//                    Vector3 center = GetCenterAnchoredPosition(tilesToClear);
+//                    ShowScorePlusAnimtion(center, score);
+                    ShowScorePlusAnimationFromUI(tilesToClear, score);
                 });
         }
 
@@ -377,6 +383,39 @@ public class BlocksBoard : MonoBehaviour
             CheckInteractableBlocks();
         }
 
+    }
+    
+    private Vector3 GetCenterWorldPosition(List<BlockTile> blocks)
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (var b in blocks)
+            sum += b.GetComponent<RectTransform>().position; // глобальная позиция
+        return sum / blocks.Count;
+    }
+
+    public void ShowScorePlusAnimationFromUI(List<BlockTile> deletedBlocks, int score)
+    {
+        if (deletedBlocks == null || deletedBlocks.Count == 0) return;
+
+        // Получаем среднюю мировую позицию
+        Vector3 worldCenter = GetCenterWorldPosition(deletedBlocks);
+
+        // Переводим в локальную позицию канваса
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            mainCanvas.transform as RectTransform,
+            Camera.main.WorldToScreenPoint(worldCenter),
+            Camera.main,
+            out Vector2 anchoredPos
+        );
+
+        GameObject go = Instantiate(scorePlusPrefab, mainCanvas.transform);
+        go.transform.SetSiblingIndex(1);
+        RectTransform rect = go.GetComponent<RectTransform>();
+        rect.anchoredPosition = anchoredPos;
+
+        Debug.Log($"[ShowScore] anchoredPosition: {anchoredPos}");
+
+        go.GetComponent<ScorePlusAnimation>().Play(score);
     }
 
     public BlockTile GetTile(int x, int y)

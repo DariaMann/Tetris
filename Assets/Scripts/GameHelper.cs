@@ -90,6 +90,31 @@ public static class GameHelper
                 }
         }
         
+        public static Themes GetRealTheme()
+        {
+                switch (Theme)
+                {
+                        case Themes.Auto: return GetAutoTheme();
+                        case Themes.Light: return Themes.Light;
+                        case Themes.Night: return Themes.Night;
+                }
+
+                return Theme;
+        }
+
+        private static Themes GetAutoTheme()
+        {
+                bool isDark = ThemeManager.IsSystemDarkTheme();
+                if (isDark)
+                {
+                        return Themes.Night;
+                }
+                else
+                {
+                        return Themes.Light;
+                }
+        }
+        
         public static int GetTypeBySpeedTetris(float speedType)
         {
                 float speed = Mathf.Round(speedType * 10f) / 10f;

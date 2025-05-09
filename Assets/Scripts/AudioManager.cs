@@ -70,7 +70,7 @@ public class AudioManager : MonoBehaviour
         {
             return;
         }
-        soundSource.PlayOneShot(successLineSound);
+//        soundSource.PlayOneShot(successLineSound);
     }
 
     public void ToggleMusic(bool isOn)

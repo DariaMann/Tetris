@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,11 +15,20 @@ public class Tile2024 : MonoBehaviour
 
     private Image _background;
     private TextMeshProUGUI _text;
+    private List<Tween> _tweens = new List<Tween>();
 
     private void Awake()
     {
         _background = GetComponent<Image>();
         _text = GetComponentInChildren<TextMeshProUGUI>();
+    }
+    
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            KillAllTweensAndReset();
+        }
     }
 
     public void SetState(TileState state, bool isLoadData = false)
@@ -48,6 +59,52 @@ public class Tile2024 : MonoBehaviour
             case 8192: GameServicesManager.UnlockAchieve(AchivementServices.Tile8192); break;
             case 16384: GameServicesManager.UnlockAchieve(AchivementServices.Tile16384); break;
         }
+    }
+    
+    public void PlaySpawnAnimation()
+    {
+        var rect = GetComponent<RectTransform>();
+        rect.localScale = Vector3.zero;
+
+        Sequence seq = DOTween.Sequence();
+        _tweens.Add(seq);
+
+        seq.SetUpdate(true)
+            .Append(rect.DOScale(1.1f, 0.15f).SetEase(Ease.OutBack))
+            .Append(rect.DOScale(1f, 0.1f).SetEase(Ease.InQuad))
+            .OnComplete(() => _tweens.Remove(seq)); // Удаляем из списка после завершения
+    }
+    
+    public void PlayMergeAnimation()
+    {
+        var rect = GetComponent<RectTransform>();
+    
+        Sequence seq = DOTween.Sequence();
+        _tweens.Add(seq);
+
+        seq.SetUpdate(true) // ❗ Делает анимацию независимой от Time.timeScale
+            .Append(rect.DOScale(1.2f, 0.1f).SetEase(Ease.OutBack)) // Быстрый памп
+            .Append(rect.DOScale(1f, 0.1f).SetEase(Ease.InQuad))   // Обратно
+            .OnComplete(() => _tweens.Remove(seq)); // Удаляем из списка после завершения
+    }
+
+    public void KillAllTweensAndReset()
+    {
+        foreach (var tween in _tweens)
+        {
+            if (tween.IsActive())
+                tween.Kill();
+        }
+
+        _tweens.Clear();
+
+        // ❗ Здесь сброс параметров объектов — например, scale = Vector3.one
+        ResetObjectsToInitialState();
+    }
+    
+    private void ResetObjectsToInitialState()
+    {
+        transform.localScale = Vector3.one;
     }
 
     public void Spawn(TileCell cell, Transform grid)

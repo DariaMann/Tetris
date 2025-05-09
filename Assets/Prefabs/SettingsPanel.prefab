@@ -1011,7 +1011,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.62234235, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1.3713074, y: 0}
+  m_SizeDelta: {x: -1.3713074, y: 36}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8664812821950087610
 CanvasRenderer:
@@ -5331,7 +5331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationKey: Menu.snake
+  LocalizationKey: Menu.snake1
 --- !u!114 &1215456553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5502,7 +5502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e0daa9b078355459ecf05e0447632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationKey: Menu.tetris
+  LocalizationKey: Menu.tetris1
 --- !u!114 &1177674240
 MonoBehaviour:
   m_ObjectHideFlags: 0

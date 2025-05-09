@@ -244,6 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227123f0b6ca4e03806eb5c2b864e930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
+    type: 3}
+  mainCanvas: {fileID: 1517224688}
   showFuture: 1
   gridSize: 9
   theme: {fileID: 1120935474}

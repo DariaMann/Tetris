@@ -51,6 +51,7 @@ public class TileBoard : MonoBehaviour
     public void CreateTile()
     {
         Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
+        tile.PlaySpawnAnimation();
         tile.SetState(tileStates[0]);
         tile.Spawn(_grid.GetRandomEmptyCell(), _grid.transform);
         _tiles.Add(tile);
@@ -206,6 +207,7 @@ public class TileBoard : MonoBehaviour
         TileState newState = tileStates[index];
 
         b.SetState(newState);
+        b.PlayMergeAnimation();
         GameManager.Instance.SaveScores.ChangeScore(newState.number);
     }
 

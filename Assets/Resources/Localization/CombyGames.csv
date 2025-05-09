@@ -1,6 +1,8 @@
 Key,English,Russian
 Menu.tetris,TETRIS,ТЕТРИС
+Menu.tetris1,Tetris,Тетрис
 Menu.snake,SNAKE,ЗМЕЙКА
+Menu.snake1,Snake,Змейка
 Menu.checkers,CHINESE CHECKERS,КИТАЙСКИЕ ШАШКИ
 Menu.lines98,LINES 98,ЛИНИИ 98
 Menu.blocks,BLOCKS,БЛОКИ

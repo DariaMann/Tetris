@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class LineBoard : MonoBehaviour
 {
+    [SerializeField] private GameObject scorePlusPrefab;
+    [SerializeField] private Canvas mainCanvas;
+    
     [SerializeField] private bool showFuture = true;
     
     [SerializeField] private int gridSize = 9;
@@ -182,6 +185,7 @@ public class LineBoard : MonoBehaviour
 
         if (ballsToRemove.Count >= 5)
         {
+            Vector3 worldCenter = GetCenterWorldPosition(ballsToRemove);
             haveDeleted = true;
             foreach (Ball ball in ballsToRemove)
             {
@@ -191,11 +195,41 @@ public class LineBoard : MonoBehaviour
 //                Destroy(ball.gameObject);
             }
 
-            AddScore(ballsToRemove.Count); // подсчет очков
+            int score = CalculateScore(ballsToRemove.Count); // подсчет очков
+            saveScores.ChangeScore(score);
+            ShowScorePlusAnimationFromUI(worldCenter, score);
             AudioManager.Instance.PlaySuccessLineSound();
         }
 
         return haveDeleted;
+    }
+    
+    private Vector3 GetCenterWorldPosition(List<Ball> blocks)
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (var b in blocks)
+            sum += b.GetComponent<RectTransform>().position; // глобальная позиция
+        return sum / blocks.Count;
+    }
+
+    public void ShowScorePlusAnimationFromUI(Vector3 worldCenter, int score)
+    {
+        // Переводим в локальную позицию канваса
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            mainCanvas.transform as RectTransform,
+            Camera.main.WorldToScreenPoint(worldCenter),
+            Camera.main,
+            out Vector2 anchoredPos
+        );
+
+        GameObject go = Instantiate(scorePlusPrefab, mainCanvas.transform);
+        go.transform.SetSiblingIndex(1);
+        RectTransform rect = go.GetComponent<RectTransform>();
+        rect.anchoredPosition = anchoredPos;
+
+        Debug.Log($"[ShowScore] anchoredPosition: {anchoredPos}");
+
+        go.GetComponent<ScorePlusAnimation>().Play(score);
     }
 
     private List<Ball> CheckDirection(LineTile startTile, Vector2Int direction)
@@ -220,13 +254,14 @@ public class LineBoard : MonoBehaviour
         return new List<Ball>();
     }
     
-    public void AddScore(int ballsRemoved)
+    public int CalculateScore(int ballsRemoved)
     {
         if (ballsRemoved >= 5)
         {
             int score = 10 + (ballsRemoved - 5) * 2;
-            saveScores.ChangeScore(score);
+            return score;
         }
+        return ballsRemoved;
     }
 
     private void GenerateGrid()
