@@ -311,6 +311,11 @@ public class Buttons : MonoBehaviour {
         }
     }
     
+    public void OnChangePauseClick()
+    {
+        isPaused = !isPaused;
+    }
+    
     public void OnAutoThemeClick()
     {
         GameHelper.SetTheme(Themes.Auto);

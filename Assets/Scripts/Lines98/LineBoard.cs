@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LineBoard : MonoBehaviour
 {
+    [SerializeField] private bool isEducation;
+    [SerializeField] private EducationLines98 education;
     [SerializeField] private GameObject scorePlusPrefab;
     [SerializeField] private Canvas mainCanvas;
     
@@ -49,17 +51,35 @@ public class LineBoard : MonoBehaviour
 
     private void Start()
     {
+        if (isEducation)
+        {
+            return;
+        }
         LoadLastPlay();
         SetHintState(ShowFuture);
+
+        if (!GameHelper.GetEducationState(MiniGameType.Lines98))
+        {
+            education.ShowEducation(true);
+            GameHelper.SetEducationState(MiniGameType.Lines98, true);
+        }
     }
 
     void OnApplicationQuit()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
 
     void OnApplicationPause(bool pause)
     {
+        if (isEducation)
+        {
+            return;
+        }
         if (pause)
         {
             SaveLastPlay();
@@ -68,6 +88,10 @@ public class LineBoard : MonoBehaviour
     
     private void OnDestroy()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
     
@@ -89,6 +113,21 @@ public class LineBoard : MonoBehaviour
         CheckUndoButtonState();
     }
     
+    public void LoadEducation(SaveDataLines98 saveData)
+    {
+        GenerateGrid();
+        SpawnLoadedBalls(saveData.SaveBalls);
+    }
+    
+    public void ReloadEducation(SaveDataLines98 saveData)
+    {
+        foreach (var ball in Balls)
+        {
+            Destroy(ball.gameObject);
+        }
+        Balls.Clear();
+        SpawnLoadedBalls(saveData.SaveBalls);
+    }
 
     private void SaveLastPlay()
     {
@@ -157,6 +196,10 @@ public class LineBoard : MonoBehaviour
     
     public void AddStepEventObject()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
         EventSteps.Push(data);
         CheckUndoButtonState();
@@ -193,6 +236,11 @@ public class LineBoard : MonoBehaviour
                 Balls.Remove(ball);
                 ball.ExplodeAnimation();
 //                Destroy(ball.gameObject);
+            }
+
+            if (isEducation)
+            {
+                return true;
             }
 
             int score = CalculateScore(ballsToRemove.Count); // подсчет очков
@@ -286,6 +334,10 @@ public class LineBoard : MonoBehaviour
     
     public void EnabledFutureBalls()
     {
+        if (isEducation)
+        {
+            return;
+        }
         if (FutureBalls.Count < GenerateCount)
         {
             SpawnRandomBalls(GenerateCount - FutureBalls.Count, true);
@@ -308,6 +360,16 @@ public class LineBoard : MonoBehaviour
             }
             ball.ShakingAnimation();
         }
+    }
+    
+    public void ResetAllAll()
+    {
+        foreach (var tile in Tiles)
+        {
+            Destroy(tile.gameObject);
+        }
+        Tiles.Clear();
+        Balls.Clear();
     }
     
     public void ResetAll()
@@ -368,6 +430,10 @@ public class LineBoard : MonoBehaviour
     
     public void SpawnRandomBalls(int count, bool isFuture = false)
     {
+        if (isEducation)
+        {
+            return;
+        }
         List<LineTile> emptyCells = GetEmptyCells();
 
         for (int i = 0; i < count; i++)
@@ -404,8 +470,7 @@ public class LineBoard : MonoBehaviour
     {
         foreach (var saveBall in saveBalls)
         {
-            LineTile targetCell =
-                Tiles.Find(tile => tile.GridPosition.x == saveBall.X && tile.GridPosition.y == saveBall.Y);
+            LineTile targetCell = GetLineTileByPos(new Vector2Int(saveBall.X, saveBall.Y));
 
             // создаем шарик
             Ball ball = CreateRandomBall(targetCell, saveBall.Index);
@@ -508,6 +573,32 @@ public class LineBoard : MonoBehaviour
         }
 
         return neighbors;
+    }
+
+    public LineTile GetLineTileByPos(Vector2Int pos)
+    {
+        foreach (var tile in Tiles)
+        {
+            if (pos == tile.GridPosition)
+            {
+                return tile;
+            }
+        }
+
+        return null;
+    }
+    
+    public Ball GetBallByPos(Vector2Int pos)
+    {
+        foreach (var ball in Balls)
+        {
+            if (pos == ball.Tile.GridPosition)
+            {
+                return ball;
+            }
+        }
+
+        return null;
     }
 
 }

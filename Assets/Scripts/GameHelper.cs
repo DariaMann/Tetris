@@ -214,6 +214,82 @@ public static class GameHelper
                 SaveLines98 = JsonHelper.LoadLines98();
                 SaveBlocks = JsonHelper.LoadBlocks();
         }
+
+        public static bool GetEducationState(MiniGameType type)
+        {
+                int state = 0;
+                switch (type)
+                {
+                        case MiniGameType.Lines98: state = PlayerPrefs.GetInt("EduLines98"); break;
+                        case MiniGameType.Tetris: state = PlayerPrefs.GetInt("EduTetris"); break;
+                        case MiniGameType.Snake: state = PlayerPrefs.GetInt("EduSnake"); break;
+                        case MiniGameType.ChineseCheckers: state = PlayerPrefs.GetInt("EduChineseCheckers"); break;
+                        case MiniGameType.Blocks: state = PlayerPrefs.GetInt("EduBlocks"); break;
+                        case MiniGameType.G2048: state = PlayerPrefs.GetInt("Edu2048"); break;
+                }
+
+                return state != 0;
+        }
+        
+        public static void SetEducationState(MiniGameType type, bool stateBool)
+        {
+                int state = stateBool == false ? 0 : 1;
+                switch (type)
+                {
+                        case MiniGameType.Lines98: 
+                                PlayerPrefs.SetInt("EduLines98", state);
+                                PlayerPrefs.Save(); break;
+                        case MiniGameType.Tetris: 
+                                PlayerPrefs.SetInt("EduTetris", state);
+                                PlayerPrefs.Save(); break;
+                        case MiniGameType.Snake: 
+                                PlayerPrefs.SetInt("EduSnake", state);
+                                PlayerPrefs.Save(); break;
+                        case MiniGameType.ChineseCheckers: 
+                                PlayerPrefs.SetInt("EduChineseCheckers", state);
+                                PlayerPrefs.Save(); break;
+                        case MiniGameType.Blocks:
+                                PlayerPrefs.SetInt("EduBlocks", state);
+                                PlayerPrefs.Save(); break;
+                        case MiniGameType.G2048: 
+                                PlayerPrefs.SetInt("Edu2048", state);
+                                PlayerPrefs.Save(); break;
+                }
+        }
+        
+        public static void SetEducationStateFirst()
+        {
+                if (!PlayerPrefs.HasKey("EduLines98"))
+                {
+                        PlayerPrefs.SetInt("EduLines98", 0);
+                        PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("EduTetris"))
+                {
+                        PlayerPrefs.SetInt("EduTetris", 0);
+                        PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("EduSnake"))
+                {
+                        PlayerPrefs.SetInt("EduSnake", 0);
+                        PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("EduChineseCheckers"))
+                {
+                        PlayerPrefs.SetInt("EduChineseCheckers", 0);
+                        PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("EduBlocks"))
+                {
+                        PlayerPrefs.SetInt("EduBlocks", 0);
+                        PlayerPrefs.Save();
+                }
+                if (!PlayerPrefs.HasKey("Edu2048"))
+                {
+                        PlayerPrefs.SetInt("Edu2048", 0);
+                        PlayerPrefs.Save();
+                }
+        }
         
         public static void SetFirstSettings()
         {
@@ -291,6 +367,8 @@ public static class GameHelper
                         SnakeSettings = new SnakeSettings();
                         JsonHelper.SaveSnakeSettings(SnakeSettings);
                 }
+
+                SetEducationStateFirst();
         }
         
         public static void ResetData()
@@ -311,6 +389,9 @@ public static class GameHelper
                 
                 JsonHelper.SaveBlocks(null);
                 SaveBlocks = JsonHelper.LoadBlocks();
+                
+                SetEducationState(MiniGameType.Lines98, false);
+                SetEducationState(MiniGameType.Lines98, false);
                 
 //                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
 //                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";

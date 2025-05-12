@@ -28,7 +28,7 @@ public class LineTile : MonoBehaviour, IPointerClickHandler
             LineBoard.AddStepEventObject();
             yield return StartCoroutine(LineBoard.SelectedBall.MoveCoroutine(path, this));
             bool haveDeleted = LineBoard.CheckLines();
-            if (!haveDeleted)
+            if (!haveDeleted || LineBoard.Balls.Count == 0)
             {
                 LineBoard.EnabledFutureBalls();
                 LineBoard.SpawnRandomBalls(LineBoard.GenerateCount, true);
@@ -58,6 +58,7 @@ public class LineTile : MonoBehaviour, IPointerClickHandler
     {
         if (Ball != null)
         {
+            Debug.Log("remove");
             RemoveEmptyBall();
         }
 

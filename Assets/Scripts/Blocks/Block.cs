@@ -421,6 +421,11 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!IsInteractable)
+        {
+            return;
+        }
+        
        _rectTransform.anchorMin = new Vector2(0,0);
        _rectTransform.anchorMax = new Vector2(0,0);
        _rectTransform.pivot = new Vector2(0,0);
@@ -475,6 +480,11 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!IsInteractable)
+        {
+            return;
+        }
+        
         _rectTransform.localScale = StartScale;
         BlocksEvents.CheckIfBlockCanBePlaced();
         IsSelected = false;

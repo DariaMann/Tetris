@@ -60,7 +60,7 @@ public class Ball : MonoBehaviour, IPointerClickHandler
             ActivateJumpAnimation(false);
         }
     }
-
+    
     public void ActivateJumpAnimation(bool activate)
     {
         if (activate)

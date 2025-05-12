@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,7 +80,7 @@ public class BounceEffect : MonoBehaviour
                 _currentShake = null;
             });
     }
-
+    
     public void StartBounce()
     {
         if (_bounceSequence != null && _bounceSequence.IsPlaying()) return;

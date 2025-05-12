@@ -7,12 +7,18 @@ using UnityEngine.UI;
 public class ThemeLines98: MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
+    [SerializeField] private Image educationBgColor;
     [SerializeField] private Button undoButton;
     [SerializeField] private List<TextMeshProUGUI> lightText;
     
+    [SerializeField] private LineBoard educationLineBoard;
     [SerializeField] private LineBoard lineBoard;
     [SerializeField] private Sprite lightTileSprite;
     [SerializeField] private Sprite darkTileSprite;
+    
+    [SerializeField] private Image finger;
+    [SerializeField] private Sprite lightFingerSprite;
+    [SerializeField] private Sprite darkFingerSprite;
 
     private Themes _theme;
     private Color _colorLight;
@@ -89,11 +95,13 @@ public class ThemeLines98: MonoBehaviour
     public void SetLight()
     {
         bgColor.backgroundColor = _colorLight;
+        educationBgColor.color = _colorLight;
         foreach (var text in lightText)
         {
             text.color = _colorLight;
         }
-        
+
+        finger.sprite = lightFingerSprite;
         undoButton.image.color = _colorDark;
         
         ColorBlock colors = undoButton.colors;
@@ -108,17 +116,23 @@ public class ThemeLines98: MonoBehaviour
         foreach (var tile in lineBoard.Tiles)
         {
             tile.SetTheme(lightTileSprite);
+        }   
+        foreach (var tile in educationLineBoard.Tiles)
+        {
+            tile.SetTheme(lightTileSprite);
         }
     } 
     
     public void SetDark()
     {
         bgColor.backgroundColor = _colorDark;
+        educationBgColor.color = _colorDark;
         foreach (var text in lightText)
         {
             text.color = _colorDark;
         }
         
+        finger.sprite = darkFingerSprite;
         undoButton.image.color = _colorGrey;
         
         ColorBlock colors = undoButton.colors;
@@ -131,6 +145,10 @@ public class ThemeLines98: MonoBehaviour
         undoButton.colors = colors;
         
         foreach (var tile in lineBoard.Tiles)
+        {
+            tile.SetTheme(darkTileSprite);
+        }
+        foreach (var tile in educationLineBoard.Tiles)
         {
             tile.SetTheme(darkTileSprite);
         }
