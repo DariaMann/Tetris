@@ -1,10 +1,11 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class BlockTile : MonoBehaviour
+public class BlockTile : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image hooverImage;
     [SerializeField] private Image activeImage;
@@ -26,6 +27,11 @@ public class BlockTile : MonoBehaviour
     public Vector2Int GridPosition { get; set; }
     
     public Block Block  { get; private set; }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Index: "+ BlocksBoard.Tiles.IndexOf(this) + "Row = " + GridPosition.x + ", Col = " + GridPosition.y);
+    }
 
     private void Awake()
     {

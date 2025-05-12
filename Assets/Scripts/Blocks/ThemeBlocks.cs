@@ -11,6 +11,7 @@ public class ThemeBlocks: MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> lightText;
     
     [SerializeField] private BlocksBoard blocksBoard;
+    [SerializeField] private BlocksBoard educationBlocksBoard;
     
     [SerializeField] private Sprite lightBlockTileLightSprite;
     [SerializeField] private Sprite lightBlockTileDarkSprite;
@@ -146,6 +147,16 @@ public class ThemeBlocks: MonoBehaviour
         foreach (var tile in blocksBoard.Blocks)
         {
             tile.SetTheme(lightBlockSprite);
+        }  
+        
+        foreach (var tile in educationBlocksBoard.Tiles)
+        {
+            tile.SetTheme(lightBlockShadowSprite, lightBlockSprite, lightBlockTileLightSprite, lightBlockTileDarkSprite);
+        }
+        
+        foreach (var tile in educationBlocksBoard.Blocks)
+        {
+            tile.SetTheme(lightBlockSprite);
         }
     } 
     
@@ -174,6 +185,16 @@ public class ThemeBlocks: MonoBehaviour
         }
         
         foreach (var tile in blocksBoard.Blocks)
+        {
+            tile.SetTheme(darkBlockSprite);
+        }   
+        
+        foreach (var tile in educationBlocksBoard.Tiles)
+        {
+            tile.SetTheme(darkBlockShadowSprite, darkBlockSprite, darkBlockTileLightSprite, darkBlockTileDarkSprite);
+        }
+        
+        foreach (var tile in educationBlocksBoard.Blocks)
         {
             tile.SetTheme(darkBlockSprite);
         }

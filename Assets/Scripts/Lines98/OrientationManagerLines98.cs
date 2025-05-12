@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-public class OrientationManager2048 : MonoBehaviour
+public class OrientationManagerLines98 : MonoBehaviour
 {
     [SerializeField] private GameObject rightPanel;
     [SerializeField] private GameObject topPanel;
+    [SerializeField] private EducationLines98 education;
     
     void Update()
     {
@@ -29,17 +30,20 @@ public class OrientationManager2048 : MonoBehaviour
     {
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
+        education.SetOrientation(true);
     }
     
     private void VerticalOrientationPhone()
     {
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
+        education.SetOrientation(true);
     }
 
     private void HorizontalOrientationTablet()
     {
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
+        education.SetOrientation(false);
     }
 }

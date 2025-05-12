@@ -391,7 +391,11 @@ public static class GameHelper
                 SaveBlocks = JsonHelper.LoadBlocks();
                 
                 SetEducationState(MiniGameType.Lines98, false);
-                SetEducationState(MiniGameType.Lines98, false);
+                SetEducationState(MiniGameType.Blocks, false);
+                SetEducationState(MiniGameType.Tetris, false);
+                SetEducationState(MiniGameType.Snake, false);
+                SetEducationState(MiniGameType.ChineseCheckers, false);
+                SetEducationState(MiniGameType.G2048, false);
                 
 //                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
 //                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";

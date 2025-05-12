@@ -200,6 +200,10 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void RepositionX(float offset)
     {
+        if (_rectTransform == null)
+        {
+            return;
+        }
         OffsetX = offset;
         _startAnchoredPosition = new Vector2(OffsetX, 0);
         
@@ -211,6 +215,10 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void Rescale(float newScale)
     {
+        if (_rectTransform == null)
+        {
+            return;
+        }
         StartScale = new Vector3(newScale, newScale, newScale);
         if (!IsSelected)
         {
@@ -417,6 +425,11 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         // Поднимаем объект, чтобы он оказался наверху среди детей
         transform.SetAsLastSibling();  // Это поставит объект в конец списка дочерних элементов родителя
+
+        if (blocksBoard.IsEducation)
+        {
+            blocksBoard.Education.StopTutorial();
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -458,6 +471,18 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
        }
 
        List<BlockTile> hovered = blocksBoard.GetValidHoveredTiles(this);
+
+       if (blocksBoard.IsEducation)
+       {
+           if (hovered.Count > 0 && hovered[0] == blocksBoard.EnableTile)
+           {
+               
+           }
+           else
+           {
+               return;
+           }
+       }
 //       var hovered = blocksBoard.GetHoveredTilesByProximity(Squares);
        foreach (var tile in hovered)
        {

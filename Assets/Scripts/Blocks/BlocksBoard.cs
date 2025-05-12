@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 public class BlocksBoard : MonoBehaviour
 {
+    [SerializeField] private bool isEducation;
+    [SerializeField] private EducationBlocks education;
+
     [SerializeField] private GameObject scorePlusPrefab;
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private ThemeBlocks themeBlocks;
@@ -21,7 +24,21 @@ public class BlocksBoard : MonoBehaviour
     [SerializeField] private Transform gridParent;
     [SerializeField] private List<BlockShape> blockTypes;
     [SerializeField] private List<Block> blocks;
-
+    
+    public bool IsEducation
+    {
+        get => isEducation;
+        set => isEducation = value;
+    }
+    
+    public EducationBlocks Education
+    {
+        get => education;
+        set => education = value;
+    }
+    
+    public BlockTile EnableTile { get; set; }
+    
     public List<Block> Blocks
     {
         get => blocks;
@@ -48,8 +65,18 @@ public class BlocksBoard : MonoBehaviour
 
     private void Start()
     {
+        if (isEducation)
+        {
+            return;
+        }
         LoadLastPlay();
         CheckUndoButtonState();
+        
+        if (!GameHelper.GetEducationState(MiniGameType.Blocks))
+        {
+            education.ShowEducation(true);
+            GameHelper.SetEducationState(MiniGameType.Blocks, true);
+        }
     }
 
     private void OnEnable()
@@ -64,11 +91,19 @@ public class BlocksBoard : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
 
     void OnApplicationPause(bool pause)
     {
+        if (isEducation)
+        {
+            return;
+        }
         if (pause)
         {
             SaveLastPlay();
@@ -77,6 +112,10 @@ public class BlocksBoard : MonoBehaviour
     
     private void OnDestroy()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
     
@@ -103,6 +142,18 @@ public class BlocksBoard : MonoBehaviour
         CheckUndoButtonState();
     }
 
+    public void LoadStartEducation()
+    {
+        GenerateGrid();
+    }
+    
+    public void LoadEducation(SaveDataBlocks saveData)
+    {
+        FullLoadGrid(saveData.SaveBlocksTile);
+        CreateBlocks(saveData.Blocks);
+        
+        themeBlocks.SetTheme(GameHelper.Theme);
+    }
 
     private void SaveLastPlay()
     {
@@ -178,6 +229,15 @@ public class BlocksBoard : MonoBehaviour
         ResetGrid();
         EventSteps.Clear();
     }  
+       
+    public void ResetAllAll()
+    {
+        foreach (var tile in Tiles)
+        {
+            Destroy(tile.gameObject);
+        }
+        Tiles.Clear();
+    }  
     
     public void ResetGrid()
     {
@@ -216,6 +276,10 @@ public class BlocksBoard : MonoBehaviour
     
     public void AddStepEventObject()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveDataBlocks data = new SaveDataBlocks(saveScores.IsWin, saveScores.CurrentScore, Tiles, blocks);
         EventSteps.Push(data);
         CheckUndoButtonState();
@@ -329,6 +393,10 @@ public class BlocksBoard : MonoBehaviour
 
         if (selectedBlock.TotalSquareNumber != selectedTiles.Count)
         {
+            if (isEducation)
+            {
+                education.StartPlay();
+            }
             BlocksEvents.MoveBlockToStartPosition();
             return;
         }
@@ -368,10 +436,20 @@ public class BlocksBoard : MonoBehaviour
                     
 //                    Vector3 center = GetCenterAnchoredPosition(tilesToClear);
 //                    ShowScorePlusAnimtion(center, score);
+                    if (isEducation)
+                    {
+                        education.ChangeStep();
+                        return;
+                    }
                     ShowScorePlusAnimationFromUI(tilesToClear, score);
                 });
         }
 
+        if (isEducation)
+        {
+            return;
+        }
+        
         if (score > 0)
         {
             saveScores.ChangeScore(score);

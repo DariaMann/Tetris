@@ -13,6 +13,15 @@ public class OrientationManagerBlocks : MonoBehaviour
 
     [SerializeField] private SquareUIGrid squareUiGrid;
     [SerializeField] private BlocksBoard blocksBoard;
+    
+    
+    
+    [SerializeField] private GameObject panelEdu;
+    [SerializeField] private RectTransform boardPanelEdu;
+    [SerializeField] private RectTransform blocksPanelEdu;
+
+    [SerializeField] private SquareUIGrid squareUiGridEdu;
+    [SerializeField] private BlocksBoard blocksBoardEdu;
 
     void Update()
     {
@@ -50,6 +59,18 @@ public class OrientationManagerBlocks : MonoBehaviour
         squareUiGrid.Padding = 80;
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
+
+        if (panelEdu.activeSelf)
+        {
+            boardPanelEdu.anchoredPosition = new Vector2(boardPanelEdu.anchoredPosition.x, 0);
+            blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 58);
+
+            blocksBoardEdu.RescaleBlocks(0.7f);
+
+            squareUiGridEdu.Padding = 80;
+            squareUiGridEdu.ResizeSquare();
+            blocksBoardEdu.ResizeBlocks();
+        }
     }
     
     private void VerticalOrientationPhone()
@@ -68,6 +89,18 @@ public class OrientationManagerBlocks : MonoBehaviour
         squareUiGrid.Padding = 35;
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
+
+        if (panelEdu.activeSelf)
+        {
+            boardPanelEdu.anchoredPosition = new Vector2(boardPanelEdu.anchoredPosition.x, 24);
+            blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 112);
+
+            blocksBoardEdu.RescaleBlocks(0.6f);
+
+            squareUiGridEdu.Padding = 35;
+            squareUiGridEdu.ResizeSquare();
+            blocksBoardEdu.ResizeBlocks();
+        }
     }
 
     private void HorizontalOrientationTablet()
@@ -86,5 +119,17 @@ public class OrientationManagerBlocks : MonoBehaviour
         squareUiGrid.Padding = 110;
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
+
+        if (panelEdu.activeSelf)
+        {
+            boardPanelEdu.anchoredPosition = new Vector2(boardPanelEdu.anchoredPosition.x, 0);
+            blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 17);
+
+            blocksBoardEdu.RescaleBlocks(0.7f);
+
+            squareUiGridEdu.Padding = 110;
+            squareUiGridEdu.ResizeSquare();
+            blocksBoardEdu.ResizeBlocks();
+        }
     }
 }

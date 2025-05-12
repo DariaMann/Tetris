@@ -32,6 +32,10 @@ public class SquareUIGrid : MonoBehaviour
 
     public void ResizeSquare()
     {
+        if (_rectTransform == null)
+        {
+            return;
+        }
         RectTransform parentRect = _rectTransform.parent.GetComponent<RectTransform>();
         if (parentRect == null) return;
 

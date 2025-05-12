@@ -130,7 +130,16 @@ public class EducationLines98 : MonoBehaviour
         if (isVertical)
         {
             _squareUi.Padding = 67;
-            finger.sizeDelta = new Vector2(80f, 80f);
+            if (isTablet)
+            {
+                finger.sizeDelta = new Vector2(80f, 80f);
+                fingerYOffset = 1f;
+            }
+            else
+            {
+                finger.sizeDelta = new Vector2(60f, 60f);
+                fingerYOffset = 0.5f;
+            }
             
             Vector2 pos = _rectBoard.anchoredPosition;
             pos.y = 0f;
@@ -142,6 +151,7 @@ public class EducationLines98 : MonoBehaviour
             {
                 _squareUi.Padding = 148;
                 finger.sizeDelta = new Vector2(50f, 50f);
+                fingerYOffset = 1f;
                 
                 Vector2 pos = _rectBoard.anchoredPosition;
                 pos.y = 0f;
@@ -151,6 +161,7 @@ public class EducationLines98 : MonoBehaviour
             {
                 _squareUi.Padding = 113;
                 finger.sizeDelta = new Vector2(70f, 70f);
+                fingerYOffset = 1f;
                 
                 Vector2 pos = _rectBoard.anchoredPosition;
                 pos.y = 50f;
@@ -216,7 +227,10 @@ public class EducationLines98 : MonoBehaviour
         
         finger.transform.position = _startFingerPos;
         finger.rotation = Quaternion.identity;
-        _fingerCanvasGroup.alpha = 0f;
+        if (_fingerCanvasGroup != null)
+        {
+            _fingerCanvasGroup.alpha = 0f;
+        }
     }
     
 //    private IEnumerator PlayTutorial()
