@@ -15,6 +15,9 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private bool isPaused;
     [SerializeField] private bool exitController;
     [SerializeField] private bool havePausePanel = true;
+    [SerializeField] private GameObject educationButton;
+    [SerializeField] private GameObject ratingCenterButton;
+    [SerializeField] private GameObject ratingLeftButton;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private RectTransform settingsPanel;
     
@@ -61,6 +64,19 @@ public class Buttons : MonoBehaviour {
         
         AudioManager.Instance.ToggleMusic(GameHelper.Music);
         AudioManager.Instance.ToggleSound(GameHelper.Sound);
+
+        if (GameHelper.GameType == MiniGameType.None || GameHelper.GameType == MiniGameType.Snake)
+        {
+            educationButton.SetActive(false);
+            ratingLeftButton.SetActive(false);
+            ratingCenterButton.SetActive(true);
+        }
+        else
+        {
+            educationButton.SetActive(true);
+            ratingLeftButton.SetActive(true);
+            ratingCenterButton.SetActive(false);
+        }
     }
     
     void OnApplicationPause(bool pause)

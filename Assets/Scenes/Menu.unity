@@ -533,6 +533,36 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172497193909872057, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1412353732430277009, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_Name
@@ -748,10 +778,39 @@ PrefabInstance:
       propertyPath: havePausePanel
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6316542225239668869, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: settingsMusicOn
+      value: 
+      objectReference: {fileID: 21300000, guid: b15b880dd17fd414fa2841ee93884e17,
+        type: 3}
+    - target: {fileID: 6316542225239668869, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: settingsSoundOn
+      value: 
+      objectReference: {fileID: 21300000, guid: b71d5efcfd562c94fbcd6a0b8eeffca3,
+        type: 3}
+    - target: {fileID: 6316542225239668869, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: settingsMusicOff
+      value: 
+      objectReference: {fileID: 21300000, guid: 0e6cfbc8353624947b576929adf89c4b,
+        type: 3}
+    - target: {fileID: 6316542225239668869, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: settingsSoundOff
+      value: 
+      objectReference: {fileID: 21300000, guid: b74412556b9d07143a372fb739d206ef,
+        type: 3}
+    - target: {fileID: 6679871194738998652, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.45400003
+      objectReference: {fileID: 0}
     - target: {fileID: 6679871194738998652, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6679871194738998652, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}

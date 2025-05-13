@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TileBoard : MonoBehaviour
 {
+    [SerializeField] private bool isEducation;
     [SerializeField] private Tile2024 tilePrefab;
     [SerializeField] private TileState[] tileStates;
 
@@ -56,10 +57,22 @@ public class TileBoard : MonoBehaviour
         tile.Spawn(_grid.GetRandomEmptyCell(), _grid.transform);
         _tiles.Add(tile);
     }
+    
+    public void CreateTile(int x, int y)
+    {
+        Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
+        tile.PlaySpawnAnimation();
+        tile.SetState(tileStates[0]);
+        tile.Spawn(_grid.GetCellByCoordinates(x, y), _grid.transform);
+        _tiles.Add(tile);
+        
+        GameManager.Instance.Education.ChangeStepAfterTouch();
+    }
 
     private void Update()
     {
         if (_waiting) return;
+        if (GameHelper.IsEdication && !isEducation) return;
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
             Move(Vector2Int.up, 0, 1, 1, 1);
@@ -120,6 +133,13 @@ public class TileBoard : MonoBehaviour
 
     private void Move(Vector2Int direction, int startX, int incrementX, int startY, int incrementY)
     {
+        if (isEducation)
+        {
+            if (GameManager.Instance.EnableMoveDirection != direction)
+            {
+                return;
+            }
+        }
         bool changed = false;
         bool saveLast = false;
         bool isMerge = false;
@@ -146,7 +166,13 @@ public class TileBoard : MonoBehaviour
             {
                  AudioManager.Instance.PlayClickChipSound();
             }
-            
+            if (isEducation)
+            {
+                GameManager.Instance.Education.SetEnableMoveDirection(Vector2Int.zero);
+                GameManager.Instance.Education.HideTwoStep();
+                StartCoroutine(WaitForChangesEducationStepTwo());
+                return;
+            }
             StartCoroutine(WaitForChanges());
         }
 
@@ -164,7 +190,7 @@ public class TileBoard : MonoBehaviour
             {
                 if (CanMerge(tile, adjacent.Tile))
                 {
-                    if (!saveLast)
+                    if (!saveLast && !isEducation)
                     {
                         GameManager.Instance.EventSteps.Push(CreateStepEvent());
                     }
@@ -182,7 +208,7 @@ public class TileBoard : MonoBehaviour
 
         if (newCell != null)
         {
-            if (!saveLast)
+            if (!saveLast && !isEducation)
             {
                 GameManager.Instance.EventSteps.Push(CreateStepEvent());
             }
@@ -208,6 +234,10 @@ public class TileBoard : MonoBehaviour
 
         b.SetState(newState);
         b.PlayMergeAnimation();
+        if (isEducation)
+        {
+            return;
+        }
         GameManager.Instance.SaveScores.ChangeScore(newState.number);
     }
 
@@ -242,6 +272,24 @@ public class TileBoard : MonoBehaviour
         if (CheckForGameOver()) {
             GameManager.Instance.GameOver();
         }
+    }
+    
+    private IEnumerator WaitForChangesEducationStepTwo()
+    {
+        _waiting = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        _waiting = false;
+
+        foreach (var tile in _tiles) {
+            tile.Locked = false;
+        }
+
+        if (_tiles.Count != _grid.Size) {
+            CreateTile(2,2);
+        }
+
     }
 
     public bool CheckForGameOver()

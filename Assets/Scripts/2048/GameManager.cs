@@ -9,13 +9,23 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private Education2048 education;
+    [SerializeField] private TileBoard educationBoard;
     [SerializeField] private TileBoard board;
     [SerializeField] private GameOver gameOver;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private Button undoButton;
 
     public static GameManager Instance { get; private set; }
+    
+    public Education2048 Education
+    {
+        get => education;
+        set => education = value;
+    }
 
+    public Vector2Int EnableMoveDirection { get; set; }
+    
     public Stack<Step2048> EventSteps { get; set; } = new Stack<Step2048>();
 
     public SaveScores SaveScores
@@ -37,6 +47,12 @@ public class GameManager : MonoBehaviour
     {
         LoadLastPlay();
         CheckUndoButtonState();
+        
+        if (!GameHelper.GetEducationState(MiniGameType.G2048))
+        {
+            education.ShowEducation(true);
+            GameHelper.SetEducationState(MiniGameType.G2048, true);
+        }
     }
     
     void OnApplicationQuit()
@@ -86,6 +102,23 @@ public class GameManager : MonoBehaviour
         board.enabled = true;
         
         CheckUndoButtonState();
+    }
+    
+    public void LoadEducation(SaveData2048 saveData)
+    {
+        educationBoard.ClearBoard();
+
+        foreach (var tile in saveData.SaveTiles)
+        {
+            educationBoard.CreateTile(tile);
+        }
+        
+        educationBoard.enabled = true;
+    }
+    
+    public void ResetAll()
+    {
+        educationBoard.ClearBoard();
     }
 
     private void SaveLastPlay()

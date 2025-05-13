@@ -262,6 +262,9 @@ MonoBehaviour:
   isPaused: 0
   exitController: 0
   havePausePanel: 1
+  educationButton: {fileID: 7952826343279846685}
+  ratingCenterButton: {fileID: 4918929022157619491}
+  ratingLeftButton: {fileID: 1407699457951523787}
   pauseMenu: {fileID: 5201487513918864525}
   settingsPanel: {fileID: 3050266035529126983}
   settingsEnglishSelection: {fileID: 389240903360131959}
@@ -272,10 +275,10 @@ MonoBehaviour:
   settingsSoundButton: {fileID: 3050266035362203907}
   settingsMusicButton: {fileID: 3050266034910641619}
   settingsVibrationButton: {fileID: 3050266033961557841}
-  settingsSoundOn: {fileID: 21300000, guid: b15b880dd17fd414fa2841ee93884e17, type: 3}
-  settingsSoundOff: {fileID: 21300000, guid: 0e6cfbc8353624947b576929adf89c4b, type: 3}
-  settingsMusicOn: {fileID: 21300000, guid: b71d5efcfd562c94fbcd6a0b8eeffca3, type: 3}
-  settingsMusicOff: {fileID: 21300000, guid: b74412556b9d07143a372fb739d206ef, type: 3}
+  settingsSoundOn: {fileID: 21300000, guid: b71d5efcfd562c94fbcd6a0b8eeffca3, type: 3}
+  settingsSoundOff: {fileID: 21300000, guid: b74412556b9d07143a372fb739d206ef, type: 3}
+  settingsMusicOn: {fileID: 21300000, guid: b15b880dd17fd414fa2841ee93884e17, type: 3}
+  settingsMusicOff: {fileID: 21300000, guid: 0e6cfbc8353624947b576929adf89c4b, type: 3}
   settingsVibrationOn: {fileID: 21300000, guid: 3d7d8b84718501f4ba4edbbc5965740f,
     type: 3}
   settingsVibrationOff: {fileID: 21300000, guid: 72617814cbb6e8a4a9d072d6d6f1e7c1,
@@ -1739,6 +1742,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1407699457951523787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2487159937847680411, guid: 9279abb9fc8d201488df4ba16d42200b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3534496658258378320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2828475428940174276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1607167765325409684, guid: 9279abb9fc8d201488df4ba16d42200b,
@@ -1787,9 +1796,21 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4918929022157619491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8452840995746955123, guid: 9279abb9fc8d201488df4ba16d42200b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3534496658258378320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6869877777200471171 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7952152475789288147, guid: 9279abb9fc8d201488df4ba16d42200b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3534496658258378320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7952826343279846685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6868852100363443021, guid: 9279abb9fc8d201488df4ba16d42200b,
     type: 3}
   m_PrefabInstance: {fileID: 3534496658258378320}
   m_PrefabAsset: {fileID: 0}

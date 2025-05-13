@@ -30,6 +30,8 @@ public static class GameHelper
         
         public static bool IsGameOver { get; set; } = false;
         
+        public static bool IsEdication { get; set; } = false;
+        
         public static SnakeSettings SnakeSettings { get; set; }
         
         public static TetrisSettings TetrisSettings { get; set; }

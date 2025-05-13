@@ -45,16 +45,21 @@ public class EducationBlocks : MonoBehaviour
     {
         if (!pauseStatus && educationPanel.activeSelf)
         {
-            Restart();
-        }
-        
-        if (!pauseStatus)
-        {
             if (_isStartShowFinish)
             {
-                // Приложение вернулось
+                // Завершить обучение вручную, если это был последний шаг
                 ForceFinishEducation();
             }
+            else
+            {
+                Restart();
+            }
+        }
+
+        if (pauseStatus && _isStartShowFinish)
+        {
+            // Если свернули на шаге 3 — сразу показать финал
+            ForceFinishEducation();
         }
     }
 

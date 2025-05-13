@@ -9,6 +9,7 @@ public class Piece : MonoBehaviour
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.02f; // насколько быстро убывает stepDelay с ростом счёта
     
+    private float _verticalSwipeCheck = 0.35f;
     private float _minDistanceSwipe = 100f;
     private float _maxTimeSwipe = 0.2f;
     private float _lockDelay = 0.5f;
@@ -255,7 +256,7 @@ public class Piece : MonoBehaviour
         // Проверка на резкий свайп вниз
         if (verticalDistance > _minDistanceSwipe &&
             swipeDuration < _maxTimeSwipe &&
-            Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * 0.5f) // важное ограничение!
+            Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * _verticalSwipeCheck) // важное ограничение!
         {
             Debug.Log("Hard drop via fast vertical swipe");
             _doHardDrop = true;

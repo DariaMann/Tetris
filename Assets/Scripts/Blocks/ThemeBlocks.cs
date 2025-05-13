@@ -23,6 +23,11 @@ public class ThemeBlocks: MonoBehaviour
     
     [SerializeField] private Sprite lightBlockSprite;
     [SerializeField] private Sprite darkBlockSprite;
+    
+    [SerializeField] private Image eduBgColor;
+    [SerializeField] private Image finger;
+    [SerializeField] private Sprite lightFingerSprite;
+    [SerializeField] private Sprite darkFingerSprite;
 
     private Themes _theme;
     private Color _colorLight;
@@ -123,11 +128,13 @@ public class ThemeBlocks: MonoBehaviour
     public void SetLight()
     {
         bgColor.backgroundColor = _colorLight;
+        eduBgColor.color = _colorLight;
         foreach (var text in lightText)
         {
             text.color = _colorLight;
         }
         
+        finger.sprite = lightFingerSprite;
         undoButton.image.color = _colorDark;
         
         ColorBlock colors = undoButton.colors;
@@ -163,11 +170,13 @@ public class ThemeBlocks: MonoBehaviour
     public void SetDark()
     {
         bgColor.backgroundColor = _colorDark;
+        eduBgColor.color = _colorDark;
         foreach (var text in lightText)
         {
             text.color = _colorDark;
         }
         
+        finger.sprite = darkFingerSprite;
         undoButton.image.color = _colorGrey;
         
         ColorBlock colors = undoButton.colors;

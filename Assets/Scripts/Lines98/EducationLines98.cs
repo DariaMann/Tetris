@@ -192,7 +192,7 @@ public class EducationLines98 : MonoBehaviour
             Restart();
         }
         
-        if (!pauseStatus)
+        if (pauseStatus)
         {
             // Приложение вернулось
             ForcePlayButtonVisible();

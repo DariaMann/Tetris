@@ -7,6 +7,12 @@ public class SquareUI : MonoBehaviour
 
     public float padding = 50f; // Отступ от краёв экрана
 
+    public float Padding
+    {
+        get => padding;
+        set => padding = value;
+    }
+
     void Start()
     {
         _rectTransform = GetComponent<RectTransform>();

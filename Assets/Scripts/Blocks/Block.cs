@@ -212,6 +212,11 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             _rectTransform.anchoredPosition = _startAnchoredPosition;
         }
     }
+    
+    public void RepositionOffsetY(float offsetY)
+    {
+        offset = new Vector2(0, offsetY);
+    }
 
     public void Rescale(float newScale)
     {

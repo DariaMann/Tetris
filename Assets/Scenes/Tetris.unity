@@ -4807,9 +4807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de4221cf8b121d4caf2706beb343b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
-    type: 3}
-  mainCanvas: {fileID: 485708651}
   gameOver: {fileID: 50542242}
   saveScores: {fileID: 681636497}
   nextTetrominoImage:

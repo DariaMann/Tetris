@@ -23,6 +23,8 @@ Tetris.record,Record,Рекорд
 2048.gameover,Game Over!,Конец игры!
 2048.again,Try Again!,Попробуй еще!
 2048.maximum,Maximum,Максимум
+2048.edutext1,Swipe to move all tiles,"Проведите пальцем, чтобы переместить все плитки"
+2048.edutext2,"When two tiles with the same number touch, they merge into one!","Когда две плитки с одинаковыми числами соприкасаются, они соединяются в одну!"
 Lines98.edutext,Collect lines of 5 or more balls of the same color!,Собери линии из 5 и более шаров одного цвета!
 Lines98.play,Play,Играть
 Сheckers.warning,Include at least two players!,Включите минимум двух игроков!

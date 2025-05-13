@@ -6,6 +6,7 @@ public class OrientationManagerBlocks : MonoBehaviour
     [SerializeField] private GameObject topPanel;
     
     [SerializeField] private Block leftBlock;
+    [SerializeField] private Block centerBlock;
     [SerializeField] private Block rightBlock;
     
     [SerializeField] private RectTransform boardPanel;
@@ -19,6 +20,8 @@ public class OrientationManagerBlocks : MonoBehaviour
     [SerializeField] private GameObject panelEdu;
     [SerializeField] private RectTransform boardPanelEdu;
     [SerializeField] private RectTransform blocksPanelEdu;
+    
+    [SerializeField] private Block centerBlockEdu;
 
     [SerializeField] private SquareUIGrid squareUiGridEdu;
     [SerializeField] private BlocksBoard blocksBoardEdu;
@@ -56,6 +59,10 @@ public class OrientationManagerBlocks : MonoBehaviour
         leftBlock.RepositionX(100);
         rightBlock.RepositionX(-100);
         
+        leftBlock.RepositionOffsetY(450);
+        centerBlock.RepositionOffsetY(450);
+        rightBlock.RepositionOffsetY(450);
+
         squareUiGrid.Padding = 80;
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
@@ -66,6 +73,8 @@ public class OrientationManagerBlocks : MonoBehaviour
             blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 58);
 
             blocksBoardEdu.RescaleBlocks(0.7f);
+            
+            centerBlockEdu.RepositionOffsetY(450);
 
             squareUiGridEdu.Padding = 80;
             squareUiGridEdu.ResizeSquare();
@@ -86,6 +95,10 @@ public class OrientationManagerBlocks : MonoBehaviour
         leftBlock.RepositionX(90);
         rightBlock.RepositionX(-90);
         
+        leftBlock.RepositionOffsetY(500);
+        centerBlock.RepositionOffsetY(500);
+        rightBlock.RepositionOffsetY(500);
+        
         squareUiGrid.Padding = 35;
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
@@ -96,6 +109,8 @@ public class OrientationManagerBlocks : MonoBehaviour
             blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 112);
 
             blocksBoardEdu.RescaleBlocks(0.6f);
+            
+            centerBlockEdu.RepositionOffsetY(500);
 
             squareUiGridEdu.Padding = 35;
             squareUiGridEdu.ResizeSquare();
@@ -115,6 +130,10 @@ public class OrientationManagerBlocks : MonoBehaviour
         
         leftBlock.RepositionX(150);
         rightBlock.RepositionX(-150);
+        
+        leftBlock.RepositionOffsetY(370);
+        centerBlock.RepositionOffsetY(370);
+        rightBlock.RepositionOffsetY(370);
 
         squareUiGrid.Padding = 110;
         squareUiGrid.ResizeSquare();
@@ -126,6 +145,8 @@ public class OrientationManagerBlocks : MonoBehaviour
             blocksPanelEdu.anchoredPosition = new Vector2(blocksPanelEdu.anchoredPosition.x, 17);
 
             blocksBoardEdu.RescaleBlocks(0.7f);
+            
+            centerBlockEdu.RepositionOffsetY(370);
 
             squareUiGridEdu.Padding = 110;
             squareUiGridEdu.ResizeSquare();
