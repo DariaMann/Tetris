@@ -11,7 +11,11 @@ public class OrientationManagerTetris : MonoBehaviour
     [SerializeField] private GameObject rightPanel;
     [SerializeField] private GameObject leftPanel;
     [SerializeField] private GameObject upPanel;
+    [SerializeField] private CameraRenderer cameraRenderer;
     
+    [SerializeField] private Transform boardEdu;
+    [SerializeField] private Transform goastEdu;
+    [SerializeField] private GameObject bottomTextEdu;
     
     void Update()
     {
@@ -38,32 +42,82 @@ public class OrientationManagerTetris : MonoBehaviour
     
     private void VerticalOrientationTablet()
     {
+        boardEdu.localPosition = new Vector2(2.23f,0);
+        goastEdu.localPosition = new Vector2(2.23f,0);
+        cameraRenderer.WidthOrHeight = 0.5f;
+        
         board.localPosition = new Vector2(2.23f,0);
         goast.localPosition = new Vector2(2.23f,0);
         grid.localPosition = new Vector2(2.23f,0);
-        leftPanel.SetActive(true);
-        rightPanel.SetActive(false);
-        upPanel.SetActive(false);
+        
+        bottomTextEdu.SetActive(false);
+
+        if (!GameHelper.IsEdication)
+        {
+            leftPanel.SetActive(true);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(false);
+        }
+        else
+        {
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(false);
+        }
     }
     
     private void VerticalOrientationPhone()
     {
+        boardEdu.localPosition = new Vector2(0f,0f);
+        goastEdu.localPosition = new Vector2(0f,0f);
+      
+        cameraRenderer.WidthOrHeight = GameHelper.IsEdication ? 0.25f : 0.5f;
+
         board.localPosition = new Vector2(0f,-1f);
         goast.localPosition = new Vector2(0f,-1f);
-        grid.localPosition = new Vector2(0f,-1f);
-        leftPanel.SetActive(false);
-        rightPanel.SetActive(false);
-        upPanel.SetActive(true);
+
+        if (!GameHelper.IsEdication)
+        {
+            grid.localPosition = new Vector2(0f,-1f);
+            bottomTextEdu.SetActive(false);
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(true);
+        }
+        else
+        {
+            grid.localPosition = new Vector2(0f,0f);
+            bottomTextEdu.SetActive(true);
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(false);
+        }
     }
 
     private void HorizontalOrientationTablet()
     {
+        boardEdu.localPosition = new Vector2(0,0);
+        goastEdu.localPosition = new Vector2(0,0);
+        cameraRenderer.WidthOrHeight = 0.5f;
+        
         board.localPosition = new Vector2(0,0);
         goast.localPosition = new Vector2(0,0);
         grid.localPosition = new Vector2(0,0);
-        leftPanel.SetActive(false);
-        rightPanel.SetActive(true);
-        upPanel.SetActive(false);
+        
+        bottomTextEdu.SetActive(false);
+
+        if (!GameHelper.IsEdication)
+        {
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(true);
+            upPanel.SetActive(false);
+        }
+        else
+        {
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(false);
+        }
     }
 
 }

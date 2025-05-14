@@ -38,6 +38,12 @@ public class ThemeTetris : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI scoreAndRecordTextTop;
     
+    [SerializeField] private List<TextMeshProUGUI> darkTexts;
+    [SerializeField] private List<Image> lightImages;
+    [SerializeField] private Image finger;
+    [SerializeField] private Sprite lightFingerSprite;
+    [SerializeField] private Sprite darkFingerSprite;
+    
     private Themes _theme;
     private Color _colorLight;
     private Color _colorGrey;
@@ -64,7 +70,7 @@ public class ThemeTetris : MonoBehaviour
         _colorImageLight = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color8) ? color8 : Color.black;
         
         _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
-        _colorBgDark = ColorUtility.TryParseHtmlString("#212022", out Color colorBgDark) ? colorBgDark : Color.black;
+        _colorBgDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color colorBgDark) ? colorBgDark : Color.black;
         
         _colorGrid = ColorUtility.TryParseHtmlString("#D1CBC4", out Color colorWallDark) ? colorWallDark : Color.black;
         
@@ -150,6 +156,18 @@ public class ThemeTetris : MonoBehaviour
         recordTextRight.color = _colorBgLight;
         
         scoreAndRecordTextTop.color = _colorImageLight;
+        
+        finger.sprite = lightFingerSprite;
+        
+        foreach (var text in darkTexts)
+        {
+            text.color = _colorBgLight;
+        }
+        
+        foreach (var img in lightImages)
+        {
+            img.color = _colorBgDark;
+        }
     } 
     
     public void SetDark()
@@ -181,5 +199,17 @@ public class ThemeTetris : MonoBehaviour
         recordTextRight.color = _colorLight;
         
         scoreAndRecordTextTop.color = _colorLight;
+        
+        finger.sprite = darkFingerSprite;
+        
+        foreach (var text in darkTexts)
+        {
+            text.color = _colorSelectLight;
+        }
+        
+        foreach (var img in lightImages)
+        {
+            img.color = _colorBgLight;
+        }
     }
 }

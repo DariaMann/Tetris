@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] private bool isEducation;
     [SerializeField] private float stepDelay = 1f;
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
@@ -58,7 +59,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        if (Board.GameOverPanel.IsGameOver || Board.IsPaused)
+        if (Board.GameOverPanel.IsGameOver || Board.IsPaused || (GameHelper.IsEdication && Board.EducationIsOver))
         {
             return;
         }
@@ -104,9 +105,19 @@ public class Piece : MonoBehaviour
             HandleTouchInput();
         }
 
-        // Advance the piece to the next row every x seconds
-        if (Time.time > _stepTime) {
-            Step();
+        if (!isEducation)
+        {
+            // Advance the piece to the next row every x seconds
+            if (Time.time > _stepTime)
+            {
+                Step();
+            }
+        }
+        else
+        {
+            if (_lockTime >= _lockDelay && GameHelper.IsEdication && !Board.EnableCanRotate && Position == Board.EnableFinishPosition) {
+                Lock();
+            }
         }
 
         if (GameHelper.TetrisSettings.Acceleration)
@@ -114,6 +125,11 @@ public class Piece : MonoBehaviour
             SetSaveSpeed(GameHelper.TetrisSettings);
         }
 
+        if (GameHelper.IsEdication && Board.EducationIsOver)
+        {
+            return;
+        }
+        
         Board.Set(this);
     }
 
@@ -249,6 +265,11 @@ public class Piece : MonoBehaviour
         if (IsPointerOverUI())
             return;
 
+        if (isEducation && GameHelper.IsEdication && (!Board.EnableCanRotate && !Board.EnableCanHardDrop))
+        {
+            return;
+        }
+
         float touchDistance = Vector2.Distance(_touchStartPos, endPos);
         float verticalDistance = _touchStartPos.y - endPos.y;
         float swipeDuration = Time.time - _touchStartTime;
@@ -256,10 +277,16 @@ public class Piece : MonoBehaviour
         // Проверка на резкий свайп вниз
         if (verticalDistance > _minDistanceSwipe &&
             swipeDuration < _maxTimeSwipe &&
-            Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * _verticalSwipeCheck) // важное ограничение!
+            Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * _verticalSwipeCheck && 
+            (!isEducation || (isEducation && Board.EnableCanHardDrop))) // важное ограничение!
         {
             Debug.Log("Hard drop via fast vertical swipe");
             _doHardDrop = true;
+            return;
+        }
+        
+        if (isEducation && GameHelper.IsEdication && !Board.EnableCanRotate)
+        {
             return;
         }
 
@@ -292,7 +319,7 @@ public class Piece : MonoBehaviour
 
     private void HardDrop()
     {
-        while (Move(Vector2Int.down)) {
+        while (Move(Vector2Int.down, true)) {
             continue;
         }
 
@@ -305,12 +332,23 @@ public class Piece : MonoBehaviour
         
         Board.Set(this);
         Board.ClearLines();
+        if (isEducation)
+        {
+            return;
+        }
         Board.SpawnPiece();
         Board.NextRandomTetromino();
     }
 
-    private bool Move(Vector2Int translation)
+    private bool Move(Vector2Int translation, bool isHartDrop = false)
     {
+        if (isEducation && GameHelper.IsEdication)
+        {
+            if (Board.EnableDirection != translation || (Board.EnableCanHardDrop && !isHartDrop))
+            {
+                return false;
+            }
+        }
         Vector3Int newPosition = Position;
         newPosition.x += translation.x;
         newPosition.y += translation.y;
@@ -325,10 +363,22 @@ public class Piece : MonoBehaviour
             _lockTime = 0f; // reset
         }
 
+        if (isEducation && GameHelper.IsEdication)
+        {
+            if (Board.EnableDirection == Vector2Int.right && Position == Board.EnableFinishPosition)
+            {
+                Board.Education.ChangeStep();
+            }
+            if (Board.EnableDirection == Vector2Int.left && Position == Board.EnableFinishPosition)
+            {
+                Board.Education.ChangeStep();
+            }
+        }
+
         return valid;
     }
 
-    private void Rotate(int direction)
+    public void Rotate(int direction)
     {
         // Store the current rotation in case the rotation fails
         // and we need to revert
@@ -343,6 +393,11 @@ public class Piece : MonoBehaviour
         {
             RotationIndex = originalRotation;
             ApplyRotationMatrix(-direction);
+        }
+        
+        if (isEducation && GameHelper.IsEdication && Board.EnableCanRotate)
+        {
+            Board.Education.ChangeStep();
         }
     }
 

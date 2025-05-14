@@ -20,6 +20,11 @@ Pause.home,Home,Домой
 Tetris.next,Next,Следующая
 Tetris.score,Score,Очки
 Tetris.record,Record,Рекорд
+Tetris.edutext1,Move the figure all the way to the right,Переместите фигуру до упора вправо
+Tetris.edutext2,Move the figure all the way to the left,Переместите фигуру до упора влево
+Tetris.edutext3,Tap the screen to rotate the figure,"Нажмите на экран, чтобы повернуть фигуру"
+Tetris.edutext4,Move the figure all the way down,Переместите фигуру до упора вниз
+Tetris.edutext5,Drag down fast to instantly lower the figure,"Быстро потяните вниз, чтобы мгновенно опустить фигуру"
 2048.gameover,Game Over!,Конец игры!
 2048.again,Try Again!,Попробуй еще!
 2048.maximum,Maximum,Максимум

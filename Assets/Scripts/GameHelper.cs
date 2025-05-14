@@ -192,21 +192,70 @@ public static class GameHelper
         public static bool IsTablet()
         {
 #if UNITY_EDITOR
-                return IsTabletEditor(); // или добавь флаг для симуляции
+                return IsTabletEditor(); // Флаг для тестирования в редакторе
 #elif UNITY_IOS
-    return SystemInfo.deviceModel.StartsWith("iPad") || 
-           UnityEngine.iOS.Device.generation.ToString().Contains("iPad");
+        return IsIpad();
 #elif UNITY_ANDROID
-    float dpi = Screen.dpi;
-    if (dpi == 0) dpi = 160f;
-    float width = Screen.width / dpi;
-    float height = Screen.height / dpi;
-    float diagonalInInches = Mathf.Sqrt(width * width + height * height);
-    return diagonalInInches >= 7f;
+        return IsAndroidTablet();
 #else
-    return false;
+        return false;
 #endif
         }
+        
+#if UNITY_IOS
+    private static bool IsIpad()
+    {
+        return UnityEngine.iOS.Device.generation.ToString().Contains("iPad") ||
+               SystemInfo.deviceModel.StartsWith("iPad");
+    }
+#endif
+        
+#if UNITY_ANDROID
+        private static bool IsAndroidTablet()
+        {
+                try
+                {
+                        using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+                        using (var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+                        using (var resources = activity.Call<AndroidJavaObject>("getResources"))
+                        using (var config = resources.Call<AndroidJavaObject>("getConfiguration"))
+                        {
+                                // screenLayout & SCREENLAYOUT_SIZE_MASK
+                                int screenLayout = config.Get<int>("screenLayout");
+                                const int SCREENLAYOUT_SIZE_MASK = 0x0F;
+                                const int SCREENLAYOUT_SIZE_LARGE = 3;
+                                const int SCREENLAYOUT_SIZE_XLARGE = 4;
+
+                                int layoutSize = screenLayout & SCREENLAYOUT_SIZE_MASK;
+                                if (layoutSize >= SCREENLAYOUT_SIZE_LARGE)
+                                {
+                                        return true;
+                                }
+
+                                // Более точная проверка: smallestScreenWidthDp
+                                int smallestWidthDp = config.Get<int>("smallestScreenWidthDp");
+                                if (smallestWidthDp >= 600)
+                                {
+                                        return true;
+                                }
+                        }
+                }
+                catch (System.Exception e)
+                {
+                        Debug.LogWarning("IsAndroidTablet check failed: " + e.Message);
+                }
+
+                // Дополнительная проверка по диагонали, если выше не сработало
+                float dpi = Screen.dpi;
+                if (dpi == 0f) dpi = 160f;
+
+                float widthInches = Screen.width / dpi;
+                float heightInches = Screen.height / dpi;
+                float diagonal = Mathf.Sqrt(widthInches * widthInches + heightInches * heightInches);
+
+                return diagonal >= 7f;
+        }
+#endif
 
         public static void Loading()
         {

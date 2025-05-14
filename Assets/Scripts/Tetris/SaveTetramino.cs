@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 [JsonObject]
 public class SaveTetramino
@@ -11,5 +10,15 @@ public class SaveTetramino
     public int Y { get; set; }
     
     public int Z { get; set; }
+    
+    public SaveTetramino(){}
+    
+    public SaveTetramino(Tetromino tetromino, int x, int y, int z)
+    {
+        Tetromino = tetromino;
+        X = x;
+        Y = y;
+        Z = z;
+    }
     
 }

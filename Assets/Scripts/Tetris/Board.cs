@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 [DefaultExecutionOrder(-1)]
 public class Board : MonoBehaviour
 {
+    [SerializeField] private bool isEducation;
+    [SerializeField] private EducationTetris education;
     [SerializeField] private GameOver gameOver;
 
     [SerializeField] private SaveScores saveScores;
@@ -21,8 +23,24 @@ public class Board : MonoBehaviour
 
     private TetrominoData _next;
     
-    public bool IsPaused { get; private set; } = false;
+    public Vector3Int EnableFinishPosition { get; set; }
     
+    public Vector2Int EnableDirection { get; set; }
+    
+    public bool EnableCanRotate { get; set; }
+    
+    public bool EnableCanHardDrop { get; set; }
+    
+    public bool EducationIsOver { get; set; } = false;
+    
+    public EducationTetris Education
+    {
+        get => education;
+        set => education = value;
+    }
+    
+    public bool IsPaused { get; private set; } = false;
+
     public GameOver GameOverPanel
     {
         get => gameOver;
@@ -66,16 +84,28 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        if (isEducation)
+        {
+            return;
+        }
         LoadLastPlay();
     }
     
     void OnApplicationQuit()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
 
     void OnApplicationPause(bool pause)
     {
+        if (isEducation)
+        {
+            return;
+        }
         if (pause)
         {
             SaveLastPlay();
@@ -84,6 +114,10 @@ public class Board : MonoBehaviour
     
     private void OnDestroy()
     {
+        if (isEducation)
+        {
+            return;
+        }
         SaveLastPlay();
     }
     
@@ -101,6 +135,12 @@ public class Board : MonoBehaviour
         saveScores.IsWin = saveData.IsWin;
         LoadTilemap(saveData.SaveTetrominos);
         NextRandomTetromino(GetTetrominoDataByType(saveData.NextTetromino));
+        SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
+    }
+
+    public void LoadEducation(SaveDataTetris saveData)
+    {
+        LoadTilemap(saveData.SaveTetrominos);
         SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
     }
     
@@ -165,6 +205,16 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void ResetAllAll()
+    {
+        Tilemap.ClearAllTiles();
+    } 
+    
+//    public void KillPiece()
+//    {
+//        Clear(ActivePiece);
+//        Destroy(ActivePiece);
+//    }
     
     public void NextRandomTetromino()
     {
@@ -308,6 +358,11 @@ public class Board : MonoBehaviour
         if (clearLines)
         {
             AudioManager.Instance.PlaySuccessLineSound();
+            
+            if (isEducation && GameHelper.IsEdication)
+            {
+                Education.ChangeStep();
+            }
         }
     }
 
