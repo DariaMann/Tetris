@@ -280,7 +280,12 @@ PrefabInstance:
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -291,7 +296,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2113166785}
+      objectReference: {fileID: 681636499}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -320,12 +325,17 @@ PrefabInstance:
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Board, Assembly-CSharp
+      value: GameManagerTetris, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Board, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -1841,18 +1851,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2113166785}
-        m_TargetAssemblyTypeName: Board, Assembly-CSharp
-        m_MethodName: PausedGame
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &457464597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2362,8 +2360,9 @@ GameObject:
   - component: {fileID: 681636496}
   - component: {fileID: 681636497}
   - component: {fileID: 681636498}
+  - component: {fileID: 681636499}
   m_Layer: 0
-  m_Name: GameHelper
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2456,6 +2455,27 @@ MonoBehaviour:
   finger: {fileID: 1430031115}
   lightFingerSprite: {fileID: 21300000, guid: ee0c08907dd37c44cace5f2e23abf779, type: 3}
   darkFingerSprite: {fileID: 21300000, guid: a87265b996b6c89409ad17a257642cbf, type: 3}
+--- !u!114 &681636499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681636494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40058ef54d48461b8b23379500cd4048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  education: {fileID: 2003927465}
+  board: {fileID: 2113166785}
+  boardEdu: {fileID: 1866305444}
+  saveScores: {fileID: 681636497}
+  gameOver: {fileID: 50542242}
+  nextTetrominoImage:
+  - {fileID: 896739289}
+  - {fileID: 1680612077}
+  - {fileID: 974561359}
 --- !u!1 &692920908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,7 +2529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3089,7 +3109,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.6
+  m_fontSize: 43.55
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3504,18 +3524,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: EducationTetris, Assembly-CSharp
         m_MethodName: HideFinishEducation
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2113166785}
-        m_TargetAssemblyTypeName: Board, Assembly-CSharp
-        m_MethodName: PausedGame
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5566,7 +5574,7 @@ PrefabInstance:
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -5587,7 +5595,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2113166785}
+      objectReference: {fileID: 681636499}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -5626,7 +5634,7 @@ PrefabInstance:
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Board, Assembly-CSharp
+      value: GameManagerTetris, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -5651,7 +5659,7 @@ PrefabInstance:
     - target: {fileID: 1412353734168769540, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1412353734168769540, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -6709,13 +6717,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEducation: 1
-  education: {fileID: 2003927465}
-  gameOver: {fileID: 50542242}
-  saveScores: {fileID: 681636497}
-  nextTetrominoImage:
-  - {fileID: 974561359}
-  - {fileID: 1680612077}
-  - {fileID: 896739289}
   tetrominoes:
   - tile: {fileID: 11400000, guid: 5610b4c24db904748a9e9ee58b2480f1, type: 2}
     tetromino: 0
@@ -7110,7 +7111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7234,6 +7235,7 @@ MonoBehaviour:
   rightPos: {fileID: 1457201697}
   upPos: {fileID: 483434072}
   downPos: {fileID: 655510402}
+  gameManager: {fileID: 681636499}
   board: {fileID: 1866305444}
   ghost: {fileID: 1154866177}
   objForDeactivate:
@@ -7738,13 +7740,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEducation: 0
-  education: {fileID: 2003927465}
-  gameOver: {fileID: 50542242}
-  saveScores: {fileID: 681636497}
-  nextTetrominoImage:
-  - {fileID: 974561359}
-  - {fileID: 1680612077}
-  - {fileID: 896739289}
   tetrominoes:
   - tile: {fileID: 11400000, guid: 5610b4c24db904748a9e9ee58b2480f1, type: 2}
     tetromino: 0

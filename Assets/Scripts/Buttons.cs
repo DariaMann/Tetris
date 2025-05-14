@@ -104,6 +104,7 @@ public class Buttons : MonoBehaviour {
             }
             if (isPaused == true)
             {
+                GameHelper.IsPause = true;
                 timing = 0;
                 if (!exitController)
                 {
@@ -116,6 +117,7 @@ public class Buttons : MonoBehaviour {
             }
             else if (isPaused == false)
             {
+                GameHelper.IsPause = false;
                 timing = 1;
                 pauseMenu.SetActive(false);
             }
@@ -159,6 +161,8 @@ public class Buttons : MonoBehaviour {
             StopCoroutine(_themeCoroutine);
             _themeCoroutine = null;
         }
+
+        GameHelper.IsPause = false;
     }
     
     public void OnSoundClick()

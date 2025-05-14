@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         educationBoard.ClearBoard();
     }
 
-    private void SaveLastPlay()
+    public void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {

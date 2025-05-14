@@ -1583,6 +1583,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 3943083672301950303, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6316542225239668869}
+    - target: {fileID: 3943083672301950303, guid: 9279abb9fc8d201488df4ba16d42200b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRatingClick
+      objectReference: {fileID: 0}
     - target: {fileID: 3952615991812690979, guid: 9279abb9fc8d201488df4ba16d42200b,
         type: 3}
       propertyPath: m_AnchorMax.y

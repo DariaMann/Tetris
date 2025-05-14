@@ -10,47 +10,17 @@ using Random = UnityEngine.Random;
 public class Board : MonoBehaviour
 {
     [SerializeField] private bool isEducation;
-    [SerializeField] private EducationTetris education;
-    [SerializeField] private GameOver gameOver;
-
-    [SerializeField] private SaveScores saveScores;
-    [SerializeField] private List<Image> nextTetrominoImage;
 
     [SerializeField] private TetrominoData[] tetrominoes;
+    
     [SerializeField] private Vector2Int boardSize = new Vector2Int(10, 20);
 
     [SerializeField] private Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
 
-    private TetrominoData _next;
-    
-    public Vector3Int EnableFinishPosition { get; set; }
-    
-    public Vector2Int EnableDirection { get; set; }
-    
-    public bool EnableCanRotate { get; set; }
-    
-    public bool EnableCanHardDrop { get; set; }
-    
-    public bool EducationIsOver { get; set; } = false;
-    
-    public EducationTetris Education
+    public TetrominoData[] Tetrominoes
     {
-        get => education;
-        set => education = value;
-    }
-    
-    public bool IsPaused { get; private set; } = false;
-
-    public GameOver GameOverPanel
-    {
-        get => gameOver;
-        set => gameOver = value;
-    }
-    
-    public SaveScores SaveScores
-    {
-        get => saveScores;
-        set => saveScores = value;
+        get => tetrominoes;
+        set => tetrominoes = value;
     }
 
     public Tilemap Tilemap { get; private set; }
@@ -81,159 +51,23 @@ public class Board : MonoBehaviour
             tetrominoes[i].Initialize();
         }
     }
-
-    private void Start()
+    
+    private void OnDisable()
     {
         if (isEducation)
         {
             return;
         }
-        LoadLastPlay();
-    }
-    
-    void OnApplicationQuit()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveLastPlay();
-    }
-
-    void OnApplicationPause(bool pause)
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        if (pause)
-        {
-            SaveLastPlay();
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveLastPlay();
-    }
-    
-    private void LoadLastPlay()
-    {
-        SaveDataTetris saveData = GameHelper.SaveTetris.SaveDataTetris;
-        if (saveData == null)
-        {
-            NextRandomTetromino();
-            SpawnPiece(true);
-            return;
-        }
-        
-        saveScores.ChangeScore(saveData.Score);
-        saveScores.IsWin = saveData.IsWin;
-        LoadTilemap(saveData.SaveTetrominos);
-        NextRandomTetromino(GetTetrominoDataByType(saveData.NextTetromino));
-        SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
-    }
-
-    public void LoadEducation(SaveDataTetris saveData)
-    {
-        LoadTilemap(saveData.SaveTetrominos);
-        SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
-    }
-    
-    private void SaveLastPlay()
-    {
-        if (gameOver.IsGameOver)
-        {
-            GameHelper.SaveTetris.SaveDataTetris = null;
-            JsonHelper.SaveTetris(GameHelper.SaveTetris);
-            return;
-        }
-
-        List<SaveTetramino> tetrominos = new List<SaveTetramino>();
-        BoundsInt bounds = Tilemap.cellBounds;
-        foreach (Vector3Int pos in bounds.allPositionsWithin)
-        {
-            TileBase tile = Tilemap.GetTile(pos);
-            if (tile != null)
-            {
-                bool isCurrentTetramino = false;
-                for (int i = 0; i < ActivePiece.Data.cells.Length; i++)
-                {
-                    Vector3Int globalCellPos = ActivePiece.Position + ActivePiece.Cells[i];
-                    if (pos == globalCellPos)
-                    {
-                        isCurrentTetramino = true;
-                        break;
-                    }
-                }
-
-                if (isCurrentTetramino)
-                {
-                    continue;
-                }
-
-                TetrominoData tetromino = tetrominoes.ToList().Find(t => t.tile == tile);
-            
-                tetrominos.Add(new SaveTetramino
-                {
-                    Tetromino = tetromino.tetromino,
-                    X = pos.x,
-                    Y = pos.y,
-                    Z = pos.z
-                });
-            }
-        }
-        
-        SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, saveScores.CurrentScore, ActivePiece.Data.tetromino, _next.tetromino, tetrominos);
-        GameHelper.SaveTetris.SaveDataTetris = data;
-        JsonHelper.SaveTetris(GameHelper.SaveTetris);
-    }
-    
-    public void LoadTilemap(List<SaveTetramino> saveTetrominos)
-    {
-        Tilemap.ClearAllTiles();
-
-        foreach (SaveTetramino saved in saveTetrominos)
-        {
-            Vector3Int pos = new Vector3Int(saved.X, saved.Y, saved.Z);
-            TetrominoData tetromino = tetrominoes.ToList().Find(t => t.tetromino == saved.Tetromino);
-            Tilemap.SetTile(pos, tetromino.tile);
-        }
-    }
-
-    public void ResetAllAll()
-    {
-        Tilemap.ClearAllTiles();
-    } 
-    
-//    public void KillPiece()
-//    {
-//        Clear(ActivePiece);
-//        Destroy(ActivePiece);
-//    }
-    
-    public void NextRandomTetromino()
-    {
-        int random = Random.Range(0, tetrominoes.Length);
-        _next = tetrominoes[random];
-        foreach (var next in nextTetrominoImage)
-        {
-            next.sprite = _next.sprite;
-        }
-        Debug.Log("Следующая : " +  Enum.GetName(typeof(Tetromino), _next.tetromino));
+        GameManagerTetris.Instance.SaveLastPlay();
     }
 
     public void SpawnPiece(bool first = false)
     {
-        if (gameOver.IsGameOver)
+        if (GameManagerTetris.Instance.GameOverPanel.IsGameOver)
         {
             return;
         }
-        TetrominoData data = _next;
+        TetrominoData data = GameManagerTetris.Instance.Next;
         if (first)
         {
             int random = Random.Range(0, tetrominoes.Length);
@@ -245,7 +79,7 @@ public class Board : MonoBehaviour
         if (IsValidPosition(ActivePiece, spawnPosition)) {
             Set(ActivePiece);
         } else {
-            GameOver();
+            GameManagerTetris.Instance.GameOver();
         }
     }
     
@@ -256,42 +90,8 @@ public class Board : MonoBehaviour
         if (IsValidPosition(ActivePiece, spawnPosition)) {
             Set(ActivePiece);
         } else {
-            GameOver();
+            GameManagerTetris.Instance.GameOver();
         }
-    }
-    
-    public void NextRandomTetromino(TetrominoData data)
-    {
-        _next = data;
-        foreach (var next in nextTetrominoImage)
-        {
-            next.sprite = _next.sprite;
-        }
-        Debug.Log("Следующая : " +  Enum.GetName(typeof(Tetromino), _next.tetromino));
-    }
-
-    private TetrominoData GetTetrominoDataByType(Tetromino type)
-    {
-        TetrominoData data = tetrominoes.ToList().Find(t => t.tetromino == type);
-        return data;
-    }
-
-    public void GameOver()
-    {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
-    }
-    
-    public void PausedGame(bool isPause)
-    {
-        IsPaused = isPause;
-    }
-    
-    public void Again()
-    {
-        gameOver.ShowGameOverPanel(false);
-        
-        Tilemap.ClearAllTiles();
-        saveScores.ChangeScore(0);
     }
 
     public void Set(Piece piece)
@@ -361,7 +161,7 @@ public class Board : MonoBehaviour
             
             if (isEducation && GameHelper.IsEdication)
             {
-                Education.ChangeStep();
+                GameManagerTetris.Instance.Education.ChangeStep();
             }
         }
     }
@@ -385,11 +185,14 @@ public class Board : MonoBehaviour
 
     public void LineClear(int row)
     {
-        GameServicesManager.UnlockAchieve(AchivementServices.FirstLine);
+        if (!isEducation)
+        {
+            GameServicesManager.UnlockAchieve(AchivementServices.FirstLine);
+            GameManagerTetris.Instance.SaveScores.ChangeScore(1);
+        }
         GameHelper.VibrationStart();
 
         RectInt bounds = Bounds;
-        saveScores.ChangeScore(1);
 
         // Clear all tiles in the row
         for (int col = bounds.xMin; col < bounds.xMax; col++)
