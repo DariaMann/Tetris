@@ -195,7 +195,7 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             }
         }
 
-        SetTheme(blocksBoard.ThemeBlocks.GetTileSprite(GameHelper.Theme));
+        SetTheme(GameManagerBlocks.Instance.ThemeBlocks.GetTileSprite(GameHelper.Theme));
     }
 
     public void RepositionX(float offset)
@@ -433,7 +433,7 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (blocksBoard.IsEducation)
         {
-            blocksBoard.Education.StopTutorial();
+            GameManagerBlocks.Instance.Education.StopTutorial();
         }
     }
 
@@ -479,7 +479,7 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
        if (blocksBoard.IsEducation)
        {
-           if (hovered.Count > 0 && hovered[0] == blocksBoard.EnableTile)
+           if (hovered.Count > 0 && hovered[0] == GameManagerBlocks.Instance.EnableTile)
            {
                
            }

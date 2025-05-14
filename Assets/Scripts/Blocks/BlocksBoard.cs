@@ -1,43 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class BlocksBoard : MonoBehaviour
 {
     [SerializeField] private bool isEducation;
-    [SerializeField] private EducationBlocks education;
-
-    [SerializeField] private GameObject scorePlusPrefab;
-    [SerializeField] private Canvas mainCanvas;
-    [SerializeField] private ThemeBlocks themeBlocks;
     [SerializeField] private SquareUIGrid squareUiGrid;
-    [SerializeField] private SaveScores saveScores;
-    [SerializeField] private GameOver gameOver;
-    [SerializeField] private Button undoButton;
-    
-    [SerializeField] private int gridSize = 9;
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private Transform gridParent;
     [SerializeField] private List<BlockShape> blockTypes;
     [SerializeField] private List<Block> blocks;
     
+    public int GridSize { get; set; } = 9;
+
     public bool IsEducation
     {
         get => isEducation;
         set => isEducation = value;
     }
     
-    public EducationBlocks Education
+    public SquareUIGrid SquareUiGrid
     {
-        get => education;
-        set => education = value;
+        get => squareUiGrid;
+        set => squareUiGrid = value;
     }
-    
-    public BlockTile EnableTile { get; set; }
     
     public List<Block> Blocks
     {
@@ -45,39 +33,7 @@ public class BlocksBoard : MonoBehaviour
         set => blocks = value;
     }
 
-    public ThemeBlocks ThemeBlocks
-    {
-        get => themeBlocks;
-        set => themeBlocks = value;
-    }
-    
     public List<BlockTile> Tiles { get; set; } = new List<BlockTile>();
-    
-    public Stack<SaveDataBlocks> EventSteps { get; set; } = new Stack<SaveDataBlocks>();
-    
-    public bool IsPaused { get; private set; } = false;
-    
-    public SquareUIGrid SquareUiGrid
-    {
-        get => squareUiGrid;
-        set => squareUiGrid = value;
-    }
-
-    private void Start()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        LoadLastPlay();
-        CheckUndoButtonState();
-        
-        if (!GameHelper.GetEducationState(MiniGameType.Blocks))
-        {
-            education.ShowEducation(true);
-            GameHelper.SetEducationState(MiniGameType.Blocks, true);
-        }
-    }
 
     private void OnEnable()
     {
@@ -89,237 +45,14 @@ public class BlocksBoard : MonoBehaviour
         BlocksEvents.CheckIfBlockCanBePlaced -= CheckIfBlockCanBePlaced;
     }
 
-    void OnApplicationQuit()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveLastPlay();
-    }
-
-    void OnApplicationPause(bool pause)
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        if (pause)
-        {
-            SaveLastPlay();
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveLastPlay();
-    }
-    
-    public void OnChangeBlocks()
-    {
-        CreateBlocks();
-    }
-    
-    private void LoadLastPlay()
-    {
-        SaveDataBlocks saveData = GameHelper.SaveBlocks.SaveDataBlocks;
-        if (saveData == null)
-        {
-            NewGame();
-            return;
-        }
-
-        saveScores.ChangeScore(saveData.Score, false);
-        saveScores.IsWin = saveData.IsWin;
-        GenerateGrid();
-        FullLoadGrid(saveData.SaveBlocksTile);
-        CreateBlocks(saveData.Blocks);
-        CheckInteractableBlocks();
-        CheckUndoButtonState();
-    }
-
-    public void LoadStartEducation()
-    {
-        GenerateGrid();
-    }
-    
-    public void LoadEducation(SaveDataBlocks saveData)
-    {
-        FullLoadGrid(saveData.SaveBlocksTile);
-        CreateBlocks(saveData.Blocks);
-        
-        themeBlocks.SetTheme(GameHelper.Theme);
-    }
-
-    private void SaveLastPlay()
-    {
-        if (gameOver.IsGameOver)
-        {
-            GameHelper.SaveBlocks.SaveDataBlocks = null;
-            JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
-            return;
-        }
-        SaveDataBlocks data = new SaveDataBlocks(saveScores.IsWin, saveScores.CurrentScore, Tiles, blocks);
-
-        GameHelper.SaveBlocks.SaveDataBlocks = data;
-        JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
-    }
-    
-    private void NewGame()
-    {
-        saveScores.ChangeScore(0, false);
-        GenerateGrid();
-        CreateBlocks();
-    }
-    
-    public void Again()
-    {
-        gameOver.ShowGameOverPanel(false);
-        
-        saveScores.ChangeScore(0, false);
-        ResetAll();
-        CreateBlocks();
-        CheckInteractableBlocks();
-        CheckUndoButtonState();
-    }
-    
-    public void PausedGame(bool isPause)
-    {
-        IsPaused = isPause;
-    }
-    
-    public void GameOver()
-    {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
-    }
-
-    public void FullLoadGrid(List<SaveBlocksTile> saveBlocksTile)
-    {
-        for (int i = 0; i < saveBlocksTile.Count; i++)
-        {
-            if (saveBlocksTile[i].IsFull)
-            {
-                Tiles[i].Activate();
-            }
-        }
-    }
-    
-    public void ResizeBlocks()
-    {
-        foreach (var block in blocks)
-        {
-            block.Resize(squareUiGrid.CellSize, true);
-        }
-    }   
-    
-    public void RescaleBlocks(float newScale)
-    {
-        foreach (var block in blocks)
-        {
-            block.Rescale(newScale);
-        }
-    }
-    
-    public void ResetAll()
-    {
-        ResetGrid();
-        EventSteps.Clear();
-    }  
-       
-    public void ResetAllAll()
-    {
-        foreach (var tile in Tiles)
-        {
-            Destroy(tile.gameObject);
-        }
-        Tiles.Clear();
-    }  
-    
-    public void ResetGrid()
-    {
-        foreach (var tile in Tiles)
-        {
-            tile.Deactivate();
-        }
-    }
-
-    public void CheckUndoButtonState()
-    {
-        if (EventSteps.Count > 0)
-        {
-            undoButton.interactable = true;
-        }
-        else
-        {
-            undoButton.interactable = false;
-        }
-    }
-    
-    public void OnUndo()
-    {
-        if (EventSteps.Count > 0)
-        {
-            SaveDataBlocks saveData = EventSteps.Pop();
-
-            saveScores.ChangeScore(saveData.Score, false);
-            ResetGrid();
-            FullLoadGrid(saveData.SaveBlocksTile);
-            CreateBlocks(saveData.Blocks);
-            CheckInteractableBlocks();
-            CheckUndoButtonState();
-        }
-    }
-    
-    public void AddStepEventObject()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveDataBlocks data = new SaveDataBlocks(saveScores.IsWin, saveScores.CurrentScore, Tiles, blocks);
-        EventSteps.Push(data);
-        CheckUndoButtonState();
-    }
-    
     public void CreateBlocks()
     {
-//        int countBlocks = 3;
-//        while (countBlocks > 0)
-//        {
-//            int randomIndex = Random.Range(0, blockTypes.Count);
-//            GameObject blockGameObject = Instantiate(blockPrefab, blockParent);
-//            Block block = blockGameObject.GetComponent<Block>();
-//            block.CreateBlock(blockTypes[randomIndex]);
-//            Blocks.Add(block);
-//            countBlocks--;
-//        }
-
         foreach (var block in blocks)
         {
             int randomIndex = Random.Range(0, blockTypes.Count);
             block.CreateBlock(blockTypes[randomIndex]);
         }
     }   
-    
-    public void CreateBlocks(List<SaveBlock> blockTypes)
-    {
-        for (int i = 0; i < blockTypes.Count; i++)
-        {
-            if (blockTypes[i].BlockShape != null)
-            {
-                blocks[i].CreateBlock(blockTypes[i].BlockShape);
-            }
-
-            if (!blockTypes[i].IsEnable)
-            {
-                blocks[i].Deactivate();
-            }
-        }
-    }
     
     public bool IsAllBlocksDeactivated()
     {
@@ -343,11 +76,11 @@ public class BlocksBoard : MonoBehaviour
         return null;
     }
 
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
-        for (int y = 0; y < gridSize; y++)
+        for (int y = 0; y < GridSize; y++)
         {
-            for (int x = 0; x < gridSize; x++)
+            for (int x = 0; x < GridSize; x++)
             {
                 GameObject cellGo = Instantiate(cellPrefab, gridParent);
                 BlockTile cell = cellGo.GetComponent<BlockTile>();
@@ -368,8 +101,33 @@ public class BlocksBoard : MonoBehaviour
                 Tiles.Add(cell);
             }
         }
+    }
+    
+    public void FullLoadGrid(List<SaveBlocksTile> saveBlocksTile)
+    {
+        for (int i = 0; i < saveBlocksTile.Count; i++)
+        {
+            if (saveBlocksTile[i].IsFull)
+            {
+                Tiles[i].Activate();
+            }
+        }
+    }
+    
+    public void CreateBlocks(List<SaveBlock> types)
+    {
+        for (int i = 0; i < types.Count; i++)
+        {
+            if (types[i].BlockShape != null)
+            {
+                blocks[i].CreateBlock(types[i].BlockShape);
+            }
 
-//        theme.SetTheme(GameHelper.Theme);
+            if (!types[i].IsEnable)
+            {
+                blocks[i].Deactivate();
+            }
+        }
     }
 
     private void CheckIfBlockCanBePlaced()
@@ -395,13 +153,16 @@ public class BlocksBoard : MonoBehaviour
         {
             if (isEducation)
             {
-                education.StartPlay();
+                GameManagerBlocks.Instance.Education.StartPlay();
             }
             BlocksEvents.MoveBlockToStartPosition();
             return;
         }
 
-        AddStepEventObject();
+        if (!isEducation)
+        {
+            GameManagerBlocks.Instance.AddStepEventObject();
+        }
 
         foreach (var tiles in selectedTiles)
         {
@@ -410,7 +171,7 @@ public class BlocksBoard : MonoBehaviour
         
         GetSelectedBlock().Deactivate();
         
-        var (tilesToClear, score) = CheckLinesAndGetScore();
+        var (tilesToClear, score) = GameManagerBlocks.Instance.CheckLinesAndGetScore(this);
         
         if (tilesToClear.Count == 0)
         {
@@ -438,10 +199,10 @@ public class BlocksBoard : MonoBehaviour
 //                    ShowScorePlusAnimtion(center, score);
                     if (isEducation)
                     {
-                        education.ChangeStep();
+                        GameManagerBlocks.Instance.Education.ChangeStep();
                         return;
                     }
-                    ShowScorePlusAnimationFromUI(tilesToClear, score);
+                    GameManagerBlocks.Instance.ShowScorePlusAnimationFromUI(tilesToClear, score);
                 });
         }
 
@@ -452,7 +213,7 @@ public class BlocksBoard : MonoBehaviour
         
         if (score > 0)
         {
-            saveScores.ChangeScore(score);
+            GameManagerBlocks.Instance.SaveScores.ChangeScore(score);
         }
 
         if (IsAllBlocksDeactivated())
@@ -462,156 +223,13 @@ public class BlocksBoard : MonoBehaviour
         }
 
     }
-    
-    private Vector3 GetCenterWorldPosition(List<BlockTile> blocks)
-    {
-        Vector3 sum = Vector3.zero;
-        foreach (var b in blocks)
-            sum += b.GetComponent<RectTransform>().position; // глобальная позиция
-        return sum / blocks.Count;
-    }
-
-    public void ShowScorePlusAnimationFromUI(List<BlockTile> deletedBlocks, int score)
-    {
-        if (deletedBlocks == null || deletedBlocks.Count == 0) return;
-
-        // Получаем среднюю мировую позицию
-        Vector3 worldCenter = GetCenterWorldPosition(deletedBlocks);
-
-        // Переводим в локальную позицию канваса
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            mainCanvas.transform as RectTransform,
-            Camera.main.WorldToScreenPoint(worldCenter),
-            Camera.main,
-            out Vector2 anchoredPos
-        );
-
-        GameObject go = Instantiate(scorePlusPrefab, mainCanvas.transform);
-        go.transform.SetSiblingIndex(1);
-        RectTransform rect = go.GetComponent<RectTransform>();
-        rect.anchoredPosition = anchoredPos;
-
-        Debug.Log($"[ShowScore] anchoredPosition: {anchoredPos}");
-
-        go.GetComponent<ScorePlusAnimation>().Play(score);
-    }
 
     public BlockTile GetTile(int x, int y)
     {
-        if (x < 0 || x >= gridSize || y < 0 || y >= gridSize)
+        if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
             return null;
 
-        return Tiles[y * gridSize + x];
-    }
-
-    private (List<BlockTile> tilesToClear, int score) CheckLinesAndGetScore()
-    {
-        List<BlockTile> tilesToClear = new List<BlockTile>();
-        HashSet<BlockTile> uniqueTiles = new HashSet<BlockTile>();
-        int score = 0;
-        int comboCount = 0;
-
-        // Проверка по горизонтали
-        for (int y = 0; y < gridSize; y++)
-        {
-            bool fullRow = true;
-            for (int x = 0; x < gridSize; x++)
-            {
-                if (!GetTile(x, y).IsOccupied)
-                {
-                    fullRow = false;
-                    break;
-                }
-            }
-
-            if (fullRow)
-            {
-                for (int x = 0; x < gridSize; x++)
-                {
-                    uniqueTiles.Add(GetTile(x, y));
-                }
-
-                score += 10;
-                comboCount++;
-            }
-        }
-
-        // Проверка по вертикали
-        for (int x = 0; x < gridSize; x++)
-        {
-            bool fullColumn = true;
-            for (int y = 0; y < gridSize; y++)
-            {
-                if (!GetTile(x, y).IsOccupied)
-                {
-                    fullColumn = false;
-                    break;
-                }
-            }
-
-            if (fullColumn)
-            {
-                for (int y = 0; y < gridSize; y++)
-                {
-                    uniqueTiles.Add(GetTile(x, y));
-                }
-
-                score += 10;
-                comboCount++;
-            }
-        }
-
-        // Проверка 3x3 блоков
-        for (int blockY = 0; blockY < 3; blockY++)
-        {
-            for (int blockX = 0; blockX < 3; blockX++)
-            {
-                bool fullBlock = true;
-                for (int y = 0; y < 3; y++)
-                {
-                    for (int x = 0; x < 3; x++)
-                    {
-                        int gx = blockX * 3 + x;
-                        int gy = blockY * 3 + y;
-
-                        if (!GetTile(gx, gy).IsOccupied)
-                        {
-                            fullBlock = false;
-                            break;
-                        }
-                    }
-
-                    if (!fullBlock) break;
-                }
-
-                if (fullBlock)
-                {
-                    for (int y = 0; y < 3; y++)
-                    {
-                        for (int x = 0; x < 3; x++)
-                        {
-                            int gx = blockX * 3 + x;
-                            int gy = blockY * 3 + y;
-
-                            uniqueTiles.Add(GetTile(gx, gy));
-                        }
-                    }
-
-                    score += 20;
-                    comboCount++;
-                }
-            }
-        }
-
-        // ✅ Добавляем 20% за каждую дополнительную комбинацию
-        if (comboCount > 1)
-        {
-            float bonusMultiplier = 1 + 0.2f * (comboCount - 1); // например, при 3 комбинациях: 1 + 0.2 * 2 = 1.4
-            score = Mathf.RoundToInt(score * bonusMultiplier);
-        }
-
-        tilesToClear = new List<BlockTile>(uniqueTiles);
-        return (tilesToClear, score);
+        return Tiles[y * GridSize + x];
     }
 
     public List<BlockTile> GetAllSelectedTiles()
@@ -626,6 +244,22 @@ public class BlocksBoard : MonoBehaviour
         }
 
         return selectedTiles;
+    }
+    
+    public void ResizeBlocks()
+    {
+        foreach (var block in blocks)
+        {
+            block.Resize(squareUiGrid.CellSize, true);
+        }
+    }
+
+    public void RescaleBlocks(float newScale)
+    {
+        foreach (var block in blocks)
+        {
+            block.Rescale(newScale);
+        }
     }
 
     public void CheckPotentialForDelete()
@@ -663,7 +297,7 @@ public class BlocksBoard : MonoBehaviour
         }
 
         // Проверка линий
-        for (int i = 0; i < gridSize; i++)
+        for (int i = 0; i < GridSize; i++)
         {
             var row = Tiles.Where(t => t.GridPosition.y == i).ToList();
             if (row.All(t => t.IsOccupied || t.IsSelected))
@@ -675,9 +309,9 @@ public class BlocksBoard : MonoBehaviour
         }
 
         // Проверка 3x3 квадратов
-        for (int by = 0; by < gridSize; by += 3)
+        for (int by = 0; by < GridSize; by += 3)
         {
-            for (int bx = 0; bx < gridSize; bx += 3)
+            for (int bx = 0; bx < GridSize; bx += 3)
             {
                 var square = Tiles.Where(t =>
                     t.GridPosition.x >= bx && t.GridPosition.x < bx + 3 &&
@@ -788,7 +422,7 @@ public class BlocksBoard : MonoBehaviour
 
         if (countNotInteractable == countActive && countActive > 0)
         {
-            GameOver();
+            GameManagerBlocks.Instance.GameOver();
         }
     }
     

@@ -18,9 +18,9 @@ public class EducationBlocks : MonoBehaviour
     
     [SerializeField] private RectTransform finger;
     [SerializeField] private GameObject educationPanel;
-    [SerializeField] private BlocksBoard board;
     [SerializeField] private CanvasGroup finishEducationPanel;
     [SerializeField] private GameObject backButton;
+    [SerializeField] private BlocksBoard boardEdu;
     
     [SerializeField] private BlockShape blockOne;
     
@@ -121,7 +121,7 @@ public class EducationBlocks : MonoBehaviour
         _fingerCanvasGroup = finger.gameObject.GetComponent<CanvasGroup>();
         _startFingerPos = finger.transform.position;
         
-        board.LoadStartEducation();
+        GameManagerBlocks.Instance.LoadStartEducation();
 
         _step = 0;
         StartPlay();
@@ -227,7 +227,7 @@ public class EducationBlocks : MonoBehaviour
     {
         StopTutorial();
         
-        board.ResetAllAll();
+        GameManagerBlocks.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
     }  
     
@@ -251,28 +251,28 @@ public class EducationBlocks : MonoBehaviour
     public void StartPlay()
     {
         StopTutorial();
-        board.ResetGrid();
+        GameManagerBlocks.Instance.ResetGridEdu();
         if (_step == 0)
         {
             SaveDataBlocks saveData = GetFirstSaveData();
-            board.LoadEducation(saveData);
-            board.EnableTile = board.Tiles[40];
+            GameManagerBlocks.Instance.LoadEducation(saveData);
+            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
         else if (_step == 1)
         {
             SaveDataBlocks saveData = GetSecondSaveData();
-            board.LoadEducation(saveData);
-            board.EnableTile = board.Tiles[40];
+            GameManagerBlocks.Instance.LoadEducation(saveData);
+            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
         else if (_step == 2)
         {
             SaveDataBlocks saveData = GetThirdSaveData();
-            board.LoadEducation(saveData);
-            board.EnableTile = board.Tiles[40];
+            GameManagerBlocks.Instance.LoadEducation(saveData);
+            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         } 
@@ -288,8 +288,8 @@ public class EducationBlocks : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         // первый клик и перемещение пальца
-        Vector3 start1 = board.Blocks[1].transform.position;
-        Vector3 end1 = board.Tiles[40].transform.position;
+        Vector3 start1 = boardEdu.Blocks[1].transform.position;
+        Vector3 end1 = boardEdu.Tiles[40].transform.position;
 
         yield return StartCoroutine(FingerClickMove(start1, end1));
 
