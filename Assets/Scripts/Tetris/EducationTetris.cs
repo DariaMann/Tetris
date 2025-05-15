@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Assets.SimpleLocalization;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class EducationTetris : MonoBehaviour
+public class EducationTetris : Education
 {
     [Header("Offsets & Animation")]
     [SerializeField] private float clickOffsetY = 0.5f;           // Насколько палец "нажимает" вниз
@@ -26,7 +23,6 @@ public class EducationTetris : MonoBehaviour
     [SerializeField] private GameObject upPos;
     [SerializeField] private GameObject downPos;
     
-    [SerializeField] private GameManagerTetris gameManager;
     [SerializeField] private Board board;
     [SerializeField] private Ghost ghost;
     
@@ -50,6 +46,16 @@ public class EducationTetris : MonoBehaviour
     
     private bool _isFirstShow;
     private int _step;
+    
+    public Vector3Int EnableFinishPosition { get; private set; }
+    
+    public Vector2Int EnableDirection { get; private set; }
+    
+    public bool EnableCanRotate { get; private set; }
+    
+    public bool EnableCanHardDrop { get; private set; }
+    
+    public bool EducationIsOver { get; private set; } = false;
     
     private void OnDisable()
     {
@@ -113,7 +119,7 @@ public class EducationTetris : MonoBehaviour
         Restart();
     }
     
-    public void ShowEducation(bool isFirstEducation)
+    public override void ShowEducation(bool isFirstEducation)
     {
         GameHelper.IsEdication = true;
         _isFirstShow = isFirstEducation;
@@ -131,7 +137,7 @@ public class EducationTetris : MonoBehaviour
         
     }
     
-    private void ShowView(bool isFirstEducation)
+    public override void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -143,10 +149,10 @@ public class EducationTetris : MonoBehaviour
         }
     }
 
-    private void ShowEducation()
+    public override void ShowEducation()
     {
         educationPanel.SetActive(true);
-        gameManager.EducationIsOver = false;
+        EducationIsOver = false;
         _fingerCanvasGroup = finger.gameObject.GetComponent<CanvasGroup>();
         _startFingerPos = finger.transform.position;
         
@@ -268,133 +274,13 @@ public class EducationTetris : MonoBehaviour
 
         return saveData;
     }
-    
-    private SaveDataTetris GetThirdSaveData()
-    {
-        List<SaveTetramino> tetraminos = new List<SaveTetramino>();
-        
-        SaveTetramino tetramino = new SaveTetramino(Tetromino.T, -5, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -4, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -3, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -2, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -1, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, 0, -10, 0);
-        tetraminos.Add(tetramino);
-//        tetramino = new SaveTetramino(Tetromino.T, 1, -10, 0);
-//        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, 2, -10, 0);
-        tetraminos.Add(tetramino);     
-        tetramino = new SaveTetramino(Tetromino.T, 3, -10, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, 4, -10, 0);
-        tetraminos.Add(tetramino);
-        
-        
-        tetramino = new SaveTetramino(Tetromino.T, -5, -9, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -4, -9, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -3, -9, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -2, -9, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, -1, -9, 0);
-        tetraminos.Add(tetramino);
-//        tetramino = new SaveTetramino(Tetromino.T, 0, -9, 0);
-//        tetraminos.Add(tetramino);
-//        tetramino = new SaveTetramino(Tetromino.T, 1, -9, 0);
-//        tetraminos.Add(tetramino);
-//        tetramino = new SaveTetramino(Tetromino.T, 2, -9, 0);
-//        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, 3, -9, 0);
-        tetraminos.Add(tetramino);
-        tetramino = new SaveTetramino(Tetromino.T, 4, -9, 0);
-        tetraminos.Add(tetramino);
-        
-        SaveDataTetris saveData = new SaveDataTetris();
 
-        saveData.CurrentTetromino = Tetromino.T;
-        saveData.NextTetromino = Tetromino.O;
-        saveData.SaveTetrominos = tetraminos;
-
-        return saveData;
-    }
-    
-//    private SaveDataBlocks GetSecondSaveData()
-//    {
-//        SaveBlock block1 = new SaveBlock(blockOne, false);
-//        SaveBlock block2 = new SaveBlock(blockOne, true);
-//        SaveBlock block3 = new SaveBlock(blockOne, false);
-//        List<SaveBlock> blocks = new List<SaveBlock>(){block1, block2, block3};
-//        
-//        List<SaveBlocksTile> blocksTiles = new List<SaveBlocksTile>();
-//        int countTiles = 81;
-//        while (countTiles > 0)
-//        {
-//            blocksTiles.Add(new SaveBlocksTile());
-//            countTiles -= 1;
-//        }
-//
-//        blocksTiles[4].IsFull = true;
-//        blocksTiles[13].IsFull = true;
-//        blocksTiles[22].IsFull = true;
-//        blocksTiles[31].IsFull = true;
-//        blocksTiles[49].IsFull = true;
-//        blocksTiles[58].IsFull = true;
-//        blocksTiles[67].IsFull = true;
-//        blocksTiles[76].IsFull = true;
-//        
-//        SaveDataBlocks saveData = new SaveDataBlocks();
-//
-//        saveData.SaveBlocksTile = blocksTiles;
-//        saveData.Blocks = blocks;
-//
-//        return saveData;
-//    }
-//    
-//    private SaveDataBlocks GetThirdSaveData()
-//    {
-//        SaveBlock block1 = new SaveBlock(blockOne, false);
-//        SaveBlock block2 = new SaveBlock(blockOne, true);
-//        SaveBlock block3 = new SaveBlock(blockOne, false);
-//        List<SaveBlock> blocks = new List<SaveBlock>(){block1, block2, block3};
-//        
-//        List<SaveBlocksTile> blocksTiles = new List<SaveBlocksTile>();
-//        int countTiles = 81;
-//        while (countTiles > 0)
-//        {
-//            blocksTiles.Add(new SaveBlocksTile());
-//            countTiles -= 1;
-//        }
-//
-//        blocksTiles[30].IsFull = true;
-//        blocksTiles[31].IsFull = true;
-//        blocksTiles[32].IsFull = true;
-//        blocksTiles[39].IsFull = true;
-//        blocksTiles[41].IsFull = true;
-//        blocksTiles[48].IsFull = true;
-//        blocksTiles[49].IsFull = true;
-//        blocksTiles[50].IsFull = true;
-//        
-//        SaveDataBlocks saveData = new SaveDataBlocks();
-//
-//        saveData.SaveBlocksTile = blocksTiles;
-//        saveData.Blocks = blocks;
-//
-//        return saveData;
-//    }
-    
     public void HideEducation()
     {
         GameHelper.IsEdication = false;
         StopTutorial();
         
-        gameManager.ResetAllBoardEducation();
+        GameManagerTetris.Instance.ResetAllBoardEducation();
         
         foreach (var obj in objForDeactivate)
         {
@@ -407,7 +293,7 @@ public class EducationTetris : MonoBehaviour
         educationPanel.SetActive(false);
     }  
     
-    public void Restart()
+    public override void Restart()
     {
         _step = 0;
         StartPlay();
@@ -429,14 +315,14 @@ public class EducationTetris : MonoBehaviour
         StopTutorial();
         if (_step == 0)
         {
-            gameManager.EducationIsOver = false;
-            gameManager.ResetAllBoardEducation();
+            EducationIsOver = false;
+            GameManagerTetris.Instance.ResetAllBoardEducation();
             SaveDataTetris saveData = GetFirstSaveData();
-            gameManager.LoadEducation(saveData);
-            gameManager.EnableDirection = Vector2Int.right;
-            gameManager.EnableFinishPosition = new Vector3Int(3,8,0);
-            gameManager.EnableCanRotate = false;
-            gameManager.EnableCanHardDrop = false;
+            GameManagerTetris.Instance.LoadEducation(saveData);
+            EnableDirection = Vector2Int.right;
+            EnableFinishPosition = new Vector3Int(3,8,0);
+            EnableCanRotate = false;
+            EnableCanHardDrop = false;
             foreach (var text in texts)
             {
                 text.text = LocalizationManager.Localize("Tetris.edutext1");
@@ -454,15 +340,15 @@ public class EducationTetris : MonoBehaviour
             }
             
             _isTutorialRunning = true;
-            _tutorialCoroutine = StartCoroutine(PlayMoveStep(gameManager.EnableDirection));
+            _tutorialCoroutine = StartCoroutine(PlayMoveStep(EnableDirection));
         }
         else if (_step == 1)
         {
-            gameManager.EducationIsOver = false;
-            gameManager.EnableDirection = Vector2Int.down;
-            gameManager.EnableFinishPosition = new Vector3Int(3,-10,0);
-            gameManager.EnableCanRotate = false;
-            gameManager.EnableCanHardDrop = false;
+            EducationIsOver = false;
+            EnableDirection = Vector2Int.down;
+            EnableFinishPosition = new Vector3Int(3,-10,0);
+            EnableCanRotate = false;
+            EnableCanHardDrop = false;
             foreach (var text in texts)
             {
                 text.text = LocalizationManager.Localize("Tetris.edutext4");
@@ -480,18 +366,18 @@ public class EducationTetris : MonoBehaviour
             }
             
             _isTutorialRunning = true;
-            _tutorialCoroutine = StartCoroutine(PlayMoveStep(gameManager.EnableDirection));
+            _tutorialCoroutine = StartCoroutine(PlayMoveStep(EnableDirection));
         }
         else if (_step == 2)
         {
-            gameManager.EducationIsOver = false;
-            gameManager.ResetAllBoardEducation();
+            EducationIsOver = false;
+            GameManagerTetris.Instance.ResetAllBoardEducation();
             SaveDataTetris saveData = GetSecondSaveData();
-            gameManager.LoadEducation(saveData);
-            gameManager.EnableDirection = Vector2Int.zero;
-            gameManager.EnableFinishPosition = new Vector3Int(0,0,0);
-            gameManager.EnableCanRotate = true;
-            gameManager.EnableCanHardDrop = false;
+            GameManagerTetris.Instance.LoadEducation(saveData);
+            EnableDirection = Vector2Int.zero;
+            EnableFinishPosition = new Vector3Int(0,0,0);
+            EnableCanRotate = true;
+            EnableCanHardDrop = false;
             foreach (var text in texts)
             {
                 text.text = LocalizationManager.Localize("Tetris.edutext3");
@@ -513,11 +399,11 @@ public class EducationTetris : MonoBehaviour
         }   
         else if (_step == 3)
         {
-            gameManager.EducationIsOver = false;
-            gameManager.EnableDirection = Vector2Int.left;
-            gameManager.EnableFinishPosition = new Vector3Int(-5,8,0);
-            gameManager.EnableCanRotate = false;
-            gameManager.EnableCanHardDrop = false;
+            EducationIsOver = false;
+            EnableDirection = Vector2Int.left;
+            EnableFinishPosition = new Vector3Int(-5,8,0);
+            EnableCanRotate = false;
+            EnableCanHardDrop = false;
             foreach (var text in texts)
             {
                 text.text = LocalizationManager.Localize("Tetris.edutext2");
@@ -535,15 +421,15 @@ public class EducationTetris : MonoBehaviour
             }
             
             _isTutorialRunning = true;
-            _tutorialCoroutine = StartCoroutine(PlayMoveStep(gameManager.EnableDirection));
+            _tutorialCoroutine = StartCoroutine(PlayMoveStep(EnableDirection));
         }    
         else if (_step == 4)
         {
-            gameManager.EducationIsOver = false;
-            gameManager.EnableDirection = Vector2Int.down;
-            gameManager.EnableFinishPosition = new Vector3Int(-5,-9,0);
-            gameManager.EnableCanRotate = false;
-            gameManager.EnableCanHardDrop = true;
+            EducationIsOver = false;
+            EnableDirection = Vector2Int.down;
+            EnableFinishPosition = new Vector3Int(-5,-9,0);
+            EnableCanRotate = false;
+            EnableCanHardDrop = true;
             foreach (var text in texts)
             {
                 text.text = LocalizationManager.Localize("Tetris.edutext5");
@@ -561,14 +447,14 @@ public class EducationTetris : MonoBehaviour
             }
             
             _isTutorialRunning = true;
-            _tutorialCoroutine = StartCoroutine(PlayMoveStep(gameManager.EnableDirection, true));
+            _tutorialCoroutine = StartCoroutine(PlayMoveStep(EnableDirection, true));
         }
         else if (_step == 5)
         {
             leftText.SetActive(false);
             rightText.SetActive(false);
-            gameManager.EducationIsOver = true;
-            gameManager.ResetAllBoardEducation();
+            EducationIsOver = true;
+            GameManagerTetris.Instance.ResetAllBoardEducation();
             _isStartShowFinish = true;
             _tutorialCoroutine = StartCoroutine(ShowFinishEducation());
         }
@@ -625,7 +511,7 @@ public class EducationTetris : MonoBehaviour
         _tutorialCoroutine = StartCoroutine(PlayRotateStep());
     }
 
-    public void StopTutorial()
+    public override void StopTutorial()
     {
         _isTutorialRunning = false;
 

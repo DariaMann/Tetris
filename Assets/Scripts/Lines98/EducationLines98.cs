@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class EducationLines98 : MonoBehaviour
+public class EducationLines98 : Education
 {
     [Header("Offsets & Animation")]
     [SerializeField] private float clickOffsetY = 10f;           // Насколько палец "нажимает" вниз
@@ -15,7 +15,6 @@ public class EducationLines98 : MonoBehaviour
     
     [SerializeField] private RectTransform finger;
     [SerializeField] private GameObject educationPanel;
-    [SerializeField] private GameManagerLines98 gameManager;
     [SerializeField] private LineBoard lineBoard;
     
     [SerializeField] private CanvasGroup playButton;
@@ -45,14 +44,14 @@ public class EducationLines98 : MonoBehaviour
     private bool _isFirstShow;
     private bool _buttonPlayShowed;
     
-    public void ShowEducation(bool isFirstEducation)
+    public override void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
         ShowView(isFirstEducation);
         ShowEducation();
     }
 
-    private void ShowEducation()
+    public override void ShowEducation()
     {
         educationPanel.SetActive(true);
         
@@ -70,13 +69,13 @@ public class EducationLines98 : MonoBehaviour
 
         SaveDataLines98 saveData = GetSaveData();
         
-        gameManager.LoadEducation(saveData);
+        GameManagerLines98.Instance.LoadEducation(saveData);
 
         _isTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
     }
     
-    private void ShowView(bool isFirstEducation)
+    public override void ShowView(bool isFirstEducation)
     {
         bool isTablet = GameHelper.IsTablet();
         if (isFirstEducation)
@@ -201,11 +200,11 @@ public class EducationLines98 : MonoBehaviour
     {
         StopTutorial();
         
-        gameManager.ResetAllBoardEducation();
+        GameManagerLines98.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
     }
     
-    private void StopTutorial()
+    public override void StopTutorial()
     {
         _isTutorialRunning = false;
 
@@ -260,13 +259,13 @@ public class EducationLines98 : MonoBehaviour
         return saveData;
     }
 
-    private void Restart()
+    public override void Restart()
     {
         StopTutorial();
 
         SaveDataLines98 saveData = GetSaveData();
         
-        gameManager.ReloadEducation(saveData);
+        GameManagerLines98.Instance.ReloadEducation(saveData);
         
         _isTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());

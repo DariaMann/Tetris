@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class EducationBlocks : MonoBehaviour
+public class EducationBlocks : Education
 {
     [Header("Offsets & Animation")]
     [SerializeField] private float clickOffsetY = 0.5f;           // Насколько палец "нажимает" вниз
@@ -35,6 +32,8 @@ public class EducationBlocks : MonoBehaviour
     
     private bool _isFirstShow;
     private int _step;
+    
+    public BlockTile EnableTile { get; set; }
     
     private void OnDisable()
     {
@@ -96,14 +95,14 @@ public class EducationBlocks : MonoBehaviour
         Restart();
     }
     
-    public void ShowEducation(bool isFirstEducation)
+    public override void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
         ShowView(isFirstEducation);
         ShowEducation();
     }
     
-    private void ShowView(bool isFirstEducation)
+    public override void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -115,7 +114,7 @@ public class EducationBlocks : MonoBehaviour
         }
     }
 
-    private void ShowEducation()
+    public override void ShowEducation()
     {
         educationPanel.SetActive(true);
         _fingerCanvasGroup = finger.gameObject.GetComponent<CanvasGroup>();
@@ -231,7 +230,7 @@ public class EducationBlocks : MonoBehaviour
         educationPanel.SetActive(false);
     }  
     
-    public void Restart()
+    public override void Restart()
     {
         _step = 0;
         StartPlay();
@@ -256,7 +255,7 @@ public class EducationBlocks : MonoBehaviour
         {
             SaveDataBlocks saveData = GetFirstSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
-            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
+            EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
@@ -264,7 +263,7 @@ public class EducationBlocks : MonoBehaviour
         {
             SaveDataBlocks saveData = GetSecondSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
-            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
+            EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
@@ -272,7 +271,7 @@ public class EducationBlocks : MonoBehaviour
         {
             SaveDataBlocks saveData = GetThirdSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
-            GameManagerBlocks.Instance.EnableTile = boardEdu.Tiles[40];
+            EnableTile = boardEdu.Tiles[40];
             _isTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         } 
@@ -299,7 +298,7 @@ public class EducationBlocks : MonoBehaviour
         _tutorialCoroutine = StartCoroutine(PlayFirstStep());
     }
 
-    public void StopTutorial()
+    public override void StopTutorial()
     {
         _isTutorialRunning = false;
 

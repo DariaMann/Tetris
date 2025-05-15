@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManager2048 : MonoBehaviour
+public class GameManager2048 : GameManager
 {
     [SerializeField] private Education2048 education;
     [SerializeField] private TileBoard educationBoard;
@@ -20,8 +20,6 @@ public class GameManager2048 : MonoBehaviour
         set => education = value;
     }
 
-    public Vector2Int EnableMoveDirection { get; set; }
-    
     public Stack<Step2048> EventSteps { get; set; } = new Stack<Step2048>();
 
     public SaveScores SaveScores
@@ -72,7 +70,7 @@ public class GameManager2048 : MonoBehaviour
         SaveLastPlay();
     }
 
-    private void LoadLastPlay()
+    public override void LoadLastPlay()
     {
         SaveData2048 saveData = GameHelper.Save2048.SaveData2048;
         if (saveData == null)
@@ -112,12 +110,12 @@ public class GameManager2048 : MonoBehaviour
         educationBoard.enabled = true;
     }
     
-    public void ResetAll()
+    public override void ResetAllBoardEducation()
     {
         educationBoard.ClearBoard();
     }
 
-    public void SaveLastPlay()
+    public override void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -140,6 +138,11 @@ public class GameManager2048 : MonoBehaviour
         
         SaveScores.ChangeMaximum(newMaximum);
     }
+
+    public override void Again()
+    {
+        NewGame();
+    }
     
     public void NewGame()
     {
@@ -160,7 +163,7 @@ public class GameManager2048 : MonoBehaviour
         CheckUndoButtonState();
     }
 
-    public void GameOver()
+    public override void GameOver()
     {
         board.enabled = false;
         
@@ -177,5 +180,46 @@ public class GameManager2048 : MonoBehaviour
         {
             undoButton.interactable = false;
         }
+    }
+    
+    public void OnUndo()
+    {
+        if (EventSteps.Count > 0)
+        {
+            RestoreStepEvent(EventSteps.Pop());
+        }
+    }
+    
+    public Step2048 CreateStepEvent()
+    {
+        Step2048 step = new Step2048();
+    
+        foreach (var tile in board.Tiles)
+        {
+            TileEvent tileSnap = new TileEvent()
+            {
+                X = tile.Cell.Coordinates.x,
+                Y = tile.Cell.Coordinates.y,
+                StateIndex = tile.State.index
+            };
+            step.Tiles.Add(tileSnap);
+        }
+
+        step.Steps = SaveScores.CurrentScore;
+
+        return step;
+    }
+    
+    private void RestoreStepEvent(Step2048 step)
+    {
+        board.ClearBoard();
+
+        foreach (var tileSnap in step.Tiles)
+        {
+            board.CreateTile(tileSnap);
+        }
+
+        SaveScores.ChangeScore(step.Steps, false);
+        CheckUndoButtonState();
     }
 }

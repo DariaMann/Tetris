@@ -60,7 +60,7 @@ public class Piece : MonoBehaviour
     private void Update()
     {
         if (GameManagerTetris.Instance.GameOverPanel.IsGameOver || (GameHelper.IsPause && !isEducation) || 
-            (GameHelper.IsEdication && GameManagerTetris.Instance.EducationIsOver))
+            (GameHelper.IsEdication && GameManagerTetris.Instance.Education.EducationIsOver))
         {
             return;
         }
@@ -117,7 +117,7 @@ public class Piece : MonoBehaviour
         else
         {
             if (_lockTime >= _lockDelay && GameHelper.IsEdication && 
-                !GameManagerTetris.Instance.EnableCanRotate && Position == GameManagerTetris.Instance.EnableFinishPosition) {
+                !GameManagerTetris.Instance.Education.EnableCanRotate && Position == GameManagerTetris.Instance.Education.EnableFinishPosition) {
                 Lock();
             }
         }
@@ -127,7 +127,7 @@ public class Piece : MonoBehaviour
             SetSaveSpeed(GameHelper.TetrisSettings);
         }
 
-        if (GameHelper.IsEdication && GameManagerTetris.Instance.EducationIsOver)
+        if (GameHelper.IsEdication && GameManagerTetris.Instance.Education.EducationIsOver)
         {
             return;
         }
@@ -267,7 +267,8 @@ public class Piece : MonoBehaviour
         if (IsPointerOverUI())
             return;
 
-        if (isEducation && GameHelper.IsEdication && (!GameManagerTetris.Instance.EnableCanRotate && !GameManagerTetris.Instance.EnableCanHardDrop))
+        if (isEducation && GameHelper.IsEdication && 
+            (!GameManagerTetris.Instance.Education.EnableCanRotate && !GameManagerTetris.Instance.Education.EnableCanHardDrop))
         {
             return;
         }
@@ -280,14 +281,14 @@ public class Piece : MonoBehaviour
         if (verticalDistance > _minDistanceSwipe &&
             swipeDuration < _maxTimeSwipe &&
             Mathf.Abs(_touchStartPos.x - endPos.x) < verticalDistance * _verticalSwipeCheck && 
-            (!isEducation || (isEducation && GameManagerTetris.Instance.EnableCanHardDrop))) // важное ограничение!
+            (!isEducation || (isEducation && GameManagerTetris.Instance.Education.EnableCanHardDrop)))
         {
             Debug.Log("Hard drop via fast vertical swipe");
             _doHardDrop = true;
             return;
         }
         
-        if (isEducation && GameHelper.IsEdication && !GameManagerTetris.Instance.EnableCanRotate)
+        if (isEducation && GameHelper.IsEdication && !GameManagerTetris.Instance.Education.EnableCanRotate)
         {
             return;
         }
@@ -346,7 +347,8 @@ public class Piece : MonoBehaviour
     {
         if (isEducation && GameHelper.IsEdication)
         {
-            if (GameManagerTetris.Instance.EnableDirection != translation || (GameManagerTetris.Instance.EnableCanHardDrop && !isHartDrop))
+            if (GameManagerTetris.Instance.Education.EnableDirection != translation ||
+                (GameManagerTetris.Instance.Education.EnableCanHardDrop && !isHartDrop))
             {
                 return false;
             }
@@ -367,11 +369,13 @@ public class Piece : MonoBehaviour
 
         if (isEducation && GameHelper.IsEdication)
         {
-            if (GameManagerTetris.Instance.EnableDirection == Vector2Int.right && Position == GameManagerTetris.Instance.EnableFinishPosition)
+            if (GameManagerTetris.Instance.Education.EnableDirection == Vector2Int.right &&
+                Position == GameManagerTetris.Instance.Education.EnableFinishPosition)
             {
                 GameManagerTetris.Instance.Education.ChangeStep();
             }
-            if (GameManagerTetris.Instance.EnableDirection == Vector2Int.left && Position == GameManagerTetris.Instance.EnableFinishPosition)
+            if (GameManagerTetris.Instance.Education.EnableDirection == Vector2Int.left &&
+                Position == GameManagerTetris.Instance.Education.EnableFinishPosition)
             {
                 GameManagerTetris.Instance.Education.ChangeStep();
             }
@@ -397,7 +401,7 @@ public class Piece : MonoBehaviour
             ApplyRotationMatrix(-direction);
         }
         
-        if (isEducation && GameHelper.IsEdication && GameManagerTetris.Instance.EnableCanRotate)
+        if (isEducation && GameHelper.IsEdication && GameManagerTetris.Instance.Education.EnableCanRotate)
         {
             GameManagerTetris.Instance.Education.ChangeStep();
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerBlocks : MonoBehaviour
+public class GameManagerBlocks : GameManager
 {
     [SerializeField] private EducationBlocks education;
     [SerializeField] private BlocksBoard board;
@@ -19,8 +19,6 @@ public class GameManagerBlocks : MonoBehaviour
     public static GameManagerBlocks Instance { get; private set; }
 
     public Stack<SaveDataBlocks> EventSteps { get; set; } = new Stack<SaveDataBlocks>();
-    
-    public BlockTile EnableTile { get; set; }
 
     public EducationBlocks Education
     {
@@ -82,7 +80,7 @@ public class GameManagerBlocks : MonoBehaviour
         SaveLastPlay();
     }
 
-    private void LoadLastPlay()
+    public override void LoadLastPlay()
     {
         SaveDataBlocks saveData = GameHelper.SaveBlocks.SaveDataBlocks;
         if (saveData == null)
@@ -113,7 +111,7 @@ public class GameManagerBlocks : MonoBehaviour
         themeBlocks.SetTheme(GameHelper.Theme);
     }
 
-    private void SaveLastPlay()
+    public override void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -140,7 +138,7 @@ public class GameManagerBlocks : MonoBehaviour
         board.CreateBlocks();
     }
 
-    public void Again()
+    public override void Again()
     {
         gameOver.ShowGameOverPanel(false);
 
@@ -151,7 +149,7 @@ public class GameManagerBlocks : MonoBehaviour
         CheckUndoButtonState();
     }
 
-    public void GameOver()
+    public override void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
@@ -162,7 +160,7 @@ public class GameManagerBlocks : MonoBehaviour
         EventSteps.Clear();
     }
 
-    public void ResetAllBoardEducation()
+    public override void ResetAllBoardEducation()
     {
         foreach (var tile in boardEdu.Tiles)
         {

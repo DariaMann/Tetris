@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Education2048 : MonoBehaviour
+public class Education2048 : Education
 {
     [Header("Offsets & Animation")]
     [SerializeField] private float clickOffsetY = 0.5f;           // Насколько палец "нажимает" вниз
@@ -20,7 +20,6 @@ public class Education2048 : MonoBehaviour
     [SerializeField] private RectTransform leftPos;
     [SerializeField] private RectTransform rightPos;
     [SerializeField] private GameObject educationPanel;
-    [SerializeField] private GameManager2048 board;
     [SerializeField] private CanvasGroup finishEducationPanel;
     [SerializeField] private GameObject backButton;
     
@@ -46,6 +45,8 @@ public class Education2048 : MonoBehaviour
     
     private bool _isFirstShow;
     private int _step;
+    
+    public Vector2Int EnableMoveDirection { get; set; }
     
     private void OnDisable()
     {
@@ -182,14 +183,14 @@ public class Education2048 : MonoBehaviour
         Restart();
     }
     
-    public void ShowEducation(bool isFirstEducation)
+    public override void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
         ShowView(isFirstEducation);
         ShowEducation();
     }
     
-    private void ShowView(bool isFirstEducation)
+    public override void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -201,7 +202,7 @@ public class Education2048 : MonoBehaviour
         }
     }
 
-    private void ShowEducation()
+    public override void ShowEducation()
     {
         educationPanel.SetActive(true);
         GameHelper.IsEdication = true;
@@ -306,7 +307,7 @@ public class Education2048 : MonoBehaviour
         StopTutorial();
         HideFinishEducation();
         HideTwoStep();
-        board.ResetAll();
+        GameManager2048.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
         if (isDelay)
         {
@@ -316,15 +317,15 @@ public class Education2048 : MonoBehaviour
         {
             GameHelper.IsEdication = false;
         }
-    }  
-    
+    }
+
     public IEnumerator DelayStopEducation()
     {
         yield return new WaitForSeconds(0.1f);
         GameHelper.IsEdication = false;
     }
     
-    public void Restart()
+    public override void Restart()
     {
         _step = 0;
         StartPlay();
@@ -355,7 +356,7 @@ public class Education2048 : MonoBehaviour
 
     public void SetEnableMoveDirection(Vector2Int move)
     {
-        board.EnableMoveDirection = move;
+        EnableMoveDirection = move;
     }
 
     public void StartPlay()
@@ -363,7 +364,7 @@ public class Education2048 : MonoBehaviour
         StopTutorial();
         if (_step == 0)
         {
-            board.LoadEducation(GetFirstSaveData());
+            GameManager2048.Instance.LoadEducation(GetFirstSaveData());
             SetEnableMoveDirection(Vector2Int.zero);
             foreach (var text in texts)
             {
@@ -445,7 +446,7 @@ public class Education2048 : MonoBehaviour
         _tutorialCoroutine = StartCoroutine(PlayFirstStep(toLeft));
     }
 
-    public void StopTutorial()
+    public override void StopTutorial()
     {
         _isTutorialRunning = false;
 

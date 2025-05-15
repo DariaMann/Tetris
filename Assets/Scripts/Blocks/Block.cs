@@ -479,7 +479,7 @@ public class Block: MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
        if (blocksBoard.IsEducation)
        {
-           if (hovered.Count > 0 && hovered[0] == GameManagerBlocks.Instance.EnableTile)
+           if (hovered.Count > 0 && hovered[0] == GameManagerBlocks.Instance.Education.EnableTile)
            {
                
            }

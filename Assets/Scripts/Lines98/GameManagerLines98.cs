@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerLines98 : MonoBehaviour
+public class GameManagerLines98 : GameManager
 {
     [SerializeField] private LineBoard board;
     [SerializeField] private LineBoard boardEdu;
@@ -85,7 +85,7 @@ public class GameManagerLines98 : MonoBehaviour
         SaveLastPlay();
     }
     
-    private void LoadLastPlay()
+    public override void LoadLastPlay()
     {
         SaveDataLines98 saveData = GameHelper.SaveLines98.SaveDataLines98;
         if (saveData == null)
@@ -119,7 +119,7 @@ public class GameManagerLines98 : MonoBehaviour
         boardEdu.SpawnLoadedBalls(saveData.SaveBalls);
     }
 
-    private void SaveLastPlay()
+    public override void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -182,7 +182,6 @@ public class GameManagerLines98 : MonoBehaviour
             CheckUndoButtonState();
         }
     }
-      
     
     public void AddStepEventObject()
     {
@@ -221,7 +220,7 @@ public class GameManagerLines98 : MonoBehaviour
         return ballsRemoved;
     }
     
-    public void ResetAllBoardEducation()
+    public override void ResetAllBoardEducation()
     {
         foreach (var tile in boardEdu.Tiles)
         {
@@ -256,7 +255,7 @@ public class GameManagerLines98 : MonoBehaviour
         board.FutureBalls.Clear();
     }
 
-    public void Again()
+    public override void Again()
     {
         gameOver.ShowGameOverPanel(false);
         
@@ -267,7 +266,7 @@ public class GameManagerLines98 : MonoBehaviour
         CheckUndoButtonState();
     }
 
-    public void GameOver()
+    public override void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

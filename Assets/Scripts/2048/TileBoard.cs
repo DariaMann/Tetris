@@ -49,6 +49,14 @@ public class TileBoard : MonoBehaviour
         _tiles.Add(tile);
     }
 
+    public void CreateTile(TileEvent tileEvent)
+    {
+        Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
+        tile.SetState(tileStates[tileEvent.StateIndex]);
+        tile.Spawn(_grid.GetCellByCoordinates(tileEvent.X, tileEvent.Y), _grid.transform);
+        _tiles.Add(tile);
+    }
+    
     public void CreateTile()
     {
         Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
@@ -135,7 +143,7 @@ public class TileBoard : MonoBehaviour
     {
         if (isEducation)
         {
-            if (GameManager2048.Instance.EnableMoveDirection != direction)
+            if (GameManager2048.Instance.Education.EnableMoveDirection != direction)
             {
                 return;
             }
@@ -192,7 +200,7 @@ public class TileBoard : MonoBehaviour
                 {
                     if (!saveLast && !isEducation)
                     {
-                        GameManager2048.Instance.EventSteps.Push(CreateStepEvent());
+                        GameManager2048.Instance.EventSteps.Push(GameManager2048.Instance.CreateStepEvent());
                     }
                     MergeTiles(tile, adjacent.Tile);
                     isMerge = true;
@@ -210,7 +218,7 @@ public class TileBoard : MonoBehaviour
         {
             if (!saveLast && !isEducation)
             {
-                GameManager2048.Instance.EventSteps.Push(CreateStepEvent());
+                GameManager2048.Instance.EventSteps.Push(GameManager2048.Instance.CreateStepEvent());
             }
             tile.MoveTo(newCell);
             return true;
@@ -323,50 +331,6 @@ public class TileBoard : MonoBehaviour
         }
 
         return true;
-    }
-    
-    public void OnUndo()
-    {
-        if (GameManager2048.Instance.EventSteps.Count > 0)
-        {
-            RestoreStepEvent(GameManager2048.Instance.EventSteps.Pop());
-        }
-    }
-    
-    private Step2048 CreateStepEvent()
-    {
-        Step2048 step = new Step2048();
-    
-        foreach (var tile in _tiles)
-        {
-            TileEvent tileSnap = new TileEvent()
-            {
-                X = tile.Cell.Coordinates.x,
-                Y = tile.Cell.Coordinates.y,
-                StateIndex = tile.State.index
-            };
-            step.Tiles.Add(tileSnap);
-        }
-
-        step.Steps = GameManager2048.Instance.SaveScores.CurrentScore;
-
-        return step;
-    }
-    
-    private void RestoreStepEvent(Step2048 step)
-    {
-        ClearBoard();
-
-        foreach (var tileSnap in step.Tiles)
-        {
-            Tile2024 tile = Instantiate(tilePrefab, _grid.transform);
-            tile.SetState(tileStates[tileSnap.StateIndex]);
-            tile.Spawn(_grid.GetCellByCoordinates(tileSnap.X, tileSnap.Y), _grid.transform);
-            _tiles.Add(tile);
-        }
-
-        GameManager2048.Instance.SaveScores.ChangeScore(step.Steps, false);
-        GameManager2048.Instance.CheckUndoButtonState();
     }
 
 }

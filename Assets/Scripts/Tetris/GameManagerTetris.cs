@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerTetris : MonoBehaviour
+public class GameManagerTetris : GameManager
 {
     [SerializeField] private EducationTetris education;
     [SerializeField] private Board board;
@@ -19,16 +19,6 @@ public class GameManagerTetris : MonoBehaviour
     public TetrominoData Next { get; set; }
 
     public static GameManagerTetris Instance { get; private set; }
-    
-    public Vector3Int EnableFinishPosition { get; set; }
-    
-    public Vector2Int EnableDirection { get; set; }
-    
-    public bool EnableCanRotate { get; set; }
-    
-    public bool EnableCanHardDrop { get; set; }
-    
-    public bool EducationIsOver { get; set; } = false;
 
     public EducationTetris Education
     {
@@ -85,7 +75,7 @@ public class GameManagerTetris : MonoBehaviour
 //        SaveLastPlay();
 //    }
 
-    private void LoadLastPlay()
+    public override void LoadLastPlay()
     {
         SaveDataTetris saveData = GameHelper.SaveTetris.SaveDataTetris;
         if (saveData == null)
@@ -120,12 +110,12 @@ public class GameManagerTetris : MonoBehaviour
         boardEdu.SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
     }
     
-    public void ResetAllBoardEducation()
+    public override void ResetAllBoardEducation()
     {
         boardEdu.Tilemap.ClearAllTiles();
     }
     
-    public void SaveLastPlay()
+    public override void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -174,12 +164,12 @@ public class GameManagerTetris : MonoBehaviour
         JsonHelper.SaveTetris(GameHelper.SaveTetris);
     }
 
-    public void GameOver()
+    public override void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
-    public void Again()
+    public override void Again()
     {
         gameOver.ShowGameOverPanel(false);
         

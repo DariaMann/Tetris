@@ -7973,8 +7973,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1941666058}
-        m_TargetAssemblyTypeName: TileBoard, Assembly-CSharp
+      - m_Target: {fileID: 1711273320}
+        m_TargetAssemblyTypeName: GameManager2048, Assembly-CSharp
         m_MethodName: OnUndo
         m_Mode: 1
         m_Arguments:
