@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class EducationLines98 : MonoBehaviour
 {
     [Header("Offsets & Animation")]
@@ -17,6 +15,7 @@ public class EducationLines98 : MonoBehaviour
     
     [SerializeField] private RectTransform finger;
     [SerializeField] private GameObject educationPanel;
+    [SerializeField] private GameManagerLines98 gameManager;
     [SerializeField] private LineBoard lineBoard;
     
     [SerializeField] private CanvasGroup playButton;
@@ -71,7 +70,7 @@ public class EducationLines98 : MonoBehaviour
 
         SaveDataLines98 saveData = GetSaveData();
         
-        lineBoard.LoadEducation(saveData);
+        gameManager.LoadEducation(saveData);
 
         _isTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
@@ -194,7 +193,6 @@ public class EducationLines98 : MonoBehaviour
         
         if (pauseStatus)
         {
-            // Приложение вернулось
             ForcePlayButtonVisible();
         }
     }
@@ -203,7 +201,7 @@ public class EducationLines98 : MonoBehaviour
     {
         StopTutorial();
         
-        lineBoard.ResetAllAll();
+        gameManager.ResetAllBoardEducation();
         educationPanel.SetActive(false);
     }
     
@@ -223,7 +221,7 @@ public class EducationLines98 : MonoBehaviour
             _currentFingerTween = null;
         }
 
-        DOTween.Kill(_fingerCanvasGroup); // Чтобы остановить DOFade
+        DOTween.Kill(_fingerCanvasGroup);
         
         finger.transform.position = _startFingerPos;
         finger.rotation = Quaternion.identity;
@@ -232,34 +230,6 @@ public class EducationLines98 : MonoBehaviour
             _fingerCanvasGroup.alpha = 0f;
         }
     }
-    
-//    private IEnumerator PlayTutorial()
-//    {
-//        //здесь должен быть клик пальца
-//        //далее плавное перемещение от а до б
-//        yield return new WaitForSeconds(1f);
-//
-//        Ball blue = lineBoard.GetBallByPos(_bluePos);
-//        blue.SetSelection(true);
-//        yield return new WaitForSeconds(1f);
-//        yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureBluePos).PlayerMoveCoroutine());
-//    
-//        //здесь должен быть клик пальца
-//        //далее плавное перемещение от а до б
-//        yield return new WaitForSeconds(1f);
-//        Ball yellow = lineBoard.GetBallByPos(_yellowPos);
-//        yellow.SetSelection(true);
-//        yield return new WaitForSeconds(1f);
-//        yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureYellowPos).PlayerMoveCoroutine());
-//        
-//        //здесь должен быть клик пальца
-//        //далее плавное перемещение от а до б
-//        yield return new WaitForSeconds(1f);
-//        Ball red = lineBoard.GetBallByPos(_redPos);
-//        red.SetSelection(true);
-//        yield return new WaitForSeconds(1f);
-//        yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureRedPos).PlayerMoveCoroutine());
-//    }
 
     private SaveDataLines98 GetSaveData()
     {
@@ -296,7 +266,7 @@ public class EducationLines98 : MonoBehaviour
 
         SaveDataLines98 saveData = GetSaveData();
         
-        lineBoard.ReloadEducation(saveData);
+        gameManager.ReloadEducation(saveData);
         
         _isTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
@@ -430,31 +400,5 @@ public class EducationLines98 : MonoBehaviour
         yield return _fingerCanvasGroup.DOFade(0f, 0.3f).WaitForCompletion();
         if (!_isTutorialRunning) yield break;
     }
-
-
-//    private IEnumerator FingerClickMove(Vector3 from, Vector3 to)
-//    {
-////        finger.position = from;
-////        Vector3 startPos = finger.transform.position;
-//
-//        yield return finger.DOMove(from, 0.6f).SetEase(Ease.InOutSine).WaitForCompletion();
-//        
-//        
-//        
-//        // Клик вниз
-//        yield return finger.DOMoveY(from.y - 20f, 0.15f).SetEase(Ease.InOutQuad).WaitForCompletion();
-//        // Клик вверх
-//        yield return finger.DOMoveY(from.y, 0.15f).SetEase(Ease.InOutQuad).WaitForCompletion();
-//
-//        // Пауза после клика
-//        yield return new WaitForSeconds(0.2f);
-//
-//        // Перемещение пальца к новой точке
-//        yield return finger.DOMove(to, 0.6f).SetEase(Ease.InOutSine).WaitForCompletion();
-//
-//        // Клик в новой точке
-//        yield return finger.DOMoveY(to.y - 20f, 0.15f).SetEase(Ease.InOutQuad).WaitForCompletion();
-//        yield return finger.DOMoveY(to.y, 0.15f).SetEase(Ease.InOutQuad).WaitForCompletion();
-//    }
 
 }

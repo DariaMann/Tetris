@@ -20,7 +20,7 @@ public class Education2048 : MonoBehaviour
     [SerializeField] private RectTransform leftPos;
     [SerializeField] private RectTransform rightPos;
     [SerializeField] private GameObject educationPanel;
-    [SerializeField] private GameManager board;
+    [SerializeField] private GameManager2048 board;
     [SerializeField] private CanvasGroup finishEducationPanel;
     [SerializeField] private GameObject backButton;
     
@@ -465,7 +465,10 @@ public class Education2048 : MonoBehaviour
         
         finger.transform.position = _startFingerPos;
         finger.rotation = Quaternion.identity;
-        _fingerCanvasGroup.alpha = 0f;
+        if (_fingerCanvasGroup != null)
+        {
+            _fingerCanvasGroup.alpha = 0f;
+        }
     }
     
     private void ForcePlayButtonVisible()

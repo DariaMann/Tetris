@@ -6,39 +6,16 @@ using UnityEngine.UI;
 public class LineBoard : MonoBehaviour
 {
     [SerializeField] private bool isEducation;
-    [SerializeField] private EducationLines98 education;
-    [SerializeField] private GameObject scorePlusPrefab;
-    [SerializeField] private Canvas mainCanvas;
-    
-    [SerializeField] private bool showFuture = true;
-    
+
     [SerializeField] private int gridSize = 9;
-    [SerializeField] private ThemeLines98 theme;
-    [SerializeField] private SaveScores saveScores;
-    [SerializeField] private GameOver gameOver;
-    [SerializeField] private Button undoButton;
-    
-    [SerializeField] private Image hint;
-    [SerializeField] private Sprite hintAvailable;
-    [SerializeField] private Sprite hintUnavailable;
-    
+
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform gridParent;
     [SerializeField] private List<Sprite> ballTypes;
 
-//    private LineTile[,] _cells;
-
     public int GenerateCount { get; set; } = 3;
-    
-    public bool ShowFuture
-    {
-        get => showFuture;
-        set => showFuture = value;
-    }
-    
-    public bool IsPaused { get; private set; } = false;
-    
+
     public List<LineTile> Tiles { get; set; } = new List<LineTile>();
     
     public List<Ball> Balls { get; set; } = new List<Ball>();
@@ -47,162 +24,27 @@ public class LineBoard : MonoBehaviour
     
     public Ball SelectedBall { get; set; }
     
-    public Stack<SaveDataLines98> EventSteps { get; set; } = new Stack<SaveDataLines98>();
-
-    private void Start()
+    public bool IsEducation
     {
-        if (isEducation)
-        {
-            return;
-        }
-        LoadLastPlay();
-        SetHintState(ShowFuture);
-
-        if (!GameHelper.GetEducationState(MiniGameType.Lines98))
-        {
-            education.ShowEducation(true);
-            GameHelper.SetEducationState(MiniGameType.Lines98, true);
-        }
-    }
-
-    void OnApplicationQuit()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveLastPlay();
-    }
-
-    void OnApplicationPause(bool pause)
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        if (pause)
-        {
-            SaveLastPlay();
-        }
+        get => isEducation;
+        set => isEducation = value;
     }
     
-    private void OnDestroy()
+    public void GenerateGrid()
     {
-        if (isEducation)
+        for (int y = 0; y < gridSize; y++)
         {
-            return;
-        }
-        SaveLastPlay();
-    }
-    
-    private void LoadLastPlay()
-    {
-        SaveDataLines98 saveData = GameHelper.SaveLines98.SaveDataLines98;
-        if (saveData == null)
-        {
-            NewGame();
-            return;
-        }
+            for (int x = 0; x < gridSize; x++)
+            {
+                GameObject cellGo = Instantiate(cellPrefab, gridParent);
+                LineTile cell = cellGo.GetComponent<LineTile>();
 
-        ShowFuture = saveData.ShowFuture;
-        saveScores.ChangeScore(saveData.Score, false);
-        saveScores.IsWin = saveData.IsWin;
-        GenerateGrid();
-        SpawnLoadedBalls(saveData.SaveBalls);
-        SpawnLoadedBalls(saveData.SaveFutureBalls, true);
-        CheckUndoButtonState();
-    }
-    
-    public void LoadEducation(SaveDataLines98 saveData)
-    {
-        GenerateGrid();
-        SpawnLoadedBalls(saveData.SaveBalls);
-    }
-    
-    public void ReloadEducation(SaveDataLines98 saveData)
-    {
-        foreach (var ball in Balls)
-        {
-            Destroy(ball.gameObject);
+                cell.SetData(new Vector2Int(x, y), this);
+                Tiles.Add(cell);
+            }
         }
-        Balls.Clear();
-        SpawnLoadedBalls(saveData.SaveBalls);
-    }
-
-    private void SaveLastPlay()
-    {
-        if (gameOver.IsGameOver)
-        {
-            GameHelper.SaveLines98.SaveDataLines98 = null;
-            JsonHelper.SaveLines98(GameHelper.SaveLines98);
-            return;
-        }
-        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
         
-        GameHelper.SaveLines98.SaveDataLines98 = data;
-        JsonHelper.SaveLines98(GameHelper.SaveLines98);
-    }
-
-    private void NewGame()
-    {
-        saveScores.ChangeScore(0, false);
-        GenerateGrid();
-        SpawnRandomBalls(GenerateCount);
-        SpawnRandomBalls(GenerateCount, true);
-    }
-    
-    public void OnChangeHintStateClick()
-    {
-        SetHintState(!ShowFuture);
-        SaveLastPlay();
-    }
-    
-    private void SetHintState(bool state)
-    {
-        ShowFuture = state;
-        hint.sprite = ShowFuture ? hintAvailable : hintUnavailable;
-        foreach (var future in FutureBalls)
-        {
-            future.DisabledBall();
-        }
-    }
-    
-    public void CheckUndoButtonState()
-    {
-        if (EventSteps.Count > 0)
-        {
-            undoButton.interactable = true;
-        }
-        else
-        {
-            undoButton.interactable = false;
-        }
-    }
-    
-    public void OnUndo()
-    {
-        if (EventSteps.Count > 0)
-        {
-            SaveDataLines98 saveData = EventSteps.Pop();
-            
-            ResetUndo();
-            saveScores.ChangeScore(saveData.Score, false);
-            SpawnLoadedBalls(saveData.SaveBalls);
-            SpawnLoadedBalls(saveData.SaveFutureBalls, true);
-            CheckUndoButtonState();
-        }
-    }
-      
-    
-    public void AddStepEventObject()
-    {
-        if (isEducation)
-        {
-            return;
-        }
-        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, Balls, FutureBalls);
-        EventSteps.Push(data);
-        CheckUndoButtonState();
+        GameManagerLines98.Instance.Theme.SetTheme(GameHelper.Theme);
     }
 
     public bool CheckLines()
@@ -243,9 +85,9 @@ public class LineBoard : MonoBehaviour
                 return true;
             }
 
-            int score = CalculateScore(ballsToRemove.Count); // подсчет очков
-            saveScores.ChangeScore(score);
-            ShowScorePlusAnimationFromUI(worldCenter, score);
+            int score = GameManagerLines98.Instance.CalculateScore(ballsToRemove.Count); // подсчет очков
+            GameManagerLines98.Instance.SaveScores.ChangeScore(score);
+            GameManagerLines98.Instance.ShowScorePlusAnimationFromUI(worldCenter, score);
             AudioManager.Instance.PlaySuccessLineSound();
         }
 
@@ -258,26 +100,6 @@ public class LineBoard : MonoBehaviour
         foreach (var b in blocks)
             sum += b.GetComponent<RectTransform>().position; // глобальная позиция
         return sum / blocks.Count;
-    }
-
-    public void ShowScorePlusAnimationFromUI(Vector3 worldCenter, int score)
-    {
-        // Переводим в локальную позицию канваса
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            mainCanvas.transform as RectTransform,
-            Camera.main.WorldToScreenPoint(worldCenter),
-            Camera.main,
-            out Vector2 anchoredPos
-        );
-
-        GameObject go = Instantiate(scorePlusPrefab, mainCanvas.transform);
-        go.transform.SetSiblingIndex(1);
-        RectTransform rect = go.GetComponent<RectTransform>();
-        rect.anchoredPosition = anchoredPos;
-
-        Debug.Log($"[ShowScore] anchoredPosition: {anchoredPos}");
-
-        go.GetComponent<ScorePlusAnimation>().Play(score);
     }
 
     private List<Ball> CheckDirection(LineTile startTile, Vector2Int direction)
@@ -301,37 +123,7 @@ public class LineBoard : MonoBehaviour
 
         return new List<Ball>();
     }
-    
-    public int CalculateScore(int ballsRemoved)
-    {
-        if (ballsRemoved >= 5)
-        {
-            int score = 10 + (ballsRemoved - 5) * 2;
-            return score;
-        }
-        return ballsRemoved;
-    }
 
-    private void GenerateGrid()
-    {
-//        _cells = new LineTile[gridSize, gridSize];
-
-        for (int y = 0; y < gridSize; y++)
-        {
-            for (int x = 0; x < gridSize; x++)
-            {
-                GameObject cellGo = Instantiate(cellPrefab, gridParent);
-                LineTile cell = cellGo.GetComponent<LineTile>();
-
-                cell.SetData(new Vector2Int(x, y), this);
-//                _cells[x, y] = cell;
-                Tiles.Add(cell);
-            }
-        }
-        
-        theme.SetTheme(GameHelper.Theme);
-    }
-    
     public void EnabledFutureBalls()
     {
         if (isEducation)
@@ -361,47 +153,7 @@ public class LineBoard : MonoBehaviour
             ball.ShakingAnimation();
         }
     }
-    
-    public void ResetAllAll()
-    {
-        foreach (var tile in Tiles)
-        {
-            Destroy(tile.gameObject);
-        }
-        Tiles.Clear();
-        Balls.Clear();
-    }
-    
-    public void ResetAll()
-    {
-        ResetUndo();
-        EventSteps.Clear();
-    }
-    
-    public void ResetUndo()
-    {
-        SetSelection(null);
-        foreach (var tile in Tiles)
-        {
-            tile.RemoveBall();
-        }
-        foreach (var ball in Balls)
-        {
-            Destroy(ball.gameObject);
-        }
-        Balls.Clear();
-        foreach (var ball in FutureBalls)
-        {
-            Destroy(ball.gameObject);
-        }
-        FutureBalls.Clear();
-    }
-    
-    public void PausedGame(bool isPause)
-    {
-        IsPaused = isPause;
-    }
-    
+
     public void SetSelection(Ball ball)
     {
         if (SelectedBall != null && SelectedBall != ball)
@@ -412,22 +164,6 @@ public class LineBoard : MonoBehaviour
         SelectedBall = ball;
     }
 
-    public void Again()
-    {
-        gameOver.ShowGameOverPanel(false);
-        
-        saveScores.ChangeScore(0, false);
-        ResetAll();
-        SpawnRandomBalls(GenerateCount);
-        SpawnRandomBalls(GenerateCount, true);
-        CheckUndoButtonState();
-    }
-
-    public void GameOver()
-    {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
-    }
-    
     public void SpawnRandomBalls(int count, bool isFuture = false)
     {
         if (isEducation)
@@ -441,7 +177,7 @@ public class LineBoard : MonoBehaviour
             if (emptyCells.Count == 0 && isFuture)
             {
                 Debug.Log("КОНЕЦ ИГРЫ");
-                GameOver();
+                GameManagerLines98.Instance.GameOver();
                 break;
             }
 

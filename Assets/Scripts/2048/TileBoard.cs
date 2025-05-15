@@ -66,7 +66,7 @@ public class TileBoard : MonoBehaviour
         tile.Spawn(_grid.GetCellByCoordinates(x, y), _grid.transform);
         _tiles.Add(tile);
         
-        GameManager.Instance.Education.ChangeStepAfterTouch();
+        GameManager2048.Instance.Education.ChangeStepAfterTouch();
     }
 
     private void Update()
@@ -135,7 +135,7 @@ public class TileBoard : MonoBehaviour
     {
         if (isEducation)
         {
-            if (GameManager.Instance.EnableMoveDirection != direction)
+            if (GameManager2048.Instance.EnableMoveDirection != direction)
             {
                 return;
             }
@@ -168,15 +168,15 @@ public class TileBoard : MonoBehaviour
             }
             if (isEducation)
             {
-                GameManager.Instance.Education.SetEnableMoveDirection(Vector2Int.zero);
-                GameManager.Instance.Education.HideTwoStep();
+                GameManager2048.Instance.Education.SetEnableMoveDirection(Vector2Int.zero);
+                GameManager2048.Instance.Education.HideTwoStep();
                 StartCoroutine(WaitForChangesEducationStepTwo());
                 return;
             }
             StartCoroutine(WaitForChanges());
         }
 
-        GameManager.Instance.CheckUndoButtonState();
+        GameManager2048.Instance.CheckUndoButtonState();
     }
 
     private bool MoveTile(Tile2024 tile, Vector2Int direction, bool saveLast, ref bool isMerge)
@@ -192,7 +192,7 @@ public class TileBoard : MonoBehaviour
                 {
                     if (!saveLast && !isEducation)
                     {
-                        GameManager.Instance.EventSteps.Push(CreateStepEvent());
+                        GameManager2048.Instance.EventSteps.Push(CreateStepEvent());
                     }
                     MergeTiles(tile, adjacent.Tile);
                     isMerge = true;
@@ -210,7 +210,7 @@ public class TileBoard : MonoBehaviour
         {
             if (!saveLast && !isEducation)
             {
-                GameManager.Instance.EventSteps.Push(CreateStepEvent());
+                GameManager2048.Instance.EventSteps.Push(CreateStepEvent());
             }
             tile.MoveTo(newCell);
             return true;
@@ -238,7 +238,7 @@ public class TileBoard : MonoBehaviour
         {
             return;
         }
-        GameManager.Instance.SaveScores.ChangeScore(newState.number);
+        GameManager2048.Instance.SaveScores.ChangeScore(newState.number);
     }
 
     private int IndexOf(TileState state)
@@ -270,7 +270,7 @@ public class TileBoard : MonoBehaviour
         }
 
         if (CheckForGameOver()) {
-            GameManager.Instance.GameOver();
+            GameManager2048.Instance.GameOver();
         }
     }
     
@@ -327,9 +327,9 @@ public class TileBoard : MonoBehaviour
     
     public void OnUndo()
     {
-        if (GameManager.Instance.EventSteps.Count > 0)
+        if (GameManager2048.Instance.EventSteps.Count > 0)
         {
-            RestoreStepEvent(GameManager.Instance.EventSteps.Pop());
+            RestoreStepEvent(GameManager2048.Instance.EventSteps.Pop());
         }
     }
     
@@ -348,7 +348,7 @@ public class TileBoard : MonoBehaviour
             step.Tiles.Add(tileSnap);
         }
 
-        step.Steps = GameManager.Instance.SaveScores.CurrentScore;
+        step.Steps = GameManager2048.Instance.SaveScores.CurrentScore;
 
         return step;
     }
@@ -365,8 +365,8 @@ public class TileBoard : MonoBehaviour
             _tiles.Add(tile);
         }
 
-        GameManager.Instance.SaveScores.ChangeScore(step.Steps, false);
-        GameManager.Instance.CheckUndoButtonState();
+        GameManager2048.Instance.SaveScores.ChangeScore(step.Steps, false);
+        GameManager2048.Instance.CheckUndoButtonState();
     }
 
 }

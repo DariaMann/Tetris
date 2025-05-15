@@ -245,19 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEducation: 0
-  education: {fileID: 872704870}
-  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
-    type: 3}
-  mainCanvas: {fileID: 1517224688}
-  showFuture: 1
   gridSize: 9
-  theme: {fileID: 1120935474}
-  saveScores: {fileID: 1120935471}
-  gameOver: {fileID: 1086763752}
-  undoButton: {fileID: 832452574}
-  hint: {fileID: 1366745420}
-  hintAvailable: {fileID: 21300000, guid: 965fe2a3f24e8fa47bef3eccb88184e8, type: 3}
-  hintUnavailable: {fileID: 21300000, guid: 558c6474af1b6b04b8f4269a1e536f9d, type: 3}
   cellPrefab: {fileID: 5027844895679765509, guid: 7bd63670f8ca5034b888a4fac2cc8887,
     type: 3}
   ballPrefab: {fileID: 6461099349916462938, guid: b73671839c32c4f4d8bd78f7cf024b1b,
@@ -1019,8 +1007,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 457196494}
-        m_TargetAssemblyTypeName: LineBoard, Assembly-CSharp
+      - m_Target: {fileID: 1120935475}
+        m_TargetAssemblyTypeName: GameManagerLines98, Assembly-CSharp
         m_MethodName: OnUndo
         m_Mode: 1
         m_Arguments:
@@ -1245,6 +1233,7 @@ MonoBehaviour:
   fingerYOffset: 0.5
   finger: {fileID: 509231048}
   educationPanel: {fileID: 1431172744}
+  gameManager: {fileID: 1120935475}
   lineBoard: {fileID: 2021544507}
   playButton: {fileID: 1860606586}
   backButton: {fileID: 2048096107}
@@ -1484,12 +1473,12 @@ PrefabInstance:
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1505,12 +1494,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 457196494}
+      objectReference: {fileID: 1120935475}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 457196494}
+      objectReference: {fileID: 1120935475}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
@@ -1529,7 +1518,7 @@ PrefabInstance:
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PausedGame
+      value: Again
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1544,12 +1533,12 @@ PrefabInstance:
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: LineBoard, Assembly-CSharp
+      value: GameManagerLines98, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: LineBoard, Assembly-CSharp
+      value: GameManagerLines98, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1412353732550599374, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1564,7 +1553,7 @@ PrefabInstance:
     - target: {fileID: 1412353734168769540, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1412353734168769540, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1609,7 +1598,7 @@ PrefabInstance:
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1619,7 +1608,7 @@ PrefabInstance:
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1635,7 +1624,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2021544507}
+      objectReference: {fileID: 1002915458}
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -1664,7 +1653,7 @@ PrefabInstance:
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PausedGame
+      value: OnChangePauseClick
       objectReference: {fileID: 0}
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -1679,7 +1668,7 @@ PrefabInstance:
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: LineBoard, Assembly-CSharp
+      value: Buttons, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1626720375678071897, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
@@ -2111,18 +2100,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 457196494}
-        m_TargetAssemblyTypeName: LineBoard, Assembly-CSharp
-        m_MethodName: PausedGame
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!222 &1016382461
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2296,6 +2273,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -2303,7 +2285,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 457196494}
+      objectReference: {fileID: 1120935475}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -2332,12 +2314,17 @@ PrefabInstance:
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LineBoard, Assembly-CSharp
+      value: GameManagerLines98, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: GameOver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2697888069900217603, guid: b4ab13f31979df0478b09c67d17f2139,
         type: 3}
@@ -2877,6 +2864,7 @@ GameObject:
   - component: {fileID: 1120935473}
   - component: {fileID: 1120935471}
   - component: {fileID: 1120935474}
+  - component: {fileID: 1120935475}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2949,6 +2937,32 @@ MonoBehaviour:
   finger: {fileID: 509231049}
   lightFingerSprite: {fileID: 21300000, guid: ee0c08907dd37c44cace5f2e23abf779, type: 3}
   darkFingerSprite: {fileID: 21300000, guid: a87265b996b6c89409ad17a257642cbf, type: 3}
+--- !u!114 &1120935475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120935469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2896c8a262e2443d82e6bf09291bcf5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 457196494}
+  boardEdu: {fileID: 2021544507}
+  education: {fileID: 872704870}
+  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
+    type: 3}
+  mainCanvas: {fileID: 1517224688}
+  saveScores: {fileID: 1120935471}
+  gameOver: {fileID: 1086763752}
+  undoButton: {fileID: 832452574}
+  theme: {fileID: 1120935474}
+  showFuture: 1
+  hint: {fileID: 1366745420}
+  hintAvailable: {fileID: 21300000, guid: 965fe2a3f24e8fa47bef3eccb88184e8, type: 3}
+  hintUnavailable: {fileID: 21300000, guid: 558c6474af1b6b04b8f4269a1e536f9d, type: 3}
 --- !u!1 &1126349752
 GameObject:
   m_ObjectHideFlags: 0
@@ -3238,8 +3252,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 457196494}
-        m_TargetAssemblyTypeName: LineBoard, Assembly-CSharp
+      - m_Target: {fileID: 1120935475}
+        m_TargetAssemblyTypeName: GameManagerLines98, Assembly-CSharp
         m_MethodName: OnChangeHintStateClick
         m_Mode: 1
         m_Arguments:
@@ -4546,19 +4560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEducation: 1
-  education: {fileID: 872704870}
-  scorePlusPrefab: {fileID: 5950950332396239543, guid: 062e13bc5a9cd84479d1ab4845ae4bb5,
-    type: 3}
-  mainCanvas: {fileID: 1517224688}
-  showFuture: 1
   gridSize: 9
-  theme: {fileID: 1120935474}
-  saveScores: {fileID: 1120935471}
-  gameOver: {fileID: 1086763752}
-  undoButton: {fileID: 832452574}
-  hint: {fileID: 1366745420}
-  hintAvailable: {fileID: 21300000, guid: 965fe2a3f24e8fa47bef3eccb88184e8, type: 3}
-  hintUnavailable: {fileID: 21300000, guid: 558c6474af1b6b04b8f4269a1e536f9d, type: 3}
   cellPrefab: {fileID: 5027844895679765509, guid: 7bd63670f8ca5034b888a4fac2cc8887,
     type: 3}
   ballPrefab: {fileID: 6461099349916462938, guid: b73671839c32c4f4d8bd78f7cf024b1b,

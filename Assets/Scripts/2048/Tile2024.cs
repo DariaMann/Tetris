@@ -46,8 +46,18 @@ public class Tile2024 : MonoBehaviour
             {
                 GameHelper.VibrationStart();
             }
-            GameManager.Instance.ChangeMaximumNumber(currentScore);
+
+            if (!GameHelper.IsEdication)
+            {
+                GameManager2048.Instance.ChangeMaximumNumber(currentScore);
+            }
         }
+
+        if (GameHelper.IsEdication)
+        {
+            return;
+        }
+
         switch (currentScore)
         {
             case 128: GameServicesManager.UnlockAchieve(AchivementServices.Tile128); break;

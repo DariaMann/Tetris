@@ -319,7 +319,10 @@ public class EducationBlocks : MonoBehaviour
         
         finger.transform.position = _startFingerPos;
         finger.rotation = Quaternion.identity;
-        _fingerCanvasGroup.alpha = 0f;
+        if (_fingerCanvasGroup != null)
+        {
+            _fingerCanvasGroup.alpha = 0f;
+        }
     }
     
     private void ForcePlayButtonVisible()

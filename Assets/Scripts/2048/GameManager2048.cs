@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.SimpleLocalization;
-using Newtonsoft.Json;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManager : MonoBehaviour
+public class GameManager2048 : MonoBehaviour
 {
     [SerializeField] private Education2048 education;
     [SerializeField] private TileBoard educationBoard;
@@ -16,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private Button undoButton;
 
-    public static GameManager Instance { get; private set; }
+    public static GameManager2048 Instance { get; private set; }
     
     public Education2048 Education
     {

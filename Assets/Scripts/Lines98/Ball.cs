@@ -95,7 +95,7 @@ public class Ball : MonoBehaviour, IPointerClickHandler
     {
         IsEnabled = false;
         image.raycastTarget = IsEnabled;
-        if (_lineBoard.ShowFuture)
+        if (GameManagerLines98.Instance.ShowFuture)
         {
             _rectTransform.localScale = Vector3.one * startScale;
         }
@@ -167,7 +167,7 @@ public class Ball : MonoBehaviour, IPointerClickHandler
 
             while (Vector3.Distance(transform.position, targetWorldPos) > 0.01f)
             {
-                while (_lineBoard.IsPaused)
+                while (GameHelper.IsPause)
                     yield return null;
 
                 transform.position = Vector3.MoveTowards(transform.position, targetWorldPos, moveSpeed * Time.deltaTime);

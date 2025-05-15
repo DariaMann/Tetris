@@ -25,7 +25,10 @@ public class LineTile : MonoBehaviour, IPointerClickHandler
         List<LineTile> path = LineBoard.GetPathToTarget(LineBoard.SelectedBall.Tile, this);
         if (path.Count > 0)
         {
-            LineBoard.AddStepEventObject();
+            if (!LineBoard.IsEducation)
+            {
+                GameManagerLines98.Instance.AddStepEventObject();
+            }
             yield return StartCoroutine(LineBoard.SelectedBall.MoveCoroutine(path, this));
             bool haveDeleted = LineBoard.CheckLines();
             if (!haveDeleted || LineBoard.Balls.Count == 0)
