@@ -5,15 +5,7 @@ using UnityEngine;
 
 public class EducationLines98 : Education
 {
-    [Header("Offsets & Animation")]
-    [SerializeField] private float clickOffsetY = 10f;           // Насколько палец "нажимает" вниз
-    [SerializeField] private float clickRotateZ = -10f;          // Угол наклона при нажатии
-    [SerializeField] private float clickDuration = 0.15f;        // Длительность нажатия
-    [SerializeField] private float moveDuration = 0.6f;          // Длительность перемещения от A до B
-    [SerializeField] private float fingerXOffset = 1f;          // Смещение пальца вверх, чтобы "кликал" верхушкой
-    [SerializeField] private float fingerYOffset = 1f;          // Смещение пальца вверх, чтобы "кликал" верхушкой
-    
-    [SerializeField] private RectTransform finger;
+    [SerializeField] private EducationFinger finger;
     [SerializeField] private GameObject educationPanel;
     [SerializeField] private LineBoard lineBoard;
     
@@ -23,12 +15,9 @@ public class EducationLines98 : Education
     [SerializeField] private GameObject topBoardText;
     [SerializeField] private GameObject bottomText;
     
-    private CanvasGroup _fingerCanvasGroup;
     private SquareUIGrid _squareUi;
     private RectTransform _rectBoard;
 
-    private Vector3 _startFingerPos;
-    
     private Vector2Int _bluePos;
     private Vector2Int _yellowPos;
     private Vector2Int _redPos;
@@ -38,15 +27,28 @@ public class EducationLines98 : Education
     private Vector2Int _futureRedPos;
     
     private Coroutine _tutorialCoroutine;
-    private Sequence _currentFingerTween;
-    private bool _isTutorialRunning;
     
     private bool _isFirstShow;
     private bool _buttonPlayShowed;
     
+    private void OnDisable()
+    {
+        StopTutorial();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus && GameHelper.IsEdication)
+        {
+            Restart(0);
+            ForcePlayButtonVisible();
+        }
+    }
+    
     public override void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
+        GameHelper.IsEdication = true;
         ShowView(isFirstEducation);
         ShowEducation();
     }
@@ -54,11 +56,7 @@ public class EducationLines98 : Education
     public override void ShowEducation()
     {
         educationPanel.SetActive(true);
-        
-        _fingerCanvasGroup = finger.gameObject.GetComponent<CanvasGroup>();
 
-        _startFingerPos = finger.transform.position;
-        
         _futureBluePos = new Vector2Int(1,0);
         _futureYellowPos = new Vector2Int(3,2);
         _futureRedPos = new Vector2Int(8,3);
@@ -71,7 +69,7 @@ public class EducationLines98 : Education
         
         GameManagerLines98.Instance.LoadEducation(saveData);
 
-        _isTutorialRunning = true;
+        finger.IsTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
     }
     
@@ -114,6 +112,15 @@ public class EducationLines98 : Education
         }
     }
     
+    public void HideEducation()
+    {
+        GameHelper.IsEdication = false;
+        StopTutorial();
+        
+        GameManagerLines98.Instance.ResetAllBoardEducation();
+        educationPanel.SetActive(false);
+    }
+    
     public void SetOrientation(bool isVertical)
     {
         bool isTablet = GameHelper.IsTablet();
@@ -130,13 +137,11 @@ public class EducationLines98 : Education
             _squareUi.Padding = 67;
             if (isTablet)
             {
-                finger.sizeDelta = new Vector2(80f, 80f);
-                fingerYOffset = 1f;
+                finger.ChangeByOrientation(new Vector2(80f, 80f), 1f);
             }
             else
             {
-                finger.sizeDelta = new Vector2(60f, 60f);
-                fingerYOffset = 0.5f;
+                finger.ChangeByOrientation(new Vector2(60f, 60f), 0.5f);
             }
             
             Vector2 pos = _rectBoard.anchoredPosition;
@@ -148,8 +153,7 @@ public class EducationLines98 : Education
             if (_isFirstShow)
             {
                 _squareUi.Padding = 148;
-                finger.sizeDelta = new Vector2(50f, 50f);
-                fingerYOffset = 1f;
+                finger.ChangeByOrientation(new Vector2(50f, 50f), 1f);
                 
                 Vector2 pos = _rectBoard.anchoredPosition;
                 pos.y = 0f;
@@ -158,8 +162,7 @@ public class EducationLines98 : Education
             else
             {
                 _squareUi.Padding = 113;
-                finger.sizeDelta = new Vector2(70f, 70f);
-                fingerYOffset = 1f;
+                finger.ChangeByOrientation(new Vector2(70f, 70f), 1f);
                 
                 Vector2 pos = _rectBoard.anchoredPosition;
                 pos.y = 50f;
@@ -169,44 +172,10 @@ public class EducationLines98 : Education
 
         ShowView(_isFirstShow);
     }
-    
-    private void OnDisable()
-    {
-        StopTutorial();
-    }
 
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        if (hasFocus && educationPanel.activeSelf)
-        {
-            Restart();
-        }
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        if (!pauseStatus && educationPanel.activeSelf)
-        {
-            Restart();
-        }
-        
-        if (pauseStatus)
-        {
-            ForcePlayButtonVisible();
-        }
-    }
-
-    public void HideEducation()
-    {
-        StopTutorial();
-        
-        GameManagerLines98.Instance.ResetAllBoardEducation();
-        educationPanel.SetActive(false);
-    }
-    
     public override void StopTutorial()
     {
-        _isTutorialRunning = false;
+        finger.IsTutorialRunning = false;
 
         if (_tutorialCoroutine != null)
         {
@@ -214,20 +183,7 @@ public class EducationLines98 : Education
             _tutorialCoroutine = null;
         }
 
-        if (_currentFingerTween != null && _currentFingerTween.IsActive())
-        {
-            _currentFingerTween.Kill();
-            _currentFingerTween = null;
-        }
-
-        DOTween.Kill(_fingerCanvasGroup);
-        
-        finger.transform.position = _startFingerPos;
-        finger.rotation = Quaternion.identity;
-        if (_fingerCanvasGroup != null)
-        {
-            _fingerCanvasGroup.alpha = 0f;
-        }
+        finger.Stop();
     }
 
     private SaveDataLines98 GetSaveData()
@@ -259,7 +215,7 @@ public class EducationLines98 : Education
         return saveData;
     }
 
-    public override void Restart()
+    public override void Restart(int step)
     {
         StopTutorial();
 
@@ -267,7 +223,7 @@ public class EducationLines98 : Education
         
         GameManagerLines98.Instance.ReloadEducation(saveData);
         
-        _isTutorialRunning = true;
+        finger.IsTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
     }
 
@@ -279,25 +235,22 @@ public class EducationLines98 : Education
         Vector3 start1 = lineBoard.GetLineTileByPos(_bluePos).transform.position;
         Vector3 end1 = lineBoard.GetLineTileByPos(_futureBluePos).transform.position;
 
-        yield return StartCoroutine(FingerClickMove(start1, end1, _bluePos));
+        yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1, _bluePos, lineBoard));
 
-//        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureBluePos).PlayerMoveCoroutine());
 
         // второй клик и перемещение пальца
         Vector3 start2 = lineBoard.GetLineTileByPos(_yellowPos).transform.position;
         Vector3 end2 = lineBoard.GetLineTileByPos(_futureYellowPos).transform.position;
-        yield return StartCoroutine(FingerClickMove(start2, end2, _yellowPos));
+        yield return StartCoroutine(finger.PlayFingerClickMove(start2, end2, _yellowPos, lineBoard));
 
-//        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureYellowPos).PlayerMoveCoroutine());
 
         // третий клик и перемещение пальца
         Vector3 start3 = lineBoard.GetLineTileByPos(_redPos).transform.position;
         Vector3 end3 = lineBoard.GetLineTileByPos(_futureRedPos).transform.position;
-        yield return StartCoroutine(FingerClickMove(start3, end3, _redPos));
+        yield return StartCoroutine(finger.PlayFingerClickMove(start3, end3, _redPos, lineBoard));
 
-//        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(lineBoard.GetLineTileByPos(_futureRedPos).PlayerMoveCoroutine());
 
         yield return new WaitForSeconds(0.2f);
@@ -308,7 +261,7 @@ public class EducationLines98 : Education
             _buttonPlayShowed = true;
         }
         
-        Restart();
+        Restart(0);
     }
 
     public IEnumerator ShowPlayButton()
@@ -321,7 +274,7 @@ public class EducationLines98 : Education
         yield return playButton.DOFade(1f, 0.3f).WaitForCompletion();
 
         // Если тут ошибка — кнопка останется прозрачной, но видимой
-        if (!_isTutorialRunning)
+        if (!finger.IsTutorialRunning)
         {
             ForcePlayButtonVisible();
             yield break;
@@ -337,67 +290,7 @@ public class EducationLines98 : Education
         playButton.alpha = 1f;
         playButton.interactable = true;
         playButton.blocksRaycasts = true;
-    }
-
-    public IEnumerator FingerClickMove(Vector3 from, Vector3 to, Vector2Int ballPos)
-    {
-        Vector3 offset = new Vector3(-fingerXOffset, -fingerYOffset, 0f);
-        Vector3 fromAdjusted = from + offset;
-        Vector3 toAdjusted = to + offset;
-
-        finger.position = fromAdjusted;
-        finger.rotation = Quaternion.identity;
-
-        // Сначала палец невидим
-        _fingerCanvasGroup.alpha = 0f;
-
-        // Плавное появление
-        yield return _fingerCanvasGroup.DOFade(1f, 0.3f).WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Клик вниз
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(fromAdjusted.y - clickOffsetY, clickDuration)
-            .SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(new Vector3(0, 0, clickRotateZ), clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Клик вверх
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(fromAdjusted.y, clickDuration).SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(Vector3.zero, clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        Ball yellow = lineBoard.GetBallByPos(ballPos);
-        yellow.SetSelection(true);
-        yield return new WaitForSeconds(0.2f);
-        if (!_isTutorialRunning) yield break;
-
-        // Перемещение
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMove(toAdjusted, moveDuration).SetEase(Ease.InOutSine));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Клик вниз
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(toAdjusted.y - clickOffsetY, clickDuration).SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(new Vector3(0, 0, clickRotateZ), clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Клик вверх
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(toAdjusted.y, clickDuration).SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(Vector3.zero, clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Плавное исчезновение
-        yield return _fingerCanvasGroup.DOFade(0f, 0.3f).WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
+        _buttonPlayShowed = true;
     }
 
 }

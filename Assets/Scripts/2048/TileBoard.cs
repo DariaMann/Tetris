@@ -81,6 +81,7 @@ public class TileBoard : MonoBehaviour
     {
         if (_waiting) return;
         if (GameHelper.IsEdication && !isEducation) return;
+        if (GameHelper.IsPause && !isEducation) return;
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
             Move(Vector2Int.up, 0, 1, 1, 1);
@@ -178,7 +179,15 @@ public class TileBoard : MonoBehaviour
             {
                 GameManager2048.Instance.Education.SetEnableMoveDirection(Vector2Int.zero);
                 GameManager2048.Instance.Education.HideTwoStep();
-                StartCoroutine(WaitForChangesEducationStepTwo());
+                GameManager2048.Instance.Education.StopTutorial();
+                if (GameManager2048.Instance.Education.IsCreateNewTile())
+                {
+                    StartCoroutine(WaitForChangesEducationStepTwo());
+                }
+                else
+                {
+                    GameManager2048.Instance.Education.ChangeStepAfterTouch();
+                }
                 return;
             }
             StartCoroutine(WaitForChanges());

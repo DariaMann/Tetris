@@ -24,8 +24,6 @@ public class Snake : MonoBehaviour
     private bool hasMovedThisFrame = false;
     private readonly Queue<Vector2Int> directionQueue = new Queue<Vector2Int>();
 
-    public bool IsPaused { get; private set; } = false;
-
     private void Start()
     {
         LoadLastPlay();
@@ -48,12 +46,7 @@ public class Snake : MonoBehaviour
     {
         SaveLastPlay();
     }
-    
-    public void PausedGame(bool isPause)
-    {
-        IsPaused = isPause;
-    }
-    
+
     private void LoadLastPlay()
     {
         SaveDataSnake saveData = GameHelper.SaveSnake.SaveDataSnake;
@@ -94,7 +87,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (gameOver.IsGameOver || IsPaused)
+        if (gameOver.IsGameOver || GameHelper.IsPause)
         {
             return;
         }

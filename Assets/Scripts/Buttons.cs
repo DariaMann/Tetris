@@ -40,6 +40,7 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private Sprite settingsVibrationOff;
     
     private Coroutine _themeCoroutine;
+    private bool _isDelayStopPause;
 
     void Start () {
         isPaused = false;
@@ -83,7 +84,7 @@ public class Buttons : MonoBehaviour {
     {
         if (pause && GameHelper.GameType != MiniGameType.None)
         {
-            if (!GameHelper.IsGameOver)
+            if (!GameHelper.IsGameOver && !GameHelper.IsEdication)
             {
                 OnPauseClick();
             }
@@ -117,9 +118,14 @@ public class Buttons : MonoBehaviour {
             }
             else if (isPaused == false)
             {
-                GameHelper.IsPause = false;
+//                GameHelper.IsPause = false;
                 timing = 1;
                 pauseMenu.SetActive(false);
+                if (GameHelper.IsPause && !_isDelayStopPause)
+                {
+                    _isDelayStopPause = true;
+                    StartCoroutine(DelayStopPause());
+                }
             }
         }
 
@@ -135,6 +141,22 @@ public class Buttons : MonoBehaviour {
         }
     }
     
+    public IEnumerator DelayStopPause()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GameHelper.IsPause = false;
+        _isDelayStopPause = false;
+    }
+
+    public void OnEducationPlayClick()
+    {
+        OnBackSettingsClick();
+        OnChangePauseClick();
+        GameHelper.IsPause = true;
+        _isDelayStopPause = false;
+        OnResumeClick(false);
+    }
+
     private IEnumerator MonitorTheme()
     {
         bool lastDark = ThemeManager.IsSystemDarkTheme();

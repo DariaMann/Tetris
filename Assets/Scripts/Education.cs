@@ -9,7 +9,7 @@ public abstract class Education : MonoBehaviour
 //    public abstract void RepeatEducation();
     
 //    public abstract void HideEducation();
-    public abstract void Restart();
+    public abstract void Restart(int step);
     
 //    public abstract void StartPlay();
     public abstract void StopTutorial();

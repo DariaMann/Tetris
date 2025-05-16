@@ -5,15 +5,7 @@ using UnityEngine;
 
 public class EducationBlocks : Education
 {
-    [Header("Offsets & Animation")]
-    [SerializeField] private float clickOffsetY = 0.5f;           // Насколько палец "нажимает" вниз
-    [SerializeField] private float clickRotateZ = 10f;          // Угол наклона при нажатии
-    [SerializeField] private float clickDuration = 0.15f;        // Длительность нажатия
-    [SerializeField] private float moveDuration = 0.6f;          // Длительность перемещения от A до B
-    [SerializeField] private float fingerXOffset = -0.2f;          // Смещение пальца вверх, чтобы "кликал" верхушкой
-    [SerializeField] private float fingerYOffset = 1f; 
-    
-    [SerializeField] private RectTransform finger;
+    [SerializeField] private EducationFinger finger;
     [SerializeField] private GameObject educationPanel;
     [SerializeField] private CanvasGroup finishEducationPanel;
     [SerializeField] private GameObject backButton;
@@ -21,16 +13,9 @@ public class EducationBlocks : Education
     
     [SerializeField] private BlockShape blockOne;
     
-    private CanvasGroup _fingerCanvasGroup;
-    
-    private Vector3 _startFingerPos;
-    
     private Coroutine _tutorialCoroutine;
-    private Sequence _currentFingerTween;
-    private bool _isTutorialRunning;
     private bool _isStartShowFinish;
     
-    private bool _isFirstShow;
     private int _step;
     
     public BlockTile EnableTile { get; set; }
@@ -42,23 +27,21 @@ public class EducationBlocks : Education
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && educationPanel.activeSelf)
+        if (!pauseStatus && GameHelper.IsEdication)
         {
             if (_isStartShowFinish)
             {
-                // Завершить обучение вручную, если это был последний шаг
+                StopTutorial();
                 ForceFinishEducation();
+                return;
             }
-            else
-            {
-                Restart();
-            }
-        }
 
-        if (pauseStatus && _isStartShowFinish)
-        {
-            // Если свернули на шаге 3 — сразу показать финал
-            ForceFinishEducation();
+            if (_step == 3 && !_isStartShowFinish)
+            {
+                return;
+            }
+            
+            Restart(_step);
         }
     }
 
@@ -92,12 +75,13 @@ public class EducationBlocks : Education
     public void RepeatEducation()
     {
         HideFinishEducation();
-        Restart();
+        Restart(0);
     }
     
     public override void ShowEducation(bool isFirstEducation)
     {
-        _isFirstShow = isFirstEducation;
+        GameHelper.IsEdication = true;
+        
         ShowView(isFirstEducation);
         ShowEducation();
     }
@@ -117,13 +101,21 @@ public class EducationBlocks : Education
     public override void ShowEducation()
     {
         educationPanel.SetActive(true);
-        _fingerCanvasGroup = finger.gameObject.GetComponent<CanvasGroup>();
-        _startFingerPos = finger.transform.position;
         
         GameManagerBlocks.Instance.LoadStartEducation();
 
         _step = 0;
         StartPlay();
+    }
+    
+    public void HideEducation()
+    {
+        GameHelper.IsEdication = false;
+        StopTutorial();
+        HideFinishEducation();
+        
+        GameManagerBlocks.Instance.ResetAllBoardEducation();
+        educationPanel.SetActive(false);
     }
 
     private SaveDataBlocks GetFirstSaveData()
@@ -221,18 +213,10 @@ public class EducationBlocks : Education
 
         return saveData;
     }
-    
-    public void HideEducation()
+
+    public override void Restart(int step)
     {
-        StopTutorial();
-        
-        GameManagerBlocks.Instance.ResetAllBoardEducation();
-        educationPanel.SetActive(false);
-    }  
-    
-    public override void Restart()
-    {
-        _step = 0;
+        _step = step;
         StartPlay();
     }
 
@@ -256,7 +240,7 @@ public class EducationBlocks : Education
             SaveDataBlocks saveData = GetFirstSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
             EnableTile = boardEdu.Tiles[40];
-            _isTutorialRunning = true;
+            finger.IsTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
         else if (_step == 1)
@@ -264,7 +248,7 @@ public class EducationBlocks : Education
             SaveDataBlocks saveData = GetSecondSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
             EnableTile = boardEdu.Tiles[40];
-            _isTutorialRunning = true;
+            finger.IsTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         }
         else if (_step == 2)
@@ -272,12 +256,13 @@ public class EducationBlocks : Education
             SaveDataBlocks saveData = GetThirdSaveData();
             GameManagerBlocks.Instance.LoadEducation(saveData);
             EnableTile = boardEdu.Tiles[40];
-            _isTutorialRunning = true;
+            finger.IsTutorialRunning = true;
             _tutorialCoroutine = StartCoroutine(PlayFirstStep());
         } 
         else if (_step == 3)
         {
             _isStartShowFinish = true;
+            finger.IsTutorialRunning = false;
             _tutorialCoroutine = StartCoroutine(ShowFinishEducation());
         }
     }
@@ -290,17 +275,16 @@ public class EducationBlocks : Education
         Vector3 start1 = boardEdu.Blocks[1].transform.position;
         Vector3 end1 = boardEdu.Tiles[40].transform.position;
 
-        yield return StartCoroutine(FingerClickMove(start1, end1));
+        yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1));
 
         yield return new WaitForSeconds(0.2f);
 
-        _isTutorialRunning = true;
-        _tutorialCoroutine = StartCoroutine(PlayFirstStep());
+        StartCoroutine(PlayFirstStep());
     }
 
     public override void StopTutorial()
     {
-        _isTutorialRunning = false;
+        finger.IsTutorialRunning = false;
 
         if (_tutorialCoroutine != null)
         {
@@ -308,83 +292,15 @@ public class EducationBlocks : Education
             _tutorialCoroutine = null;
         }
 
-        if (_currentFingerTween != null && _currentFingerTween.IsActive())
-        {
-            _currentFingerTween.Kill();
-            _currentFingerTween = null;
-        }
-
-        DOTween.Kill(_fingerCanvasGroup); // Чтобы остановить DOFade
-        
-        finger.transform.position = _startFingerPos;
-        finger.rotation = Quaternion.identity;
-        if (_fingerCanvasGroup != null)
-        {
-            _fingerCanvasGroup.alpha = 0f;
-        }
+        finger.Stop();
     }
-    
-    private void ForcePlayButtonVisible()
-    {
-        // Сделать кнопку видимой, если анимация не успела завершиться
-//        playButton.alpha = 1f;
-//        playButton.interactable = true;
-//        playButton.blocksRaycasts = true;
-    }   
-    
+
     private void ForceFinishEducation()
     {
-        // Сделать кнопку видимой, если анимация не успела завершиться
         finishEducationPanel.alpha = 1f;
         finishEducationPanel.interactable = true;
         finishEducationPanel.blocksRaycasts = true;
         _isStartShowFinish = false;
     }
 
-    public IEnumerator FingerClickMove(Vector3 from, Vector3 to)
-    {
-        Vector3 offset = new Vector3(-fingerXOffset, -fingerYOffset, 0f);
-        Vector3 fromAdjusted = from + offset;
-        Vector3 toAdjusted = to + offset;
-
-        finger.position = fromAdjusted;
-        finger.rotation = Quaternion.identity;
-
-        // Сначала палец невидим
-        _fingerCanvasGroup.alpha = 0f;
-
-        // Плавное появление
-        yield return _fingerCanvasGroup.DOFade(1f, 0.3f).WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        // Клик вниз
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(fromAdjusted.y - clickOffsetY, clickDuration)
-            .SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(new Vector3(0, 0, clickRotateZ), clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-        
-        
-        // Перемещение
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMove(toAdjusted, moveDuration).SetEase(Ease.InOutSine));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-        
-        
-        
-        // Клик вверх
-        _currentFingerTween = DOTween.Sequence();
-        _currentFingerTween.Append(finger.DOMoveY(toAdjusted.y, clickDuration).SetEase(Ease.InOutQuad));
-        _currentFingerTween.Join(finger.DORotate(Vector3.zero, clickDuration));
-        yield return _currentFingerTween.WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-
-
-        // Плавное исчезновение
-        yield return _fingerCanvasGroup.DOFade(0f, 0.3f).WaitForCompletion();
-        if (!_isTutorialRunning) yield break;
-    }
 }
