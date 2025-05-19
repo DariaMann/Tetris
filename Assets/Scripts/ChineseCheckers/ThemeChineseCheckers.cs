@@ -7,34 +7,24 @@ using UnityEngine.UI;
 public class ThemeChineseCheckers: MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
+    [SerializeField] private Image eduBgColor;
     [SerializeField] private Image bgStartPanel;
-    [SerializeField] private Image backButton;
-    [SerializeField] private Image speedButton;
-    [SerializeField] private Image hintButton;
     [SerializeField] private Button undoButton;
-    [SerializeField] private Image playButton;
-    [SerializeField] private Image playIconButton;
     [SerializeField] private SpriteRenderer field;
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private HexMap hexMap;
     [SerializeField] private CheckersManager checkersManager;
     [SerializeField] private List<Image> backgounds;
     
-    [SerializeField] private TextMeshProUGUI speedTextButton;
+    [SerializeField] private List<Image> eduBackgoundsFields;
     
-    [SerializeField] private Image warningBg;
-    [SerializeField] private TextMeshProUGUI warningText;
+    [SerializeField] private Image eduPage1Image;
+    [SerializeField] private Sprite eduPage1Light;
+    [SerializeField] private Sprite eduPage1Dark;
+    
+    [SerializeField] private TextMeshProUGUI speedTextButton;
 
     private Themes _theme;
-    private Color _colorLight;
-    private Color _colorSoGrey;
-    private Color _colorGrey;
-    private Color _colorDark;
-    private Color _colorTileLight;
-    private Color _colorTileDark;
     
     private Color _lightColorLight;
-    private Color _lightColorGrey;
     private Color _lightColorDark;
     
     private Color _colorBgBoard;
@@ -50,15 +40,7 @@ public class ThemeChineseCheckers: MonoBehaviour
 
     private void Start()
     {
-        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
-        _colorSoGrey = ColorUtility.TryParseHtmlString("#939395", out Color color3) ? color3 : Color.gray;
-        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
-        _colorTileLight = ColorUtility.TryParseHtmlString("#F2F2F3", out Color color4) ? color4 : Color.white;
-        _colorTileDark = ColorUtility.TryParseHtmlString("#606060", out Color color5) ? color5 : Color.black;
-        
         _lightColorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-        _lightColorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
         _lightColorDark = ColorUtility.TryParseHtmlString("#BBADA0", out Color color8) ? color8 : Color.black;
         
         _colorBgBoard = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgBoard) ? colorBgBoard : Color.gray;
@@ -74,7 +56,6 @@ public class ThemeChineseCheckers: MonoBehaviour
     private void ApplyTheme(Themes newTheme)
     {
         Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
         SetTheme(newTheme);
     }
     
@@ -126,15 +107,13 @@ public class ThemeChineseCheckers: MonoBehaviour
     public void SetLight()
     {
         bgColor.backgroundColor = _lightColorLight;
+        eduBgColor.color = _lightColorLight;
         bgStartPanel.color = _colorBgStartPanelLight;
         
         Color c = bgStartPanel.color;
         c.a = 0.7f; // нужная альфа, например, 30%
         bgStartPanel.color  = c;
         
-//        backButton.color = _lightColorDark;
-//        speedButton.color = _lightColorDark;
-//        hintButton.color = _lightColorDark;
         undoButton.image.color = _colorBgBoard;
         
         ColorBlock colors = undoButton.colors;
@@ -146,27 +125,21 @@ public class ThemeChineseCheckers: MonoBehaviour
 
         undoButton.colors = colors;
         
-//        playButton.color = _lightColorDark;
-//        playIconButton.color = _lightColorLight;
         field.color = _lightColorDark;
-//        
+        
+        foreach (var bg in eduBackgoundsFields)
+        {
+            bg.color = _lightColorDark;
+        }
+
+        eduPage1Image.sprite = eduPage1Light;
+        
         speedTextButton.color = _lightColorLight;
-//        
-//        scoreText.color = _lightColorDark;
-//        
-//        warningBg.color = _lightColorDark;
-//        warningText.color = _lightColorLight;
         
         foreach (var bg in backgounds)
         {
             bg.color = _lightColorLight;
         }
-
-//        foreach (var tile in hexMap.Tiles)
-//        {
-//            tile.SetTheme(_lightColorGrey, Color.white);
-//        }
-        
         foreach (var person in checkersManager.Players)
         {
             person.SetTheme(_lightColorLight, _colorBgBoard, _lightColorLight);
@@ -176,47 +149,38 @@ public class ThemeChineseCheckers: MonoBehaviour
     public void SetDark()
     {
         bgColor.backgroundColor = _colorBgBoard;
+        eduBgColor.color = _colorBgBoard;
         bgStartPanel.color = _colorBgStartPanelDark;
         
         Color c = bgStartPanel.color;
-        c.a = 0.5f; // нужная альфа, например, 30%
+        c.a = 0.5f;
         bgStartPanel.color  = c;
-        
-//        backButton.color = _colorLight;
-//        speedButton.color = _colorLight;
-//        hintButton.color = _colorLight;
         undoButton.image.color = _lightColorDark;
         
         ColorBlock colors = undoButton.colors;
-
-        // Изменяем только альфу отключенного цвета
+        
         Color disabled = colors.disabledColor;
-        disabled.a = 0.3f; // нужная альфа, например, 30%
+        disabled.a = 0.3f;
         colors.disabledColor = disabled;
 
         undoButton.colors = colors;
         
-//        playButton.color = _colorLight;
-//        playIconButton.color = _colorDark;
         field.color = _colorBgField;
-//        
+        
+        foreach (var bg in eduBackgoundsFields)
+        {
+            bg.color = _colorBgField;
+        }
+        
+        eduPage1Image.sprite = eduPage1Dark;
+        
         speedTextButton.color = _colorBgBoard;
-//        
-//        scoreText.color = _colorLight;
-//        
-//        warningBg.color = _colorGrey;
-//        warningText.color = _colorLight;
         
         foreach (var bg in backgounds)
         {
             bg.color = _colorBgBoard;
         }
 
-//        foreach (var tile in hexMap.Tiles)
-//        {
-//            tile.SetTheme(_colorTileDark, Color.white);
-//        }
-        
         foreach (var person in checkersManager.Players)
         {
             person.SetTheme(_colorBgBoard, _lightColorLight,_colorBgBoard);

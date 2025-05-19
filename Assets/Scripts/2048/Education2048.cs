@@ -333,39 +333,41 @@ public class Education2048 : Education
         yield return StartCoroutine(ShowTwoStep());
         yield return StartCoroutine(PlayFirstStep(false));
     }
-    
+
     private IEnumerator PlayFirstStep(bool toLeft = true)
     {
-        yield return new WaitForSeconds(0.1f);
-
-        Vector3 start1 = Vector3.zero;
-        Vector3 end1 = Vector3.zero;
-        
-        if (toLeft)
+        while (true)
         {
-            start1 = rightPos.position;
-            end1 = leftPos.position;
-        }
-        else
-        {
-            start1 = leftPos.position;
-            end1 = rightPos.position;
-        }
-        
-        if (toLeft)
-        {
-            SetEnableMoveDirection(Vector2Int.left);
-        }
-        else
-        {
-            SetEnableMoveDirection(Vector2Int.right);
-        }
+            yield return new WaitForSeconds(0.1f);
 
-        yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1));
+            Vector3 start1 = Vector3.zero;
+            Vector3 end1 = Vector3.zero;
 
-        yield return new WaitForSeconds(0.2f);
+            if (toLeft)
+            {
+                start1 = rightPos.position;
+                end1 = leftPos.position;
+            }
+            else
+            {
+                start1 = leftPos.position;
+                end1 = rightPos.position;
+            }
 
-        StartCoroutine(PlayFirstStep(toLeft));
+            if (toLeft)
+            {
+                SetEnableMoveDirection(Vector2Int.left);
+            }
+            else
+            {
+                SetEnableMoveDirection(Vector2Int.right);
+            }
+
+            yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1));
+
+            yield return new WaitForSeconds(0.2f);
+
+        }
     }
 
     public override void StopTutorial()

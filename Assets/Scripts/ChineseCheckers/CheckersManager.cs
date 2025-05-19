@@ -7,11 +7,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Newtonsoft.Json;
-using Random = UnityEngine.Random;
 
 public class CheckersManager: MonoBehaviour
 {
+    [SerializeField] private EducationChineseCheckers education;
     [SerializeField] private ThemeChineseCheckers themeChinese;
     [SerializeField] private TextMeshProUGUI stepsText;
     [SerializeField] private HexMap hexMap;
@@ -79,9 +78,7 @@ public class CheckersManager: MonoBehaviour
     public Stack<Step> EventSteps { get; set; } = new Stack<Step>();
 
     public Player CurrentPlayer { get; private set; }
-    
-    public bool IsPaused { get; private set; } = false;
-    
+
     public int WinCount { get; private set; } = 0;
     
     public int Steps { get; private set; } = 0;
@@ -135,6 +132,12 @@ public class CheckersManager: MonoBehaviour
 
         LoadLastPlay();
         LocalizationManager.LocalizationChanged += Localize;
+        
+        if (!GameHelper.GetEducationState(MiniGameType.ChineseCheckers))
+        {
+            education.ShowEducation(true);
+            GameHelper.SetEducationState(MiniGameType.ChineseCheckers, true);
+        }
     }
 
     public void OnChangeColorClick()
@@ -539,11 +542,6 @@ public class CheckersManager: MonoBehaviour
             player.gameObject.SetActive(true);
         }
         ResetGame();
-    }
-
-    public void PausedGame(bool isPause)
-    {
-        IsPaused = isPause;
     }
 
     private void SetHintState(bool state)
@@ -967,7 +965,7 @@ public class CheckersManager: MonoBehaviour
     private IEnumerator AIMove(Player aiPlayer)
     {
         // Ждем, пока пауза не закончится
-        while (IsPaused)
+        while (GameHelper.IsPause || GameHelper.IsEdication)
         {
             yield return null;
         }
@@ -1003,7 +1001,7 @@ public class CheckersManager: MonoBehaviour
         }
         
         // Ждем, пока пауза не закончится
-        while (IsPaused)
+        while (GameHelper.IsPause || GameHelper.IsEdication)
         {
             yield return null;
         }

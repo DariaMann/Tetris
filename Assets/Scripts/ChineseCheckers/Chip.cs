@@ -115,7 +115,7 @@ public class Chip : MonoBehaviour, IPointerClickHandler
             while (Vector3.Distance(transform.position, step.Position) > 0.01f)
             {
                 // Ждем, пока пауза не закончится
-                while (_checkersManager.IsPaused)
+                while (GameHelper.IsPause || GameHelper.IsEdication)
                 {
                     yield return null;
                 }

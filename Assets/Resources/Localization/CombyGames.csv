@@ -36,6 +36,12 @@ Lines98.play,Play,Играть
 Сheckers.steps,Moves,Ходы
 Сheckers.robot,Robot,Робот
 Сheckers.player,Player,Игрок
+Сheckers.none,Empty,Пусто
+Сheckers.edutext1,The goal of the game is to be the first to move all your pieces to the opposite corner,Цель игры — первым переместить все свои фишки в противоположный угол
+Сheckers.edutext2,"A piece can move to an adjacent cell, or through a piece","Фишка может ходить на соседнюю клетку, либо через фишку"
+Сheckers.edutext3,You can make a chain of jumps in one move,Можно делать цепочку прыжков за один ход
+Сheckers.edutext4,Change the composition of players by clicking on the icon,Меняй состав игроков по клику на иконку
+Сheckers.edutext5,Change colors with a click,Меняй цвета по клику
 Snake.manyfood,Lots of food,Много еды
 Snake.movewalls,Move through walls,Двигаться сквозь стены
 Snake.speed,Speed,Скорость

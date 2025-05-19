@@ -266,20 +266,21 @@ public class EducationBlocks : Education
             _tutorialCoroutine = StartCoroutine(ShowFinishEducation());
         }
     }
-    
+
     private IEnumerator PlayFirstStep()
     {
-        yield return new WaitForSeconds(0.1f);
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
 
-        // первый клик и перемещение пальца
-        Vector3 start1 = boardEdu.Blocks[1].transform.position;
-        Vector3 end1 = boardEdu.Tiles[40].transform.position;
+            // первый клик и перемещение пальца
+            Vector3 start1 = boardEdu.Blocks[1].transform.position;
+            Vector3 end1 = boardEdu.Tiles[40].transform.position;
 
-        yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1));
+            yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1));
 
-        yield return new WaitForSeconds(0.2f);
-
-        StartCoroutine(PlayFirstStep());
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     public override void StopTutorial()

@@ -445,51 +445,54 @@ public class EducationTetris : Education
     
     private IEnumerator PlayMoveStep(Vector2Int dir, bool speed = false)
     {
-        yield return new WaitForSeconds(0.1f);
-
-        Vector3 start1 = Vector3.zero;
-        Vector3 end1 = Vector3.zero;
-        
-        if (dir == Vector2Int.right)
+        while (true)
         {
-            // первый клик и перемещение пальца
-            start1 = leftPos.transform.position;
-            end1 = rightPos.transform.position;
-        }
-        else if (dir == Vector2Int.left)
-        {
-            // первый клик и перемещение пальца
-            start1 = rightPos.transform.position;
-            end1 = leftPos.transform.position;
-        }
-        else if (dir == Vector2Int.down)
-        {
-            // первый клик и перемещение пальца
-            start1 = upPos.transform.position;
-            end1 = downPos.transform.position;
-        }
+            yield return new WaitForSeconds(0.1f);
 
-        yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1, speed));
+            Vector3 start1 = Vector3.zero;
+            Vector3 end1 = Vector3.zero;
 
-        yield return new WaitForSeconds(0.2f);
+            if (dir == Vector2Int.right)
+            {
+                // первый клик и перемещение пальца
+                start1 = leftPos.transform.position;
+                end1 = rightPos.transform.position;
+            }
+            else if (dir == Vector2Int.left)
+            {
+                // первый клик и перемещение пальца
+                start1 = rightPos.transform.position;
+                end1 = leftPos.transform.position;
+            }
+            else if (dir == Vector2Int.down)
+            {
+                // первый клик и перемещение пальца
+                start1 = upPos.transform.position;
+                end1 = downPos.transform.position;
+            }
 
-        StartCoroutine(PlayMoveStep(dir, speed));
-    }  
-    
+            yield return StartCoroutine(finger.PlayFingerClickMove(start1, end1, speed));
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
     private IEnumerator PlayRotateStep(bool isFirstShow = false)
     {
-        yield return new WaitForSeconds(0.1f);
-        
-        if (isFirstShow)
+        while (true)
         {
-            yield return StartCoroutine(finger.PlayShowFinger());
+            yield return new WaitForSeconds(0.1f);
+
+            if (isFirstShow)
+            {
+                yield return StartCoroutine(finger.PlayShowFinger());
+                isFirstShow = false;
+            }
+
+            yield return StartCoroutine(finger.PlayFingerClickRotate());
+
+            yield return new WaitForSeconds(0.2f);
         }
-
-        yield return StartCoroutine(finger.PlayFingerClickRotate());
-
-        yield return new WaitForSeconds(0.2f);
-
-        StartCoroutine(PlayRotateStep());
     }
 
     public override void StopTutorial()
