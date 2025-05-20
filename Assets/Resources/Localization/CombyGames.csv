@@ -46,6 +46,7 @@ Snake.manyfood,Lots of food,Много еды
 Snake.movewalls,Move through walls,Двигаться сквозь стены
 Snake.speed,Speed,Скорость
 Snake.acceleration,Acceleration,Ускорение
+Snake.edutext1,Collect food and don't get on their tail,Соберайте еду и не наезжайте на хвост
 Blocks.repeat,Repeat,Повторить
 Blocks.edufin,Training completed!,Обучение пройдено!
 Blocks.edutext,Collect lines and squares!,Собирай линии и квадраты!

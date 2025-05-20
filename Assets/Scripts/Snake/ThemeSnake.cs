@@ -8,14 +8,20 @@ using UnityEngine.UI;
 public class ThemeSnake : MonoBehaviour
 {
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Image backButton;
-    [SerializeField] private TextMeshProUGUI scoreAndRecordText;
+    [SerializeField] private Image eduBgColor;
+    [SerializeField] private Image finger;
+    [SerializeField] private Sprite fingerLight;
+    [SerializeField] private Sprite fingerDark;
     [SerializeField] private SpriteRenderer grid;
+    [SerializeField] private List<Image> eduGrid = new List<Image>();
+    [SerializeField] private List<Image> buttons = new List<Image>();
+    [SerializeField] private List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
+    [SerializeField] private List<TextMeshProUGUI> buttonTexts = new List<TextMeshProUGUI>();
     [SerializeField] private List<SpriteRenderer> walls = new List<SpriteRenderer>();
+    [SerializeField] private List<Image> eduWalls = new List<Image>();
     
     private Themes _theme;
     private Color _colorLight;
-//    private Color _colorGrey;
     private Color _colorDark;
     private Color _colorGridLight;
     private Color _colorGridDark;
@@ -32,14 +38,7 @@ public class ThemeSnake : MonoBehaviour
 
     private void Start()
     {
-//        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
-//        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-//        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
-//        _colorGridLight = ColorUtility.TryParseHtmlString("#ECECEC", out Color color3) ? color3 : Color.white;
-//        _colorGridDark = ColorUtility.TryParseHtmlString("#303030", out Color color4) ? color4 : Color.black;
-        
         _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-//        _colorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
         _colorGridLight = ColorUtility.TryParseHtmlString("#E7DCD0", out Color color3) ? color3 : Color.white;
         _colorGridDark = ColorUtility.TryParseHtmlString("#303030", out Color color4) ? color4 : Color.black;
@@ -56,7 +55,6 @@ public class ThemeSnake : MonoBehaviour
     private void ApplyTheme(Themes newTheme)
     {
         Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
         SetTheme(newTheme);
     }
     
@@ -108,10 +106,30 @@ public class ThemeSnake : MonoBehaviour
     public void SetLight()
     {
         bgColor.backgroundColor = _colorBgLight;
-        backButton.color = _colorDark;
+        eduBgColor.color = _colorBgLight;
+        finger.sprite = fingerLight;
+        foreach (var button in buttons)
+        {
+            button.color = _colorDark;
+        }  
+        foreach (var text in texts)
+        {
+            text.color = _colorDark;
+        }
+        foreach (var text in buttonTexts)
+        {
+            text.color = _colorBgLight;
+        }
         grid.color = _colorGridLight;
-        scoreAndRecordText.color = _colorDark;
+        foreach (var cell in eduGrid)
+        {
+            cell.color = _colorGridLight;
+        }
         foreach (var wall in walls)
+        {
+            wall.color = _colorDark;
+        }  
+        foreach (var wall in eduWalls)
         {
             wall.color = _colorDark;
         }
@@ -120,10 +138,30 @@ public class ThemeSnake : MonoBehaviour
     public void SetDark()
     {
         bgColor.backgroundColor = _colorBgDark;
-        backButton.color = _colorLight;
+        eduBgColor.color = _colorBgDark;
+        finger.sprite = fingerDark;
+        foreach (var button in buttons)
+        {
+            button.color = _colorLight;
+        }
+        foreach (var text in texts)
+        {
+            text.color = _colorLight;
+        }
+        foreach (var text in buttonTexts)
+        {
+            text.color = _colorBgDark;
+        }
         grid.color = _colorGridDark;
-        scoreAndRecordText.color = _colorLight;
+        foreach (var cell in eduGrid)
+        {
+            cell.color = _colorGridDark;
+        }
         foreach (var wall in walls)
+        {
+            wall.color = _colorWallDark;
+        }   
+        foreach (var wall in eduWalls)
         {
             wall.color = _colorWallDark;
         }

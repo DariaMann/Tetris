@@ -77,7 +77,7 @@ public class EducationTetris : MonoBehaviour
     
     public IEnumerator ShowFinishEducation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         finishEducationPanel.alpha = 0f;
         finishEducationPanel.interactable = false;

@@ -30,7 +30,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause)
+        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication)
         {
             return;
         }

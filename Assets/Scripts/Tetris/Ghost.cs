@@ -38,6 +38,11 @@ public class Ghost : MonoBehaviour
             Vector3Int tilePosition = Cells[i] + Position;
             Tilemap.SetTile(tilePosition, null);
         }
+    } 
+    
+    private void ClearAll()
+    {
+        Tilemap.ClearAllTiles();
     }
 
     private void Copy()
@@ -72,6 +77,11 @@ public class Ghost : MonoBehaviour
 
     private void Set()
     {
+        if (GameHelper.IsEdication && GameManagerTetris.Instance.Education.EducationIsOver)
+        {
+            ClearAll();
+            return;
+        }
         for (int i = 0; i < Cells.Length; i++)
         {
             Vector3Int tilePosition = Cells[i] + Position;

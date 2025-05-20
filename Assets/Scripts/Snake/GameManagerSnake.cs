@@ -7,6 +7,7 @@ public class GameManagerSnake: MonoBehaviour
     [SerializeField] private FoodController foodController;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private EducationSnake education;
     
     public static GameManagerSnake Instance { get; private set; }
     
@@ -34,6 +35,12 @@ public class GameManagerSnake: MonoBehaviour
     private void Start()
     {
         LoadLastPlay();
+        
+        if (!GameHelper.GetEducationState(MiniGameType.Snake))
+        {
+            education.ShowEducation(true);
+            GameHelper.SetEducationState(MiniGameType.Snake, true);
+        }
     }
     
     void OnApplicationQuit()

@@ -66,7 +66,7 @@ public class Buttons : MonoBehaviour {
         AudioManager.Instance.ToggleMusic(GameHelper.Music);
         AudioManager.Instance.ToggleSound(GameHelper.Sound);
 
-        if (GameHelper.GameType == MiniGameType.None || GameHelper.GameType == MiniGameType.Snake)
+        if (GameHelper.GameType == MiniGameType.None)
         {
             educationButton.SetActive(false);
             ratingLeftButton.SetActive(false);

@@ -96,6 +96,11 @@ public class Board : MonoBehaviour
 
     public void Set(Piece piece)
     {
+        if (GameHelper.IsEdication && GameManagerTetris.Instance.Education.EducationIsOver)
+        {
+            ClearAll();
+            return;
+        }
         for (int i = 0; i < piece.Cells.Length; i++)
         {
             Vector3Int tilePosition = piece.Cells[i] + piece.Position;
@@ -110,6 +115,11 @@ public class Board : MonoBehaviour
             Vector3Int tilePosition = piece.Cells[i] + piece.Position;
             Tilemap.SetTile(tilePosition, null);
         }
+    }
+    
+    private void ClearAll()
+    {
+        Tilemap.ClearAllTiles();
     }
 
     public bool IsValidPosition(Piece piece, Vector3Int position)
