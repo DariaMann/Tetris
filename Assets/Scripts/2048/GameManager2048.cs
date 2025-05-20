@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManager2048 : GameManager
+public class GameManager2048 : MonoBehaviour
 {
     [SerializeField] private Education2048 education;
     [SerializeField] private TileBoard educationBoard;
@@ -70,7 +70,7 @@ public class GameManager2048 : GameManager
         SaveLastPlay();
     }
 
-    public override void LoadLastPlay()
+    public void LoadLastPlay()
     {
         SaveData2048 saveData = GameHelper.Save2048.SaveData2048;
         if (saveData == null)
@@ -110,12 +110,12 @@ public class GameManager2048 : GameManager
         educationBoard.enabled = true;
     }
     
-    public override void ResetAllBoardEducation()
+    public void ResetAllBoardEducation()
     {
         educationBoard.ClearBoard();
     }
 
-    public override void SaveLastPlay()
+    public void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -139,7 +139,7 @@ public class GameManager2048 : GameManager
         SaveScores.ChangeMaximum(newMaximum);
     }
 
-    public override void Again()
+    public void Again()
     {
         NewGame();
     }
@@ -163,7 +163,7 @@ public class GameManager2048 : GameManager
         CheckUndoButtonState();
     }
 
-    public override void GameOver()
+    public void GameOver()
     {
         board.enabled = false;
         

@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EducationChineseCheckers : Education
+public class EducationChineseCheckers : MonoBehaviour
 {
     [SerializeField] private float waitingTime = 0.2f;
     [SerializeField] private GameObject educationPanel;
@@ -37,7 +37,7 @@ public class EducationChineseCheckers : Education
         }
     }
     
-    public override void ShowEducation(bool isFirstEducation)
+    public void ShowEducation(bool isFirstEducation)
     {
         GameHelper.IsEdication = true;
         StopTutorial();
@@ -45,7 +45,7 @@ public class EducationChineseCheckers : Education
         ShowEducation();
     }
 
-    public override void ShowEducation()
+    public void ShowEducation()
     {
         educationPanel.SetActive(true);
 
@@ -53,7 +53,7 @@ public class EducationChineseCheckers : Education
         StartAnimationPage2();
     }
     
-    public override void ShowView(bool isFirstEducation)
+    public void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -75,7 +75,7 @@ public class EducationChineseCheckers : Education
         educationPanel.SetActive(false);
     }
     
-    public override void StopTutorial()
+    public void StopTutorial()
     {
         foreach (var tutorial in _tutorialCoroutines)
         {
@@ -96,7 +96,7 @@ public class EducationChineseCheckers : Education
         image4Page2.DOKill();
     }
     
-    public override void Restart(int page)
+    public void Restart(int page)
     {
         StopTutorial();
 

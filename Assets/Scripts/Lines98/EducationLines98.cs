@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class EducationLines98 : Education
+public class EducationLines98 : MonoBehaviour
 {
     [SerializeField] private EducationFinger finger;
     [SerializeField] private GameObject educationPanel;
@@ -45,7 +45,7 @@ public class EducationLines98 : Education
         }
     }
     
-    public override void ShowEducation(bool isFirstEducation)
+    public void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
         GameHelper.IsEdication = true;
@@ -53,7 +53,7 @@ public class EducationLines98 : Education
         ShowEducation();
     }
 
-    public override void ShowEducation()
+    public void ShowEducation()
     {
         educationPanel.SetActive(true);
 
@@ -73,7 +73,7 @@ public class EducationLines98 : Education
         _tutorialCoroutine = StartCoroutine(PlayTutorial());
     }
     
-    public override void ShowView(bool isFirstEducation)
+    public void ShowView(bool isFirstEducation)
     {
         bool isTablet = GameHelper.IsTablet();
         if (isFirstEducation)
@@ -173,7 +173,7 @@ public class EducationLines98 : Education
         ShowView(_isFirstShow);
     }
 
-    public override void StopTutorial()
+    public void StopTutorial()
     {
         finger.IsTutorialRunning = false;
 
@@ -215,7 +215,7 @@ public class EducationLines98 : Education
         return saveData;
     }
 
-    public override void Restart(int step)
+    public void Restart(int step)
     {
         StopTutorial();
 

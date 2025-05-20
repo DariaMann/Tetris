@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerLines98 : GameManager
+public class GameManagerLines98 : MonoBehaviour
 {
     [SerializeField] private LineBoard board;
     [SerializeField] private LineBoard boardEdu;
@@ -85,7 +85,7 @@ public class GameManagerLines98 : GameManager
         SaveLastPlay();
     }
     
-    public override void LoadLastPlay()
+    public void LoadLastPlay()
     {
         SaveDataLines98 saveData = GameHelper.SaveLines98.SaveDataLines98;
         if (saveData == null)
@@ -119,7 +119,7 @@ public class GameManagerLines98 : GameManager
         boardEdu.SpawnLoadedBalls(saveData.SaveBalls);
     }
 
-    public override void SaveLastPlay()
+    public void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -220,7 +220,7 @@ public class GameManagerLines98 : GameManager
         return ballsRemoved;
     }
     
-    public override void ResetAllBoardEducation()
+    public void ResetAllBoardEducation()
     {
         foreach (var tile in boardEdu.Tiles)
         {
@@ -255,7 +255,7 @@ public class GameManagerLines98 : GameManager
         board.FutureBalls.Clear();
     }
 
-    public override void Again()
+    public void Again()
     {
         gameOver.ShowGameOverPanel(false);
         
@@ -266,7 +266,7 @@ public class GameManagerLines98 : GameManager
         CheckUndoButtonState();
     }
 
-    public override void GameOver()
+    public void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

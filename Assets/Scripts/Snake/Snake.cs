@@ -5,9 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Snake : MonoBehaviour
 {
-    [SerializeField] private SaveScores saveScores;
     [SerializeField] private FoodController foodController;
-    [SerializeField] private GameOver gameOver;
     [SerializeField] private Transform segmentPrefab;
     [SerializeField] private Vector2Int direction = Vector2Int.right;
     [SerializeField] private float speed = 20f;
@@ -23,71 +21,16 @@ public class Snake : MonoBehaviour
     private bool isDragging = false;
     private bool hasMovedThisFrame = false;
     private readonly Queue<Vector2Int> directionQueue = new Queue<Vector2Int>();
-
-    private void Start()
-    {
-        LoadLastPlay();
-    }
     
-    void OnApplicationQuit()
+    public Vector2Int Direction
     {
-        SaveLastPlay();
-    }
-
-    void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            SaveLastPlay();
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        SaveLastPlay();
-    }
-
-    private void LoadLastPlay()
-    {
-        SaveDataSnake saveData = GameHelper.SaveSnake.SaveDataSnake;
-        if (saveData == null)
-        {
-            ResetState();
-            return;
-        }
-
-        LoadSave(saveData);
-    }
-    
-    private void SaveLastPlay()
-    {
-        if (gameOver.IsGameOver)
-        {
-            GameHelper.SaveSnake.SaveDataSnake = null;
-            JsonHelper.SaveSnake(GameHelper.SaveSnake);
-            return;
-        }
-
-        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, transform.position, foodController.Foods, direction, saveScores.CurrentScore);
-        GameHelper.SaveSnake.SaveDataSnake = data;
-        JsonHelper.SaveSnake(GameHelper.SaveSnake);
-    }
-
-    public void GameOver()
-    {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
-    }
-    
-    public void Again()
-    {
-        gameOver.ShowGameOverPanel(false);
-        
-        ResetState();
+        get => direction;
+        set => direction = value;
     }
 
     private void Update()
     {
-        if (gameOver.IsGameOver || GameHelper.IsPause)
+        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause)
         {
             return;
         }
@@ -197,55 +140,6 @@ public class Snake : MonoBehaviour
         transform.position = new Vector2(x, y);
         RotateHead();
     }
-    
-//    private void FixedUpdate()
-//    {
-//        hasMovedThisFrame = false;
-//
-//        if (gameOver.IsGameOver || IsPaused)
-//            return;
-//
-//        if (Time.time < nextUpdate)
-//            return;
-//
-//        // Применить следующее направление
-//        ApplyNextDirection();
-//
-//        Move();
-//        hasMovedThisFrame = true;
-//
-//        SetSaveSpeed(GameHelper.SnakeSettings);
-//        nextUpdate = Time.time + (1f / (speed * speedMultiplier));
-//    }
-
-//    private void FixedUpdate()
-//    {
-//        if (gameOver.IsGameOver || IsPaused)
-//        {
-//            return;
-//        }
-//        // Wait until the next update before proceeding
-//        if (Time.time < nextUpdate) {
-//            return;
-//        }
-//
-//        // Set each segment's position to be the same as the one it follows. We
-//        // must do this in reverse order so the position is set to the previous
-//        // position, otherwise they will all be stacked on top of each other.
-//        for (int i = segments.Count - 1; i > 0; i--) {
-//            segments[i].position = segments[i - 1].position;
-//        }
-//
-//        // Move the snake in the direction it is facing
-//        // Round the values to ensure it aligns to the grid
-//        int x = Mathf.RoundToInt(transform.position.x) + direction.x;
-//        int y = Mathf.RoundToInt(transform.position.y) + direction.y;
-//        transform.position = new Vector2(x, y);
-//        RotateHead();
-//        // Set the next update time based on the speed
-//        SetSaveSpeed(GameHelper.SnakeSettings);
-//        nextUpdate = Time.time + (1f / (speed * speedMultiplier));
-//    }
 
     private void RotateHead()
     {
@@ -278,7 +172,7 @@ public class Snake : MonoBehaviour
         }
         if (addScore)
         {
-            saveScores.ChangeScore(1);
+            GameManagerSnake.Instance.SaveScores.ChangeScore(1);
             Acceleration();
         }
 
@@ -296,7 +190,7 @@ public class Snake : MonoBehaviour
 
     public void ResetState()
     {
-        saveScores.ChangeScore(0);
+        GameManagerSnake.Instance.SaveScores.ChangeScore(0);
         
         direction = Vector2Int.right;
         transform.position = Vector3.zero;
@@ -322,8 +216,8 @@ public class Snake : MonoBehaviour
     
     public void LoadSave(SaveDataSnake data)
     {
-        saveScores.ChangeScore(data.Score);
-        saveScores.IsWin = data.IsWin;
+        GameManagerSnake.Instance.SaveScores.ChangeScore(data.Score);
+        GameManagerSnake.Instance.SaveScores.IsWin = data.IsWin;
         
         direction = new Vector2Int(data.DirectionX, data.DirectionY);
         transform.position = new Vector2(data.HeadX, data.HeadY);
@@ -381,18 +275,16 @@ public class Snake : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Obstacle"))
         {
-//            ResetState();
             GameHelper.VibrationStart();
-            GameOver();
+            GameManagerSnake.Instance.GameOver();
         }
         else if (other.gameObject.CompareTag("Wall"))
         {
             if (GameHelper.SnakeSettings.MoveThroughWalls) {
                 Traverse(other.transform);
             } else {
-//                ResetState();
                 GameHelper.VibrationStart();
-                GameOver();
+                GameManagerSnake.Instance.GameOver();
             }
         }
     }
@@ -449,7 +341,6 @@ public class Snake : MonoBehaviour
     {
         if (snakeSettings.Acceleration)
         {
-//            SetAccelerationSpeed(snakeSettings.AccelerationSpeed);
             Acceleration();
         }
         else

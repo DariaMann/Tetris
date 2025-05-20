@@ -5,7 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-public class EducationTetris : Education
+public class EducationTetris : MonoBehaviour
 {
     [SerializeField] private GameObject leftText;
     [SerializeField] private GameObject rightText;
@@ -103,7 +103,7 @@ public class EducationTetris : Education
         Restart(0);
     }
     
-    public override void ShowEducation(bool isFirstEducation)
+    public void ShowEducation(bool isFirstEducation)
     {
         GameHelper.IsEdication = true;
 
@@ -120,7 +120,7 @@ public class EducationTetris : Education
         
     }
     
-    public override void ShowView(bool isFirstEducation)
+    public void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -132,7 +132,7 @@ public class EducationTetris : Education
         }
     }
 
-    public override void ShowEducation()
+    public void ShowEducation()
     {
         educationPanel.SetActive(true);
         EducationIsOver = false;
@@ -275,7 +275,7 @@ public class EducationTetris : Education
         return saveData;
     }
 
-    public override void Restart(int step)
+    public void Restart(int step)
     {
         _step = step;
         StartPlay();
@@ -495,7 +495,7 @@ public class EducationTetris : Education
         }
     }
 
-    public override void StopTutorial()
+    public void StopTutorial()
     {
         finger.IsTutorialRunning = false;
 

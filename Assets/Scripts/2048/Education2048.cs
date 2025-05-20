@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Education2048 : Education
+public class Education2048 : MonoBehaviour
 {
     [SerializeField] private EducationFinger finger;
     [SerializeField] private RectTransform leftPos;
@@ -165,14 +165,14 @@ public class Education2048 : Education
         Restart(0);
     }
     
-    public override void ShowEducation(bool isFirstEducation)
+    public void ShowEducation(bool isFirstEducation)
     {
         GameHelper.IsEdication = true;
         ShowView(isFirstEducation);
         ShowEducation();
     }
     
-    public override void ShowView(bool isFirstEducation)
+    public void ShowView(bool isFirstEducation)
     {
         if (isFirstEducation)
         {
@@ -184,7 +184,7 @@ public class Education2048 : Education
         }
     }
 
-    public override void ShowEducation()
+    public void ShowEducation()
     {
         educationPanel.SetActive(true);
         GameHelper.IsEdication = true;
@@ -250,7 +250,7 @@ public class Education2048 : Education
         return false;
     }
     
-    public override void Restart(int step)
+    public void Restart(int step)
     {
         _step = step;
         StartPlay();
@@ -370,7 +370,7 @@ public class Education2048 : Education
         }
     }
 
-    public override void StopTutorial()
+    public void StopTutorial()
     {
         finger.IsTutorialRunning = false;
 

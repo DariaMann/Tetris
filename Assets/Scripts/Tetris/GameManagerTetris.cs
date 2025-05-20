@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerTetris : GameManager
+public class GameManagerTetris : MonoBehaviour
 {
     [SerializeField] private EducationTetris education;
     [SerializeField] private Board board;
@@ -75,7 +75,7 @@ public class GameManagerTetris : GameManager
 //        SaveLastPlay();
 //    }
 
-    public override void LoadLastPlay()
+    public void LoadLastPlay()
     {
         SaveDataTetris saveData = GameHelper.SaveTetris.SaveDataTetris;
         if (saveData == null)
@@ -110,12 +110,12 @@ public class GameManagerTetris : GameManager
         boardEdu.SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
     }
     
-    public override void ResetAllBoardEducation()
+    public void ResetAllBoardEducation()
     {
         boardEdu.Tilemap.ClearAllTiles();
     }
     
-    public override void SaveLastPlay()
+    public void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -164,12 +164,12 @@ public class GameManagerTetris : GameManager
         JsonHelper.SaveTetris(GameHelper.SaveTetris);
     }
 
-    public override void GameOver()
+    public void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
-    public override void Again()
+    public void Again()
     {
         gameOver.ShowGameOverPanel(false);
         

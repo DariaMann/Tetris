@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
-public class GameManagerBlocks : GameManager
+public class GameManagerBlocks : MonoBehaviour
 {
     [SerializeField] private EducationBlocks education;
     [SerializeField] private BlocksBoard board;
@@ -80,7 +80,7 @@ public class GameManagerBlocks : GameManager
         SaveLastPlay();
     }
 
-    public override void LoadLastPlay()
+    public void LoadLastPlay()
     {
         SaveDataBlocks saveData = GameHelper.SaveBlocks.SaveDataBlocks;
         if (saveData == null)
@@ -111,7 +111,7 @@ public class GameManagerBlocks : GameManager
         themeBlocks.SetTheme(GameHelper.Theme);
     }
 
-    public override void SaveLastPlay()
+    public void SaveLastPlay()
     {
         if (gameOver.IsGameOver)
         {
@@ -138,7 +138,7 @@ public class GameManagerBlocks : GameManager
         board.CreateBlocks();
     }
 
-    public override void Again()
+    public void Again()
     {
         gameOver.ShowGameOverPanel(false);
 
@@ -149,7 +149,7 @@ public class GameManagerBlocks : GameManager
         CheckUndoButtonState();
     }
 
-    public override void GameOver()
+    public void GameOver()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
@@ -160,7 +160,7 @@ public class GameManagerBlocks : GameManager
         EventSteps.Clear();
     }
 
-    public override void ResetAllBoardEducation()
+    public void ResetAllBoardEducation()
     {
         foreach (var tile in boardEdu.Tiles)
         {
