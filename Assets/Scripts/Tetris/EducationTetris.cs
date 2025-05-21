@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class EducationTetris : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private GameObject leftText;
     [SerializeField] private GameObject rightText;
     
@@ -105,6 +107,7 @@ public class EducationTetris : MonoBehaviour
     
     public void ShowEducation(bool isFirstEducation)
     {
+        _isFirstShow = isFirstEducation;
         GameHelper.IsEdication = true;
 
         foreach (var obj in objForDeactivate)
@@ -158,6 +161,11 @@ public class EducationTetris : MonoBehaviour
         ghost.gameObject.SetActive(false);
         backButton.SetActive(false);
         educationPanel.SetActive(false);
+
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
 
     private SaveDataTetris GetFirstSaveData()

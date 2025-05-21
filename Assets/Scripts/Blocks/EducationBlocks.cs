@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EducationBlocks : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private EducationFinger finger;
     [SerializeField] private GameObject educationPanel;
     [SerializeField] private CanvasGroup finishEducationPanel;
@@ -14,6 +16,7 @@ public class EducationBlocks : MonoBehaviour
     [SerializeField] private BlockShape blockOne;
     
     private Coroutine _tutorialCoroutine;
+    private bool _isFirstShow;
     private bool _isStartShowFinish;
     
     private int _step;
@@ -80,6 +83,7 @@ public class EducationBlocks : MonoBehaviour
     
     public void ShowEducation(bool isFirstEducation)
     {
+        _isFirstShow = isFirstEducation;
         GameHelper.IsEdication = true;
         
         ShowView(isFirstEducation);
@@ -116,6 +120,11 @@ public class EducationBlocks : MonoBehaviour
         
         GameManagerBlocks.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
+        
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
 
     private SaveDataBlocks GetFirstSaveData()

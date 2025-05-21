@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EducationSnake : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private float speed = 300f; // пикселей в секунду
     [SerializeField] private GameObject educationPanel;
     [SerializeField] private EducationFinger finger;
@@ -79,6 +81,11 @@ public class EducationSnake : MonoBehaviour
         StopTutorial();
         
         educationPanel.SetActive(false);
+        
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
     
     public void StopTutorial()

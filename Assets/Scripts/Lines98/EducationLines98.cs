@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EducationLines98 : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private EducationFinger finger;
     [SerializeField] private GameObject educationPanel;
     [SerializeField] private LineBoard lineBoard;
@@ -119,6 +121,11 @@ public class EducationLines98 : MonoBehaviour
         
         GameManagerLines98.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
+        
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
     
     public void SetOrientation(bool isVertical)

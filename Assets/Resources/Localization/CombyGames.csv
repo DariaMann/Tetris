@@ -50,3 +50,8 @@ Snake.edutext1,Collect food and don't get on their tail,Соберайте ед�
 Blocks.repeat,Repeat,Повторить
 Blocks.edufin,Training completed!,Обучение пройдено!
 Blocks.edutext,Collect lines and squares!,Собирай линии и квадраты!
+Edu.hint,Hint button,Кнопка подсказки
+Edu.undo,Undo button,Кнопка шаг назад
+Edu.settings,Change additional settings,Меняй дополнительные настройки
+Edu.speed,Speed ​​button,Кнопка скорости
+Edu.tap,Click to continue,"Нажми, чтобы продолжить"

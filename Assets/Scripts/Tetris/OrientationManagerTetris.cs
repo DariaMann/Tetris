@@ -53,15 +53,15 @@ public class OrientationManagerTetris : MonoBehaviour
         
         bottomTextEdu.SetActive(false);
 
-        if (!GameHelper.IsEdication)
+        if (GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
-            leftPanel.SetActive(true);
+            leftPanel.SetActive(false);
             rightPanel.SetActive(false);
             upPanel.SetActive(false);
         }
         else
         {
-            leftPanel.SetActive(false);
+            leftPanel.SetActive(true);
             rightPanel.SetActive(false);
             upPanel.SetActive(false);
         }
@@ -78,21 +78,21 @@ public class OrientationManagerTetris : MonoBehaviour
         board.localPosition = new Vector2(0f,-1f);
         goast.localPosition = new Vector2(0f,-1f);
 
-        if (!GameHelper.IsEdication)
-        {
-            grid.localPosition = new Vector2(0f,-1f);
-            bottomTextEdu.SetActive(false);
-            leftPanel.SetActive(false);
-            rightPanel.SetActive(false);
-            upPanel.SetActive(true);
-        }
-        else
+        if (GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             grid.localPosition = new Vector2(0f,0f);
             bottomTextEdu.SetActive(true);
             leftPanel.SetActive(false);
             rightPanel.SetActive(false);
             upPanel.SetActive(false);
+        }
+        else
+        {
+            grid.localPosition = new Vector2(0f,-1f);
+            bottomTextEdu.SetActive(false);
+            leftPanel.SetActive(false);
+            rightPanel.SetActive(false);
+            upPanel.SetActive(true);
         }
     }
 
@@ -109,16 +109,16 @@ public class OrientationManagerTetris : MonoBehaviour
         
         bottomTextEdu.SetActive(false);
 
-        if (!GameHelper.IsEdication)
+        if (GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             leftPanel.SetActive(false);
-            rightPanel.SetActive(true);
+            rightPanel.SetActive(false);
             upPanel.SetActive(false);
         }
         else
         {
             leftPanel.SetActive(false);
-            rightPanel.SetActive(false);
+            rightPanel.SetActive(true);
             upPanel.SetActive(false);
         }
     }

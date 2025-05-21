@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EducationChineseCheckers : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private float waitingTime = 0.2f;
     [SerializeField] private GameObject educationPanel;
 
@@ -22,6 +24,7 @@ public class EducationChineseCheckers : MonoBehaviour
 
     private List<Coroutine> _tutorialCoroutines = new List<Coroutine>();
     
+    private bool _isFirstShow;
     private bool _buttonPlayShowed;
     
     private void OnDisable()
@@ -39,6 +42,7 @@ public class EducationChineseCheckers : MonoBehaviour
     
     public void ShowEducation(bool isFirstEducation)
     {
+        _isFirstShow = isFirstEducation;
         GameHelper.IsEdication = true;
         StopTutorial();
         ShowView(isFirstEducation);
@@ -73,6 +77,11 @@ public class EducationChineseCheckers : MonoBehaviour
         StopTutorial();
         
         educationPanel.SetActive(false);
+        
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
     
     public void StopTutorial()

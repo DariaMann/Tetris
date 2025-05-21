@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class Education2048 : MonoBehaviour
 {
+    [SerializeField] private EducationUi educationUi;
+    
     [SerializeField] private EducationFinger finger;
     [SerializeField] private RectTransform leftPos;
     [SerializeField] private RectTransform rightPos;
@@ -26,6 +28,7 @@ public class Education2048 : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
 
     private Coroutine _tutorialCoroutine;
+    private bool _isFirstShow;
     private bool _isStartShowFinish;
     private bool _isStartShowTwoStep;
     private bool _isReshow;
@@ -167,6 +170,7 @@ public class Education2048 : MonoBehaviour
     
     public void ShowEducation(bool isFirstEducation)
     {
+        _isFirstShow = isFirstEducation;
         GameHelper.IsEdication = true;
         ShowView(isFirstEducation);
         ShowEducation();
@@ -201,6 +205,11 @@ public class Education2048 : MonoBehaviour
         GameManager2048.Instance.ResetAllBoardEducation();
         educationPanel.SetActive(false);
         GameHelper.IsEdication = false;
+        
+        if (_isFirstShow)
+        {
+            educationUi.ShowEducation();
+        }
     }
 
     private SaveData2048 GetFirstSaveData()
