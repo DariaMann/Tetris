@@ -40,7 +40,7 @@ public class EducationLines98 : MonoBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && GameHelper.IsEdication)
+        if (!pauseStatus && GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             Restart(0);
             ForcePlayButtonVisible();

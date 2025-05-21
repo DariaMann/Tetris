@@ -20,7 +20,7 @@ public class EducationUi : MonoBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && GameHelper.IsEdication)
+        if (!pauseStatus && GameHelper.IsUIEdication)
         {
             ForceHintVisible();
         }
@@ -107,5 +107,6 @@ public class EducationUi : MonoBehaviour
             hint.ForceHintVisible();
         }
         _allIsShowed = true;
+        _indexCurrentHint = hints.Count-1;
     }
 }

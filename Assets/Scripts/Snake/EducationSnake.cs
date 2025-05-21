@@ -38,7 +38,7 @@ public class EducationSnake : MonoBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && GameHelper.IsEdication)
+        if (!pauseStatus && GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             Restart();
             ForcePlayButtonVisible();

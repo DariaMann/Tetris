@@ -52,7 +52,7 @@ public class EducationTetris : MonoBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && GameHelper.IsEdication)
+        if (!pauseStatus && GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             if (_isStartShowFinish)
             {

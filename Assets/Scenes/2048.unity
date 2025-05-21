@@ -516,7 +516,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1410182703}
         m_TargetAssemblyTypeName: Education2048, Assembly-CSharp
         m_MethodName: HideEducation
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8460,8 +8460,13 @@ PrefabInstance:
     - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: hints.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
+        type: 3}
+      propertyPath: hints.Array.data[0]
+      value: 
+      objectReference: {fileID: 7658609387318430780}
     - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: hints.Array.data[2]
@@ -8572,6 +8577,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8718703964349090641, guid: 529f0cd085df72a499eb0232c2c06af0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8724539461205418796, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: m_Name
@@ -8582,6 +8592,18 @@ PrefabInstance:
 --- !u!114 &7658609387318430779 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5683548045885666398, guid: 529f0cd085df72a499eb0232c2c06af0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7658609387318430778}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d15ca9b2639de4cb907d9106265ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7658609387318430780 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 394993806962864591, guid: 529f0cd085df72a499eb0232c2c06af0,
     type: 3}
   m_PrefabInstance: {fileID: 7658609387318430778}
   m_PrefabAsset: {fileID: 0}

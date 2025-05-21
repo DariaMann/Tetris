@@ -5015,13 +5015,18 @@ PrefabInstance:
     - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: hints.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
+        type: 3}
+      propertyPath: hints.Array.data[0]
+      value: 
+      objectReference: {fileID: 7507138263343873635}
     - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: hints.Array.data[1]
       value: 
-      objectReference: {fileID: 7507138263343873635}
+      objectReference: {fileID: 7507138263343873636}
     - target: {fileID: 7228396267384007742, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: hints.Array.data[2]
@@ -5145,7 +5150,7 @@ PrefabInstance:
     - target: {fileID: 8718703964349090641, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8724539461205418796, guid: 529f0cd085df72a499eb0232c2c06af0,
         type: 3}
