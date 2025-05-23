@@ -195,6 +195,7 @@ public static class GameServicesManager
         {
             if (GameAchievementServices.ActivatedAchievementIds.Contains(achivement))
             {
+                Debug.Log(achivement.ToString());
                 UnlockAchievement(GetAchievementId(achivement));
             }
         }

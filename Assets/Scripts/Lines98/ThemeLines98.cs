@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ThemeLines98: MonoBehaviour
+public class ThemeLines98: Theme
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image educationBgColor;
@@ -20,89 +19,23 @@ public class ThemeLines98: MonoBehaviour
     [SerializeField] private Sprite lightFingerSprite;
     [SerializeField] private Sprite darkFingerSprite;
 
-    private Themes _theme;
-    private Color _colorLight;
-    private Color _colorGrey;
-    private Color _colorDark;
-
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Lines98;
+        InitializeColor();
     }
 
-    private void Start()
+    public override void SetLight()
     {
-        _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-        _colorGrey = ColorUtility.TryParseHtmlString("#BBADA0", out Color color7) ? color7 : Color.gray;
-        _colorDark = ColorUtility.TryParseHtmlString("#2C2926", out Color color8) ? color8 : Color.black;
-        
-        SetTheme(GameHelper.Theme);
-        GameHelper.OnThemeChanged += ApplyTheme;
-    }
-    
-    private void ApplyTheme(Themes newTheme)
-    {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
-        SetTheme(newTheme);
-    }
-    
-    public void OnDestroy()
-    {
-        GameHelper.OnThemeChanged -= ApplyTheme;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.L))
-        {
-            SetTheme(Themes.Light);
-        }
-        if (Input.GetKey(KeyCode.N))
-        {
-            SetTheme(Themes.Night);
-        }
-        
-        if (Input.GetKey(KeyCode.C))
-        {
-            GameHelper.AdjustBoardSize(bgColor);
-        }
-    }
-
-    public void SetTheme(Themes theme)
-    {
-        switch (theme)
-        {
-            case Themes.Auto: SetAuto(); break;
-            case Themes.Light: SetLight(); break;
-            case Themes.Night: SetDark(); break;
-        }
-    }
-
-    public void SetAuto()
-    {
-        bool isDark = ThemeManager.IsSystemDarkTheme();
-        if (isDark)
-        {
-            SetDark();
-        }
-        else
-        {
-            SetLight();
-        }
-    }
-    
-    public void SetLight()
-    {
-        bgColor.backgroundColor = _colorLight;
-        educationBgColor.color = _colorLight;
+        bgColor.backgroundColor = ColorBgLight;
+        educationBgColor.color = ColorBgLight;
         foreach (var text in lightText)
         {
-            text.color = _colorLight;
+            text.color = ColorBgLight;
         }
 
         finger.sprite = lightFingerSprite;
-        undoButton.image.color = _colorDark;
+        undoButton.image.color = ColorBgDark;
         
         ColorBlock colors = undoButton.colors;
 
@@ -123,17 +56,17 @@ public class ThemeLines98: MonoBehaviour
         }
     } 
     
-    public void SetDark()
+    public override void SetDark()
     {
-        bgColor.backgroundColor = _colorDark;
-        educationBgColor.color = _colorDark;
+        bgColor.backgroundColor = ColorBgDark;
+        educationBgColor.color = ColorBgDark;
         foreach (var text in lightText)
         {
-            text.color = _colorDark;
+            text.color = ColorBgDark;
         }
         
         finger.sprite = darkFingerSprite;
-        undoButton.image.color = _colorGrey;
+        undoButton.image.color = ColorMiddleLight;
         
         ColorBlock colors = undoButton.colors;
 

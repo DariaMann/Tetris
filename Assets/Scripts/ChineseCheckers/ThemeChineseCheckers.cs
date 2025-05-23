@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ThemeChineseCheckers: MonoBehaviour
+public class ThemeChineseCheckers: Theme
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image eduBgColor;
@@ -23,12 +22,6 @@ public class ThemeChineseCheckers: MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI speedTextButton;
 
-    private Themes _theme;
-    
-    private Color _lightColorLight;
-    private Color _lightColorDark;
-    
-    private Color _colorBgBoard;
     private Color _colorBgField;
     
     private Color _colorBgStartPanelLight;
@@ -37,90 +30,29 @@ public class ThemeChineseCheckers: MonoBehaviour
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.ChineseCheckers;
-    }
-
-    private void Start()
-    {
-        _lightColorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-        _lightColorDark = ColorUtility.TryParseHtmlString("#BBADA0", out Color color8) ? color8 : Color.black;
-        
-        _colorBgBoard = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgBoard) ? colorBgBoard : Color.gray;
+        InitializeColor();
         _colorBgField = ColorUtility.TryParseHtmlString("#6C6258", out Color colorBgField ) ? colorBgField  : Color.gray;
         
         _colorBgStartPanelLight = ColorUtility.TryParseHtmlString("#EEE4DA", out Color colorBgStartPanelLight) ? colorBgStartPanelLight : Color.white;
         _colorBgStartPanelDark = ColorUtility.TryParseHtmlString("#000000", out Color colorBgStartPanelDark) ? colorBgStartPanelDark : Color.gray;
-        
-        SetTheme(GameHelper.Theme);
-        GameHelper.OnThemeChanged += ApplyTheme;
-    }
-    
-    private void ApplyTheme(Themes newTheme)
-    {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        SetTheme(newTheme);
-    }
-    
-    public void OnDestroy()
-    {
-        GameHelper.OnThemeChanged -= ApplyTheme;
     }
 
-    private void Update()
+    public override void SetLight()
     {
-        if (Input.GetKey(KeyCode.L))
-        {
-            SetTheme(Themes.Light);
-        }
-        if (Input.GetKey(KeyCode.N))
-        {
-            SetTheme(Themes.Night);
-        }
-        
-        if (Input.GetKey(KeyCode.C))
-        {
-            GameHelper.AdjustBoardSize(bgColor);
-        }
-    }
-
-    public void SetTheme(Themes theme)
-    {
-        switch (theme)
-        {
-            case Themes.Auto: SetAuto(); break;
-            case Themes.Light: SetLight(); break;
-            case Themes.Night: SetDark(); break;
-        }
-    }
-
-    public void SetAuto()
-    {
-        bool isDark = ThemeManager.IsSystemDarkTheme();
-        if (isDark)
-        {
-            SetDark();
-        }
-        else
-        {
-            SetLight();
-        }
-    }
-    
-    public void SetLight()
-    {
-        bgColor.backgroundColor = _lightColorLight;
-        eduBgColor.color = _lightColorLight;
+        bgColor.backgroundColor = ColorBgLight;
+        eduBgColor.color = ColorBgLight;
         bgStartPanel.color = _colorBgStartPanelLight;
         
         foreach (var text in lightText)
         {
-            text.color = _lightColorLight;
+            text.color = ColorBgLight;
         }
         
         Color c = bgStartPanel.color;
         c.a = 0.7f; // нужная альфа, например, 30%
         bgStartPanel.color  = c;
         
-        undoButton.image.color = _colorBgBoard;
+        undoButton.image.color = ColorBgDark;
         
         ColorBlock colors = undoButton.colors;
 
@@ -131,42 +63,42 @@ public class ThemeChineseCheckers: MonoBehaviour
 
         undoButton.colors = colors;
         
-        field.color = _lightColorDark;
+        field.color = ColorMiddleLight;
         
         foreach (var bg in eduBackgoundsFields)
         {
-            bg.color = _lightColorDark;
+            bg.color = ColorMiddleLight;
         }
 
         eduPage1Image.sprite = eduPage1Light;
         
-        speedTextButton.color = _lightColorLight;
+        speedTextButton.color = ColorBgLight;
         
         foreach (var bg in backgounds)
         {
-            bg.color = _lightColorLight;
+            bg.color = ColorBgLight;
         }
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(_lightColorLight, _colorBgBoard, _lightColorLight);
+            person.SetTheme(ColorBgLight, ColorBgDark, ColorBgLight);
         }
     } 
     
-    public void SetDark()
+    public override void SetDark()
     {
-        bgColor.backgroundColor = _colorBgBoard;
-        eduBgColor.color = _colorBgBoard;
+        bgColor.backgroundColor = ColorBgDark;
+        eduBgColor.color = ColorBgDark;
         bgStartPanel.color = _colorBgStartPanelDark;
         
         foreach (var text in lightText)
         {
-            text.color = _colorBgBoard;
+            text.color = ColorBgDark;
         }
         
         Color c = bgStartPanel.color;
         c.a = 0.5f;
         bgStartPanel.color  = c;
-        undoButton.image.color = _lightColorDark;
+        undoButton.image.color = ColorMiddleLight;
         
         ColorBlock colors = undoButton.colors;
         
@@ -185,16 +117,16 @@ public class ThemeChineseCheckers: MonoBehaviour
         
         eduPage1Image.sprite = eduPage1Dark;
         
-        speedTextButton.color = _colorBgBoard;
+        speedTextButton.color = ColorBgDark;
         
         foreach (var bg in backgounds)
         {
-            bg.color = _colorBgBoard;
+            bg.color = ColorBgDark;
         }
 
         foreach (var person in checkersManager.Players)
         {
-            person.SetTheme(_colorBgBoard, _lightColorLight,_colorBgBoard);
+            person.SetTheme(ColorBgDark, ColorBgLight,ColorBgDark);
         }
     }
 }

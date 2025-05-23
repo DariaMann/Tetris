@@ -745,10 +745,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnManyFoodsToggle
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -934,10 +934,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnAccelerationTetrisToggle
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1909,8 +1909,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnRestoreInAppClick
         m_Mode: 1
         m_Arguments:
@@ -1945,6 +1945,7 @@ GameObject:
   - component: {fileID: 1970805562755820049}
   - component: {fileID: 1970805562755820048}
   - component: {fileID: 1443490167424350836}
+  - component: {fileID: 4959130981846189919}
   - component: {fileID: 2504894869086922072}
   m_Layer: 5
   m_Name: SettingsPanel
@@ -2092,6 +2093,37 @@ MonoBehaviour:
   - {fileID: 485337136144936870}
   - {fileID: 2070524173772649408}
   - {fileID: 2543887010481862415}
+  snakeSettings: {fileID: 5220700769826348505}
+  manyFoodToggle: {fileID: 64501216581096529}
+  moveThroughWallsToggle: {fileID: 7512477747903919308}
+  accelerationToggle: {fileID: 92080342308266210}
+  speedText: {fileID: 441098564253948395}
+  speed: {fileID: 631802811003201435}
+  textSlider: {fileID: 6803446613116203454}
+  backgroundSnakeSlider: {fileID: 1000268631066071800}
+  fillSnakeSlider: {fileID: 7708994686568227882}
+  tetrisSettings: {fileID: 587724106093868875}
+  accelerationTetrisToggle: {fileID: 5015391400529256858}
+  speedTetrisText: {fileID: 1399396083316361597}
+  speedTetris: {fileID: 2643202794355045484}
+  textTetrisSlider: {fileID: 2095298295637555762}
+  backgroundTetrisSlider: {fileID: 8739679851618507194}
+  fillTetrisSlider: {fileID: 3511611784293937943}
+  versionText: {fileID: 2543887010481862415}
+--- !u!114 &4959130981846189919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970805562755820054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3adf7b9a0f54a0998ca6300d0214e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layoutGroupParent: {fileID: 3271083201233638980}
+  scrollRect: {fileID: 458380661067950197}
   snakeSettings: {fileID: 5220700769826348505}
   manyFoodToggle: {fileID: 64501216581096529}
   moveThroughWallsToggle: {fileID: 7512477747903919308}
@@ -5383,8 +5415,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnSpeedSlider
         m_Mode: 0
         m_Arguments:
@@ -6500,10 +6532,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnMoveThroughWallsToggle
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7568,10 +7600,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnAccelerationToggle
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7724,8 +7756,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnPrivacyPolicyClick
         m_Mode: 1
         m_Arguments:
@@ -8021,8 +8053,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnSupportClick
         m_Mode: 1
         m_Arguments:
@@ -9170,8 +9202,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnRemoveAdsClick
         m_Mode: 1
         m_Arguments:
@@ -9453,8 +9485,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnRateClick
         m_Mode: 1
         m_Arguments:
@@ -9589,8 +9621,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1443490167424350836}
-        m_TargetAssemblyTypeName: ThemeSettings, Assembly-CSharp
+      - m_Target: {fileID: 4959130981846189919}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: OnSpeedTetrisSlider
         m_Mode: 0
         m_Arguments:

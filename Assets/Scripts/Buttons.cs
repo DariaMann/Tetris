@@ -144,7 +144,7 @@ public class Buttons : MonoBehaviour {
         {
             OnLightThemeClick();
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.N))
         {
             OnDarkThemeClick();
         }
@@ -270,11 +270,11 @@ public class Buttons : MonoBehaviour {
     {
         if (GameHelper.GameType == MiniGameType.None || GameHelper.GameType == MiniGameType.ChineseCheckers)
         {
-            GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);
+            GameServicesManager.ShowAchievementsUI();
         }
         else
         {
-            GameServicesManager.ShowAchievementsUI();
+            GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);
         }
     } 
     

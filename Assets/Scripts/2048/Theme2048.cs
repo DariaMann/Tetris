@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class Theme2048 : MonoBehaviour
+public class Theme2048 : Theme
 { 
     [SerializeField] private Camera bgColor;
     [SerializeField] private Button undoButton;
@@ -20,11 +18,6 @@ public class Theme2048 : MonoBehaviour
     [SerializeField] private Sprite lightFingerSprite;
     [SerializeField] private Sprite darkFingerSprite;
 
-    private Themes _theme;
-    private Color _colorLight;
-    private Color _colorGrey;
-    private Color _colorDark;
-    
     private Color _colorCellLight;
     private Color _colorCellsDark;
     
@@ -33,81 +26,24 @@ public class Theme2048 : MonoBehaviour
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.G2048;
-    }
-
-    private void Start()
-    {
+        InitializeColor();
         _colorCellLight = ColorUtility.TryParseHtmlString("#CDC1B4", out Color colorCellLight) ? colorCellLight : Color.gray;
-
         _colorCellsDark = ColorUtility.TryParseHtmlString("#B7A693", out Color colorCellsDark) ? colorCellsDark : Color.gray;
+
         _colorBgBoardDark = ColorUtility.TryParseHtmlString("#877564", out Color colorBgBoardDark) ? colorBgBoardDark : Color.gray;
-        
-        _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorLight) ? colorLight : Color.white;
-        _colorGrey = ColorUtility.TryParseHtmlString("#BBADA0", out Color colorGrey) ? colorGrey : Color.gray;
-        _colorDark = ColorUtility.TryParseHtmlString("#2C2926", out Color colorDark) ? colorDark : Color.black;
-        
-        SetTheme(GameHelper.Theme);
-        GameHelper.OnThemeChanged += ApplyTheme;
-    }
-    
-    private void ApplyTheme(Themes newTheme)
-    {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
-        SetTheme(newTheme);
-    }
-    
-    public void OnDestroy()
-    {
-        GameHelper.OnThemeChanged -= ApplyTheme;
     }
 
-    private void Update()
+    public override void SetLight()
     {
-        if (Input.GetKey(KeyCode.L))
-        {
-            SetTheme(Themes.Light);
-        }
-        if (Input.GetKey(KeyCode.N))
-        {
-            SetTheme(Themes.Night);
-        }
-    }
-
-    public void SetTheme(Themes theme)
-    {
-        switch (theme)
-        {
-            case Themes.Auto: SetAuto(); break;
-            case Themes.Light: SetLight(); break;
-            case Themes.Night: SetDark(); break;
-        }
-    }
-
-    public void SetAuto()
-    {
-        bool isDark = ThemeManager.IsSystemDarkTheme();
-        if (isDark)
-        {
-            SetDark();
-        }
-        else
-        {
-            SetLight();
-        }
-    }
-    
-    public void SetLight()
-    {
-        bgColor.backgroundColor = _colorLight;
-        eduBgColor.color = _colorLight;
+        bgColor.backgroundColor = ColorBgLight;
+        eduBgColor.color = ColorBgLight;
         foreach (var text in texts)
         {
-            text.color = _colorLight;
+            text.color = ColorBgLight;
         }
         
         finger.sprite = lightFingerSprite;
-        undoButton.image.color = _colorDark;
+        undoButton.image.color = ColorBgDark;
         
         ColorBlock colors = undoButton.colors;
 
@@ -118,25 +54,25 @@ public class Theme2048 : MonoBehaviour
 
         undoButton.colors = colors;
         
-        eduBgPanelBg.color = _colorGrey;
-        bgPanelBg.color = _colorGrey;
+        eduBgPanelBg.color = ColorMiddleLight;
+        bgPanelBg.color = ColorMiddleLight;
         foreach (var cell in cells)
         {
             cell.color = _colorCellLight;
         }
     } 
     
-    public void SetDark()
+    public override void SetDark()
     {
-        bgColor.backgroundColor = _colorDark;
-        eduBgColor.color = _colorDark;
+        bgColor.backgroundColor = ColorBgDark;
+        eduBgColor.color = ColorBgDark;
         foreach (var text in texts)
         {
-            text.color = _colorDark;
+            text.color = ColorBgDark;
         }
         
         finger.sprite = darkFingerSprite;
-        undoButton.image.color = _colorGrey;
+        undoButton.image.color = ColorMiddleLight;
         
         ColorBlock colors = undoButton.colors;
 

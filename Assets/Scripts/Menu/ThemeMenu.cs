@@ -1,120 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ThemeMenu : MonoBehaviour
+public class ThemeMenu : Theme
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private List<Image> buttonsBg;
     [SerializeField] private List<Image> buttonsIcons;
     [SerializeField] private List<TextMeshProUGUI> textsBg;
-
-    private Color _colorLight;
-    private Color _colorDark;
-    
-    private Color _colorBgLight;
-    private Color _colorBgDark;
     
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.None;
+        InitializeColor();
     }
 
-    private void Start()
+    public override void SetLight()
     {
-        
-        _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-//        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
-//        _colorDark = ColorUtility.TryParseHtmlString("#7D6D5E", out Color color8) ? color8 : Color.black;
-        _colorDark = ColorUtility.TryParseHtmlString("#897B6D", out Color color8) ? color8 : Color.black;
-        
-        _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
-        _colorBgDark = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgDark) ? colorBgDark : Color.black;
-
-        SetTheme(GameHelper.Theme);
-        GameHelper.OnThemeChanged += ApplyTheme;
-    }
-    
-    private void ApplyTheme(Themes newTheme)
-    {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
-        SetTheme(newTheme);
-    }
-    
-    public void OnDestroy()
-    {
-        GameHelper.OnThemeChanged -= ApplyTheme;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.L))
-        {
-            SetTheme(Themes.Light);
-        }
-        if (Input.GetKey(KeyCode.N))
-        {
-            SetTheme(Themes.Night);
-        }
-    }
-
-    public void SetTheme(Themes theme)
-    {
-        switch (theme)
-        {
-            case Themes.Auto: SetAuto(); break;
-            case Themes.Light: SetLight(); break;
-            case Themes.Night: SetDark(); break;
-        }
-    }
-
-    public void SetAuto()
-    {
-        bool isDark = ThemeManager.IsSystemDarkTheme();
-        if (isDark)
-        {
-            SetDark();
-        }
-        else
-        {
-            SetLight();
-        }
-    }
-    
-    public void SetLight()
-    {
-        bgColor.backgroundColor = _colorBgLight;
+        bgColor.backgroundColor = ColorBgLight;
         foreach (var button in buttonsBg)
         {
-            button.color = _colorDark;
+            button.color = ColorMiddleDark;
         }
         foreach (var button in buttonsIcons)
         {
-            button.color = _colorLight;
+            button.color = ColorBgLight;
         }
         foreach (var text in textsBg)
         {
-            text.color = _colorLight;
+            text.color = ColorBgLight;
         }
     } 
     
-    public void SetDark()
+    public override void SetDark()
     {
-        bgColor.backgroundColor = _colorBgDark;
+        bgColor.backgroundColor = ColorBgDark;
         foreach (var button in buttonsBg)
         {
-            button.color = _colorLight;
+            button.color = ColorBgLight;
         }
         foreach (var button in buttonsIcons)
         {
-            button.color = _colorBgDark;
+            button.color = ColorBgDark;
         }
         foreach (var text in textsBg)
         {
-            text.color = _colorBgDark;
+            text.color = ColorBgDark;
         }
     }
 }

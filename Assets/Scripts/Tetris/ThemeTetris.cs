@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class ThemeTetris : MonoBehaviour
+public class ThemeTetris : Theme
 {
     [SerializeField] private Camera bgColor;
     [SerializeField] private Image nextFigureBg;
@@ -16,9 +14,6 @@ public class ThemeTetris : MonoBehaviour
     [SerializeField] private SpriteRenderer gridTile;
     [SerializeField] private Image backButton;
     [SerializeField] private Ghost ghost;
-    
-    [SerializeField] private Tile ghostLightTile;
-    [SerializeField] private Tile ghostNightTile;
     
     [SerializeField] private TextMeshProUGUI nextText;
     [SerializeField] private TextMeshProUGUI scoreNameText;
@@ -44,92 +39,33 @@ public class ThemeTetris : MonoBehaviour
     [SerializeField] private Sprite lightFingerSprite;
     [SerializeField] private Sprite darkFingerSprite;
     
-    private Themes _theme;
     private Color _colorLight;
     private Color _colorGrey;
     private Color _colorDark;
     
     private Color _colorImageLight;
-    private Color _colorBgLight;
     private Color _colorBgDark;
     
     private Color _colorGrid;
-    private Color _colorSelectLight;
     
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Tetris;
-    }
-
-    private void Start()
-    {
+        InitializeColor();
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
         _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
         
         _colorImageLight = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color8) ? color8 : Color.black;
         
-        _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
         _colorBgDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color colorBgDark) ? colorBgDark : Color.black;
         
         _colorGrid = ColorUtility.TryParseHtmlString("#D1CBC4", out Color colorWallDark) ? colorWallDark : Color.black;
-        
-        _colorSelectLight = ColorUtility.TryParseHtmlString("#2C2926", out Color colorSelectLight) ? colorSelectLight : Color.black;
-        
-        SetTheme(GameHelper.Theme);
-        GameHelper.OnThemeChanged += ApplyTheme;
-    }
-    
-    private void ApplyTheme(Themes newTheme)
-    {
-        Console.WriteLine($"Theme changed to {newTheme.ToString()}");
-        // Здесь можно добавить код смены оформления игры
-        SetTheme(newTheme);
-    }
-    
-    public void OnDestroy()
-    {
-        GameHelper.OnThemeChanged -= ApplyTheme;
     }
 
-    private void Update()
+    public override void SetLight()
     {
-        if (Input.GetKey(KeyCode.L))
-        {
-            SetTheme(Themes.Light);
-        }
-        if (Input.GetKey(KeyCode.N))
-        {
-            SetTheme(Themes.Night);
-        }
-    }
-
-    public void SetTheme(Themes theme)
-    {
-        switch (theme)
-        {
-            case Themes.Auto: SetAuto(); break;
-            case Themes.Light: SetLight(); break;
-            case Themes.Night: SetDark(); break;
-        }
-    }
-
-    public void SetAuto()
-    {
-        bool isDark = ThemeManager.IsSystemDarkTheme();
-        if (isDark)
-        {
-            SetDark();
-        }
-        else
-        {
-            SetLight();
-        }
-    }
-    
-    public void SetLight()
-    {
-        bgColor.backgroundColor = _colorBgLight;
+        bgColor.backgroundColor = ColorBgLight;
         backButton.color = _colorImageLight;
         nextFigureBg.color = _colorImageLight;
         countLinesBg.color = _colorImageLight;
@@ -138,22 +74,22 @@ public class ThemeTetris : MonoBehaviour
         buttonDownLeft.color = _colorImageLight;
         buttonDownRight.color = _colorImageLight;
         gridTile.color = _colorGrid;
-        ghost.Tile.color = _colorSelectLight;
+        ghost.Tile.color = ColorBgDark;
         
-        nextText.color = _colorBgLight;
-        scoreNameText.color = _colorBgLight;
-        scoreText.color = _colorBgLight;
-        recordNameText.color = _colorBgLight;
-        recordText.color = _colorBgLight;
+        nextText.color = ColorBgLight;
+        scoreNameText.color = ColorBgLight;
+        scoreText.color = ColorBgLight;
+        recordNameText.color = ColorBgLight;
+        recordText.color = ColorBgLight;
         
         nextFigureBgRight.color = _colorImageLight;
         countLinesBgRight.color = _colorImageLight;
         recordBgRight.color = _colorImageLight;
-        nextTextRight.color = _colorBgLight;
-        scoreNameTextRight.color = _colorBgLight;
-        scoreTextRight.color = _colorBgLight;
-        recordNameTextRight.color = _colorBgLight;
-        recordTextRight.color = _colorBgLight;
+        nextTextRight.color = ColorBgLight;
+        scoreNameTextRight.color = ColorBgLight;
+        scoreTextRight.color = ColorBgLight;
+        recordNameTextRight.color = ColorBgLight;
+        recordTextRight.color = ColorBgLight;
         
         scoreAndRecordTextTop.color = _colorImageLight;
         
@@ -161,7 +97,7 @@ public class ThemeTetris : MonoBehaviour
         
         foreach (var text in darkTexts)
         {
-            text.color = _colorBgLight;
+            text.color = ColorBgLight;
         }
         
         foreach (var img in lightImages)
@@ -170,7 +106,7 @@ public class ThemeTetris : MonoBehaviour
         }
     } 
     
-    public void SetDark()
+    public override void SetDark()
     {
         bgColor.backgroundColor = _colorDark;
         backButton.color = _colorLight;
@@ -204,12 +140,12 @@ public class ThemeTetris : MonoBehaviour
         
         foreach (var text in darkTexts)
         {
-            text.color = _colorSelectLight;
+            text.color = ColorBgDark;
         }
         
         foreach (var img in lightImages)
         {
-            img.color = _colorBgLight;
+            img.color = ColorBgLight;
         }
     }
 }
