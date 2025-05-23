@@ -201,7 +201,7 @@ public class SaveScores : MonoBehaviour
             if(currentScore >= 50) GameServicesManager.UnlockAchieve(AchivementServices.Snake50Points);
             if(currentScore >= 100) GameServicesManager.UnlockAchieve(AchivementServices.Snake100Points);
             if(currentScore >= 200) GameServicesManager.UnlockAchieve(AchivementServices.Snake200Points);
-            if(currentScore >= 300) GameServicesManager.UnlockAchieve(AchivementServices.Snake300Points);
+            if(currentScore >= 250) GameServicesManager.UnlockAchieve(AchivementServices.Snake250Points);
         }
         else if (GameHelper.GameType == MiniGameType.G2048)
         {

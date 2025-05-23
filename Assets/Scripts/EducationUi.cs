@@ -12,6 +12,7 @@ public class EducationUi : MonoBehaviour
     private int _indexCurrentHint;
     private EducationHint _currentHint;
     private bool _allIsShowed;
+    private bool _isStartDelayStopEducation;
     
     private void OnDisable()
     {
@@ -23,6 +24,10 @@ public class EducationUi : MonoBehaviour
         if (!pauseStatus && GameHelper.IsUIEdication)
         {
             ForceHintVisible();
+            if (_isStartDelayStopEducation)
+            {
+                ForceStopEducation();
+            }
         }
     }
 
@@ -38,11 +43,26 @@ public class EducationUi : MonoBehaviour
 
     public void HideEducation()
     {
-        GameHelper.IsEdication = false;
-        GameHelper.IsUIEdication = false;
+        StartCoroutine(DelayStopEducation());
         StopTutorial();
         
         educationPanel.SetActive(false);
+    }
+    
+    public IEnumerator DelayStopEducation()
+    {
+        _isStartDelayStopEducation = true;
+        yield return new WaitForSeconds(0.1f);
+        GameHelper.IsEdication = false;
+        GameHelper.IsUIEdication = false;
+        _isStartDelayStopEducation = false;
+    }
+
+    public void ForceStopEducation()
+    {
+        GameHelper.IsEdication = false;
+        GameHelper.IsUIEdication = false;
+        _isStartDelayStopEducation = false;
     }
     
     public void StopTutorial()

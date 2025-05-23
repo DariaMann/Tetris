@@ -15,6 +15,7 @@ public class ThemeChineseCheckers: MonoBehaviour
     [SerializeField] private List<Image> backgounds;
     
     [SerializeField] private List<Image> eduBackgoundsFields;
+    [SerializeField] private List<TextMeshProUGUI> lightText;
     
     [SerializeField] private Image eduPage1Image;
     [SerializeField] private Sprite eduPage1Light;
@@ -110,6 +111,11 @@ public class ThemeChineseCheckers: MonoBehaviour
         eduBgColor.color = _lightColorLight;
         bgStartPanel.color = _colorBgStartPanelLight;
         
+        foreach (var text in lightText)
+        {
+            text.color = _lightColorLight;
+        }
+        
         Color c = bgStartPanel.color;
         c.a = 0.7f; // нужная альфа, например, 30%
         bgStartPanel.color  = c;
@@ -151,6 +157,11 @@ public class ThemeChineseCheckers: MonoBehaviour
         bgColor.backgroundColor = _colorBgBoard;
         eduBgColor.color = _colorBgBoard;
         bgStartPanel.color = _colorBgStartPanelDark;
+        
+        foreach (var text in lightText)
+        {
+            text.color = _colorBgBoard;
+        }
         
         Color c = bgStartPanel.color;
         c.a = 0.5f;

@@ -14,6 +14,12 @@ Settings.language,Language,Язык
 Settings.english,English,Английский
 Settings.russian,Russian,Русский
 Settings.automatically,Automatically,Автоматически
+Settings.ads,Advertising,Реклама
+Settings.removeads,Remove ADS,Удалить рекламу
+Settings.restoreinapp,Restore In-App,Восстановить
+Settings.about,About the game,Об игре
+Settings.privacypolicy,Privacy Policy,Политика конфиденциальности
+Settings.support,Support,Поддержка
 Pause.resume,Resume,Продолжить
 Pause.again,Again,Заново
 Pause.home,Home,Домой
@@ -54,4 +60,5 @@ Edu.hint,Hint button,Кнопка подсказки
 Edu.undo,Undo button,Кнопка шаг назад
 Edu.settings,Change additional settings,Меняй дополнительные настройки
 Edu.speed,Speed ​​button,Кнопка скорости
-Edu.tap,Click to continue,"Нажми, чтобы продолжить"
+Edu.tap,Click on the screen to continue,"Нажми на экран, чтобы продолжить"
+Edu.change,Button to change shapes,Кнопка смены фигур

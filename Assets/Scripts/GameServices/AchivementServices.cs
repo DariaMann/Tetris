@@ -12,7 +12,7 @@
     Snake50Points = 10,
     Snake100Points = 11,
     Snake200Points = 12,
-    Snake300Points = 13,
+    Snake250Points = 13,
     Tile128 = 14,
     Tile256 = 15,
     Tile512 = 16,

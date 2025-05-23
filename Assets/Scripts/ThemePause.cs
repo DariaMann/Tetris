@@ -14,7 +14,9 @@ public class ThemePause: MonoBehaviour
     private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#BBADA0", out Color color6) ? color6 : Color.white;
-        _colorDark = ColorUtility.TryParseHtmlString("#7E6B59", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7E6B59", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7D6D5E", out Color color8) ? color8 : Color.black;
+        _colorDark = ColorUtility.TryParseHtmlString("#897B6D", out Color color8) ? color8 : Color.black;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;

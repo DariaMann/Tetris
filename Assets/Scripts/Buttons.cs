@@ -139,6 +139,15 @@ public class Buttons : MonoBehaviour {
             StopCoroutine(_themeCoroutine);
             _themeCoroutine = null;
         }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            OnLightThemeClick();
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            OnDarkThemeClick();
+        }
     }
     
     public IEnumerator DelayStopPause()
@@ -259,7 +268,14 @@ public class Buttons : MonoBehaviour {
 
     public void OnRatingClick()
     {
-        GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);
+        if (GameHelper.GameType == MiniGameType.None || GameHelper.GameType == MiniGameType.ChineseCheckers)
+        {
+            GameServicesManager.ShowLeaderboardUI(GameHelper.GameType);
+        }
+        else
+        {
+            GameServicesManager.ShowAchievementsUI();
+        }
     } 
     
     public void OnMusicClick()

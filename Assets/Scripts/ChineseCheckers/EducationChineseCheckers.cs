@@ -21,11 +21,15 @@ public class EducationChineseCheckers : MonoBehaviour
     
     [SerializeField] private CanvasGroup playButton;
     [SerializeField] private GameObject backButton;
+    
+    [SerializeField] private GameObject prevButton;
+    [SerializeField] private GameObject nextButton;
 
     private List<Coroutine> _tutorialCoroutines = new List<Coroutine>();
     
     private bool _isFirstShow;
     private bool _buttonPlayShowed;
+    private const int CountPage = 3;
     
     private void OnDisable()
     {
@@ -37,6 +41,25 @@ public class EducationChineseCheckers : MonoBehaviour
         if (!pauseStatus && GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
             Restart(0);
+        }
+    }
+
+    public void OnEndChangePage(int newPageIndex)
+    {
+        if (newPageIndex == CountPage-1)
+        {
+            prevButton.SetActive(true);
+            nextButton.SetActive(false);
+        }
+        else if (newPageIndex == 0)
+        {
+            prevButton.SetActive(false);
+            nextButton.SetActive(true);
+        }
+        else
+        {
+            prevButton.SetActive(true);
+            nextButton.SetActive(true);
         }
     }
     

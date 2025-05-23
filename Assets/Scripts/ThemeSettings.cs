@@ -35,27 +35,22 @@ public class ThemeSettings : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textTetrisSlider;
     [SerializeField] private Image backgroundTetrisSlider;
     [SerializeField] private Image fillTetrisSlider;
+    
+    [SerializeField] private TextMeshProUGUI versionText;
 
     private Themes _theme;
     private Color _colorLight;
     private Color _colorDark;
     
-    private Color _colorBgLight;
     private Color _colorBgDark;
 
     private void Start()
     {
-//        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
-//        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-//        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
-
-//        _colorBgLight = Color.white;
-//        _colorBgDark = ColorUtility.TryParseHtmlString("#212022", out Color colorBgDark1) ? colorBgDark1 : Color.black;
-
         _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7D6D5E", out Color color8) ? color8 : Color.black;
+        _colorDark = ColorUtility.TryParseHtmlString("#897B6D", out Color color8) ? color8 : Color.black;
         
-        _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
         _colorBgDark = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgDark) ? colorBgDark : Color.black;
         
         
@@ -109,6 +104,18 @@ public class ThemeSettings : MonoBehaviour
         }
         
         RefreshUI();
+
+        SetVersionText();
+    }
+    
+     private string GetVersionText()
+     {
+        return $"Version: {VersionInfo.Version}({VersionInfo.Build})";
+     }
+
+    private void SetVersionText()
+    {
+        versionText.text = GetVersionText();
     }
     
     private void PlayClickSound(bool change)
@@ -175,6 +182,56 @@ public class ThemeSettings : MonoBehaviour
         GameHelper.SnakeSettings.Speed = GameHelper.GetSpeedByTypeSnake(speedType);
         textSlider.text = speedType.ToString();
         JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+    }
+
+    public void OnRateClick()
+    {
+        Debug.Log("Rate click");
+#if UNITY_ANDROID
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.combysoft.combygames");
+#elif UNITY_IOS
+        Application.OpenURL("https://apps.apple.com/app/id6744244657");
+#else
+        Debug.Log("Оценка доступна только на мобильных платформах");
+#endif
+    }
+    
+    public void OnPrivacyPolicyClick()
+    {
+        Debug.Log("Privacy Policy click");
+        Application.OpenURL("https://docs.google.com/document/d/1V2GoxaUvbsuK4PkvKpNJnmrc1WDLZUpQ9zEb1yob6is/edit?usp=sharing");
+    }
+    
+    public void OnSupportClick()
+    {
+        string email = "combysoft@gmail.com";
+        string subject = Uri.EscapeDataString("Bug Report from CombyGames Game");
+        
+        // Собираем полезную информацию
+        string body = Uri.EscapeDataString(
+            $"Please describe the issue:\n\n" +
+            $"---\n" +
+            $"Device: {SystemInfo.deviceModel}\n" +
+            $"OS: {SystemInfo.operatingSystem}\n" +
+            $"Game {GetVersionText()}\n" +
+            $"Time: {System.DateTime.Now}"
+        );
+    
+        string mailto = $"mailto:{email}?subject={subject}&body={body}";
+        
+        Debug.Log(mailto);
+    
+        Application.OpenURL(mailto);
+    }
+    
+    public void OnRemoveAdsClick()
+    {
+        Debug.Log("Remove ads");
+    }
+    
+    public void OnRestoreInAppClick()
+    {
+        Debug.Log("RestoreInApp");
     }
     
     public void ShowSnakeSpeedParameters(bool isShow)
@@ -330,29 +387,8 @@ public class ThemeSettings : MonoBehaviour
     
     public void SetLight()
     {
-        settingsBg.color = _colorBgLight;
-        settingsBackBg.color = _colorBgLight;
-//        settingsBackButton.color = _colorGrey;
-//        settingsRatingButton.color = _colorGrey;
-//        settingsSoundButton.color = _colorGrey;
-//        settingsMusicButton.color = _colorGrey;
-//        settingsVibrationButton.color = _colorGrey;
-//        settingsThemeText.color = _colorDark;
-//        settingsLanguageText.color = _colorDark;
-//        
-//        settingsLightButton.color = _colorGrey;
-//        settingsDarkButton.color = _colorGrey;
-//        settingsLightText.color = _colorLight;
-//        settingsDarkText.color = _colorLight;
-//        settingsLightSelection.color = _colorLight;
-//        settingsDarkSelection.color = _colorLight;
-//        
-//        settingsEnglishButton.color = _colorGrey;
-//        settingsRussianButton.color = _colorGrey;
-//        settingsEnglishText.color = _colorLight;
-//        settingsRussianText.color = _colorLight;
-//        settingsEnglishSelection.color = _colorLight;
-//        settingsRussianSelection.color = _colorLight;
+        settingsBg.color = _colorLight;
+        settingsBackBg.color = _colorLight;
 
         foreach (var light in lightImages)
         {
@@ -370,16 +406,7 @@ public class ThemeSettings : MonoBehaviour
         foreach (var light in middleTexts)
         {
             light.color = _colorDark;
-        }   
-//        
-//        foreach (var light in darkImages)
-//        {
-//            light.color = _colorGrey;
-//        }
-//        foreach (var light in darkTexts)
-//        {
-//            light.color = _colorGrey;
-//        }
+        }
 
         ShowSnakeSpeedParameters(!GameHelper.SnakeSettings.Acceleration);
         ShowTetrisSpeedParameters(!GameHelper.TetrisSettings.Acceleration);
@@ -389,27 +416,6 @@ public class ThemeSettings : MonoBehaviour
     {
         settingsBg.color = _colorBgDark;
         settingsBackBg.color = _colorBgDark;
-//        settingsBackButton.color = _colorLight;
-//        settingsRatingButton.color = _colorLight;
-//        settingsSoundButton.color = _colorLight;
-//        settingsMusicButton.color = _colorLight;
-//        settingsVibrationButton.color = _colorLight;
-//        settingsThemeText.color = _colorLight;
-//        settingsLanguageText.color = _colorLight;
-//        
-//        settingsLightButton.color = _colorLight;
-//        settingsDarkButton.color = _colorLight;
-//        settingsLightText.color = _colorDark;
-//        settingsDarkText.color = _colorDark;
-//        settingsLightSelection.color = _colorDark;
-//        settingsDarkSelection.color = _colorDark;
-//        
-//        settingsEnglishButton.color = _colorLight;
-//        settingsRussianButton.color = _colorLight;
-//        settingsEnglishText.color = _colorDark;
-//        settingsRussianText.color = _colorDark;
-//        settingsEnglishSelection.color = _colorDark;
-//        settingsRussianSelection.color = _colorDark;
 
         foreach (var light in lightImages)
         {
@@ -427,16 +433,7 @@ public class ThemeSettings : MonoBehaviour
         foreach (var light in middleTexts)
         {
             light.color = _colorLight;
-        }   
-//        
-//        foreach (var light in darkImages)
-//        {
-//            light.color = _colorGrey;
-//        }
-//        foreach (var light in darkTexts)
-//        {
-//            light.color = _colorGrey;
-//        }
+        }
 
         ShowSnakeSpeedParameters(!GameHelper.SnakeSettings.Acceleration);
         ShowTetrisSpeedParameters(!GameHelper.TetrisSettings.Acceleration);

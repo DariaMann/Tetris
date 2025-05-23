@@ -12,7 +12,6 @@ public class ThemeMenu : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> textsBg;
 
     private Color _colorLight;
-//    private Color _colorGrey;
     private Color _colorDark;
     
     private Color _colorBgLight;
@@ -25,13 +24,11 @@ public class ThemeMenu : MonoBehaviour
 
     private void Start()
     {
-//        _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
-//        _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;
-//        _colorDark = ColorUtility.TryParseHtmlString("#212022", out Color color2) ? color2 : Color.black;
         
         _colorLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color color6) ? color6 : Color.white;
-//        _colorGrey = ColorUtility.TryParseHtmlString("#CDC1B4", out Color color7) ? color7 : Color.gray;
-        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7D6D5E", out Color color8) ? color8 : Color.black;
+        _colorDark = ColorUtility.TryParseHtmlString("#897B6D", out Color color8) ? color8 : Color.black;
         
         _colorBgLight = ColorUtility.TryParseHtmlString("#FAF8EF", out Color colorBgLight) ? colorBgLight : Color.white;
         _colorBgDark = ColorUtility.TryParseHtmlString("#2C2926", out Color colorBgDark) ? colorBgDark : Color.black;

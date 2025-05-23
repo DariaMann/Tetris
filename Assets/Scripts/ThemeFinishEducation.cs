@@ -11,15 +11,19 @@ public class ThemeFinishEducation: MonoBehaviour
     private Themes _theme;
     private Color _colorLight;
     private Color _colorDark;
-    private Color _colorTitleLight;
+//    private Color _colorTitleLight;
     private Color _colorTitleDark;
     
     private void Start()
     {
         _colorLight = ColorUtility.TryParseHtmlString("#BBADA0", out Color color6) ? color6 : Color.white;
-        _colorDark = ColorUtility.TryParseHtmlString("#7E6B59", out Color color8) ? color8 : Color.black;
-        _colorTitleLight = ColorUtility.TryParseHtmlString("#877564", out Color color9) ? color9 : Color.white;
-        _colorTitleDark = ColorUtility.TryParseHtmlString("#312923", out Color color10) ? color10 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7E6B59", out Color color8) ? color8 : Color.black;
+//        _colorDark = ColorUtility.TryParseHtmlString("#7D6D5E", out Color color8) ? color8 : Color.black;
+        _colorDark = ColorUtility.TryParseHtmlString("#897B6D", out Color color8) ? color8 : Color.black;
+//        _colorTitleLight = ColorUtility.TryParseHtmlString("#877564", out Color color9) ? color9 : Color.white;
+//        _colorTitleDark = ColorUtility.TryParseHtmlString("#312923", out Color color10) ? color10 : Color.black;
+//        _colorTitleDark = ColorUtility.TryParseHtmlString("#6C5B4C", out Color color10) ? color10 : Color.black;
+        _colorTitleDark = ColorUtility.TryParseHtmlString("#63564C", out Color color10) ? color10 : Color.black;
         
         SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
@@ -73,7 +77,7 @@ public class ThemeFinishEducation: MonoBehaviour
     
     public void SetLight()
     {
-        bgTitle.color = _colorTitleLight;
+        bgTitle.color = _colorTitleDark;
         foreach (var button in bgButtons)
         {
             button.color = _colorLight;
