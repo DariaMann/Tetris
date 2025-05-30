@@ -121,19 +121,19 @@ public class Settings : MonoBehaviour
     public void OnManyFoodsToggle(bool change)
     {
         GameHelper.SnakeSettings.ManyFood = change;
-        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
     }
     
     public void OnMoveThroughWallsToggle(bool change)
     {
         GameHelper.SnakeSettings.MoveThroughWalls = change;
-        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
     }
     
     public void OnAccelerationToggle(bool change)
     {
         GameHelper.SnakeSettings.Acceleration = change;
-        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
         ShowSnakeSpeedParameters(!change);
     }
     
@@ -142,7 +142,7 @@ public class Settings : MonoBehaviour
         int speedType = (int) change;
         GameHelper.SnakeSettings.Speed = GameHelper.GetSpeedByTypeSnake(speedType);
         textSlider.text = speedType.ToString();
-        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
     }
 
     public void OnRateClick()
@@ -249,7 +249,7 @@ public class Settings : MonoBehaviour
     public void OnAccelerationTetrisToggle(bool change)
     {
         GameHelper.TetrisSettings.Acceleration = change;
-        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+        MyJsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
         ShowTetrisSpeedParameters(!change);
     }
     
@@ -258,7 +258,7 @@ public class Settings : MonoBehaviour
         int speedType = (int) change;
         GameHelper.TetrisSettings.Speed = GameHelper.GetSpeedByTypeTetris(speedType);
         textTetrisSlider.text = speedType.ToString();
-        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+        MyJsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
     }
     
     public void ShowTetrisSpeedParameters(bool isShow)

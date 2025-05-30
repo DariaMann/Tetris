@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
 
-public static class JsonHelper
+public static class MyJsonHelper
 {
     #region Tetris
 

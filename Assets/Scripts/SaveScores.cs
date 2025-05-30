@@ -114,27 +114,27 @@ public class SaveScores : MonoBehaviour
             {
                 GameHelper.Save2048.Record = currentScore;
                 GameHelper.Save2048.Maximum = maximum;
-                JsonHelper.Save2048(GameHelper.Save2048);
+                MyJsonHelper.Save2048(GameHelper.Save2048);
             }
             else if (gameType == MiniGameType.Tetris)
             {
                 GameHelper.SaveTetris.Record = currentScore;
-                JsonHelper.SaveTetris(GameHelper.SaveTetris);
+                MyJsonHelper.SaveTetris(GameHelper.SaveTetris);
             }
             else if (gameType == MiniGameType.Snake)
             {
                 GameHelper.SaveSnake.Record = currentScore;
-                JsonHelper.SaveSnake(GameHelper.SaveSnake);
+                MyJsonHelper.SaveSnake(GameHelper.SaveSnake);
             }
             else if (gameType == MiniGameType.Lines98)
             {
                 GameHelper.SaveLines98.Record = currentScore;
-                JsonHelper.SaveLines98(GameHelper.SaveLines98);
+                MyJsonHelper.SaveLines98(GameHelper.SaveLines98);
             }
             else if (gameType == MiniGameType.Blocks)
             {
                 GameHelper.SaveBlocks.Record = currentScore;
-                JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
+                MyJsonHelper.SaveBlocks(GameHelper.SaveBlocks);
             }
             
             CurrentRecord = currentScore;

@@ -120,12 +120,12 @@ public class GameManager2048 : MonoBehaviour
         if (gameOver.IsGameOver)
         {
             GameHelper.Save2048.SaveData2048 = null;
-            JsonHelper.Save2048(GameHelper.Save2048);
+            MyJsonHelper.Save2048(GameHelper.Save2048);
             return;
         }
         SaveData2048 data = new SaveData2048(SaveScores.IsWin, SaveScores.CurrentScore, board.Tiles);
         GameHelper.Save2048.SaveData2048 = data;
-        JsonHelper.Save2048(GameHelper.Save2048);
+        MyJsonHelper.Save2048(GameHelper.Save2048);
     }
 
     public void ChangeMaximumNumber(int newMaximum)
@@ -133,7 +133,7 @@ public class GameManager2048 : MonoBehaviour
         if (newMaximum > GameHelper.Save2048.Maximum)
         {
             GameHelper.Save2048.Maximum = newMaximum;
-            JsonHelper.Save2048(GameHelper.Save2048);
+            MyJsonHelper.Save2048(GameHelper.Save2048);
         }
         
         SaveScores.ChangeMaximum(newMaximum);

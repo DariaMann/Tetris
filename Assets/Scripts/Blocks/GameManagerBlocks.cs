@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +16,15 @@ public class GameManagerBlocks : MonoBehaviour
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
     [SerializeField] private Button undoButton;
+    
+    [SerializeField] private CanvasGroup changeBlocksButton;
+    [SerializeField] private GameObject changeBlocksPanel;
+    [SerializeField] private GameObject changeBlocksImage;
+    [SerializeField] private TextMeshProUGUI changeBlocksText;
 
     public static GameManagerBlocks Instance { get; private set; }
+
+    public static int CountChangeBlocks { get; private set; } = 1;
 
     public Stack<SaveDataBlocks> EventSteps { get; set; } = new Stack<SaveDataBlocks>();
 
@@ -60,6 +68,11 @@ public class GameManagerBlocks : MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.Blocks, true);
         }
+        
+        AppodealManager.Instance.OnRewardedVideoFinished += GiveReward;
+        AppodealManager.Instance.OnRewardedVideoLoaded += CheckStateChangeBlocksButton;
+        AppodealManager.Instance.OnInterstitialFinished += GameOver;
+        CheckStateChangeBlocksButton();
     }
 
     void OnApplicationQuit()
@@ -78,6 +91,12 @@ public class GameManagerBlocks : MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+        if (AppodealManager.Instance != null)
+        {
+            AppodealManager.Instance.OnRewardedVideoFinished -= GiveReward;
+            AppodealManager.Instance.OnRewardedVideoLoaded -= CheckStateChangeBlocksButton;
+            AppodealManager.Instance.OnInterstitialFinished -= GameOver;
+        }
     }
 
     public void LoadLastPlay()
@@ -116,14 +135,14 @@ public class GameManagerBlocks : MonoBehaviour
         if (gameOver.IsGameOver)
         {
             GameHelper.SaveBlocks.SaveDataBlocks = null;
-            JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
+            MyJsonHelper.SaveBlocks(GameHelper.SaveBlocks);
             return;
         }
 
         SaveDataBlocks data = new SaveDataBlocks(saveScores.IsWin, saveScores.CurrentScore, board.Tiles, board.Blocks);
 
         GameHelper.SaveBlocks.SaveDataBlocks = data;
-        JsonHelper.SaveBlocks(GameHelper.SaveBlocks);
+        MyJsonHelper.SaveBlocks(GameHelper.SaveBlocks);
     }
 
     private void NewGame()
@@ -132,10 +151,61 @@ public class GameManagerBlocks : MonoBehaviour
         board.GenerateGrid();
         board.CreateBlocks();
     }
+    
+    public void CheckStateChangeBlocksButton()
+    {
+        if (CountChangeBlocks <= 0)
+        {
+            changeBlocksPanel.SetActive(true);
+            changeBlocksImage.SetActive(true);
+            changeBlocksText.gameObject.SetActive(false);
+            
+            if (AppodealManager.Instance.IsRewardedVideoReady())
+            {
+                changeBlocksButton.interactable = true;
+                changeBlocksButton.alpha = 1;
+            }
+            else
+            {
+                changeBlocksButton.interactable = false;
+                changeBlocksButton.alpha = 0.5f;
+            }
+        }
+        else
+        {
+            changeBlocksPanel.SetActive(true);
+            changeBlocksImage.SetActive(false);
+            changeBlocksText.gameObject.SetActive(true);
+            changeBlocksText.text = CountChangeBlocks.ToString();
+            changeBlocksButton.interactable = true;
+            changeBlocksButton.alpha = 1;
+        }
+    }
+    
+    private void GiveReward()
+    {
+        Debug.Log("Награда выдана!");
+        // Например, добавим монеты игроку
+        CountChangeBlocks += 1;
+
+        CheckStateChangeBlocksButton();
+    }
 
     public void OnChangeBlocks()
     {
+        if (CountChangeBlocks <= 0)
+        {
+#if UNITY_EDITOR
+            GiveReward();
+            return;
+#endif
+            AppodealManager.Instance.ShowRewardedVideo();
+            return;
+        }
+
+        CountChangeBlocks -= 1;
         board.CreateBlocks();
+        CheckStateChangeBlocksButton();
     }
 
     public void Again()

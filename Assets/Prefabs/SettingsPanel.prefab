@@ -2025,8 +2025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d883dfd4cb714af59c58d7ff2570b9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutGroupParent: {fileID: 3271083201233638980}
-  scrollRect: {fileID: 458380661067950197}
   settingsBg: {fileID: 1970805562755820048}
   settingsBackBg: {fileID: 1970805563755052139}
   lightImages:
@@ -2093,23 +2091,6 @@ MonoBehaviour:
   - {fileID: 485337136144936870}
   - {fileID: 2070524173772649408}
   - {fileID: 2543887010481862415}
-  snakeSettings: {fileID: 5220700769826348505}
-  manyFoodToggle: {fileID: 64501216581096529}
-  moveThroughWallsToggle: {fileID: 7512477747903919308}
-  accelerationToggle: {fileID: 92080342308266210}
-  speedText: {fileID: 441098564253948395}
-  speed: {fileID: 631802811003201435}
-  textSlider: {fileID: 6803446613116203454}
-  backgroundSnakeSlider: {fileID: 1000268631066071800}
-  fillSnakeSlider: {fileID: 7708994686568227882}
-  tetrisSettings: {fileID: 587724106093868875}
-  accelerationTetrisToggle: {fileID: 5015391400529256858}
-  speedTetrisText: {fileID: 1399396083316361597}
-  speedTetris: {fileID: 2643202794355045484}
-  textTetrisSlider: {fileID: 2095298295637555762}
-  backgroundTetrisSlider: {fileID: 8739679851618507194}
-  fillTetrisSlider: {fileID: 3511611784293937943}
-  versionText: {fileID: 2543887010481862415}
 --- !u!114 &4959130981846189919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7669,10 +7650,10 @@ RectTransform:
   m_Father: {fileID: 8207123746824395862}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMin: {x: 0.53866243, y: 0}
+  m_AnchorMax: {x: 1, y: 0.5245545}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 211.142, y: 90}
+  m_SizeDelta: {x: -2.0324237, y: -1.7831421}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8157383499529392323
 CanvasRenderer:
@@ -7967,9 +7948,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.45900002, y: 0.5245545}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 211.142, y: 90}
+  m_SizeDelta: {x: -0.9726241, y: -1.721988}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &9055850971997217684
 CanvasRenderer:

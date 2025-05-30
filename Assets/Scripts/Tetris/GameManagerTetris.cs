@@ -120,7 +120,7 @@ public class GameManagerTetris : MonoBehaviour
         if (gameOver.IsGameOver)
         {
             GameHelper.SaveTetris.SaveDataTetris = null;
-            JsonHelper.SaveTetris(GameHelper.SaveTetris);
+            MyJsonHelper.SaveTetris(GameHelper.SaveTetris);
             return;
         }
 
@@ -161,7 +161,7 @@ public class GameManagerTetris : MonoBehaviour
         
         SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, saveScores.CurrentScore, board.ActivePiece.Data.tetromino, Next.tetromino, tetrominos);
         GameHelper.SaveTetris.SaveDataTetris = data;
-        JsonHelper.SaveTetris(GameHelper.SaveTetris);
+        MyJsonHelper.SaveTetris(GameHelper.SaveTetris);
     }
 
     public void GameOver()

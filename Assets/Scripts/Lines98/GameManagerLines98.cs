@@ -124,13 +124,13 @@ public class GameManagerLines98 : MonoBehaviour
         if (gameOver.IsGameOver)
         {
             GameHelper.SaveLines98.SaveDataLines98 = null;
-            JsonHelper.SaveLines98(GameHelper.SaveLines98);
+            MyJsonHelper.SaveLines98(GameHelper.SaveLines98);
             return;
         }
         SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, board.Balls, board.FutureBalls);
         
         GameHelper.SaveLines98.SaveDataLines98 = data;
-        JsonHelper.SaveLines98(GameHelper.SaveLines98);
+        MyJsonHelper.SaveLines98(GameHelper.SaveLines98);
     }
 
     private void NewGame()

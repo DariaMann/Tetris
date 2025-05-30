@@ -229,7 +229,7 @@ public class CheckersManager: MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataChineseCheckers saveData = JsonHelper.LoadChineseCheckersData();
+        SaveDataChineseCheckers saveData = MyJsonHelper.LoadChineseCheckersData();
         if (saveData == null)
         {
             FirstStart();
@@ -253,11 +253,11 @@ public class CheckersManager: MonoBehaviour
     {
         if (!IsPlaying)
         {
-            JsonHelper.SaveChineseCheckersData(null);
+            MyJsonHelper.SaveChineseCheckersData(null);
             return;
         }
         SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, FirstPlayerIndex, Steps, Players, hexMap.Chips);
-        JsonHelper.SaveChineseCheckersData(data);
+        MyJsonHelper.SaveChineseCheckersData(data);
     }
 
     private void SetPlayers(List<SavePlayer> savePlayers)

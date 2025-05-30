@@ -333,7 +333,7 @@ public class Snake : MonoBehaviour
             return;
         }
         GameHelper.SnakeSettings.Speed = Mathf.Max(minSpeed, minSpeed + (segments.Count - initialSize) * 0.1f);
-        JsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
+        MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
         SetAccelerationSpeed(GameHelper.SnakeSettings.Speed);
     }
     

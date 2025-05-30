@@ -78,13 +78,13 @@ public class GameManagerSnake: MonoBehaviour
         if (gameOver.IsGameOver)
         {
             GameHelper.SaveSnake.SaveDataSnake = null;
-            JsonHelper.SaveSnake(GameHelper.SaveSnake);
+            MyJsonHelper.SaveSnake(GameHelper.SaveSnake);
             return;
         }
 
         SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, transform.position, foodController.Foods, snake.Direction, saveScores.CurrentScore);
         GameHelper.SaveSnake.SaveDataSnake = data;
-        JsonHelper.SaveSnake(GameHelper.SaveSnake);
+        MyJsonHelper.SaveSnake(GameHelper.SaveSnake);
     }
 
     public void GameOver()

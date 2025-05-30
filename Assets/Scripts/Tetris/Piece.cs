@@ -482,7 +482,7 @@ public class Piece : MonoBehaviour
             return;
         }
         GameHelper.TetrisSettings.Speed = Mathf.Max(minDelay, maxDelay - GameManagerTetris.Instance.SaveScores.CurrentScore * scoreFactor);
-        JsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
+        MyJsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
         SetAccelerationSpeed(GameHelper.TetrisSettings.Speed);
     }
     

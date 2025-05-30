@@ -263,11 +263,11 @@ public static class GameHelper
 
         public static void Loading()
         {
-                Save2048 = JsonHelper.Load2048();
-                SaveTetris = JsonHelper.LoadTetris();
-                SaveSnake = JsonHelper.LoadSnake();
-                SaveLines98 = JsonHelper.LoadLines98();
-                SaveBlocks = JsonHelper.LoadBlocks();
+                Save2048 = MyJsonHelper.Load2048();
+                SaveTetris = MyJsonHelper.LoadTetris();
+                SaveSnake = MyJsonHelper.LoadSnake();
+                SaveLines98 = MyJsonHelper.LoadLines98();
+                SaveBlocks = MyJsonHelper.LoadBlocks();
         }
 
         public static bool GetEducationState(MiniGameType type)
@@ -414,13 +414,13 @@ public static class GameHelper
                 if (!PlayerPrefs.HasKey("TetrisSettings"))
                 {
                         TetrisSettings = new TetrisSettings();
-                        JsonHelper.SaveTetrisSettings(TetrisSettings);
+                        MyJsonHelper.SaveTetrisSettings(TetrisSettings);
                 } 
                 
                 if (!PlayerPrefs.HasKey("SnakeSettings"))
                 {
                         SnakeSettings = new SnakeSettings();
-                        JsonHelper.SaveSnakeSettings(SnakeSettings);
+                        MyJsonHelper.SaveSnakeSettings(SnakeSettings);
                 }
 
                 SetEducationStateFirst();
@@ -428,22 +428,22 @@ public static class GameHelper
         
         public static void ResetData()
         {
-                JsonHelper.SaveChineseCheckersData(null);
+                MyJsonHelper.SaveChineseCheckersData(null);
                 
-                JsonHelper.Save2048(null);
-                Save2048 = JsonHelper.Load2048();
+                MyJsonHelper.Save2048(null);
+                Save2048 = MyJsonHelper.Load2048();
                 
-                JsonHelper.SaveTetris(null);
-                SaveTetris = JsonHelper.LoadTetris();
+                MyJsonHelper.SaveTetris(null);
+                SaveTetris = MyJsonHelper.LoadTetris();
                 
-                JsonHelper.SaveSnake(null);
-                SaveSnake = JsonHelper.LoadSnake();
+                MyJsonHelper.SaveSnake(null);
+                SaveSnake = MyJsonHelper.LoadSnake();
                 
-                JsonHelper.SaveLines98(null);
-                SaveLines98 = JsonHelper.LoadLines98();
+                MyJsonHelper.SaveLines98(null);
+                SaveLines98 = MyJsonHelper.LoadLines98();
                 
-                JsonHelper.SaveBlocks(null);
-                SaveBlocks = JsonHelper.LoadBlocks();
+                MyJsonHelper.SaveBlocks(null);
+                SaveBlocks = MyJsonHelper.LoadBlocks();
                 
                 SetEducationState(MiniGameType.Lines98, false);
                 SetEducationState(MiniGameType.Blocks, false);
@@ -511,14 +511,14 @@ public static class GameHelper
         
         public static SnakeSettings GetSnakeSettings()
         {
-                SnakeSettings = JsonHelper.LoadSnakeSettings();
+                SnakeSettings = MyJsonHelper.LoadSnakeSettings();
                 Debug.Log("SnakeSettings: " + SnakeSettings.ToString());
                 return SnakeSettings;
         }   
         
         public static TetrisSettings GetTetrisSettings()
         {
-                TetrisSettings = JsonHelper.LoadTetrisSettings();
+                TetrisSettings = MyJsonHelper.LoadTetrisSettings();
                 Debug.Log("TetrisSettings: " + TetrisSettings.ToString());
                 return TetrisSettings;
         }

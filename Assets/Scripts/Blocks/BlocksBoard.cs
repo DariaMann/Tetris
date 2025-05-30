@@ -422,7 +422,11 @@ public class BlocksBoard : MonoBehaviour
 
         if (countNotInteractable == countActive && countActive > 0)
         {
+#if UNITY_EDITOR
             GameManagerBlocks.Instance.GameOver();
+            return;
+#endif
+            AppodealManager.Instance.ShowInterstitial();
         }
     }
     
