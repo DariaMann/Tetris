@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-//using AppodealAds.Unity.Api;
-//using AppodealAds.Unity.Common;
+//using AppodealStack.Monetization.Api;
+//using AppodealStack.Monetization.Common;
 
-public class AppodealManager : MonoBehaviour//, IAppodealInitializationListener, IRewardedVideoAdListener, IInterstitialAdListener, IBannerAdListener 
+public class AppodealManager : MonoBehaviour 
 {
     private string androidAppKey = "80283a642a3caa535c385d3fec98d81d537a51ae63abf318";
     private string iosAppKey = "5199cecdd065fb99badcf0b6c48fc33701d5bf296fcd7862";
     
     public static AppodealManager Instance { get; private set; }
     
-    public System.Action OnRewardedVideoFinished;
-    public System.Action OnRewardedVideoLoaded;
-    public System.Action OnInterstitialFinished;
+    public Action OnRewardedVideoFinishedAction;
+    public Action OnRewardedVideoLoadedAction;
+    public Action OnInterstitialFinished;
     
     private void Awake()
     {
@@ -27,6 +27,13 @@ public class AppodealManager : MonoBehaviour//, IAppodealInitializationListener,
             Destroy(gameObject);
         }
     }
+    
+    private void OnDestroy()
+    {
+        InterstitialCallbacksUnsubscribe();
+        RewardedVideoCallbacksUnsubscribe();
+        BannerCallbacksUnsubscribe();
+    }
 
     public void Initialize()
     {
@@ -38,47 +45,108 @@ public class AppodealManager : MonoBehaviour//, IAppodealInitializationListener,
 #else
         string appKey = "";
 #endif
-//
+
 //        // Типы рекламы, которые используем
-//        int adTypes = Appodeal.INTERSTITIAL | Appodeal.BANNER | Appodeal.REWARDED_VIDEO;
-//
+//        int adTypes = AppodealAdType.Interstitial | AppodealAdType.Banner | AppodealAdType.RewardedVideo;
+//        
+//        AppodealCallbacks.Sdk.OnInitialized += OnInitializationFinished;
 //        // Инициализация Appodeal
-//        Appodeal.initialize(appKey, adTypes, this);
+//        Appodeal.Initialize(appKey, adTypes);
 //
 //        // Подписываемся на события
-//        Appodeal.setInterstitialCallbacks(this);
-//        Appodeal.setRewardedVideoCallbacks(this);
-//        Appodeal.setBannerCallbacks(this);
+//        InterstitialCallbacksSubscribe();
+//        RewardedVideoCallbacksSubscribe();
+//        BannerCallbacksSubscribe();
 //
 //        // todo: Включаем тестовый режим (выключи перед релизом)
-//        Appodeal.setTesting(true);
-
-        // Загрузить баннер
-        ShowBottomBanner();
+//        Appodeal.SetTesting(true);
+//
+//        // Загрузить баннер
+//        ShowBottomBanner();
+    }
+//    
+//    public void InterstitialCallbacksSubscribe()
+//    {
+//        AppodealCallbacks.Interstitial.OnLoaded += OnInterstitialLoaded;
+//        AppodealCallbacks.Interstitial.OnFailedToLoad += OnInterstitialFailedToLoad;
+//        AppodealCallbacks.Interstitial.OnShown += OnInterstitialShown;
+//        AppodealCallbacks.Interstitial.OnShowFailed += OnInterstitialShowFailed;
+//        AppodealCallbacks.Interstitial.OnClosed += OnInterstitialClosed;
+//        AppodealCallbacks.Interstitial.OnClicked += OnInterstitialClicked;
+//        AppodealCallbacks.Interstitial.OnExpired += OnInterstitialExpired;
+//    }
+//    
+//    public void RewardedVideoCallbacksSubscribe()
+//    {
+//        AppodealCallbacks.RewardedVideo.OnLoaded += OnRewardedVideoLoaded;
+//        AppodealCallbacks.RewardedVideo.OnFailedToLoad += OnRewardedVideoFailedToLoad;
+//        AppodealCallbacks.RewardedVideo.OnShown += OnRewardedVideoShown;
+//        AppodealCallbacks.RewardedVideo.OnShowFailed += OnRewardedVideoShowFailed;
+//        AppodealCallbacks.RewardedVideo.OnClosed += OnRewardedVideoClosed;
+//        AppodealCallbacks.RewardedVideo.OnFinished += OnRewardedVideoFinished;
+//        AppodealCallbacks.RewardedVideo.OnClicked += OnRewardedVideoClicked;
+//        AppodealCallbacks.RewardedVideo.OnExpired += OnRewardedVideoExpired;
+//    }
+//    
+//    public void BannerCallbacksSubscribe()
+//    {
+//        AppodealCallbacks.Banner.OnLoaded += OnBannerLoaded;
+//        AppodealCallbacks.Banner.OnFailedToLoad += OnBannerFailedToLoad;
+//        AppodealCallbacks.Banner.OnShown += OnBannerShown;
+//        AppodealCallbacks.Banner.OnShowFailed += OnBannerShowFailed;
+//        AppodealCallbacks.Banner.OnClicked += OnBannerClicked;
+//        AppodealCallbacks.Banner.OnExpired += OnBannerExpired;
+//    }
+    
+    public void InterstitialCallbacksUnsubscribe()
+    {
+//        AppodealCallbacks.Interstitial.OnLoaded -= OnInterstitialLoaded;
+//        AppodealCallbacks.Interstitial.OnFailedToLoad -= OnInterstitialFailedToLoad;
+//        AppodealCallbacks.Interstitial.OnShown -= OnInterstitialShown;
+//        AppodealCallbacks.Interstitial.OnShowFailed -= OnInterstitialShowFailed;
+//        AppodealCallbacks.Interstitial.OnClosed -= OnInterstitialClosed;
+//        AppodealCallbacks.Interstitial.OnClicked -= OnInterstitialClicked;
+//        AppodealCallbacks.Interstitial.OnExpired -= OnInterstitialExpired;
+    }
+    
+    public void RewardedVideoCallbacksUnsubscribe()
+    {
+//        AppodealCallbacks.RewardedVideo.OnLoaded -= OnRewardedVideoLoaded;
+//        AppodealCallbacks.RewardedVideo.OnFailedToLoad -= OnRewardedVideoFailedToLoad;
+//        AppodealCallbacks.RewardedVideo.OnShown -= OnRewardedVideoShown;
+//        AppodealCallbacks.RewardedVideo.OnShowFailed -= OnRewardedVideoShowFailed;
+//        AppodealCallbacks.RewardedVideo.OnClosed -= OnRewardedVideoClosed;
+//        AppodealCallbacks.RewardedVideo.OnFinished -= OnRewardedVideoFinished;
+//        AppodealCallbacks.RewardedVideo.OnClicked -= OnRewardedVideoClicked;
+//        AppodealCallbacks.RewardedVideo.OnExpired -= OnRewardedVideoExpired;
+    }
+    
+    public void BannerCallbacksUnsubscribe()
+    {
+//        AppodealCallbacks.Banner.OnLoaded -= OnBannerLoaded;
+//        AppodealCallbacks.Banner.OnFailedToLoad -= OnBannerFailedToLoad;
+//        AppodealCallbacks.Banner.OnShown -= OnBannerShown;
+//        AppodealCallbacks.Banner.OnShowFailed -= OnBannerShowFailed;
+//        AppodealCallbacks.Banner.OnClicked -= OnBannerClicked;
+//        AppodealCallbacks.Banner.OnExpired -= OnBannerExpired;
     }
 
     public void ShowBottomBanner()
     {
-        // Загрузить баннер
-//        Appodeal.show(Appodeal.BANNER_BOTTOM);
+//        Appodeal.Show(AppodealShowStyle.BannerBottom);
     }
     
     public void HideBottomBanner()
     {
-        // Скрыть баннер
-//        Appodeal.hide(Appodeal.BANNER);
+//        Appodeal.Hide(AppodealAdType.Banner);
     }
 
     // Метод для показа межстраничной рекламы (например, после уровня)
     public void ShowInterstitial()
     {
-//        if (Appodeal.isLoaded(Appodeal.INTERSTITIAL))
+//        if (Appodeal.IsLoaded(AppodealAdType.Interstitial))
 //        {
-//            Appodeal.show(Appodeal.INTERSTITIAL);
-//            
-//#if UNITY_ANDROID
-//            Appodeal.muteVideosIfCallsMuted(true);
-//#endif
+//            Appodeal.Show(AppodealShowStyle.Interstitial);
 //        }
 //        else
         {
@@ -89,9 +157,9 @@ public class AppodealManager : MonoBehaviour//, IAppodealInitializationListener,
     // Метод для показа вознаградительной рекламы
     public void ShowRewardedVideo()
     {
-//        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO))
+//        if (Appodeal.IsLoaded(AppodealAdType.RewardedVideo))
 //        {
-//            Appodeal.show(Appodeal.REWARDED_VIDEO);
+//            Appodeal.Show(AppodealShowStyle.RewardedVideo);
 //        }
 //        else
         {
@@ -99,150 +167,158 @@ public class AppodealManager : MonoBehaviour//, IAppodealInitializationListener,
         }
     }
     
-//    public bool IsInterstitialReady() => Appodeal.isLoaded(Appodeal.INTERSTITIAL);
+//    public bool IsInterstitialReady() => Appodeal.IsLoaded(AppodealAdType.Interstitial);
     public bool IsRewardedVideoReady()
     {
 //#if UNITY_EDITOR
         return true;
 //#endif
-//      return  Appodeal.isLoaded(Appodeal.REWARDED_VIDEO);
+//      return  Appodeal.IsLoaded(AppodealAdType.RewardedVideo);
     } 
     
     // --- Реализация интерфейса IAppodealInitializationListener ---
     
-    public void onInitializationFinished(List<string> errors) {}
-
-    #region Interstitial callback handlers
+//    public void OnInitializationFinished(object sender, SdkInitializedEventArgs e) {}
+//    
+//    #region InterstitialAd Callbacks
+//
+//// Called when interstitial was loaded (precache flag shows if the loaded ad is precache)
+//    private void OnInterstitialLoaded(object sender, AdLoadedEventArgs e)
+//    {
+//        Debug.Log("Interstitial loaded");
+//    }
+//
+//// Called when interstitial failed to load
+//    private void OnInterstitialFailedToLoad(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial failed to load");
+//    }
+//
+//// Called when interstitial was loaded, but cannot be shown (internal network errors, placement settings, etc.)
+//    private void OnInterstitialShowFailed(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial show failed");
+//    }
+//
+//// Called when interstitial is shown
+//    private void OnInterstitialShown(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial shown");
+//    }
+//
+//// Called when interstitial is closed
+//    private void OnInterstitialClosed(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial closed");
+//        OnInterstitialFinished?.Invoke();
+//    }
+//
+//// Called when interstitial is clicked
+//    private void OnInterstitialClicked(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial clicked");
+//    }
+//
+//// Called when interstitial is expired and can not be shown
+//    private void OnInterstitialExpired(object sender, EventArgs e)
+//    {
+//        Debug.Log("Interstitial expired");
+//    }
+//
+//    #endregion
+//
+//    #region RewardedVideoAd Callbacks
+//
+////Called when rewarded video was loaded (precache flag shows if the loaded ad is precache).
+//    private void OnRewardedVideoLoaded(object sender, AdLoadedEventArgs e)
+//    {
+//        Debug.Log($"[APDUnity] [Callback] OnRewardedVideoLoaded(bool isPrecache:{e.IsPrecache})");
+//        OnRewardedVideoLoadedAction?.Invoke();
+//    }
+//
+//// Called when rewarded video failed to load
+//    private void OnRewardedVideoFailedToLoad(object sender, EventArgs e)
+//    {
+//        Debug.Log("[APDUnity] [Callback] OnRewardedVideoFailedToLoad()");
+//    }
+//
+//// Called when rewarded video was loaded, but cannot be shown (internal network errors, placement settings, etc.)
+//    private void OnRewardedVideoShowFailed(object sender, EventArgs e)
+//    {
+//        Debug.Log("[APDUnity] [Callback] OnRewardedVideoShowFailed()");
+//    }
+//
+//// Called when rewarded video is shown
+//    private void OnRewardedVideoShown(object sender, EventArgs e)
+//    {
+//        Debug.Log("[APDUnity] [Callback] OnRewardedVideoShown()");
+//    }
+//
+//// Called when rewarded video is closed
+//    private void OnRewardedVideoClosed(object sender, RewardedVideoClosedEventArgs e)
+//    {
+//        Debug.Log($"[APDUnity] [Callback] OnRewardedVideoClosed(bool finished:{e.Finished})");
+//    }
+//
+//// Called when rewarded video is viewed until the end
+//    private void OnRewardedVideoFinished(object sender, RewardedVideoFinishedEventArgs e)
+//    {
+//        Debug.Log($"[APDUnity] [Callback] OnRewardedVideoFinished(double amount:{e.Amount}, string name:{e.Currency})");
+//        OnRewardedVideoFinishedAction?.Invoke();
+//    }
+//
+//// Called when rewarded video is clicked
+//    private void OnRewardedVideoClicked(object sender, EventArgs e)
+//    {
+//        Debug.Log("[APDUnity] [Callback] OnRewardedVideoClicked()");
+//    }
+//
+////Called when rewarded video is expired and can not be shown
+//    private void OnRewardedVideoExpired(object sender, EventArgs e)
+//    {
+//        Debug.Log("[APDUnity] [Callback] OnRewardedVideoExpired()");
+//    }
+//
+//    #endregion
+//    
+//    #region BannerAd Callbacks
+//
+//// Called when a banner is loaded (height arg shows banner's height, precache arg shows if the loaded ad is precache
+//    private void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
+//    {
+//        Debug.Log("Banner loaded");
+//    }
+//
+//// Called when banner failed to load
+//    private void OnBannerFailedToLoad(object sender, EventArgs e)
+//    {
+//        Debug.Log("Banner failed to load");
+//    }
+//
+//// Called when banner failed to show
+//    private void OnBannerShowFailed(object sender, EventArgs e)
+//    {
+//        Debug.Log("Banner show failed");
+//    }
+//
+//// Called when banner is shown
+//    private void OnBannerShown(object sender, EventArgs e)
+//    {
+//        Debug.Log("Banner shown");
+//    }
+//
+//    // Called when banner is clicked
+//    private void OnBannerClicked(object sender, EventArgs e)
+//    {
+//        Debug.Log("Banner clicked");
+//    }
+//
+//// Called when banner is expired and can not be shown
+//    private void OnBannerExpired(object sender, EventArgs e)
+//    {
+//        Debug.Log("Banner expired");
+//    }
+//
+//    #endregion
     
-    // Вызывается, когда пользователь кликнул по межстраничной рекламе
-    public void onInterstitialClicked()
-    {
-        Debug.Log("Клик по межстраничной рекламе");
-    }
-    
-    // Вызывается, когда межстраничная реклама показана
-    public void onInterstitialShown()
-    {
-        Debug.Log("Межстраничная реклама начата");
-    }
-
-// Вызывается, когда межстраничная реклама загружена (флаг precache показывает, является ли реклама предварительно загруженной)
-    public void onInterstitialLoaded(bool isPrecache)
-    {
-        Debug.Log("Межстраничная реклама загружена");
-    }
-    
-    // Вызывается, когда пользователь закрыл межстраничную рекламу
-    public void onInterstitialClosed()
-    {
-        Debug.Log("Межстраничная реклама закрыта");
-        OnInterstitialFinished?.Invoke(); // подключи в UI
-    }
-
-// Вызывается, когда не удалось загрузить межстраничную рекламу
-    public void onInterstitialFailedToLoad()
-    {
-        Debug.Log("Не удалось загрузить межстраничную рекламу");
-    }
-
-// Вызывается, когда реклама была загружена, но не может быть показана (внутренние ошибки сети, настройки размещения и т.д.)
-    public void onInterstitialShowFailed()
-    {
-        Debug.Log("Не удалось показать межстраничную рекламу");
-    }
-
-// Вызывается, когда срок действия рекламы истёк, и она не может быть показана
-    public void onInterstitialExpired()
-    {
-        Debug.Log("Срок действия межстраничной рекламы истёк");
-    }
-
-    #endregion
-    
-    #region Rewarded Video callback handlers
-    
-    public void onRewardedVideoShown()
-    {
-        Debug.Log("Вознаградительное видео началось");
-    }
-
-    public void onRewardedVideoClicked()
-    {
-        Debug.Log("Пользователь кликнул на вознаградительную рекламу");
-    }
-
-    public void onRewardedVideoFinished(double amount, string name)
-    {
-        Debug.Log("Пользователь досмотрел видео и получил награду!");
-        // Здесь можно дать пользователю награду (монеты, бонусы и т.п.)
-        OnRewardedVideoFinished?.Invoke(); // подключи в UI
-    }
-
-    public void onRewardedVideoClosed(bool finished)
-    {
-        Debug.Log("Вознаградительное видео закрыто. Было досмотрено: " + finished);
-    }
-
-    public void onRewardedVideoLoaded(bool isPrecache)
-    {
-        Debug.Log("Вознаградительная реклама загружена");
-        OnRewardedVideoLoaded?.Invoke(); // подключи в UI
-    }
-    
-    public void onRewardedVideoExpired()
-    {
-        Debug.Log("Срок действия согласия пользователя на просмотр вознаграждаемого видео истек");
-    }
-
-    public void onRewardedVideoFailedToLoad()
-    {
-        Debug.Log("Не удалось загрузить вознаградительную рекламу");
-    }
-
-    public void onRewardedVideoShowFailed()
-    {
-        Debug.Log("Не удалось показать вознаградительную рекламу");
-    }
-
-    #endregion
-    
-    #region Banner callback handlers
-
-// Called when a banner is loaded (height arg shows banner's height, precache arg shows if the loaded ad is precache
-    public void onBannerLoaded(int height, bool precache)
-    {
-        Debug.Log("Banner loaded");
-    }
-
-// Called when banner failed to load
-    public void onBannerFailedToLoad()
-    {
-        Debug.Log("Banner failed to load");
-    }
-
-// Called when banner is shown
-    public void onBannerShown()
-    {
-        Debug.Log("Banner shown");
-    }
-
-// Called when banner failed to show
-    public void onBannerShowFailed()
-    {
-        Debug.Log("Banner show failed");
-    }
-
-// Called when banner is clicked
-    public void onBannerClicked()
-    {
-        Debug.Log("Banner clicked");
-    }
-
-// Called when banner is expired and can not be shown
-    public void onBannerExpired()
-    {
-        Debug.Log("Banner expired");
-    }
-
-    #endregion
 }

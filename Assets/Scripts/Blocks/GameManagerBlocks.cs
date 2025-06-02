@@ -69,8 +69,8 @@ public class GameManagerBlocks : MonoBehaviour
             GameHelper.SetEducationState(MiniGameType.Blocks, true);
         }
         
-        AppodealManager.Instance.OnRewardedVideoFinished += GiveReward;
-        AppodealManager.Instance.OnRewardedVideoLoaded += CheckStateChangeBlocksButton;
+        AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
+        AppodealManager.Instance.OnRewardedVideoLoadedAction += CheckStateChangeBlocksButton;
         AppodealManager.Instance.OnInterstitialFinished += GameOver;
         CheckStateChangeBlocksButton();
     }
@@ -93,8 +93,8 @@ public class GameManagerBlocks : MonoBehaviour
         SaveLastPlay();
         if (AppodealManager.Instance != null)
         {
-            AppodealManager.Instance.OnRewardedVideoFinished -= GiveReward;
-            AppodealManager.Instance.OnRewardedVideoLoaded -= CheckStateChangeBlocksButton;
+            AppodealManager.Instance.OnRewardedVideoFinishedAction -= GiveReward;
+            AppodealManager.Instance.OnRewardedVideoLoadedAction -= CheckStateChangeBlocksButton;
             AppodealManager.Instance.OnInterstitialFinished -= GameOver;
         }
     }
