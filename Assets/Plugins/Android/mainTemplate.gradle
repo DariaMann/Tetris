@@ -1,25 +1,57 @@
+buildscript {
+    ext.kotlin_version = '1.8.10' // или нужную версию Kotlin
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("https://storage.googleapis.com/r8-releases/raw")
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("com.android.tools:r8:8.3.37")
+    }
+}
+
 apply plugin: 'com.android.library'
-**APPLY_PLUGINS**
+apply plugin: 'kotlin-android'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
-    implementation 'com.google.games:gpgs-plugin-support:2.0.0' // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
+    implementation 'com.appodeal.ads.sdk.services:adjust:3.6.0.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:98
+    implementation 'com.appodeal.ads.sdk.services:firebase:3.6.0.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:108
+    implementation 'com.appodeal.ads.sdk:core:3.6.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:97
+    implementation 'io.bidmachine:ads.adapters.ironsource:3.2.0.6' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:152
+    implementation 'io.bidmachine:ads.networks.amazon:3.2.0.16' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:128
+    implementation 'io.bidmachine:ads.networks.meta_audience:3.2.0.16' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:129
+    implementation 'io.bidmachine:ads.networks.mintegral:3.2.0.12' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:130
+    implementation 'io.bidmachine:ads.networks.my_target:3.2.0.18' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:131
+    implementation 'io.bidmachine:ads.networks.pangle:3.2.0.10' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:132
+    implementation 'io.bidmachine:ads.networks.vungle:3.2.0.8' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:133
+    implementation 'org.bidon:amazon-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:134
+    implementation 'org.bidon:bidmachine-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:135
+    implementation 'org.bidon:bigoads-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:136
+    implementation 'org.bidon:chartboost-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:137
+    implementation 'org.bidon:dtexchange-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:138
+    implementation 'org.bidon:inmobi-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:139
+    implementation 'org.bidon:ironsource-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:140
+    implementation 'org.bidon:meta-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:141
+    implementation 'org.bidon:mintegral-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:142
+    implementation 'org.bidon:mobilefuse-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:143
+    implementation 'org.bidon:unityads-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:145
+    implementation 'org.bidon:vkads-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:144
+    implementation 'org.bidon:vungle-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:146
+    implementation 'org.bidon:yandex-adapter:0.7.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:147
+    implementation 'com.android.billingclient:billing:6.2.1'
+
 // Android Resolver Dependencies End
 **DEPS**}
 
-// Android Resolver Exclusions Start
-android {
-  packagingOptions {
-      exclude ('/lib/armeabi/*' + '*')
-      exclude ('/lib/mips/*' + '*')
-      exclude ('/lib/mips64/*' + '*')
-      exclude ('/lib/x86/*' + '*')
-      exclude ('/lib/x86_64/*' + '*')
-  }
-}
 // Android Resolver Exclusions End
 android {
+    namespace "com.combysoft.combygames.unitylibrary"
+    ndkPath "**NDKPATH**"
     compileSdkVersion **APIVERSION**
     buildToolsVersion '**BUILDTOOLS**'
 
@@ -46,7 +78,25 @@ android {
     aaptOptions {
         noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**PACKAGING_OPTIONS**
+    }
+
+    packagingOptions {
+        exclude ('/lib/armeabi/*' + '*')
+        exclude ('/lib/mips/*' + '*')
+        exclude ('/lib/mips64/*' + '*')
+        exclude ('/lib/x86/*' + '*')
+        exclude ('/lib/x86_64/*' + '*')
+        exclude 'com/combysoft/combygames/BuildConfig.class'
+    } 
+    
+    buildTypes {
+        debug {
+            //minifyEnabled true fixes this issue and allows you to use minSdkVersion 21
+            minifyEnabled true
+            signingConfig signingConfigs.debug
+    }
+}
+
 }**REPOSITORIES**
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
