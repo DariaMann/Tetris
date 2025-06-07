@@ -26,6 +26,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
             Instance = this;
             DontDestroyOnLoad(gameObject); // Чтобы не уничтожался между сценами
             Initialize();
+            OnInterstitialFinished += RestartInterstitialTimer;
         }
         else
         {
@@ -38,6 +39,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         InterstitialCallbacksUnsubscribe();
         RewardedVideoCallbacksUnsubscribe();
         BannerCallbacksUnsubscribe();
+        OnInterstitialFinished -= RestartInterstitialTimer;
     }
 
     public void Initialize()
@@ -169,6 +171,10 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     public void TryShowInterstitial()
     {
         ShowInterstitial();
+    }
+    
+    public void RestartInterstitialTimer()
+    {
         gamesPlayed = 0;
         lastAdTime = Time.time;
     }

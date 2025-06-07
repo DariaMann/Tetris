@@ -25,7 +25,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     public static GameManagerBlocks Instance { get; private set; }
 
-    public static int CountChangeBlocks { get; private set; } = 1;
+    public static int CountChangeBlocks { get; private set; }
 
     public Stack<SaveDataBlocks> EventSteps { get; set; } = new Stack<SaveDataBlocks>();
 
@@ -78,10 +78,10 @@ public class GameManagerBlocks : MonoBehaviour
         AppodealManager.Instance.OnRewardedVideoLoadedAction += CheckStateChangeBlocksButton;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         
+        CheckDailyHints();
         GameHelper.GetHaveAds();
         ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
-        CheckDailyHints();
     }
     
     private void CheckDailyHints()
@@ -101,8 +101,8 @@ public class GameManagerBlocks : MonoBehaviour
             PlayerPrefs.SetInt("CountChangeBlocks", CountChangeBlocks);
             // Обновляем дату последней проверки
             PlayerPrefs.SetString("ChangeBlocksData", now.ToString());
-            CheckStateChangeBlocksButton();
         }
+        CheckStateChangeBlocksButton();
     }
 
     void OnApplicationQuit()
@@ -240,8 +240,13 @@ public class GameManagerBlocks : MonoBehaviour
     {
         if (GameHelper.HaveAds)
         {
+
             if (CountChangeBlocks <= 0)
             {
+#if UNITY_EDITOR
+                GiveReward();
+                return;
+#endif
                 AppodealManager.Instance.ShowRewardedVideo();
                 return;
             }

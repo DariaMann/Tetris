@@ -665,7 +665,7 @@ public static class GameHelper
                 HaveAds = haveAdsState == 0 ? true : false;
                 return HaveAds;
         }
-        
+
         public static void AdjustBoardSize(Camera cam)
         {
                 float screenRatio = (float)Screen.width / Screen.height;
