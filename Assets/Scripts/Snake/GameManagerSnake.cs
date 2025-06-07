@@ -41,6 +41,12 @@ public class GameManagerSnake: MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.Snake, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }
     
     void OnApplicationQuit()
@@ -59,6 +65,7 @@ public class GameManagerSnake: MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+        AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
 
     public void LoadLastPlay()
@@ -88,6 +95,18 @@ public class GameManagerSnake: MonoBehaviour
     }
 
     public void GameOver()
+    {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

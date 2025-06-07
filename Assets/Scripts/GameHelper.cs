@@ -10,11 +10,13 @@ public static class GameHelper
         private static bool _sound = true;
         private static bool _music = true;
         private static bool _vibration = true;
+        private static bool _haveAds = true;
 
         public static event Action<Themes> OnThemeChanged;
         public static event Action<bool> OnSoundChanged;
         public static event Action<bool> OnMusicChanged;
         public static event Action<bool> OnVibrationChanged;
+        public static event Action<bool> OnHaveAdsChanged;
         
         public static Save2048 Save2048 { get; set; } = new Save2048(0,2,null);
         
@@ -92,6 +94,19 @@ public static class GameHelper
                         {
                                 _vibration = value;
                                 OnVibrationChanged?.Invoke(_vibration); // Вызываем событие
+                        }
+                }
+        }
+        
+        public static bool HaveAds
+        {
+                get => _haveAds;
+                set
+                {
+                        if (_haveAds != value) // Изменяем только если значение новое
+                        {
+                                _haveAds = value;
+                                OnHaveAdsChanged?.Invoke(_haveAds); // Вызываем событие
                         }
                 }
         }
@@ -386,6 +401,12 @@ public static class GameHelper
                 {
                         GameAchievementServices.SaveList();
                 }
+                if (!PlayerPrefs.HasKey("HaveAds"))
+                {
+                        int haveAdsState = HaveAds ? 0 : 1;
+                        PlayerPrefs.SetInt("HaveAds", haveAdsState);
+                        PlayerPrefs.Save();
+                }
 //                if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
 //                {
 //                        JsonHelper.SaveChineseCheckersData(null);
@@ -421,6 +442,18 @@ public static class GameHelper
                 {
                         SnakeSettings = new SnakeSettings();
                         MyJsonHelper.SaveSnakeSettings(SnakeSettings);
+                }   
+                
+                if (!PlayerPrefs.HasKey("CountChangeBlocks"))
+                {
+                        PlayerPrefs.SetInt("CountChangeBlocks", 3);
+                        PlayerPrefs.Save();
+                } 
+                if (!PlayerPrefs.HasKey("ChangeBlocksData"))
+                {
+                        DateTime now = DateTime.Now;
+                        PlayerPrefs.SetString("ChangeBlocksData", now.ToString());
+                        PlayerPrefs.Save();
                 }
 
                 SetEducationStateFirst();
@@ -611,6 +644,26 @@ public static class GameHelper
                         return;
                 }
                 Handheld.Vibrate();
+        }
+        
+        public static void SetHaveAds(bool haveAds)
+        {
+                if (haveAds == HaveAds)
+                {
+                        return;
+                }
+
+                HaveAds = haveAds;
+                int haveAdsState = HaveAds ? 0 : 1;
+                PlayerPrefs.SetInt("HaveAds", (int) haveAdsState);
+                PlayerPrefs.Save();
+        }
+        
+        public static bool GetHaveAds()
+        {
+                int haveAdsState = PlayerPrefs.GetInt("HaveAds");
+                HaveAds = haveAdsState == 0 ? true : false;
+                return HaveAds;
         }
         
         public static void AdjustBoardSize(Camera cam)

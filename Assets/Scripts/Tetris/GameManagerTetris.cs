@@ -55,6 +55,11 @@ public class GameManagerTetris : MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.Tetris, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }
 
     void OnApplicationQuit()
@@ -69,7 +74,11 @@ public class GameManagerTetris : MonoBehaviour
             SaveLastPlay();
         }
     }
-    
+
+    private void OnDestroy()
+    {
+        AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
+    }
 //    private void OnDisable()
 //    {
 //        SaveLastPlay();
@@ -165,6 +174,18 @@ public class GameManagerTetris : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

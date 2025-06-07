@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.SimpleLocalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class Settings : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textTetrisSlider;
     [SerializeField] private Image backgroundTetrisSlider;
     [SerializeField] private Image fillTetrisSlider;
-    
+
     [SerializeField] private TextMeshProUGUI versionText;
 
     private void Start()
@@ -80,8 +81,8 @@ public class Settings : MonoBehaviour
 
         SetVersionText();
     }
-    
-     private string GetVersionText()
+
+    private string GetVersionText()
      {
         return $"Version: {VersionInfo.Version}({VersionInfo.Build})";
      }
@@ -187,9 +188,9 @@ public class Settings : MonoBehaviour
     
     public void OnRemoveAdsClick()
     {
-        Debug.Log("Remove ads");
+        GameHelper.SetHaveAds(!GameHelper.HaveAds);
     }
-    
+
     public void OnRestoreInAppClick()
     {
         Debug.Log("RestoreInApp");

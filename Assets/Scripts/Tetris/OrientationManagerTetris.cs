@@ -71,16 +71,26 @@ public class OrientationManagerTetris : MonoBehaviour
     {
         boardEdu.localPosition = new Vector2(0f,0f);
         goastEdu.localPosition = new Vector2(0f,0f);
-      
-        cameraRenderer.vertical = GameHelper.IsEdication ? 0.25f : 0.5f;
-        cameraRenderer.WidthOrHeight = GameHelper.IsEdication ? 0.25f : 0.5f;
 
-        board.localPosition = new Vector2(0f,-1f);
-        goast.localPosition = new Vector2(0f,-1f);
+        if (GameHelper.HaveAds)
+        {
+            cameraRenderer.vertical = GameHelper.IsEdication ? 0.25f : 0.5f;
+            cameraRenderer.WidthOrHeight = GameHelper.IsEdication ? 0.25f : 0.4f;
+            board.localPosition = new Vector2(0f,-0.5f);
+            goast.localPosition = new Vector2(0f,-0.5f);
+            grid.localPosition = (GameHelper.IsEdication && !GameHelper.IsUIEdication) ? new Vector2(0f,0f) : new Vector2(0f,-0.5f);
+        }
+        else
+        {
+            cameraRenderer.vertical = GameHelper.IsEdication ? 0.25f : 0.5f;
+            cameraRenderer.WidthOrHeight = GameHelper.IsEdication ? 0.25f : 0.5f;
+            board.localPosition = new Vector2(0f,-1f);
+            goast.localPosition = new Vector2(0f,-1f);
+            grid.localPosition = (GameHelper.IsEdication && !GameHelper.IsUIEdication) ? new Vector2(0f,0f) : new Vector2(0f,-1f);
+        }
 
         if (GameHelper.IsEdication && !GameHelper.IsUIEdication)
         {
-            grid.localPosition = new Vector2(0f,0f);
             bottomTextEdu.SetActive(true);
             leftPanel.SetActive(false);
             rightPanel.SetActive(false);
@@ -88,7 +98,6 @@ public class OrientationManagerTetris : MonoBehaviour
         }
         else
         {
-            grid.localPosition = new Vector2(0f,-1f);
             bottomTextEdu.SetActive(false);
             leftPanel.SetActive(false);
             rightPanel.SetActive(false);

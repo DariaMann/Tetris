@@ -71,6 +71,15 @@ public class GameOver : MonoBehaviour
     
     public void ShowGameOverPanel(bool isShow, bool isWin = false)
     {
+        if (isShow)
+        {
+            AppodealManager.Instance.HideBottomBanner();
+        }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        
         InterruptGameOverAnimation();
         
         _gameOverAnimationCompleted = false;

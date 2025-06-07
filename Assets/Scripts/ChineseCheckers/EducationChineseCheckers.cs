@@ -107,6 +107,23 @@ public class EducationChineseCheckers : MonoBehaviour
         }
     }
     
+    public void ShowBanner(bool isShow)
+    {
+        if (_isFirstShow)
+        {
+            AppodealManager.Instance.HideBottomBanner();
+            return;
+        }
+        if (isShow)
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        else
+        {
+            AppodealManager.Instance.HideBottomBanner();
+        }
+    }
+    
     public void StopTutorial()
     {
         foreach (var tutorial in _tutorialCoroutines)

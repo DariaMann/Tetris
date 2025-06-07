@@ -128,6 +128,23 @@ public class EducationLines98 : MonoBehaviour
         }
     }
     
+    public void ShowBanner(bool isShow)
+    {
+        if (_isFirstShow)
+        {
+            AppodealManager.Instance.HideBottomBanner();
+            return;
+        }
+        if (isShow)
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        else
+        {
+            AppodealManager.Instance.HideBottomBanner();
+        }
+    }
+    
     public void SetOrientation(bool isVertical)
     {
         bool isTablet = GameHelper.IsTablet();

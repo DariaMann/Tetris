@@ -10,7 +10,7 @@ public class GameManager2048 : MonoBehaviour
     [SerializeField] private TileBoard board;
     [SerializeField] private GameOver gameOver;
     [SerializeField] private SaveScores saveScores;
-    [SerializeField] private Button undoButton;
+    [SerializeField] private List<Button> undoButtons;
 
     public static GameManager2048 Instance { get; private set; }
     
@@ -47,6 +47,11 @@ public class GameManager2048 : MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.G2048, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }
     
     void OnApplicationQuit()
@@ -68,6 +73,7 @@ public class GameManager2048 : MonoBehaviour
             Instance = null;
         }
         SaveLastPlay();
+        AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
 
     public void LoadLastPlay()
@@ -82,8 +88,6 @@ public class GameManager2048 : MonoBehaviour
         SaveScores.ChangeScore(saveData.Score);
         saveScores.IsWin = saveData.IsWin;
         ChangeMaximumNumber(GameHelper.Save2048.Maximum);
-        // hide game over screen
-        gameOver.ShowGameOverPanel(false);
 
         // update board state
         board.ClearBoard();
@@ -141,6 +145,7 @@ public class GameManager2048 : MonoBehaviour
 
     public void Again()
     {
+        gameOver.ShowGameOverPanel(false);
         NewGame();
     }
     
@@ -149,9 +154,6 @@ public class GameManager2048 : MonoBehaviour
         // reset score
         SaveScores.ChangeScore(0);
         ChangeMaximumNumber(GameHelper.Save2048.Maximum);
-        
-        // hide game over screen
-        gameOver.ShowGameOverPanel(false);
 
         // update board state
         board.ClearBoard();
@@ -165,8 +167,19 @@ public class GameManager2048 : MonoBehaviour
 
     public void GameOver()
     {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
+    {
         board.enabled = false;
-        
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }
     
@@ -174,11 +187,17 @@ public class GameManager2048 : MonoBehaviour
     {
         if (EventSteps.Count > 0)
         {
-            undoButton.interactable = true;
+            foreach (var undoButton in undoButtons)
+            {
+                undoButton.interactable = true;
+            }
         }
         else
         {
-            undoButton.interactable = false;
+            foreach (var undoButton in undoButtons)
+            {
+                undoButton.interactable = false;
+            }
         }
     }
     

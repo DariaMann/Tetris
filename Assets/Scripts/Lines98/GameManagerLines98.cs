@@ -16,7 +16,7 @@ public class GameManagerLines98 : MonoBehaviour
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
-    [SerializeField] private Button undoButton;
+    [SerializeField] private List<Button> undoButtons;
     [SerializeField] private ThemeLines98 theme;
     [SerializeField] private bool showFuture = true;
 
@@ -65,6 +65,12 @@ public class GameManagerLines98 : MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.Lines98, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }
 
     void OnApplicationQuit()
@@ -83,6 +89,7 @@ public class GameManagerLines98 : MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+        AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
     
     public void LoadLastPlay()
@@ -161,11 +168,17 @@ public class GameManagerLines98 : MonoBehaviour
     {
         if (EventSteps.Count > 0)
         {
-            undoButton.interactable = true;
+            foreach (var undoButton in undoButtons)
+            {
+                undoButton.interactable = true;
+            }
         }
         else
         {
-            undoButton.interactable = false;
+            foreach (var undoButton in undoButtons)
+            {
+                undoButton.interactable = false;
+            }
         }
     }
     
@@ -267,6 +280,18 @@ public class GameManagerLines98 : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

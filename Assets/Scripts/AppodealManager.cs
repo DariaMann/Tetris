@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using AppodealStack.Monetization.Api;
 using AppodealStack.Monetization.Common;
+using Random = UnityEngine.Random;
 
 public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
 {
+    private int gamesPlayed = 0;
+    private float lastAdTime = 0;
+    
     private string androidAppKey = "80283a642a3caa535c385d3fec98d81d537a51ae63abf318";
     private string iosAppKey = "5199cecdd065fb99badcf0b6c48fc33701d5bf296fcd7862";
     
@@ -28,7 +32,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
             Destroy(gameObject);
         }
     }
-    
+
     private void OnDestroy()
     {
         InterstitialCallbacksUnsubscribe();
@@ -48,8 +52,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
 #endif
 
         Appodeal.SetLogLevel(AppodealLogLevel.Verbose); // Включить подробные логи
-        //Appodeal.SetTesting(true); // Включить тестовый режим
-        
+
         // Типы рекламы, которые используем
         int adTypes = AppodealAdType.Interstitial | AppodealAdType.Banner | AppodealAdType.RewardedVideo;
         
@@ -64,9 +67,6 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
 
         // todo: Включаем тестовый режим (выключи перед релизом)
         Appodeal.SetTesting(true);
-
-        // Загрузить баннер
-        ShowBottomBanner();
     }
     
     public void InterstitialCallbacksSubscribe()
@@ -137,17 +137,49 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
 
     public void ShowBottomBanner()
     {
+        if (!GameHelper.HaveAds)
+        {
+            return;
+        }
+        Debug.Log("ShowBottomBanner");
         Appodeal.Show(AppodealShowStyle.BannerBottom);
     }
     
     public void HideBottomBanner()
     {
+        Debug.Log("HideBottomBanner");
         Appodeal.Hide(AppodealAdType.Banner);
+    }
+
+    public bool IsShowInterstitial()
+    {
+        gamesPlayed++;
+        int randomNumberGame = Random.Range(2, 4);
+        float randomMinIntervalSeconds = Random.Range(120f, 150f);
+        if (gamesPlayed >= randomNumberGame && Time.time - lastAdTime > randomMinIntervalSeconds)
+        {
+            if (IsInterstitialReady())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void TryShowInterstitial()
+    {
+        ShowInterstitial();
+        gamesPlayed = 0;
+        lastAdTime = Time.time;
     }
 
     // Метод для показа межстраничной рекламы (например, после уровня)
     public void ShowInterstitial()
     {
+        if (!GameHelper.HaveAds)
+        {
+            return;
+        }
         if (Appodeal.IsLoaded(AppodealAdType.Interstitial))
         {
             Appodeal.Show(AppodealShowStyle.Interstitial);
@@ -161,6 +193,10 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     // Метод для показа вознаградительной рекламы
     public void ShowRewardedVideo()
     {
+        if (!GameHelper.HaveAds)
+        {
+            return;
+        }
         if (Appodeal.IsLoaded(AppodealAdType.RewardedVideo))
         {
             Appodeal.Show(AppodealShowStyle.RewardedVideo);
@@ -183,13 +219,22 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         }
     }
     
-    public bool IsInterstitialReady() => Appodeal.IsLoaded(AppodealAdType.Interstitial);
+    public bool IsInterstitialReady()
+    {
+        if (!GameHelper.HaveAds)
+        {
+            return false;
+        }
+        return Appodeal.IsLoaded(AppodealAdType.Interstitial);
+    } 
+    
     public bool IsRewardedVideoReady()
     {
-#if UNITY_EDITOR
-        return true;
-#endif
-      return  Appodeal.IsLoaded(AppodealAdType.RewardedVideo);
+        if (!GameHelper.HaveAds)
+        {
+            return false;
+        }
+        return Appodeal.IsLoaded(AppodealAdType.RewardedVideo);
     } 
     
     // --- Реализация интерфейса IAppodealInitializationListener ---

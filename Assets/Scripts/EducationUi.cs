@@ -38,7 +38,8 @@ public class EducationUi : MonoBehaviour
         StopTutorial();
         educationPanel.SetActive(true);
 
-        PlayTutorial();
+        _indexCurrentHint = -1;
+        OnPanelClick();
     }
 
     public void HideEducation()
@@ -47,6 +48,7 @@ public class EducationUi : MonoBehaviour
         StopTutorial();
         
         educationPanel.SetActive(false);
+        AppodealManager.Instance.ShowBottomBanner();
     }
     
     public IEnumerator DelayStopEducation()
@@ -96,6 +98,7 @@ public class EducationUi : MonoBehaviour
     private IEnumerator PlayShowHint()
     {
         _currentHint = hints[_indexCurrentHint];
+        
         yield return StartCoroutine(hints[_indexCurrentHint].StartAnimationCoroutine());
         
         hints[_indexCurrentHint].ForceHintVisible();
@@ -104,6 +107,10 @@ public class EducationUi : MonoBehaviour
     public void OnPanelClick()
     {
         _indexCurrentHint += 1;
+        if(_indexCurrentHint < hints.Count && !hints[_indexCurrentHint].gameObject.activeInHierarchy)
+        {
+            _indexCurrentHint += 1;
+        }
         if (_indexCurrentHint >= hints.Count)
         {
             HideEducation();

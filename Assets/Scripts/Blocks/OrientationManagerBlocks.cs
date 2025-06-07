@@ -52,9 +52,17 @@ public class OrientationManagerBlocks : MonoBehaviour
         topPanel.SetActive(true);
         
         boardPanel.anchoredPosition = new Vector2(boardPanel.anchoredPosition.x, 35);
-        blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 58);
-        
-        blocksBoard.RescaleBlocks(0.7f);
+
+        if (GameHelper.HaveAds)
+        {
+            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 80);
+            blocksBoard.RescaleBlocks(0.5f);
+        }
+        else
+        {
+            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 58);
+            blocksBoard.RescaleBlocks(0.7f);
+        }
 
         leftBlock.RepositionX(100);
         rightBlock.RepositionX(-100);
@@ -124,10 +132,18 @@ public class OrientationManagerBlocks : MonoBehaviour
         topPanel.SetActive(false);
         
         boardPanel.anchoredPosition = new Vector2(boardPanel.anchoredPosition.x, 55);
-        blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 32);
 
-        blocksBoard.RescaleBlocks(0.7f);
-        
+        if (GameHelper.HaveAds)
+        {
+            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 46);
+            blocksBoard.RescaleBlocks(0.5f);
+        }
+        else
+        {
+            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 32);
+            blocksBoard.RescaleBlocks(0.7f);
+        }
+
         leftBlock.RepositionX(150);
         rightBlock.RepositionX(-150);
         

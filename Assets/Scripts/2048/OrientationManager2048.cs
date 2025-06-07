@@ -5,10 +5,18 @@ public class OrientationManager2048 : MonoBehaviour
     [SerializeField] private GameObject rightPanel;
     [SerializeField] private GameObject topPanel;
     
-    [SerializeField] private GameObject eduText;
-    [SerializeField] private GameObject eduBoardText;
     [SerializeField] private SquareUI board;
     [SerializeField] private RectTransform boardRect;
+    
+    [SerializeField] private GameObject eduText;
+    [SerializeField] private GameObject eduBoardText;
+    [SerializeField] private SquareUI eduBoard;
+    [SerializeField] private RectTransform eduBoardRect;
+    
+    [SerializeField] private GameObject undoButtonPhone;
+    [SerializeField] private GameObject undoButtonTablet;
+    [SerializeField] private GameObject undoButtonPhoneEdu;
+    [SerializeField] private GameObject undoButtonTabletEdu;
     
     void Update()
     {
@@ -35,12 +43,22 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         
+        board.Padding = 35;
+        Vector2 pos1 = boardRect.anchoredPosition;
+        pos1.y = 0; // любое нужное значение
+        boardRect.anchoredPosition = pos1;
+
+        undoButtonPhone.SetActive(true);
+        undoButtonPhoneEdu.SetActive(true);
+        undoButtonTablet.SetActive(false);
+        undoButtonTabletEdu.SetActive(false);
+        
         eduText.SetActive(true);
         eduBoardText.SetActive(false);
-        board.Padding = 65;
-        Vector2 pos = boardRect.anchoredPosition;
+        eduBoard.Padding = 65;
+        Vector2 pos = eduBoardRect.anchoredPosition;
         pos.y = 0; // любое нужное значение
-        boardRect.anchoredPosition = pos;
+        eduBoardRect.anchoredPosition = pos;
     }
     
     private void VerticalOrientationPhone()
@@ -48,12 +66,22 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         
+        board.Padding = 35;
+        Vector2 pos1 = boardRect.anchoredPosition;
+        pos1.y = 0; // любое нужное значение
+        boardRect.anchoredPosition = pos1;
+        
+        undoButtonPhone.SetActive(true);
+        undoButtonPhoneEdu.SetActive(true);
+        undoButtonTablet.SetActive(false);
+        undoButtonTabletEdu.SetActive(false);
+        
         eduText.SetActive(false);
         eduBoardText.SetActive(true);
-        board.Padding = 35;
-        Vector2 pos = boardRect.anchoredPosition;
+        eduBoard.Padding = 35;
+        Vector2 pos = eduBoardRect.anchoredPosition;
         pos.y = 50f; // любое нужное значение
-        boardRect.anchoredPosition = pos;
+        eduBoardRect.anchoredPosition = pos;
     }
 
     private void HorizontalOrientationTablet()
@@ -61,11 +89,31 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
         
+        if (GameHelper.HaveAds)
+        {
+            board.Padding = 80;
+            Vector2 pos1 = boardRect.anchoredPosition;
+            pos1.y = 18; // любое нужное значение
+            boardRect.anchoredPosition = pos1;
+        }
+        else
+        {
+            board.Padding = 35;
+            Vector2 pos2 = boardRect.anchoredPosition;
+            pos2.y = 0; // любое нужное значение
+            boardRect.anchoredPosition = pos2;
+        }
+        
+        undoButtonPhone.SetActive(false);
+        undoButtonPhoneEdu.SetActive(false);
+        undoButtonTablet.SetActive(true);
+        undoButtonTabletEdu.SetActive(true);
+        
         eduText.SetActive(true);
         eduBoardText.SetActive(false);
-        board.Padding = 90;
-        Vector2 pos = boardRect.anchoredPosition;
+        eduBoard.Padding = 90;
+        Vector2 pos = eduBoardRect.anchoredPosition;
         pos.y = 50f; // любое нужное значение
-        boardRect.anchoredPosition = pos;
+        eduBoardRect.anchoredPosition = pos;
     }
 }

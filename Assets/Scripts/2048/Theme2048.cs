@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Theme2048 : Theme
 { 
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Button undoButton;
+    [SerializeField] private List<Button> undoButtons;
     [SerializeField] private Image bgPanelBg;
 
     [SerializeField] private List<Image> cells;
@@ -43,17 +43,20 @@ public class Theme2048 : Theme
         }
         
         finger.sprite = lightFingerSprite;
-        undoButton.image.color = ColorBgDark;
-        
-        ColorBlock colors = undoButton.colors;
+        foreach (var undoButton in undoButtons)
+        {
+            undoButton.image.color = ColorBgDark;
 
-        // Изменяем только альфу отключенного цвета
-        Color disabled = colors.disabledColor;
-        disabled.a = 0.2f; // нужная альфа, например, 30%
-        colors.disabledColor = disabled;
+            ColorBlock colors = undoButton.colors;
 
-        undoButton.colors = colors;
-        
+            // Изменяем только альфу отключенного цвета
+            Color disabled = colors.disabledColor;
+            disabled.a = 0.2f; // нужная альфа, например, 30%
+            colors.disabledColor = disabled;
+
+            undoButton.colors = colors;
+        }
+
         eduBgPanelBg.color = ColorMiddleLight;
         bgPanelBg.color = ColorMiddleLight;
         foreach (var cell in cells)
@@ -72,17 +75,21 @@ public class Theme2048 : Theme
         }
         
         finger.sprite = darkFingerSprite;
-        undoButton.image.color = ColorMiddleLight;
-        
-        ColorBlock colors = undoButton.colors;
 
-        // Изменяем только альфу отключенного цвета
-        Color disabled = colors.disabledColor;
-        disabled.a = 0.3f; // нужная альфа, например, 30%
-        colors.disabledColor = disabled;
+        foreach (var undoButton in undoButtons)
+        {
+            undoButton.image.color = ColorMiddleLight;
 
-        undoButton.colors = colors;
-        
+            ColorBlock colors = undoButton.colors;
+
+            // Изменяем только альфу отключенного цвета
+            Color disabled = colors.disabledColor;
+            disabled.a = 0.3f; // нужная альфа, например, 30%
+            colors.disabledColor = disabled;
+
+            undoButton.colors = colors;
+        }
+
         eduBgPanelBg.color = _colorBgBoardDark;
         bgPanelBg.color = _colorBgBoardDark;
         foreach (var cell in cells)

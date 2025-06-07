@@ -18,6 +18,11 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     [SerializeField] private GameObject eduColorTextTopPage3;
     [SerializeField] private GameObject eduColorTextLeftPage3;
     [SerializeField] private RectTransform eduColorImagePage3;
+    
+    [SerializeField] private GameObject speedButtonPhone;
+    [SerializeField] private GameObject speedButtonTablet;
+    [SerializeField] private GameObject speedButtonPhoneEdu;
+    [SerializeField] private GameObject speedButtonTabletEdu;
 
     void Update()
     {
@@ -43,6 +48,11 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     {
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
+        
+        speedButtonPhone.SetActive(true);
+        speedButtonPhoneEdu.SetActive(true);
+        speedButtonTablet.SetActive(false);
+        speedButtonTabletEdu.SetActive(false);
         
         RectTransform rt = finishPlayersPanel;
         Vector2 offsetMax = rt.offsetMax;
@@ -74,6 +84,11 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
         
+        speedButtonPhone.SetActive(true);
+        speedButtonPhoneEdu.SetActive(true);
+        speedButtonTablet.SetActive(false);
+        speedButtonTabletEdu.SetActive(false);
+        
         RectTransform rt = finishPlayersPanel;
         Vector2 offsetMax = rt.offsetMax;
         offsetMax.y = -218f; // Top = 147, значит offsetMax.y = -147
@@ -103,6 +118,11 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     {
         finishTextPanel.SetActive(false);
         finishSmallTextPanel.SetActive(true);
+        
+        speedButtonPhone.SetActive(false);
+        speedButtonPhoneEdu.SetActive(false);
+        speedButtonTablet.SetActive(true);
+        speedButtonTabletEdu.SetActive(true);
         
         RectTransform rt = finishPlayersPanel;
         Vector2 offsetMax = rt.offsetMax;

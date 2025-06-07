@@ -63,6 +63,15 @@ public class GameOverChineseCheckers: MonoBehaviour
 
     public void ShowGameOverPanel(bool isShow, List<PlayerInRating> playerPanels, bool isWin = false)
     {
+        if (isShow)
+        {
+            AppodealManager.Instance.HideBottomBanner();
+        }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        
         _playerPanels = playerPanels;
         InterruptGameOverAnimation(playerPanels);
         

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,11 +69,40 @@ public class GameManagerBlocks : MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.Blocks, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
         
         AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnRewardedVideoLoadedAction += CheckStateChangeBlocksButton;
-        AppodealManager.Instance.OnInterstitialFinished += GameOver;
-        CheckStateChangeBlocksButton();
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
+        
+        GameHelper.GetHaveAds();
+        ApplyHaveAds(GameHelper.HaveAds);
+        GameHelper.OnHaveAdsChanged += ApplyHaveAds;
+        CheckDailyHints();
+    }
+    
+    private void CheckDailyHints()
+    {
+        // Загружаем текущее количество подсказок
+        CountChangeBlocks = PlayerPrefs.GetInt("CountChangeBlocks");
+
+        // Загружаем последнюю дату начисления
+        string lastDateStr = PlayerPrefs.GetString("ChangeBlocksData");
+        DateTime now = DateTime.Now;
+        DateTime lastCheck = DateTime.Parse(lastDateStr);
+
+        // Если текущая дата уже на следующий день и время 00:00 или позже
+        if (now.Date > lastCheck.Date)
+        {
+            CountChangeBlocks = 3;
+            PlayerPrefs.SetInt("CountChangeBlocks", CountChangeBlocks);
+            // Обновляем дату последней проверки
+            PlayerPrefs.SetString("ChangeBlocksData", now.ToString());
+            CheckStateChangeBlocksButton();
+        }
     }
 
     void OnApplicationQuit()
@@ -95,8 +125,9 @@ public class GameManagerBlocks : MonoBehaviour
         {
             AppodealManager.Instance.OnRewardedVideoFinishedAction -= GiveReward;
             AppodealManager.Instance.OnRewardedVideoLoadedAction -= CheckStateChangeBlocksButton;
-            AppodealManager.Instance.OnInterstitialFinished -= GameOver;
+            AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
         }
+        GameHelper.OnHaveAdsChanged -= ApplyHaveAds;
     }
 
     public void LoadLastPlay()
@@ -151,9 +182,22 @@ public class GameManagerBlocks : MonoBehaviour
         board.GenerateGrid();
         board.CreateBlocks();
     }
+
+    public void ApplyHaveAds(bool stateAds)
+    {
+        CheckStateChangeBlocksButton();
+    }
     
     public void CheckStateChangeBlocksButton()
     {
+        if (!GameHelper.HaveAds)
+        {
+            changeBlocksPanel.SetActive(false);
+            changeBlocksButton.interactable = true;
+            changeBlocksButton.alpha = 1;
+            return;
+        }
+        
         if (CountChangeBlocks <= 0)
         {
             changeBlocksPanel.SetActive(true);
@@ -187,23 +231,25 @@ public class GameManagerBlocks : MonoBehaviour
         Debug.Log("Награда выдана!");
         // Например, добавим монеты игроку
         CountChangeBlocks += 1;
+        PlayerPrefs.SetInt("CountChangeBlocks", CountChangeBlocks);
 
         CheckStateChangeBlocksButton();
     }
 
     public void OnChangeBlocks()
     {
-        if (CountChangeBlocks <= 0)
+        if (GameHelper.HaveAds)
         {
-#if UNITY_EDITOR
-            GiveReward();
-            return;
-#endif
-            AppodealManager.Instance.ShowRewardedVideo();
-            return;
+            if (CountChangeBlocks <= 0)
+            {
+                AppodealManager.Instance.ShowRewardedVideo();
+                return;
+            }
+            
+            CountChangeBlocks -= 1;
+            PlayerPrefs.SetInt("CountChangeBlocks", CountChangeBlocks);
         }
 
-        CountChangeBlocks -= 1;
         board.CreateBlocks();
         CheckStateChangeBlocksButton();
     }
@@ -220,6 +266,18 @@ public class GameManagerBlocks : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
     {
         gameOver.ShowGameOverPanel(true, saveScores.IsWin);
     }

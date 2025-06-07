@@ -167,6 +167,23 @@ public class EducationTetris : MonoBehaviour
             educationUi.ShowEducation();
         }
     }
+    
+    public void ShowBanner(bool isShow)
+    {
+        if (_isFirstShow)
+        {
+            AppodealManager.Instance.HideBottomBanner();
+            return;
+        }
+        if (isShow)
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+        else
+        {
+            AppodealManager.Instance.HideBottomBanner();
+        }
+    }
 
     private SaveDataTetris GetFirstSaveData()
     {

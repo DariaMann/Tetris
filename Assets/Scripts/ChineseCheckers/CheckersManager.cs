@@ -32,7 +32,7 @@ public class CheckersManager: MonoBehaviour
     
     [SerializeField] private float warningSpeed = 0.5f;
     
-    [SerializeField] private TextMeshProUGUI speedButtonText;
+    [SerializeField] private List<TextMeshProUGUI> speedButtonTexts;
     
     [SerializeField] private RectTransform changeColorButton;
     
@@ -138,6 +138,12 @@ public class CheckersManager: MonoBehaviour
             education.ShowEducation(true);
             GameHelper.SetEducationState(MiniGameType.ChineseCheckers, true);
         }
+        else
+        {
+            AppodealManager.Instance.ShowBottomBanner();
+        }
+
+        AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }
 
     public void OnChangeColorClick()
@@ -307,6 +313,7 @@ public class CheckersManager: MonoBehaviour
         SaveLastPlay();
         SaveData();
         LocalizationManager.LocalizationChanged -= Localize;
+        AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
     
     public void LoadData()
@@ -634,7 +641,10 @@ public class CheckersManager: MonoBehaviour
 
     private void ChangeSpeed()
     {
-        speedButtonText.text = "x" + SpeedMode;
+        foreach (var speedButtonText in speedButtonTexts)
+        {
+            speedButtonText.text = "x" + SpeedMode;
+        }
         
         switch (SpeedMode)
         {
@@ -703,8 +713,25 @@ public class CheckersManager: MonoBehaviour
         StopAllCoroutines();
 
         // Показать сообщение о победе (можно добавить UI)
-        ShowFinishPanel(); 
+        GameOver();
         ChangeCountGames();
+    }
+    
+    public void GameOver()
+    {
+        if (AppodealManager.Instance.IsShowInterstitial())
+        {
+            AppodealManager.Instance.TryShowInterstitial();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void ShowGameOverPanel()
+    {
+        ShowFinishPanel();
     }
 
     private void ShowFinishPanel()

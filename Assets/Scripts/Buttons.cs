@@ -39,6 +39,8 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private Sprite settingsVibrationOn;
     [SerializeField] private Sprite settingsVibrationOff;
     
+    [SerializeField] private TextMeshProUGUI textAdsButton;
+    
     private Coroutine _themeCoroutine;
     private bool _isDelayStopPause;
 
@@ -62,6 +64,10 @@ public class Buttons : MonoBehaviour {
         GameHelper.GetVibration();
         ApplyVibration(GameHelper.Vibration);
         GameHelper.OnVibrationChanged += ApplyVibration;
+        
+        GameHelper.GetHaveAds();
+        ApplyHaveAds(GameHelper.HaveAds);
+        GameHelper.OnHaveAdsChanged += ApplyHaveAds;
         
         AudioManager.Instance.ToggleMusic(GameHelper.Music);
         AudioManager.Instance.ToggleSound(GameHelper.Sound);
@@ -163,7 +169,7 @@ public class Buttons : MonoBehaviour {
         OnChangePauseClick();
         GameHelper.IsPause = true;
         _isDelayStopPause = false;
-        OnResumeClick(false);
+        SetPause(false);
     }
 
     private IEnumerator MonitorTheme()
@@ -187,6 +193,7 @@ public class Buttons : MonoBehaviour {
         GameHelper.OnSoundChanged -= ApplySound;
         GameHelper.OnMusicChanged -= ApplyMusic;
         GameHelper.OnVibrationChanged -= ApplyVibration;
+        GameHelper.OnHaveAdsChanged -= ApplyHaveAds;
         if (_themeCoroutine != null)
         {
             StopCoroutine(_themeCoroutine);
@@ -304,6 +311,18 @@ public class Buttons : MonoBehaviour {
         settingsVibrationButton.sprite = vibration ? settingsVibrationOn : settingsVibrationOff;
     }
     
+    public void ApplyHaveAds(bool stateAds)
+    {
+        if (stateAds)
+        {
+            textAdsButton.text = LocalizationManager.Localize("Settings.removeads");
+        }
+        else
+        {
+            textAdsButton.text = LocalizationManager.Localize("Settings.addads");
+        }
+    }
+    
     public void OnLines98Click()
     {
         SceneManager.LoadScene("Lines98");
@@ -342,14 +361,22 @@ public class Buttons : MonoBehaviour {
     {
         settingsPanel.gameObject.SetActive(false);
     }
+    
     public void OnResumeClick(bool state)
+    {
+        SetPause(state);
+        AppodealManager.Instance.ShowBottomBanner();
+    }
+    
+    public void SetPause(bool state)
     {
         isPaused = state;
     }
+    
     public void OnHomeClick()
     {
+        AppodealManager.Instance.HideBottomBanner();
         SceneManager.LoadScene("Menu");
-
     }
 
     public void OnPauseClick()
@@ -367,6 +394,7 @@ public class Buttons : MonoBehaviour {
                 pauseMenu.SetActive(false);
             }
         }
+        AppodealManager.Instance.HideBottomBanner();
     }
     
     public void OnChangePauseClick()
