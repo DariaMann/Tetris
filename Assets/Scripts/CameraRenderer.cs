@@ -7,6 +7,7 @@ public class CameraRenderer : MonoBehaviour
     [Range(0f, 1f)] public float vertical = 0;
     
     [Range(0f, 1f)] public float WidthOrHeight = 0;
+    [Range(0.5f, 3f)] public float zoomMultiplier = 1f;
 
     private Camera componentCamera;
 
@@ -66,8 +67,12 @@ public class CameraRenderer : MonoBehaviour
         
         if (componentCamera.orthographic)
         {
+//            float constantWidthSize = initialSize * (targetAspect / componentCamera.aspect);
+//            componentCamera.orthographicSize = Mathf.Lerp(constantWidthSize, initialSize, WidthOrHeight);
+            
             float constantWidthSize = initialSize * (targetAspect / componentCamera.aspect);
-            componentCamera.orthographicSize = Mathf.Lerp(constantWidthSize, initialSize, WidthOrHeight);
+            float size = Mathf.Lerp(constantWidthSize, initialSize, WidthOrHeight);
+            componentCamera.orthographicSize = size * zoomMultiplier;
         }
         else
         {

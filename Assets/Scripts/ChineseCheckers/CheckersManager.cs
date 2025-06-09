@@ -245,6 +245,7 @@ public class CheckersManager: MonoBehaviour
         SetPlayers(saveData.SavePlayers);
         IsPlaying = true;
         startPanel.SetActive(!IsPlaying);
+        changeColorButton.gameObject.SetActive(!IsPlaying);
         ChangeStepCount(saveData.Steps);
         FirstPlayerIndex = saveData.FirstPlayerIndex;
         
@@ -516,6 +517,7 @@ public class CheckersManager: MonoBehaviour
         }
         IsPlaying = true;
         startPanel.SetActive(!IsPlaying);
+        changeColorButton.gameObject.SetActive(!IsPlaying);
         foreach (var player in Players)
         {
             if (!player.IsActive)
@@ -532,6 +534,7 @@ public class CheckersManager: MonoBehaviour
     {
         IsPlaying = false;
         startPanel.SetActive(!IsPlaying);
+        changeColorButton.gameObject.SetActive(!IsPlaying);
         foreach (var player in Players)
         {
             player.gameObject.SetActive(true);
@@ -544,6 +547,7 @@ public class CheckersManager: MonoBehaviour
     {
         IsPlaying = false;
         startPanel.SetActive(!IsPlaying);
+        changeColorButton.gameObject.SetActive(!IsPlaying);
         foreach (var player in Players)
         {
             player.gameObject.SetActive(true);

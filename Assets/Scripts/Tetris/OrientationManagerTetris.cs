@@ -46,6 +46,15 @@ public class OrientationManagerTetris : MonoBehaviour
         goastEdu.localPosition = new Vector2(2.23f,0);
         
         cameraRenderer.vertical = 0.5f;
+
+        if (GameHelper.HaveAds)
+        {
+            cameraRenderer.zoomMultiplier = 1.1f;
+        }
+        else
+        {
+            cameraRenderer.zoomMultiplier = 1f;
+        }
         
         board.localPosition = new Vector2(2.23f,0);
         goast.localPosition = new Vector2(2.23f,0);
@@ -72,6 +81,8 @@ public class OrientationManagerTetris : MonoBehaviour
         boardEdu.localPosition = new Vector2(0f,0f);
         goastEdu.localPosition = new Vector2(0f,0f);
 
+        cameraRenderer.zoomMultiplier = 1f;
+        
         if (GameHelper.HaveAds)
         {
             cameraRenderer.vertical = GameHelper.IsEdication ? 0.25f : 0.5f;
@@ -111,6 +122,15 @@ public class OrientationManagerTetris : MonoBehaviour
         goastEdu.localPosition = new Vector2(0,0);
         
         cameraRenderer.vertical = 0.5f;
+        
+        if (GameHelper.HaveAds)
+        {
+            cameraRenderer.zoomMultiplier = 1.1f;
+        }
+        else
+        {
+            cameraRenderer.zoomMultiplier = 1f;
+        }
         
         board.localPosition = new Vector2(0,0);
         goast.localPosition = new Vector2(0,0);

@@ -2,6 +2,7 @@
 
 public class OrientationManagerChineseCheckers : MonoBehaviour
 {
+    [SerializeField] private CameraRenderer cameraRenderer;
     [SerializeField] private GameObject finishTextPanel;
     [SerializeField] private GameObject finishSmallTextPanel;
     [SerializeField] private RectTransform finishPlayersPanel;
@@ -46,6 +47,15 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void VerticalOrientationTablet()
     {
+        if (GameHelper.HaveAds)
+        {
+            cameraRenderer.zoomMultiplier = 1.05f;
+        }
+        else
+        {
+            cameraRenderer.zoomMultiplier = 1f;
+        }
+        
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
         
@@ -81,6 +91,8 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void VerticalOrientationPhone()
     {
+        cameraRenderer.zoomMultiplier = 1f;
+        
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
         
@@ -116,6 +128,15 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void HorizontalOrientationTablet()
     {
+        if (GameHelper.HaveAds)
+        {
+            cameraRenderer.zoomMultiplier = 1.11f;
+        }
+        else
+        {
+            cameraRenderer.zoomMultiplier = 1f;
+        }
+        
         finishTextPanel.SetActive(false);
         finishSmallTextPanel.SetActive(true);
         
