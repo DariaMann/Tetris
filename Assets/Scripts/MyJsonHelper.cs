@@ -298,15 +298,19 @@ public static class MyJsonHelper
     
     #region ChineseCheckers
 
-    public static void SaveChineseCheckersData(SaveDataChineseCheckers data)
+    public static void SaveChineseCheckers(SaveChineseCheckers data)
     {
-        string json = SerializeJsonSaveDataChineseCheckers(data);
+        if (data == null)
+        {
+            data = new SaveChineseCheckers(1000, null);
+        }
+        string json = SerializeJsonChineseCheckers(data);
         Debug.Log("SaveChineseCheckers: " + json);
         string path = Application.persistentDataPath + "/ChineseCheckers.json";
         File.WriteAllText(path, json);
     }
     
-    public static SaveDataChineseCheckers LoadChineseCheckersData()
+    public static SaveChineseCheckers LoadChineseCheckers()
     {
         string path = Application.persistentDataPath + "/ChineseCheckers.json";
         if (File.Exists(path))
@@ -316,16 +320,16 @@ public static class MyJsonHelper
             {
                 return null;
             }
-            SaveDataChineseCheckers data = DeserializeJsonSaveDataChineseCheckers(json);
+            SaveChineseCheckers data = DeserializeJsonChineseCheckers(json);
             return data;
         }
 
-        return null;
+        return new SaveChineseCheckers();
     }
     
-    private static SaveDataChineseCheckers DeserializeJsonSaveDataChineseCheckers(string jsonString)
+    private static SaveChineseCheckers DeserializeJsonChineseCheckers(string jsonString)
     {
-        SaveDataChineseCheckers data = JsonConvert.DeserializeObject<SaveDataChineseCheckers>(jsonString, new JsonSerializerSettings 
+        SaveChineseCheckers data = JsonConvert.DeserializeObject<SaveChineseCheckers>(jsonString, new JsonSerializerSettings 
         { 
             TypeNameHandling = TypeNameHandling.Auto,
             //NullValueHandling = NullValueHandling.Ignore,
@@ -333,7 +337,7 @@ public static class MyJsonHelper
         return data;
     }
     
-    private static string SerializeJsonSaveDataChineseCheckers(SaveDataChineseCheckers data)
+    private static string SerializeJsonChineseCheckers(SaveChineseCheckers data)
     {
         string jsonString = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings
         {

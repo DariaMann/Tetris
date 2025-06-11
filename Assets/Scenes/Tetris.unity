@@ -950,6 +950,7 @@ MonoBehaviour:
   horizontal: 1
   vertical: 0.5
   WidthOrHeight: 0
+  zoomMultiplier: 1
 --- !u!114 &242800042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2217,6 +2218,7 @@ MonoBehaviour:
   boardEdu: {fileID: 1866305444}
   saveScores: {fileID: 681636497}
   gameOver: {fileID: 50542242}
+  pausePanel: {fileID: 1625892468}
   nextTetrominoImage:
   - {fileID: 896739289}
   - {fileID: 1680612077}

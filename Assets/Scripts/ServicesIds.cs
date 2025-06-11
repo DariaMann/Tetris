@@ -25,6 +25,7 @@
 public static class ServicesIds
 {
         public const string achievement_chinese_checkers_play_500_games = "CgkImZqemP4FEAIQKw"; // <GPGSID>
+        public const string leaderboard_chinese_checkers = "CgkImZqemP4FEAIQQg"; // <GPGSID>
         public const string achievement_lines_98_300_points = "CgkImZqemP4FEAIQIQ"; // <GPGSID>
         public const string achievement_lines_98_400_points = "CgkImZqemP4FEAIQIg"; // <GPGSID>
         public const string achievement_chinese_checkers_play_10_games = "CgkImZqemP4FEAIQJw"; // <GPGSID>

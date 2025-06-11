@@ -120,7 +120,6 @@ public class CheckersManager: MonoBehaviour
             { _cyan, cyanChip }
         };
         
-        SetFirstSettings();
         LoadData();
         ReorderColorsByBlueIndex(_blueColorIndex);
         hexMap.GenerateBoard();
@@ -235,7 +234,7 @@ public class CheckersManager: MonoBehaviour
     
     private void LoadLastPlay()
     {
-        SaveDataChineseCheckers saveData = MyJsonHelper.LoadChineseCheckersData();
+        SaveDataChineseCheckers saveData = GameHelper.SaveChineseCheckers.SaveDataChineseCheckers;
         if (saveData == null)
         {
             FirstStart();
@@ -260,11 +259,13 @@ public class CheckersManager: MonoBehaviour
     {
         if (!IsPlaying)
         {
-            MyJsonHelper.SaveChineseCheckersData(null);
+            GameHelper.SaveChineseCheckers.SaveDataChineseCheckers = null;
+            MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
             return;
         }
         SaveDataChineseCheckers data = new SaveDataChineseCheckers(CurrentPlayer.ID, FirstPlayerIndex, Steps, Players, hexMap.Chips);
-        MyJsonHelper.SaveChineseCheckersData(data);
+        GameHelper.SaveChineseCheckers.SaveDataChineseCheckers = data;
+        MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
 
     private void SetPlayers(List<SavePlayer> savePlayers)
@@ -321,12 +322,12 @@ public class CheckersManager: MonoBehaviour
     {
         foreach (var player in Players)
         {
-            PlayerState state = (PlayerState) PlayerPrefs.GetInt("CCStatePlayer" + player.ID);
+            PlayerState state = GameHelper.SaveChineseCheckers.PlayerStates[player.ID];
             player.ChangeState(state);
         }
-        ShowHint = PlayerPrefs.GetInt("CCStateHint") == 1;
-        _blueColorIndex = PlayerPrefs.GetInt("CCBlueColorIndex");
-        _countGames = PlayerPrefs.GetInt("CCCountGames");
+        ShowHint = GameHelper.SaveChineseCheckers.ShowHint;
+        _blueColorIndex = GameHelper.SaveChineseCheckers.BlueColorIndex;
+        _countGames = GameHelper.SaveChineseCheckers.CountGames;
         SetHintState(ShowHint);
         changeColorButton.Rotate(0f, 0f, GetRotateZChangeColorButton());
     }
@@ -356,53 +357,40 @@ public class CheckersManager: MonoBehaviour
     
     private void SaveCountGames()
     {
-        PlayerPrefs.SetInt("CCCountGames", _countGames);
-        PlayerPrefs.Save();
+//        PlayerPrefs.SetInt("CCCountGames", _countGames);
+//        PlayerPrefs.Save();
+        
+        GameHelper.SaveChineseCheckers.CountGames = _countGames;
+        MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
       
     private void SaveBlueColorIndex()
     {
-        PlayerPrefs.SetInt("CCBlueColorIndex", _blueColorIndex);
-        PlayerPrefs.Save();
+//        PlayerPrefs.SetInt("CCBlueColorIndex", _blueColorIndex);
+//        PlayerPrefs.Save();
+        
+        GameHelper.SaveChineseCheckers.BlueColorIndex = _blueColorIndex;
+        MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
     
     private void SaveHintState()
     {
-        PlayerPrefs.SetInt("CCStateHint", ShowHint ? 1 : 0);
-        PlayerPrefs.Save();
+//        PlayerPrefs.SetInt("CCStateHint", ShowHint ? 1 : 0);
+//        PlayerPrefs.Save();
+        
+        GameHelper.SaveChineseCheckers.ShowHint = ShowHint;
+        MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
 
     public void SavePlayer(Player player)
     {
-        PlayerPrefs.SetInt("CCStatePlayer" + player.ID, (int) player.State);
-        PlayerPrefs.Save();
+//        PlayerPrefs.SetInt("CCStatePlayer" + player.ID, (int) player.State);
+//        PlayerPrefs.Save();
+
+        GameHelper.SaveChineseCheckers.PlayerStates[player.ID] = player.State;
+        MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
 
-    public void SetFirstSettings()
-    {
-        foreach (var player in Players)
-        {
-            if (!PlayerPrefs.HasKey("CCStatePlayer" + player.ID))
-            {
-                SavePlayer(player);
-            }
-        }
-        if (!PlayerPrefs.HasKey("CCStateHint"))
-        {
-            SaveHintState();
-        }  
-        
-        if (!PlayerPrefs.HasKey("CCBlueColorIndex"))
-        {
-            SaveBlueColorIndex();
-        }    
-        
-        if (!PlayerPrefs.HasKey("CCCountGames"))
-        {
-            SaveCountGames();
-        }
-    }
-    
     public Player GetFirstPlayer()
     {
         for (int i = 0; i < Players.Count; i++)

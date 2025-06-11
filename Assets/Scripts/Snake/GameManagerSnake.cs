@@ -7,6 +7,7 @@ public class GameManagerSnake: MonoBehaviour
     [SerializeField] private FoodController foodController;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private Buttons pausePanel;
     [SerializeField] private EducationSnake education;
     
     public static GameManagerSnake Instance { get; private set; }
@@ -78,6 +79,7 @@ public class GameManagerSnake: MonoBehaviour
         }
 
         snake.LoadSave(saveData);
+        pausePanel.OnPauseClick();
     }
     
     public void SaveLastPlay()

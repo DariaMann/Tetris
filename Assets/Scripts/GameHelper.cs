@@ -22,6 +22,8 @@ public static class GameHelper
         
         public static SaveTetris SaveTetris { get; set; } = new SaveTetris(0, null);
         
+        public static SaveChineseCheckers SaveChineseCheckers { get; set; } = new SaveChineseCheckers(1000, null);
+        
         public static SaveSnake SaveSnake { get; set; } = new SaveSnake(0, null);
         
         public static SaveLines98 SaveLines98 { get; set; } = new SaveLines98(0, null);
@@ -283,6 +285,7 @@ public static class GameHelper
                 SaveSnake = MyJsonHelper.LoadSnake();
                 SaveLines98 = MyJsonHelper.LoadLines98();
                 SaveBlocks = MyJsonHelper.LoadBlocks();
+                SaveChineseCheckers = MyJsonHelper.LoadChineseCheckers();
         }
 
         public static bool GetEducationState(MiniGameType type)
@@ -461,7 +464,8 @@ public static class GameHelper
         
         public static void ResetData()
         {
-                MyJsonHelper.SaveChineseCheckersData(null);
+                MyJsonHelper.SaveChineseCheckers(null);
+                SaveChineseCheckers = MyJsonHelper.LoadChineseCheckers();
                 
                 MyJsonHelper.Save2048(null);
                 Save2048 = MyJsonHelper.Load2048();

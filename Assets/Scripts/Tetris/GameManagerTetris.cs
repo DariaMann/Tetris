@@ -14,6 +14,7 @@ public class GameManagerTetris : MonoBehaviour
     [SerializeField] private Board boardEdu;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private Buttons pausePanel;
     [SerializeField] private List<Image> nextTetrominoImage;
 
     public TetrominoData Next { get; set; }
@@ -99,6 +100,7 @@ public class GameManagerTetris : MonoBehaviour
         LoadTilemap(saveData.SaveTetrominos, board);
         NextRandomTetromino(GetTetrominoDataByType(saveData.NextTetromino));
         board.SpawnPiece(GetTetrominoDataByType(saveData.CurrentTetromino));
+        pausePanel.OnPauseClick();
     }
     
     public void LoadTilemap(List<SaveTetramino> saveTetrominos, Board curBoard)

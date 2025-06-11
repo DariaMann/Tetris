@@ -139,6 +139,13 @@ public class Player : MonoBehaviour, IPointerClickHandler
         winNumber.text = WinNumber.ToString();
         GameHelper.VibrationStart();
         AudioManager.Instance.PlaySuccessLineSound();
+
+        if (State == PlayerState.Player && WinSteps < GameHelper.SaveChineseCheckers.Record)
+        {
+            GameHelper.SaveChineseCheckers.Record = WinSteps;
+            MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
+            GameServicesManager.ReportScore(WinSteps, MiniGameType.ChineseCheckers);
+        }
     }
     
     private void ResetFinish()

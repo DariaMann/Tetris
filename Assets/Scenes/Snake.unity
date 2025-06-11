@@ -2414,6 +2414,7 @@ MonoBehaviour:
   foodController: {fileID: 967543835}
   saveScores: {fileID: 967543833}
   gameOver: {fileID: 2905685545101265196}
+  pausePanel: {fileID: 1412353733348996111}
   education: {fileID: 1586874495}
 --- !u!1 &1103641647
 GameObject:

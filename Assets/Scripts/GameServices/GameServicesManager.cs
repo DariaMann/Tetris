@@ -282,6 +282,7 @@ public static class GameServicesManager
             case MiniGameType.G2048: return ServicesIds.leaderboard_2048;
             case MiniGameType.Lines98: return ServicesIds.leaderboard_lines_98;
             case MiniGameType.Blocks: return ServicesIds.leaderboard_blocks;
+            case MiniGameType.ChineseCheckers: return ServicesIds.leaderboard_chinese_checkers;
             default: return ServicesIds.leaderboard_tetris;
         }
     }
