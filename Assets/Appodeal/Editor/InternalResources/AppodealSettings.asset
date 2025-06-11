@@ -19,10 +19,10 @@ MonoBehaviour:
   accessWifiStatePermission: 1
   vibratePermission: 1
   accessFineLocationPermission: 0
-  nSUserTrackingUsageDescription: 0
+  nSUserTrackingUsageDescription: 1
   nSLocationWhenInUseUsageDescription: 0
-  nSCalendarsUsageDescription: 0
-  nSAppTransportSecurity: 0
+  nSCalendarsUsageDescription: 1
+  nSAppTransportSecurity: 1
   iosSkAdNetworkItems: 1
   iosSkAdNetworkItemsList:
   - 22mmun2rn5.skadnetwork
