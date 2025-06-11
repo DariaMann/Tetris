@@ -13,7 +13,7 @@ public class OrientationManager2048 : MonoBehaviour
     [SerializeField] private SquareUI eduBoard;
     [SerializeField] private RectTransform eduBoardRect;
     
-    [SerializeField] private GameObject undoButtonPhone;
+    [SerializeField] private RectTransform undoButtonPhone;
     [SerializeField] private GameObject undoButtonTablet;
     [SerializeField] private GameObject undoButtonPhoneEdu;
     [SerializeField] private GameObject undoButtonTabletEdu;
@@ -43,12 +43,22 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         
-        board.Padding = 35;
+        if (GameHelper.HaveAds)
+        {
+            undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -80f);
+            board.Padding = 54;
+        }
+        else
+        {
+            undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -95f);
+            board.Padding = 35;
+        }
+        
         Vector2 pos1 = boardRect.anchoredPosition;
         pos1.y = 0; // любое нужное значение
         boardRect.anchoredPosition = pos1;
 
-        undoButtonPhone.SetActive(true);
+        undoButtonPhone.gameObject.SetActive(true);
         undoButtonPhoneEdu.SetActive(true);
         undoButtonTablet.SetActive(false);
         undoButtonTabletEdu.SetActive(false);
@@ -71,10 +81,11 @@ public class OrientationManager2048 : MonoBehaviour
         pos1.y = 0; // любое нужное значение
         boardRect.anchoredPosition = pos1;
         
-        undoButtonPhone.SetActive(true);
+        undoButtonPhone.gameObject.SetActive(true);
         undoButtonPhoneEdu.SetActive(true);
         undoButtonTablet.SetActive(false);
         undoButtonTabletEdu.SetActive(false);
+        undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -95f);
         
         eduText.SetActive(false);
         eduBoardText.SetActive(true);
@@ -91,7 +102,7 @@ public class OrientationManager2048 : MonoBehaviour
         
         if (GameHelper.HaveAds)
         {
-            board.Padding = 80;
+            board.Padding = 95;
             Vector2 pos1 = boardRect.anchoredPosition;
             pos1.y = 18; // любое нужное значение
             boardRect.anchoredPosition = pos1;
@@ -104,10 +115,11 @@ public class OrientationManager2048 : MonoBehaviour
             boardRect.anchoredPosition = pos2;
         }
         
-        undoButtonPhone.SetActive(false);
+        undoButtonPhone.gameObject.SetActive(false);
         undoButtonPhoneEdu.SetActive(false);
         undoButtonTablet.SetActive(true);
         undoButtonTabletEdu.SetActive(true);
+        undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -95f);
         
         eduText.SetActive(true);
         eduBoardText.SetActive(false);

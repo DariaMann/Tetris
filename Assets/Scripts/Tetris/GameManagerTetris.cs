@@ -58,7 +58,10 @@ public class GameManagerTetris : MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (GameHelper.SaveTetris.SaveDataTetris == null)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
     }

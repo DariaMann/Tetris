@@ -12,6 +12,12 @@ public class HexMap : MonoBehaviour
     [SerializeField] private float hexYOffset = 0.4325f; // Вертикальный шаг между рядами
 
     [SerializeField] private GameObject prefabChip;
+    
+    public float YOffset
+    {
+        get => yOffset;
+        set => yOffset = value;
+    }
 
     public int[] RowSizes { get; set; } = { 1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1 };
     
@@ -149,6 +155,28 @@ public class HexMap : MonoBehaviour
             }
         }
         checkersManager.ThemeChinese.SetTheme(GameHelper.Theme);
+    }
+
+    public void RepositionTiles(float newYOffset)
+    {
+        yOffset = newYOffset;
+        int totalRows = RowSizes.Length;
+        int halfRows = totalRows / 2;
+        for (int row = 0; row < totalRows; row++)
+        {
+            int rowSize = RowSizes[row];
+            float yPos = (halfRows - row) * hexYOffset;
+            float startX = -(rowSize - 1) * hexXOffset / 2;
+
+            for (int col = 0; col < rowSize; col++)
+            {
+                float xPos = startX + col * hexXOffset;
+                Vector2 position = new Vector2(xPos, yPos + yOffset);
+                HexTile tile = GetTileByCoordunates(row, col);
+                tile.gameObject.transform.position = position;
+                tile.Reposition(position);
+            }
+        }
     }
 
     public void SetPriority(int idPlayer)
@@ -308,5 +336,18 @@ public class HexMap : MonoBehaviour
         if (row >= 9 && row < 13 && rowSize - col <= rowSize - 9) return 5;
 
         return -1; // Не является зоной игрока
+    }
+
+    public HexTile GetTileByCoordunates(int row, int col)
+    {
+        foreach (var tile in Tiles)
+        {
+            if (tile.Row == row && tile.Col == col)
+            {
+                return tile;
+            }
+        }
+
+        return null;
     }
 }

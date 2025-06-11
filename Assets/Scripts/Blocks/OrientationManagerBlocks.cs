@@ -135,13 +135,15 @@ public class OrientationManagerBlocks : MonoBehaviour
 
         if (GameHelper.HaveAds)
         {
-            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 46);
+            blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 75);
             blocksBoard.RescaleBlocks(0.5f);
+            squareUiGrid.Padding = 130;
         }
         else
         {
             blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 32);
             blocksBoard.RescaleBlocks(0.7f);
+            squareUiGrid.Padding = 110;
         }
 
         leftBlock.RepositionX(150);
@@ -150,8 +152,7 @@ public class OrientationManagerBlocks : MonoBehaviour
         leftBlock.RepositionOffsetY(370);
         centerBlock.RepositionOffsetY(370);
         rightBlock.RepositionOffsetY(370);
-
-        squareUiGrid.Padding = 110;
+        
         squareUiGrid.ResizeSquare();
         blocksBoard.ResizeBlocks();
 

@@ -1614,7 +1614,7 @@ MonoBehaviour:
   topPanel: {fileID: 2019012116}
   board: {fileID: 457196495}
   education: {fileID: 872704870}
-  undoButtonPhone: {fileID: 459680480}
+  undoButtonPhone: {fileID: 459680481}
   undoButtonTablet: {fileID: 832452572}
   undoButtonPhoneEdu: {fileID: 973068122}
   undoButtonTabletEdu: {fileID: 7507138263343873638}

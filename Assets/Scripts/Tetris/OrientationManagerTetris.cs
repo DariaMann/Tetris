@@ -50,16 +50,18 @@ public class OrientationManagerTetris : MonoBehaviour
         if (GameHelper.HaveAds)
         {
             cameraRenderer.zoomMultiplier = 1.1f;
+            board.localPosition = new Vector2(2.23f,0.8f);
+            goast.localPosition = new Vector2(2.23f,0.8f);
+            grid.localPosition = new Vector2(2.23f,0.8f);
         }
         else
         {
             cameraRenderer.zoomMultiplier = 1f;
+            board.localPosition = new Vector2(2.23f,0);
+            goast.localPosition = new Vector2(2.23f,0);
+            grid.localPosition = new Vector2(2.23f,0);
         }
-        
-        board.localPosition = new Vector2(2.23f,0);
-        goast.localPosition = new Vector2(2.23f,0);
-        grid.localPosition = new Vector2(2.23f,0);
-        
+
         bottomTextEdu.SetActive(false);
 
         if (GameHelper.IsEdication && !GameHelper.IsUIEdication)
@@ -125,17 +127,19 @@ public class OrientationManagerTetris : MonoBehaviour
         
         if (GameHelper.HaveAds)
         {
-            cameraRenderer.zoomMultiplier = 1.1f;
+            cameraRenderer.zoomMultiplier = 1.2f;
+            board.localPosition = new Vector2(0,0.9f);
+            goast.localPosition = new Vector2(0,0.9f);
+            grid.localPosition = new Vector2(0,0.9f);
         }
         else
         {
             cameraRenderer.zoomMultiplier = 1f;
+            board.localPosition = new Vector2(0,0);
+            goast.localPosition = new Vector2(0,0);
+            grid.localPosition = new Vector2(0,0);
         }
-        
-        board.localPosition = new Vector2(0,0);
-        goast.localPosition = new Vector2(0,0);
-        grid.localPosition = new Vector2(0,0);
-        
+
         bottomTextEdu.SetActive(false);
 
         if (GameHelper.IsEdication && !GameHelper.IsUIEdication)

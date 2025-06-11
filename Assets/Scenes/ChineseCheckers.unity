@@ -29822,6 +29822,8 @@ MonoBehaviour:
   finishTextPanel: {fileID: 1337246614}
   finishSmallTextPanel: {fileID: 1289226651}
   finishPlayersPanel: {fileID: 1422312603}
+  field: {fileID: 1282465607}
+  map: {fileID: 1282465605}
   eduImagePage1: {fileID: 1323031445}
   eduTopTextPage1: {fileID: 1839965168}
   eduImagePage2Vert1: {fileID: 1912629072}
@@ -29832,7 +29834,7 @@ MonoBehaviour:
   eduColorTextTopPage3: {fileID: 1503969060}
   eduColorTextLeftPage3: {fileID: 334324773}
   eduColorImagePage3: {fileID: 701831494}
-  speedButtonPhone: {fileID: 912524096}
+  speedButtonPhone: {fileID: 912524097}
   speedButtonTablet: {fileID: 261271119}
   speedButtonPhoneEdu: {fileID: 1898294997}
   speedButtonTabletEdu: {fileID: 2139815550}

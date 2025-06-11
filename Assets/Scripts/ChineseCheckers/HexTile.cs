@@ -65,6 +65,11 @@ public class HexTile : MonoBehaviour, IPointerClickHandler
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         SetOccupied(false);
     }
+
+    public void Reposition(Vector2 pos)
+    {
+        Position = pos;
+    }
     
     public void SetSelection(bool selected, bool showSelection = true)
     {

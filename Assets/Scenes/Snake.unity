@@ -964,6 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topText: {fileID: 1403606791}
+  cameraRect: {fileID: 467267739}
   cameraRenderer: {fileID: 467267740}
 --- !u!1 &509917337
 GameObject:

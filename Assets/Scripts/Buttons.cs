@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using Assets.SimpleLocalization;
-using DG.Tweening;
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,8 +9,6 @@ public class Buttons : MonoBehaviour {
     
     [SerializeField] private float timing;
     [SerializeField] private bool isPaused;
-    [SerializeField] private bool exitController;
-    [SerializeField] private bool havePausePanel = true;
     [SerializeField] private GameObject educationButton;
     [SerializeField] private GameObject ratingCenterButton;
     [SerializeField] private GameObject ratingLeftButton;
@@ -44,9 +38,8 @@ public class Buttons : MonoBehaviour {
     private Coroutine _themeCoroutine;
     private bool _isDelayStopPause;
 
-    void Start () {
-        isPaused = false;
-
+    void Start () 
+    {
         Themes theme = GameHelper.GetTheme();
         ApplyTheme(theme);
         
@@ -96,42 +89,34 @@ public class Buttons : MonoBehaviour {
             }
         }
     }
-	
-	void Update () {
-        if (havePausePanel)
+
+    void Update()
+    {
+        Time.timeScale = timing;
+        if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)
         {
-            Time.timeScale = timing;
-            if (Input.GetKeyDown(KeyCode.Escape) && isPaused == false)
-            {
-                isPaused = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true)
-            {
-                isPaused = false;
-            }
-            if (isPaused == true)
-            {
-                GameHelper.IsPause = true;
-                timing = 0;
-                if (!exitController)
-                {
-                    pauseMenu.SetActive(true);
-                }
-                else
-                {
-                    pauseMenu.SetActive(false);
-                }
-            }
-            else if (isPaused == false)
-            {
+            SetPause(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        {
+            SetPause(false);
+        }
+
+        if (isPaused)
+        {
+            GameHelper.IsPause = true;
+            timing = 0;
+            pauseMenu.SetActive(true);
+        }
+        else if (isPaused == false)
+        {
 //                GameHelper.IsPause = false;
-                timing = 1;
-                pauseMenu.SetActive(false);
-                if (GameHelper.IsPause && !_isDelayStopPause)
-                {
-                    _isDelayStopPause = true;
-                    StartCoroutine(DelayStopPause());
-                }
+            timing = 1;
+            pauseMenu.SetActive(false);
+            if (GameHelper.IsPause && !_isDelayStopPause)
+            {
+                _isDelayStopPause = true;
+                StartCoroutine(DelayStopPause());
             }
         }
 
@@ -139,7 +124,7 @@ public class Buttons : MonoBehaviour {
         {
             _themeCoroutine = StartCoroutine(MonitorTheme());
         }
-        
+
         if (_themeCoroutine != null && GameHelper.Theme != Themes.Auto)
         {
             StopCoroutine(_themeCoroutine);
@@ -150,12 +135,13 @@ public class Buttons : MonoBehaviour {
         {
             OnLightThemeClick();
         }
+
         if (Input.GetKey(KeyCode.N))
         {
             OnDarkThemeClick();
         }
     }
-    
+
     public IEnumerator DelayStopPause()
     {
         yield return new WaitForSeconds(0.1f);
@@ -381,25 +367,13 @@ public class Buttons : MonoBehaviour {
 
     public void OnPauseClick()
     {
-        isPaused = true;
-        if (isPaused == true)
-        {
-            timing = 0;
-            if (!exitController)
-            {
-                pauseMenu.SetActive(true);
-            }
-            else
-            {
-                pauseMenu.SetActive(false);
-            }
-        }
+        SetPause(true);
         AppodealManager.Instance.HideBottomBanner();
     }
     
     public void OnChangePauseClick()
     {
-        isPaused = !isPaused;
+        SetPause(!isPaused);
     }
     
     public void OnAutoThemeClick()

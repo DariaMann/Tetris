@@ -6,6 +6,8 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     [SerializeField] private GameObject finishTextPanel;
     [SerializeField] private GameObject finishSmallTextPanel;
     [SerializeField] private RectTransform finishPlayersPanel;
+    [SerializeField] private Transform field;
+    [SerializeField] private HexMap map;
     
     [SerializeField] private RectTransform eduImagePage1;
     [SerializeField] private RectTransform eduTopTextPage1;
@@ -20,7 +22,7 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     [SerializeField] private GameObject eduColorTextLeftPage3;
     [SerializeField] private RectTransform eduColorImagePage3;
     
-    [SerializeField] private GameObject speedButtonPhone;
+    [SerializeField] private RectTransform speedButtonPhone;
     [SerializeField] private GameObject speedButtonTablet;
     [SerializeField] private GameObject speedButtonPhoneEdu;
     [SerializeField] private GameObject speedButtonTabletEdu;
@@ -49,17 +51,19 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
     {
         if (GameHelper.HaveAds)
         {
-            cameraRenderer.zoomMultiplier = 1.05f;
+            speedButtonPhone.anchoredPosition = new Vector2(speedButtonPhone.anchoredPosition.x, -65f);
+            cameraRenderer.zoomMultiplier = 1.08f;
         }
         else
         {
+            speedButtonPhone.anchoredPosition = new Vector2(speedButtonPhone.anchoredPosition.x, -125f);
             cameraRenderer.zoomMultiplier = 1f;
         }
         
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
         
-        speedButtonPhone.SetActive(true);
+        speedButtonPhone.gameObject.SetActive(true);
         speedButtonPhoneEdu.SetActive(true);
         speedButtonTablet.SetActive(false);
         speedButtonTabletEdu.SetActive(false);
@@ -68,6 +72,12 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         Vector2 offsetMax = rt.offsetMax;
         offsetMax.y = -218f; // Top = 147, значит offsetMax.y = -147
         rt.offsetMax = offsetMax;
+        
+        field.position = new Vector3(field.position.x, -0.72f, field.position.z);
+        if (map.YOffset != -0.72f)
+        {
+            map.RepositionTiles(-0.72f);
+        }
 
         eduImagePage1.offsetMin = new Vector2(eduImagePage1.offsetMin.x, 122);
         eduImagePage1.offsetMax = new Vector2(eduImagePage1.offsetMax.x, -228);
@@ -91,12 +101,13 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void VerticalOrientationPhone()
     {
+        speedButtonPhone.anchoredPosition = new Vector2(speedButtonPhone.anchoredPosition.x, -125f);
         cameraRenderer.zoomMultiplier = 1f;
         
         finishTextPanel.SetActive(true);
         finishSmallTextPanel.SetActive(false);
         
-        speedButtonPhone.SetActive(true);
+        speedButtonPhone.gameObject.SetActive(true);
         speedButtonPhoneEdu.SetActive(true);
         speedButtonTablet.SetActive(false);
         speedButtonTabletEdu.SetActive(false);
@@ -105,6 +116,12 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         Vector2 offsetMax = rt.offsetMax;
         offsetMax.y = -218f; // Top = 147, значит offsetMax.y = -147
         rt.offsetMax = offsetMax;
+        
+        field.position = new Vector3(field.position.x, -0.72f, field.position.z);
+        if (map.YOffset != -0.72f)
+        {
+            map.RepositionTiles(-0.72f);
+        }
         
         eduImagePage1.offsetMin = new Vector2(eduImagePage1.offsetMin.x, 122);
         eduImagePage1.offsetMax = new Vector2(eduImagePage1.offsetMax.x, -228);
@@ -136,11 +153,12 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         {
             cameraRenderer.zoomMultiplier = 1f;
         }
+        speedButtonPhone.anchoredPosition = new Vector2(speedButtonPhone.anchoredPosition.x, -125f);
         
         finishTextPanel.SetActive(false);
         finishSmallTextPanel.SetActive(true);
         
-        speedButtonPhone.SetActive(false);
+        speedButtonPhone.gameObject.SetActive(false);
         speedButtonPhoneEdu.SetActive(false);
         speedButtonTablet.SetActive(true);
         speedButtonTabletEdu.SetActive(true);
@@ -149,6 +167,23 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         Vector2 offsetMax = rt.offsetMax;
         offsetMax.y = -147f; // Top = 147, значит offsetMax.y = -147
         rt.offsetMax = offsetMax;
+
+        if (GameHelper.HaveAds)
+        {
+            field.position = new Vector3(field.position.x, 0, field.position.z);
+            if (map.YOffset != 0)
+            {
+                map.RepositionTiles(0);
+            }
+        }
+        else
+        {
+            field.position = new Vector3(field.position.x, -0.72f, field.position.z);
+            if (map.YOffset != -0.72f)
+            {
+                map.RepositionTiles(-0.72f);
+            }
+        }
         
         eduImagePage1.offsetMin = new Vector2(eduImagePage1.offsetMin.x, 64);
         eduImagePage1.offsetMax = new Vector2(eduImagePage1.offsetMax.x, -170); 

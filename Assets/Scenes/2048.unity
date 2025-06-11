@@ -4682,7 +4682,7 @@ MonoBehaviour:
   eduBoardText: {fileID: 1904528655}
   eduBoard: {fileID: 1457788712}
   eduBoardRect: {fileID: 1457788711}
-  undoButtonPhone: {fileID: 1149275133}
+  undoButtonPhone: {fileID: 1149275134}
   undoButtonTablet: {fileID: 2092548281}
   undoButtonPhoneEdu: {fileID: 1670537865}
   undoButtonTabletEdu: {fileID: 7658609387318430782}

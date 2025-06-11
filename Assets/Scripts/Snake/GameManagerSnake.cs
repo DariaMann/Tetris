@@ -44,7 +44,10 @@ public class GameManagerSnake: MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (GameHelper.SaveSnake.SaveDataSnake == null)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
 
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
