@@ -28,6 +28,7 @@ public class EducationSnake : MonoBehaviour
     private Vector2Int headDirection;
     
     private Coroutine _tutorialCoroutine;
+    private Coroutine _moveSnakeHeadCoroutine;
     private bool _isFirstShow;
     private bool _buttonPlayShowed;
 
@@ -44,7 +45,16 @@ public class EducationSnake : MonoBehaviour
             ForcePlayButtonVisible();
         }
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+            ForcePlayButtonVisible();
+        }
+    }
+
     public void ShowEducation(bool isFirstEducation)
     {
         _isFirstShow = isFirstEducation;
@@ -113,6 +123,12 @@ public class EducationSnake : MonoBehaviour
         {
             StopCoroutine(_tutorialCoroutine);
             _tutorialCoroutine = null;
+        }  
+        
+        if (_moveSnakeHeadCoroutine != null)
+        {
+            StopCoroutine(_moveSnakeHeadCoroutine);
+            _moveSnakeHeadCoroutine = null;
         }
 
         ClearSegments();
@@ -132,13 +148,12 @@ public class EducationSnake : MonoBehaviour
     public void Restart()
     {
         StopTutorial();
-
         PlayTutorial();
     }
 
     private void PlayTutorial()
     {
-        if (_tutorialCoroutine != null) return;
+        StopTutorial();
         
         finger.IsTutorialRunning = true;
         _tutorialCoroutine = StartCoroutine(PlayMoveStep());
@@ -150,11 +165,13 @@ public class EducationSnake : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             
+            segments.Clear();
             segments.Add(head);
             
             Vector2 start = new Vector2(-100,-100);
             head.anchoredPosition = start;
-            yield return StartCoroutine(MoveSnakeHead(Vector2Int.right));
+            _moveSnakeHeadCoroutine = StartCoroutine(MoveSnakeHead(Vector2Int.right));
+            yield return _moveSnakeHeadCoroutine;
             if (!finger.IsTutorialRunning) yield break;
             foods[0].SetActive(false);
             headDirection = Vector2Int.right;
@@ -163,7 +180,8 @@ public class EducationSnake : MonoBehaviour
             if (!finger.IsTutorialRunning) yield break;
             RotateHead(Vector2Int.up);
             
-            yield return StartCoroutine(MoveSnakeHead(Vector2Int.up));
+            _moveSnakeHeadCoroutine = StartCoroutine(MoveSnakeHead(Vector2Int.up));
+            yield return _moveSnakeHeadCoroutine;
             if (!finger.IsTutorialRunning) yield break;
             foods[1].SetActive(false);
             headDirection = Vector2Int.up;
@@ -172,7 +190,8 @@ public class EducationSnake : MonoBehaviour
             if (!finger.IsTutorialRunning) yield break;
             RotateHead(Vector2Int.left);
             
-            yield return StartCoroutine(MoveSnakeHead(Vector2Int.left));
+            _moveSnakeHeadCoroutine = StartCoroutine(MoveSnakeHead(Vector2Int.left));
+            yield return _moveSnakeHeadCoroutine;
             if (!finger.IsTutorialRunning) yield break;
             foods[2].SetActive(false);
             headDirection = Vector2Int.left;
@@ -181,7 +200,8 @@ public class EducationSnake : MonoBehaviour
             if (!finger.IsTutorialRunning) yield break;
             RotateHead(Vector2Int.down);
             
-            yield return StartCoroutine(MoveSnakeHead(Vector2Int.down));
+            _moveSnakeHeadCoroutine = StartCoroutine(MoveSnakeHead(Vector2Int.down));
+            yield return _moveSnakeHeadCoroutine;
             if (!finger.IsTutorialRunning) yield break;
             RotateHead(Vector2Int.right);
 
@@ -294,6 +314,8 @@ public class EducationSnake : MonoBehaviour
             // Двигаемся к новой клетке
             while ((head.anchoredPosition - nextCell).sqrMagnitude > 0.01f)
             {
+                Debug.Log($"MoveSnakeHead with dir {direction}");
+                
                 // Двигаем голову
                 head.anchoredPosition = Vector2.MoveTowards(head.anchoredPosition, target: nextCell, speed * Time.deltaTime);
 

@@ -7,11 +7,13 @@ using UnityEngine;
 public static class GameHelper
 {
         private static Themes _theme = Themes.Light;
+        private static bool _isAutentificate = false;
         private static bool _sound = true;
         private static bool _music = true;
         private static bool _vibration = true;
         private static bool _haveAds = true;
 
+        public static event Action<bool> OnAutentificateChanged;
         public static event Action<Themes> OnThemeChanged;
         public static event Action<bool> OnSoundChanged;
         public static event Action<bool> OnMusicChanged;
@@ -46,7 +48,18 @@ public static class GameHelper
         
         public static MiniGameType GameType { get; set; }
         
-        public static bool IsAutentificate { get; set; } = false;
+        public static bool IsAutentificate 
+        {
+                get => _isAutentificate;
+                set
+                {
+                        if (_isAutentificate != value) // Изменяем только если значение новое
+                        {
+                                _isAutentificate = value;
+                                OnAutentificateChanged?.Invoke(_isAutentificate); // Вызываем событие
+                        }
+                }
+        }
 
         public static Themes Theme
         {
@@ -366,6 +379,10 @@ public static class GameHelper
         
         public static void SetFirstSettings()
         {
+                if (!PlayerPrefs.HasKey("PlayerID"))
+                {
+                        SetPlayerID("");
+                }
                 if (!PlayerPrefs.HasKey("Language"))
                 {
                         string language = "English";
@@ -460,6 +477,23 @@ public static class GameHelper
                 }
 
                 SetEducationStateFirst();
+        }
+
+        public static void SetPlayerID(string playerId)
+        {
+                string id = GetPlayerID();
+                if (id == playerId)
+                {
+                        return;
+                }
+                PlayerPrefs.SetString("PlayerID", playerId);
+                PlayerPrefs.Save();
+        }
+        
+        public static string GetPlayerID()
+        {
+                string id = PlayerPrefs.GetString("PlayerID");
+                return id;
         }
         
         public static void ResetData()

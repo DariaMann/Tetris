@@ -103,7 +103,7 @@ public class GameManagerSnake: MonoBehaviour
     {
         if (AppodealManager.Instance.IsShowInterstitial())
         {
-            AppodealManager.Instance.TryShowInterstitial();
+            AppodealManager.Instance.ShowInterstitial();
         }
         else
         {

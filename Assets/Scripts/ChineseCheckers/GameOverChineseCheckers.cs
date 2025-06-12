@@ -185,6 +185,7 @@ public class GameOverChineseCheckers: MonoBehaviour
 
         foreach (var player in playerPanels)
         {
+            player.RectTransform.localScale = Vector3.one;
             player.CanvasGroup.alpha = 1;
         }
 

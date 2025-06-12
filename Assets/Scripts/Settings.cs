@@ -89,7 +89,14 @@ public class Settings : MonoBehaviour
 
     private void SetVersionText()
     {
-        versionText.text = GetVersionText();
+        string finalStr = "";
+        string id = GameHelper.GetPlayerID();
+        if (id != "")
+        {
+            finalStr = $"Id: {id}, ";
+        }
+        finalStr += GetVersionText();
+        versionText.text = finalStr;
     }
     
     private void PlayClickSound(bool change)

@@ -32,6 +32,7 @@ public static class GameServicesManager
     {
         Debug.Log("Тестирование в редакторе: симуляция успешного подключения");
         Debug.Log("Успешная симуляция подключения к игровым сервисам");
+        GameHelper.SetPlayerID(idStr);
         GameHelper.IsAutentificate = true;
     }
     
@@ -49,6 +50,9 @@ public static class GameServicesManager
                 {
                     Debug.Log("Успешная аутентификация в Google Play Games");
                     Debug.Log("Имя игрока: " + Social.localUser.userName);
+                    string playerId = Social.localUser.id;
+                    Debug.Log("Player ID: " + playerId);
+                    GameHelper.SetPlayerID(playerId);
                     GameHelper.IsAutentificate = true;
                     SyncAllAchievements();
                 }
@@ -79,9 +83,10 @@ public static class GameServicesManager
                 if (success)
                 {
                     Debug.Log("Успешная аутентификация в Game Center");
+                    Debug.Log("Имя игрока: " + Social.localUser.userName);
                     string playerId = Social.localUser.id;
-                    string nameId = Social.localUser.userName;
                     Debug.Log("Player ID: " + playerId);
+                    GameHelper.SetPlayerID(playerId);
                     GameHelper.IsAutentificate = true;
                     SyncAllAchievements();
                 }

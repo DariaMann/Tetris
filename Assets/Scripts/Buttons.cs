@@ -12,6 +12,8 @@ public class Buttons : MonoBehaviour {
     [SerializeField] private GameObject educationButton;
     [SerializeField] private GameObject ratingCenterButton;
     [SerializeField] private GameObject ratingLeftButton;
+    [SerializeField] private GameObject connectServicesCenterButton;
+    [SerializeField] private GameObject connectServicesLeftButton;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private RectTransform settingsPanel;
     
@@ -35,6 +37,11 @@ public class Buttons : MonoBehaviour {
     
     [SerializeField] private TextMeshProUGUI textAdsButton;
     
+    [SerializeField] private Image connectServicesCenterImage;
+    [SerializeField] private Image connectServicesLeftImage;
+    [SerializeField] private Sprite connectServicesGameCenterIcon;
+    [SerializeField] private Sprite connectServicesGooglePlayIcon;
+
     private Coroutine _themeCoroutine;
     private bool _isDelayStopPause;
 
@@ -45,6 +52,8 @@ public class Buttons : MonoBehaviour {
         
         int languageId = GameHelper.GetLanguage();
         ApplyLanguage(languageId);
+        
+        GameHelper.OnAutentificateChanged += ApplyAutentificate;
         
         GameHelper.GetSound();
         ApplySound(GameHelper.Sound);
@@ -68,20 +77,24 @@ public class Buttons : MonoBehaviour {
         if (GameHelper.GameType == MiniGameType.None)
         {
             educationButton.SetActive(false);
-            ratingLeftButton.SetActive(false);
-            ratingCenterButton.SetActive(true);
+//            ratingLeftButton.SetActive(false);
+//            ratingCenterButton.SetActive(true);
         }
         else
         {
             educationButton.SetActive(true);
-            ratingLeftButton.SetActive(true);
-            ratingCenterButton.SetActive(false);
+//            ratingLeftButton.SetActive(true);
+//            ratingCenterButton.SetActive(false);
         }
+
+        SetConnectServicesImage();
+        ApplyAutentificate(GameHelper.IsAutentificate);
     }
     
     void OnApplicationPause(bool pause)
     {
-        if (pause && GameHelper.GameType != MiniGameType.None)
+        if (pause && GameHelper.GameType != MiniGameType.None &&
+            GameHelper.GameType != MiniGameType.G2048 && GameHelper.GameType != MiniGameType.Lines98 && GameHelper.GameType != MiniGameType.Blocks)
         {
             if (!GameHelper.IsGameOver && !GameHelper.IsEdication)
             {
@@ -139,6 +152,58 @@ public class Buttons : MonoBehaviour {
         if (Input.GetKey(KeyCode.N))
         {
             OnDarkThemeClick();
+        }
+    }
+
+    private void SetConnectServicesImage()
+    {
+#if UNITY_EDITOR
+        connectServicesCenterImage.sprite = connectServicesGameCenterIcon;
+        connectServicesLeftImage.sprite = connectServicesGameCenterIcon;
+#elif UNITY_ANDROID
+        connectServicesCenterImage.sprite = connectServicesGooglePlayIcon;
+        connectServicesLeftImage.sprite = connectServicesGooglePlayIcon;
+#elif UNITY_IOS
+        connectServicesCenterImage.sprite = connectServicesGameCenterIcon;
+        connectServicesLeftImage.sprite = connectServicesGameCenterIcon;
+#endif
+    }
+    
+    public void ApplyAutentificate(bool isAutentificate)
+    {
+        if (isAutentificate)
+        {
+            if (GameHelper.GameType == MiniGameType.None)
+            {
+                ratingCenterButton.SetActive(true);
+                ratingLeftButton.SetActive(false);
+                connectServicesCenterButton.SetActive(false);
+                connectServicesLeftButton.SetActive(false);
+            }
+            else
+            {
+                ratingCenterButton.SetActive(false);
+                ratingLeftButton.SetActive(true);
+                connectServicesCenterButton.SetActive(false);
+                connectServicesLeftButton.SetActive(false);
+            }
+        }
+        else
+        {
+            if (GameHelper.GameType == MiniGameType.None)
+            {
+                ratingCenterButton.SetActive(false);
+                ratingLeftButton.SetActive(false);
+                connectServicesCenterButton.SetActive(true);
+                connectServicesLeftButton.SetActive(false);
+            }
+            else
+            {
+                ratingCenterButton.SetActive(false);
+                ratingLeftButton.SetActive(false);
+                connectServicesCenterButton.SetActive(false);
+                connectServicesLeftButton.SetActive(true);
+            }
         }
     }
 
@@ -369,6 +434,11 @@ public class Buttons : MonoBehaviour {
     {
         SetPause(true);
         AppodealManager.Instance.HideBottomBanner();
+    } 
+    
+    public void OnConnectServicesClick()
+    {
+        GameServicesManager.AuthenticateUser();
     }
     
     public void OnChangePauseClick()

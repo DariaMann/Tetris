@@ -158,6 +158,9 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         gamesPlayed++;
         int randomNumberGame = Random.Range(2, 4);
         float randomMinIntervalSeconds = Random.Range(120f, 150f);
+        Debug.Log("Межстраничная реклама: randomNumberGame = " + randomNumberGame + ", gamesPlayed = " + gamesPlayed +
+                  ", randomMinIntervalSeconds = " + randomMinIntervalSeconds +
+                  ", (Time.time - lastAdTime) = "+(Time.time - lastAdTime));
         if (gamesPlayed >= randomNumberGame && Time.time - lastAdTime > randomMinIntervalSeconds)
         {
             if (IsInterstitialReady())
@@ -167,16 +170,12 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         }
         return false;
     }
-    
-    public void TryShowInterstitial()
-    {
-        ShowInterstitial();
-    }
-    
+
     public void RestartInterstitialTimer()
     {
         gamesPlayed = 0;
         lastAdTime = Time.time;
+        Debug.Log("Обновление таймера межстраничной рекламы");
     }
 
     // Метод для показа межстраничной рекламы (например, после уровня)
@@ -188,6 +187,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         }
         if (Appodeal.IsLoaded(AppodealAdType.Interstitial))
         {
+            Debug.Log("Показ межстраничной рекламы");
             Appodeal.Show(AppodealShowStyle.Interstitial);
         }
         else

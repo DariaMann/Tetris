@@ -169,7 +169,7 @@ public class GameManager2048 : MonoBehaviour
     {
         if (AppodealManager.Instance.IsShowInterstitial())
         {
-            AppodealManager.Instance.TryShowInterstitial();
+            AppodealManager.Instance.ShowInterstitial();
         }
         else
         {

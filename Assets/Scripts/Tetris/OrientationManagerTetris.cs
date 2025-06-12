@@ -47,7 +47,7 @@ public class OrientationManagerTetris : MonoBehaviour
         
         cameraRenderer.vertical = 0.5f;
 
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
         {
             cameraRenderer.zoomMultiplier = 1.1f;
             board.localPosition = new Vector2(2.23f,0.8f);
@@ -125,7 +125,7 @@ public class OrientationManagerTetris : MonoBehaviour
         
         cameraRenderer.vertical = 0.5f;
         
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
         {
             cameraRenderer.zoomMultiplier = 1.2f;
             board.localPosition = new Vector2(0,0.9f);

@@ -204,9 +204,15 @@ public class GameOver : MonoBehaviour
         ratingPanelGroup.alpha = 1;
         buttonsGroup.alpha = 1;
         buttonsGroup.interactable = true;
+        
+        scorePanel.localScale = Vector3.one;
+        ratingPanel.localScale = Vector3.one;
 
         if (_isMaximumEnable)
+        {
             maximumPanelGroup.alpha = 1;
+            maximumPanel.localScale = Vector3.one;
+        }
 
         // Активируем нужное после сбоя
         if (isWin)
