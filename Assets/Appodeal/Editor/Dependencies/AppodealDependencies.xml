@@ -29,7 +29,6 @@
 		<iosPod id="appodeal_yandex_ads" name="APDYandexAdapter" version="3.6.0.0" minTargetSdk="12.0" />
 		<iosPod id="bidmachine_amazon" name="BidMachineAmazonAdapter" version="3.2.0.0" minTargetSdk="12.0" />
 		<iosPod id="bidmachine_meta_audience_network" name="BidMachineMetaAudienceAdapter" version="3.2.0.0" minTargetSdk="12.0" />
-		<iosPod id="bidmachine_mintegral" name="BidMachineMintegralAdapter" version="3.2.0.0" minTargetSdk="12.0" />
 		<iosPod id="bidmachine_my_target" name="BidMachineMyTargetAdapter" version="3.2.0.0" minTargetSdk="12.4" />
 		<iosPod id="bidmachine_pangle" name="BidMachinePangleAdapter" version="3.2.0.0" minTargetSdk="12.0" />
 		<iosPod id="bidmachine_vungle" name="BidMachineVungleAdapter" version="3.2.0.0" minTargetSdk="12.0" />
@@ -53,16 +52,12 @@
 		<iosPod id="levelplay_bidmachine" name="IronSourceBidMachineAdapter" version="4.3.14.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_bidmachine_custom" name="BidMachineIronSourceCustomAdapter" version="3.2.0.1" minTargetSdk="13.0" />
 		<iosPod id="levelplay_bigo_ads" name="IronSourceBigoAdapter" version="4.3.4.0" minTargetSdk="12.0" />
-		<iosPod id="levelplay_dt_exchange" name="IronSourceFyberAdapter" version="4.3.41.0" minTargetSdk="12.0" />
-		<iosPod id="levelplay_inmobi" name="IronSourceInMobiAdapter" version="4.3.26.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_meta_audience_network" name="IronSourceFacebookAdapter" version="4.3.47.0" minTargetSdk="13.0" />
-		<iosPod id="levelplay_mintegral" name="IronSourceMintegralAdapter" version="4.3.32.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_mobilefuse" name="IronSourceMobileFuseAdapter" version="4.3.5.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_moloco" name="IronSourceMolocoAdapter" version="4.3.10.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_my_target" name="IronSourceMyTargetAdapter" version="4.1.27.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_ogury" name="IronSourceOguryAdapter" version="4.3.3.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_pangle" name="IronSourcePangleAdapter" version="4.3.39.0" minTargetSdk="13.0" />
-		<iosPod id="levelplay_smaato" name="IronSourceSmaatoAdapter" version="4.3.16.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_unity_ads" name="IronSourceUnityAdsAdapter" version="4.3.47.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_verve" name="IronSourceVerveAdapter" version="4.3.4.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_vungle" name="IronSourceVungleAdapter" version="4.3.42.0" minTargetSdk="12.0" />
@@ -72,18 +67,17 @@
 		<iosPod id="max_bidon" name="AppLovinMediationBidonAdapter" version="0.7.19.0" minTargetSdk="12.0" />
 		<iosPod id="max_bigo_ads" name="AppLovinMediationBigoAdsAdapter" version="4.6.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_chartboost" name="AppLovinMediationChartboostAdapter" version="9.8.0.0" minTargetSdk="11.0" />
-		<iosPod id="max_dt_exchange" name="AppLovinMediationFyberAdapter" version="8.3.5.0" minTargetSdk="12.0" />
 		<iosPod id="max_gam" name="AppLovinMediationGoogleAdManagerAdapter" version="12.2.0.0" minTargetSdk="12.0" />
-		<iosPod id="max_inmobi" name="AppLovinMediationInMobiAdapter" version="10.8.0.0" minTargetSdk="12.0" />
+		<iosPod id="max_inmobi" name="AppLovinMediationInMobiAdapter" version="10.8.3.1" minTargetSdk="12.0" />
 		<iosPod id="max_ironsource" name="AppLovinMediationIronSourceAdapter" version="8.7.0.0.0" minTargetSdk="13.0" />
 		<iosPod id="max_meta_audience_network" name="AppLovinMediationFacebookAdapter" version="6.16.0.0" minTargetSdk="12.0" />
-		<iosPod id="max_mintegral" name="AppLovinMediationMintegralAdapter" version="7.7.6.0.0" minTargetSdk="11.0" />
+		<iosPod id="max_mintegral" name="AppLovinMediationMintegralAdapter" version="7.7.8.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_mobilefuse" name="AppLovinMediationMobileFuseAdapter" version="1.8.2.0" minTargetSdk="12.0" />
 		<iosPod id="max_moloco" name="AppLovinMediationMolocoAdapter" version="3.6.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_my_target" name="AppLovinMediationMyTargetAdapter" version="5.25.1.0" minTargetSdk="12.4" />
 		<iosPod id="max_ogury" name="AppLovinMediationOguryPresageAdapter" version="5.0.2.0" minTargetSdk="12.0" />
 		<iosPod id="max_pangle" name="AppLovinMediationByteDanceAdapter" version="6.4.1.2.0" minTargetSdk="12.0" />
-		<iosPod id="max_smaato" name="AppLovinMediationSmaatoAdapter" version="22.9.2.0" minTargetSdk="12.0" />
+		<iosPod id="max_smaato" name="AppLovinMediationSmaatoAdapter" version="22.9.3.1" minTargetSdk="12.0" />
 		<iosPod id="max_unity_ads" name="AppLovinMediationUnityAdsAdapter" version="4.13.1.0" minTargetSdk="12.0" />
 		<iosPod id="max_verve" name="AppLovinMediationVerveAdapter" version="3.1.4.0" minTargetSdk="12.0" />
 		<iosPod id="max_vungle" name="AppLovinMediationVungleAdapter" version="7.4.4.0" minTargetSdk="12.0" />
