@@ -31,6 +31,7 @@ public class ThemeBlocks: Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Blocks;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
     }
 

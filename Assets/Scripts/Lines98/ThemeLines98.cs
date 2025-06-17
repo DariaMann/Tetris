@@ -22,6 +22,7 @@ public class ThemeLines98: Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Lines98;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
     }
 

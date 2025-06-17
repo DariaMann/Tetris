@@ -82,6 +82,11 @@ public class GameManagerBlocks : MonoBehaviour
         GameHelper.GetHaveAds();
         ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+        });
     }
     
     private void CheckDailyHints()
@@ -181,6 +186,7 @@ public class GameManagerBlocks : MonoBehaviour
         saveScores.ChangeScore(0, false);
         board.GenerateGrid();
         board.CreateBlocks();
+        board.CheckInteractableBlocks();
     }
 
     public void ApplyHaveAds(bool stateAds)
@@ -238,6 +244,13 @@ public class GameManagerBlocks : MonoBehaviour
 
     public void OnChangeBlocks()
     {
+        var parameters = new Dictionary<string, object>()
+        {
+            { AnalyticType.have_ads.ToString(), GameHelper.HaveAds },
+            { AnalyticType.count_change_blocks.ToString(), CountChangeBlocks }
+        };
+        AnalyticsManager.Instance.LogEvent(AnalyticType.button_change_figure_click.ToString(), parameters);
+        
         if (GameHelper.HaveAds)
         {
 
@@ -256,6 +269,7 @@ public class GameManagerBlocks : MonoBehaviour
         }
 
         board.CreateBlocks();
+        board.CheckInteractableBlocks();
         CheckStateChangeBlocksButton();
     }
 
@@ -284,7 +298,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
 
     public void ResetAll()

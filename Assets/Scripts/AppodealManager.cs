@@ -253,24 +253,28 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     private void OnInterstitialLoaded(object sender, AdLoadedEventArgs e)
     {
         Debug.Log("Interstitial loaded");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_loaded.ToString());
     }
 
 // Called when interstitial failed to load
     private void OnInterstitialFailedToLoad(object sender, EventArgs e)
     {
         Debug.Log("Interstitial failed to load");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_load_failed.ToString());
     }
 
 // Called when interstitial was loaded, but cannot be shown (internal network errors, placement settings, etc.)
     private void OnInterstitialShowFailed(object sender, EventArgs e)
     {
         Debug.Log("Interstitial show failed");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_show_failed.ToString());
     }
 
 // Called when interstitial is shown
     private void OnInterstitialShown(object sender, EventArgs e)
     {
         Debug.Log("Interstitial shown");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_shown.ToString());
     }
 
 // Called when interstitial is closed
@@ -278,18 +282,21 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     {
         Debug.Log("Interstitial closed");
         OnInterstitialFinished?.Invoke();
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_closed.ToString());
     }
 
 // Called when interstitial is clicked
     private void OnInterstitialClicked(object sender, EventArgs e)
     {
         Debug.Log("Interstitial clicked");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_clicked.ToString());
     }
 
 // Called when interstitial is expired and can not be shown
     private void OnInterstitialExpired(object sender, EventArgs e)
     {
         Debug.Log("Interstitial expired");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.interstitial_expired.ToString());
     }
 
     #endregion
@@ -301,30 +308,35 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     {
         Debug.Log($"[APDUnity] [Callback] OnRewardedVideoLoaded(bool isPrecache:{e.IsPrecache})");
         OnRewardedVideoLoadedAction?.Invoke();
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_loaded.ToString());
     }
 
 // Called when rewarded video failed to load
     private void OnRewardedVideoFailedToLoad(object sender, EventArgs e)
     {
         Debug.Log("[APDUnity] [Callback] OnRewardedVideoFailedToLoad()");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_load_failed.ToString());
     }
 
 // Called when rewarded video was loaded, but cannot be shown (internal network errors, placement settings, etc.)
     private void OnRewardedVideoShowFailed(object sender, EventArgs e)
     {
         Debug.Log("[APDUnity] [Callback] OnRewardedVideoShowFailed()");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_show_failed.ToString());
     }
 
 // Called when rewarded video is shown
     private void OnRewardedVideoShown(object sender, EventArgs e)
     {
         Debug.Log("[APDUnity] [Callback] OnRewardedVideoShown()");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_shown.ToString());
     }
 
 // Called when rewarded video is closed
     private void OnRewardedVideoClosed(object sender, RewardedVideoClosedEventArgs e)
     {
         Debug.Log($"[APDUnity] [Callback] OnRewardedVideoClosed(bool finished:{e.Finished})");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_closed.ToString());
     }
 
 // Called when rewarded video is viewed until the end
@@ -332,18 +344,21 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     {
         Debug.Log($"[APDUnity] [Callback] OnRewardedVideoFinished(double amount:{e.Amount}, string name:{e.Currency})");
         OnRewardedVideoFinishedAction?.Invoke();
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_finished.ToString());
     }
 
 // Called when rewarded video is clicked
     private void OnRewardedVideoClicked(object sender, EventArgs e)
     {
         Debug.Log("[APDUnity] [Callback] OnRewardedVideoClicked()");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_clicked.ToString());
     }
 
 //Called when rewarded video is expired and can not be shown
     private void OnRewardedVideoExpired(object sender, EventArgs e)
     {
         Debug.Log("[APDUnity] [Callback] OnRewardedVideoExpired()");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.rewarded_expired.ToString());
     }
 
     #endregion
@@ -354,36 +369,42 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
     private void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
     {
         Debug.Log("Banner loaded");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_loaded.ToString());
     }
 
 // Called when banner failed to load
     private void OnBannerFailedToLoad(object sender, EventArgs e)
     {
         Debug.Log("Banner failed to load");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_load_failed.ToString());
     }
 
 // Called when banner failed to show
     private void OnBannerShowFailed(object sender, EventArgs e)
     {
         Debug.Log("Banner show failed");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_show_failed.ToString());
     }
 
 // Called when banner is shown
     private void OnBannerShown(object sender, EventArgs e)
     {
         Debug.Log("Banner shown");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_shown.ToString());
     }
 
     // Called when banner is clicked
     private void OnBannerClicked(object sender, EventArgs e)
     {
         Debug.Log("Banner clicked");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_clicked.ToString());
     }
 
 // Called when banner is expired and can not be shown
     private void OnBannerExpired(object sender, EventArgs e)
     {
         Debug.Log("Banner expired");
+        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_expired.ToString());
     }
 
     #endregion

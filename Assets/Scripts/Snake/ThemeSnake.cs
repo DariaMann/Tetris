@@ -29,6 +29,7 @@ public class ThemeSnake : Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Snake;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
         _colorDark = ColorUtility.TryParseHtmlString("#9A8C7F", out Color color8) ? color8 : Color.black;
         _colorGridLight = ColorUtility.TryParseHtmlString("#E7DCD0", out Color color3) ? color3 : Color.white;

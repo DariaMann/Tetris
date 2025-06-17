@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Assets.SimpleLocalization;
 using TMPro;
 using UnityEngine;
@@ -422,10 +423,21 @@ public class Buttons : MonoBehaviour {
     public void SetPause(bool state)
     {
         isPaused = state;
+        if (state)
+            GameplayTimeTracker.Instance.PauseTimer();
+        else
+            GameplayTimeTracker.Instance.ResumeTimer();
     }
     
     public void OnHomeClick()
     {
+        GameplayTimeTracker.Instance.PauseTimer();
+
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_finish.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() }
+        });
+
         AppodealManager.Instance.HideBottomBanner();
         SceneManager.LoadScene("Menu");
     }

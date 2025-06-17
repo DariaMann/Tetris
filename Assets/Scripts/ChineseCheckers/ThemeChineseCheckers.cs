@@ -30,6 +30,7 @@ public class ThemeChineseCheckers: Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.ChineseCheckers;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
         _colorBgField = ColorUtility.TryParseHtmlString("#6C6258", out Color colorBgField ) ? colorBgField  : Color.gray;
         

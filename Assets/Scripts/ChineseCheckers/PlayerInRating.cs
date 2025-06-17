@@ -27,11 +27,14 @@ public class PlayerInRating :MonoBehaviour
     }
 
     public PlayerState State { get; set; }
+    
+    public int WinSteps { get; set; }
 
     public void SetData(Player player)
     {
         number.text = player.WinNumber.ToString();
         State = player.State;
+        WinSteps = player.WinSteps;
         switch (State)
         {
             case PlayerState.Robot:

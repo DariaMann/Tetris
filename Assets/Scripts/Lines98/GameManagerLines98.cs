@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.SimpleLocalization;
 using Newtonsoft.Json;
@@ -71,6 +72,11 @@ public class GameManagerLines98 : MonoBehaviour
         }
 
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+        });
     }
 
     void OnApplicationQuit()
@@ -293,6 +299,6 @@ public class GameManagerLines98 : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
 }

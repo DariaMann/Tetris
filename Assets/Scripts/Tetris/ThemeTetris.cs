@@ -51,6 +51,7 @@ public class ThemeTetris : Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.Tetris;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
         _colorLight = ColorUtility.TryParseHtmlString("#D4D4D8", out Color color) ? color : Color.white;
         _colorGrey = ColorUtility.TryParseHtmlString("#454244", out Color color1) ? color1 : Color.gray;

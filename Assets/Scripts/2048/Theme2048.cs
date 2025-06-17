@@ -26,6 +26,7 @@ public class Theme2048 : Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.G2048;
+        GameplayTimeTracker.Instance.RestartTimer();
         InitializeColor();
         _colorCellLight = ColorUtility.TryParseHtmlString("#CDC1B4", out Color colorCellLight) ? colorCellLight : Color.gray;
         _colorCellsDark = ColorUtility.TryParseHtmlString("#B7A693", out Color colorCellsDark) ? colorCellsDark : Color.gray;

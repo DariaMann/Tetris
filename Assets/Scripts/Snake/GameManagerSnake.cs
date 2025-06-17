@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
 public class GameManagerSnake: MonoBehaviour
@@ -51,6 +53,11 @@ public class GameManagerSnake: MonoBehaviour
         }
 
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+        });
     }
     
     void OnApplicationQuit()
@@ -113,7 +120,7 @@ public class GameManagerSnake: MonoBehaviour
 
     public void ShowGameOverPanel()
     {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
     
     public void Again()

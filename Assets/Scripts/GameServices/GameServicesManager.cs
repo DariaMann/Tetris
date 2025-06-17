@@ -6,6 +6,7 @@ using GooglePlayGames.BasicApi.SavedGame;
 #endif
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_IOS
 using UnityEngine.SocialPlatforms;
@@ -54,6 +55,12 @@ public static class GameServicesManager
                     Debug.Log("Player ID: " + playerId);
                     GameHelper.SetPlayerID(playerId);
                     GameHelper.IsAutentificate = true;
+                    AnalyticsManager.Instance.LogEvent(AnalyticType.authenticate_services.ToString(), new Dictionary<string, object>
+                    {
+                        { AnalyticType.id_player.ToString(), playerId },
+                        { AnalyticType.name_player.ToString(), Social.localUser.userName },
+                        { AnalyticType.os_version.ToString(), SystemInfo.operatingSystem }
+                    });
                     SyncAllAchievements();
                 }
                 else
@@ -88,6 +95,12 @@ public static class GameServicesManager
                     Debug.Log("Player ID: " + playerId);
                     GameHelper.SetPlayerID(playerId);
                     GameHelper.IsAutentificate = true;
+                    AnalyticsManager.Instance.LogEvent(AnalyticType.authenticate_services.ToString(), new Dictionary<string, object>
+                    {
+                        { AnalyticType.id_player.ToString(), playerId },
+                        { AnalyticType.name_player.ToString(), Social.localUser.userName },
+                        { AnalyticType.os_version.ToString(), SystemInfo.operatingSystem }
+                    });
                     SyncAllAchievements();
                 }
                 else

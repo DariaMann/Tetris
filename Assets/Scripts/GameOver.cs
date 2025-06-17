@@ -68,11 +68,33 @@ public class GameOver : MonoBehaviour
             FastShowPanel(_isWin);
         }
     }
+
+    public void SentAnalytic(SaveScores saveScores)
+    {
+        var parameters = new Dictionary<string, object>()
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.record.ToString(), saveScores.CurrentRecord },
+            { AnalyticType.score.ToString(), saveScores.CurrentScore },
+            { AnalyticType.is_win.ToString(), saveScores.IsWin },
+            { AnalyticType.gameplay_time_final.ToString(), GameplayTimeTracker.Instance.OnGameOver() }
+        };
+        if (GameHelper.GameType == MiniGameType.G2048)
+        {
+            parameters.Add(AnalyticType.maximum.ToString(), saveScores.Maximum);
+        }
+
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_over.ToString(), parameters);
+    }
     
-    public void ShowGameOverPanel(bool isShow, bool isWin = false)
+    public void ShowGameOverPanel(bool isShow, SaveScores saveScores = null, bool isWin = false)
     {
         if (isShow)
         {
+            if (saveScores != null)
+            {
+                SentAnalytic(saveScores);
+            }
             AppodealManager.Instance.HideBottomBanner();
         }
         else

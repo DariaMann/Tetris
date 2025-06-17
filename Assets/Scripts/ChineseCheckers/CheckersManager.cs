@@ -143,6 +143,11 @@ public class CheckersManager: MonoBehaviour
         }
 
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+        });
     }
 
     public void OnChangeColorClick()

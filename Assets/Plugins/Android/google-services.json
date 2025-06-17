@@ -1,0 +1,29 @@
+﻿{
+  "project_info": {
+    "project_number": "1011441565585",
+    "project_id": "combygames-id",
+    "storage_bucket": "combygames-id.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011441565585:android:cd811fc7adf420ce136430",
+        "android_client_info": {
+          "package_name": "com.combysoft.combygames"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW-aeKhYlKiRj0v2WW4jtNBQ01E9NIE_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -63,7 +63,13 @@ public class GameManagerTetris : MonoBehaviour
                 AppodealManager.Instance.ShowBottomBanner();
             }
         }
+        
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
+            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+        });
     }
 
     void OnApplicationQuit()
@@ -192,7 +198,7 @@ public class GameManagerTetris : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
-        gameOver.ShowGameOverPanel(true, saveScores.IsWin);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
     
     public void Again()

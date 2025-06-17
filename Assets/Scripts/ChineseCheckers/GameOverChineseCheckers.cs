@@ -60,11 +60,28 @@ public class GameOverChineseCheckers: MonoBehaviour
             FastShowPanel(_isWin, playerPanels);
         }
     }
+    
+    public void SentAnalytic(List<PlayerInRating> playerPanels)
+    {
+        var parameters = new Dictionary<string, object>()
+        {
+            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() }
+        };
+        foreach (var player in playerPanels)
+        {
+            parameters.Add(player.State.ToString(), player.WinSteps);
+        }
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_over.ToString(), parameters);
+    }
 
     public void ShowGameOverPanel(bool isShow, List<PlayerInRating> playerPanels, bool isWin = false)
     {
         if (isShow)
         {
+            if (playerPanels != null)
+            {
+                SentAnalytic(playerPanels);
+            }
             AppodealManager.Instance.HideBottomBanner();
         }
         else
