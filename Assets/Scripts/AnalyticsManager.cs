@@ -20,6 +20,10 @@ public class AnalyticsManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             InitializeFirebase();
             FirstLoad();
+            LogEvent(AnalyticType.session_start.ToString(), new Dictionary<string, object>
+            {
+                { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
+            });
         }
         else
         {
@@ -29,6 +33,8 @@ public class AnalyticsManager : MonoBehaviour
 
     void OnApplicationPause(bool pause)
     {
+        if (!_isInitialized) return;
+        
         if (pause)
         {
             _pauseTime = DateTime.UtcNow;
@@ -84,6 +90,8 @@ public class AnalyticsManager : MonoBehaviour
 
     void HandleLog(string logString, string stackTrace, LogType type)
     {
+        if (!_isInitialized) return;
+        
         if (type == LogType.Exception || type == LogType.Error)
         {
             FirebaseAnalytics.LogEvent(AnalyticType.app_crash.ToString(), new Parameter[]
@@ -96,6 +104,11 @@ public class AnalyticsManager : MonoBehaviour
 
     private void InitializeFirebase()
     {
+#if UNITY_EDITOR
+        Debug.Log("[Analytics] Firebase init skipped in Editor.");
+        return;
+#endif
+        
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             var status = task.Result;

@@ -40,14 +40,17 @@ public static class GameServicesManager
     private static void AuthenticateGooglePlay()
     {
 #if UNITY_ANDROID
+        PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
+        
+        Debug.Log("Social.localUser.authenticated: " + Social.localUser.authenticated);
 
         if (!Social.localUser.authenticated)
         {
             // Аутентификация игрока
-            Social.localUser.Authenticate((bool success) =>
+            PlayGamesPlatform.Instance.Authenticate(status =>
             {
-                if (success)
+                if (status == SignInStatus.Success)
                 {
                     Debug.Log("Успешная аутентификация в Google Play Games");
                     Debug.Log("Имя игрока: " + Social.localUser.userName);
@@ -77,6 +80,48 @@ public static class GameServicesManager
         }
 #endif
     }
+    
+//    private static void AuthenticateGooglePlay()
+//    {
+//#if UNITY_ANDROID
+//        PlayGamesPlatform.DebugLogEnabled = true;
+//        PlayGamesPlatform.Activate();
+//
+//        if (!Social.localUser.authenticated)
+//        {
+//            // Аутентификация игрока
+//            Social.localUser.Authenticate((bool success) =>
+//            {
+//                if (success)
+//                {
+//                    Debug.Log("Успешная аутентификация в Google Play Games");
+//                    Debug.Log("Имя игрока: " + Social.localUser.userName);
+//                    string playerId = Social.localUser.id;
+//                    Debug.Log("Player ID: " + playerId);
+//                    GameHelper.SetPlayerID(playerId);
+//                    GameHelper.IsAutentificate = true;
+//                    AnalyticsManager.Instance.LogEvent(AnalyticType.authenticate_services.ToString(), new Dictionary<string, object>
+//                    {
+//                        { AnalyticType.id_player.ToString(), playerId },
+//                        { AnalyticType.name_player.ToString(), Social.localUser.userName },
+//                        { AnalyticType.os_version.ToString(), SystemInfo.operatingSystem }
+//                    });
+//                    SyncAllAchievements();
+//                }
+//                else
+//                {
+//                    Debug.Log("Не удалось аутентифицироваться в Google Play Games");
+//                    GameHelper.IsAutentificate = false;
+//                }
+//            });
+//        }
+//        else
+//        {
+//            Debug.Log("Пользователь уже аутентифицирован в Google Play Games");
+//            GameHelper.IsAutentificate = true;
+//        }
+//#endif
+//    }
     
     private static void AuthenticateGameCenter()
     {

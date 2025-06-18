@@ -20,10 +20,6 @@ public class Loading: MonoBehaviour
         GameHelper.GetSnakeSettings();
         GameServicesManager.AuthenticateUser();
         GameHelper.IdLoaded = true;
-        AnalyticsManager.Instance.LogEvent(AnalyticType.session_start.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
-        });
     }
 
     private void Start()
