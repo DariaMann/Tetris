@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using AppodealStack.Monetization.Api;
 using AppodealStack.Monetization.Common;
 using Random = UnityEngine.Random;
 
-public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
+public class AppodealManager : MonoBehaviour
 {
     private int gamesPlayed = 0;
     private float lastAdTime = 0;
@@ -53,6 +52,8 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         string appKey = "";
 #endif
 
+        // todo: Включаем тестовый режим (выключи перед релизом)
+        Appodeal.SetTesting(true);
         Appodeal.SetLogLevel(AppodealLogLevel.Verbose); // Включить подробные логи
 
         // Типы рекламы, которые используем
@@ -66,9 +67,6 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
         InterstitialCallbacksSubscribe();
         RewardedVideoCallbacksSubscribe();
         BannerCallbacksSubscribe();
-
-        // todo: Включаем тестовый режим (выключи перед релизом)
-        Appodeal.SetTesting(true);
     }
     
     public void InterstitialCallbacksSubscribe()
@@ -212,19 +210,7 @@ public class AppodealManager : MonoBehaviour, IAppodealInitializationListener
             Debug.Log("Вознаградительная реклама не загружена");
         }
     }
-    
-    public void OnInitializationFinished(List<string> errors)
-    {
-        if (errors != null && errors.Count > 0)
-        {
-            Debug.LogError("Appodeal инициализация завершилась с ошибками: " + string.Join(", ", errors));
-        }
-        else
-        {
-            Debug.Log("Appodeal успешно инициализирован!");
-        }
-    }
-    
+
     public bool IsInterstitialReady()
     {
         if (!GameHelper.HaveAds)

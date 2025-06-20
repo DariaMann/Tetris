@@ -172,6 +172,7 @@ public class Buttons : MonoBehaviour {
     
     public void ApplyAutentificate(bool isAutentificate)
     {
+        Debug.Log("Успешная аутентификация, смена кнопки, isAutentificate: " + isAutentificate + ", GameHelper.GameType: " + GameHelper.GameType);
         if (isAutentificate)
         {
             if (GameHelper.GameType == MiniGameType.None)
@@ -242,6 +243,7 @@ public class Buttons : MonoBehaviour {
     
     public void OnDestroy()
     {
+        GameHelper.OnAutentificateChanged -= ApplyAutentificate;
         GameHelper.OnSoundChanged -= ApplySound;
         GameHelper.OnMusicChanged -= ApplyMusic;
         GameHelper.OnVibrationChanged -= ApplyVibration;
@@ -327,7 +329,7 @@ public class Buttons : MonoBehaviour {
 
     public void OnRatingClick()
     {
-        if (GameHelper.GameType == MiniGameType.None || GameHelper.GameType == MiniGameType.ChineseCheckers)
+        if (GameHelper.GameType == MiniGameType.None)
         {
             GameServicesManager.ShowAchievementsUI();
         }

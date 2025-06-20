@@ -69,6 +69,7 @@ public static class GameServicesManager
                 else
                 {
                     Debug.Log("Не удалось аутентифицироваться в Google Play Games");
+                    Debug.Log("Статус входа: " + status);
                     GameHelper.IsAutentificate = false;
                 }
             });
