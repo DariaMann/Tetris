@@ -8,6 +8,7 @@ public class Snake : MonoBehaviour
     [SerializeField] private FoodController foodController;
     [SerializeField] private Transform segmentPrefab;
     [SerializeField] private Vector2Int direction = Vector2Int.right;
+    [SerializeField] private Vector2Int boardSize = new Vector2Int(15,17);
     [SerializeField] private float speed = 20f;
     [SerializeField] private float speedMultiplier = 1f;
     [SerializeField] private int initialSize = 4;
@@ -137,8 +138,59 @@ public class Snake : MonoBehaviour
         // Перемещаем голову
         int x = Mathf.RoundToInt(transform.position.x) + direction.x;
         int y = Mathf.RoundToInt(transform.position.y) + direction.y;
-        transform.position = new Vector2(x, y);
+
+        Vector2 newPos = Traverse(x, y);
+
+        if (newPos == new Vector2(100, 100))
+        {
+            return;
+        }
+
+        transform.position = newPos;
         RotateHead();
+    }
+    
+    private Vector2 Traverse(int x, int y)
+    {
+        bool isTraverse = false;
+        
+        // Оборачиваем координаты по ширине и высоте
+        int halfWidth = boardSize.x / 2;
+        int halfHeight = boardSize.y / 2;
+
+        if (x > halfWidth)
+        {
+            x = -halfWidth;
+            isTraverse = true;
+        }
+        else if (x < -halfWidth)
+        {
+            x = halfWidth;
+            isTraverse = true;
+        }
+
+        if (y > halfHeight)
+        {
+            y = -halfHeight;
+            isTraverse = true;
+        }
+        else if (y < -halfHeight)
+        {
+            y = halfHeight;
+            isTraverse = true;
+        }
+
+        if (isTraverse)
+        {
+            if (GameHelper.SnakeSettings.MoveThroughWalls) {
+                return new Vector2(x, y);
+            } else {
+                GameHelper.VibrationStart();
+                GameManagerSnake.Instance.GameOver();
+                return new Vector2(100, 100);
+            }
+        }
+        return new Vector2(x, y);
     }
 
     private void RotateHead()
@@ -278,30 +330,8 @@ public class Snake : MonoBehaviour
             GameHelper.VibrationStart();
             GameManagerSnake.Instance.GameOver();
         }
-        else if (other.gameObject.CompareTag("Wall"))
-        {
-            if (GameHelper.SnakeSettings.MoveThroughWalls) {
-                Traverse(other.transform);
-            } else {
-                GameHelper.VibrationStart();
-                GameManagerSnake.Instance.GameOver();
-            }
-        }
     }
 
-    private void Traverse(Transform wall)
-    {
-        Vector3 position = transform.position;
-
-        if (direction.x != 0f) {
-            position.x = Mathf.RoundToInt(-wall.position.x + direction.x);
-        } else if (direction.y != 0f) {
-            position.y = Mathf.RoundToInt(-wall.position.y + direction.y);
-        }
-
-        transform.position = position;
-    }
-    
     private void TryChangeDirection(Vector2Int newDirection)
     {
         // Если это первое направление в кадре — проверяем противоположность с текущим
