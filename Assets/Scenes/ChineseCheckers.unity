@@ -14448,6 +14448,8 @@ MonoBehaviour:
   backgounds:
   - {fileID: 1196224105}
   - {fileID: 1954067898}
+  - {fileID: 1603144770}
+  - {fileID: 1571086516}
   eduBackgoundsFields:
   - {fileID: 1912629073}
   - {fileID: 545566814}
@@ -14455,6 +14457,10 @@ MonoBehaviour:
   - {fileID: 704494959}
   lightText:
   - {fileID: 777992470}
+  - {fileID: 220008822}
+  - {fileID: 1761673653}
+  - {fileID: 1865833262}
+  - {fileID: 295677830}
   eduPage1Image: {fileID: 1323031446}
   eduPage1Light: {fileID: 21300000, guid: 0709452c46ba34548abd2c5e2f77c5df, type: 3}
   eduPage1Dark: {fileID: 21300000, guid: 2a2c6ca017362b24dbeb911ffdd1a917, type: 3}
@@ -16530,6 +16536,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547399363}
   m_CullTransparentMesh: 1
+--- !u!114 &1571086516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8350541142321225615, guid: 529f0cd085df72a499eb0232c2c06af0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7299713696272589298}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1584689671
 GameObject:
   m_ObjectHideFlags: 0
@@ -28456,6 +28474,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1865833262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 152470489524676721, guid: 529f0cd085df72a499eb0232c2c06af0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7299713696272589298}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1898294997
 GameObject:
   m_ObjectHideFlags: 0

@@ -1214,6 +1214,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &708182802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8350541142321225615, guid: 529f0cd085df72a499eb0232c2c06af0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7507138263343873632}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &751376799
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgColor: {fileID: 864154550}
-  educationBgColor: {fileID: 1431172748}
   undoButtons:
   - {fileID: 832452574}
   - {fileID: 459680483}
@@ -3449,6 +3460,9 @@ MonoBehaviour:
   - {fileID: 673719805}
   - {fileID: 1126349753}
   - {fileID: 1604152224}
+  imageLikeBg:
+  - {fileID: 1431172748}
+  - {fileID: 708182802}
   educationLineBoard: {fileID: 2021544507}
   lineBoard: {fileID: 457196494}
   lightTileSprite: {fileID: 21300000, guid: 4955907c3ed57ba41b13445910dcd0d3, type: 3}

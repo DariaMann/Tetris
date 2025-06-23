@@ -4,8 +4,8 @@
 public class Save2048
 {
     public int Record { get; set; }
-    
-    public int Maximum { get; set; }
+
+    public int Maximum { get; set; } = 2;
     
     public SaveData2048 SaveData2048 { get; set; }
     

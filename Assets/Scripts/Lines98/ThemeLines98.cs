@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class ThemeLines98: Theme
 {
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Image educationBgColor;
     [SerializeField] private List<Button> undoButtons;
     [SerializeField] private List<TextMeshProUGUI> lightText;
+    [SerializeField] private List<Image> imageLikeBg;
     
     [SerializeField] private LineBoard educationLineBoard;
     [SerializeField] private LineBoard lineBoard;
@@ -29,10 +29,13 @@ public class ThemeLines98: Theme
     public override void SetLight()
     {
         bgColor.backgroundColor = ColorBgLight;
-        educationBgColor.color = ColorBgLight;
         foreach (var text in lightText)
         {
             text.color = ColorBgLight;
+        }
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgLight;
         }
 
         finger.sprite = lightFingerSprite;
@@ -63,10 +66,13 @@ public class ThemeLines98: Theme
     public override void SetDark()
     {
         bgColor.backgroundColor = ColorBgDark;
-        educationBgColor.color = ColorBgDark;
         foreach (var text in lightText)
         {
             text.color = ColorBgDark;
+        }
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgDark;
         }
         
         finger.sprite = darkFingerSprite;

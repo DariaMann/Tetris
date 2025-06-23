@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class ThemeSnake : Theme
 {
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Image eduBgColor;
     [SerializeField] private Image finger;
     [SerializeField] private Sprite fingerLight;
     [SerializeField] private Sprite fingerDark;
     [SerializeField] private SpriteRenderer grid;
+    [SerializeField] private List<Image> imageLikeBg;
     [SerializeField] private List<Image> eduGrid = new List<Image>();
     [SerializeField] private List<Image> buttons = new List<Image>();
     [SerializeField] private List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
@@ -43,8 +43,11 @@ public class ThemeSnake : Theme
     public override void SetLight()
     {
         bgColor.backgroundColor = ColorBgLight;
-        eduBgColor.color = ColorBgLight;
         finger.sprite = fingerLight;
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgLight;
+        }
         foreach (var button in buttons)
         {
             button.color = _colorDark;
@@ -75,8 +78,11 @@ public class ThemeSnake : Theme
     public override void SetDark()
     {
         bgColor.backgroundColor = _colorBgDark;
-        eduBgColor.color = _colorBgDark;
         finger.sprite = fingerDark;
+        foreach (var img in imageLikeBg)
+        {
+            img.color = _colorBgDark;
+        }
         foreach (var button in buttons)
         {
             button.color = ColorBgLight;

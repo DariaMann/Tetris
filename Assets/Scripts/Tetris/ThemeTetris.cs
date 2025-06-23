@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class ThemeTetris : Theme
 {
     [SerializeField] private Camera bgColor;
+    [SerializeField] private List<Image> imageLikeBg;
+    [SerializeField] private List<Image> backButtons;
     [SerializeField] private Image nextFigureBg;
     [SerializeField] private Image countLinesBg;
     [SerializeField] private Image recordBg;
     [SerializeField] private Image buttonDownLeft;
     [SerializeField] private Image buttonDownUp;
     [SerializeField] private SpriteRenderer gridTile;
-    [SerializeField] private Image backButton;
     [SerializeField] private Ghost ghost;
     
     [SerializeField] private TextMeshProUGUI nextText;
@@ -67,7 +68,14 @@ public class ThemeTetris : Theme
     public override void SetLight()
     {
         bgColor.backgroundColor = ColorBgLight;
-        backButton.color = _colorImageLight;
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgLight;
+        }
+        foreach (var img in backButtons)
+        {
+            img.color = _colorImageLight;
+        }
         nextFigureBg.color = _colorImageLight;
         countLinesBg.color = _colorImageLight;
         recordBg.color = _colorImageLight;
@@ -110,7 +118,14 @@ public class ThemeTetris : Theme
     public override void SetDark()
     {
         bgColor.backgroundColor = _colorDark;
-        backButton.color = _colorLight;
+        foreach (var img in imageLikeBg)
+        {
+            img.color = _colorDark;
+        }
+        foreach (var img in backButtons)
+        {
+            img.color = _colorLight;
+        }
         nextFigureBg.color = _colorGrey;
         countLinesBg.color = _colorGrey;
         buttonDownUp.color = _colorGrey;

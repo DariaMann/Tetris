@@ -138,6 +138,14 @@ public class Snake : MonoBehaviour
                 case TouchPhase.Began:
                     touchStartPos = touch.position;
                     break;
+                case TouchPhase.Moved:
+                    Vector2 delta = touch.deltaPosition;
+                    // Фильтрация мелких движений
+                    if (delta.magnitude > 15f)
+                    {
+                        TrySwipeFromDelta(delta.normalized);
+                    }
+                    break;
                 case TouchPhase.Ended:
                     touchEndPos = touch.position;
                     DetectSwipe();
@@ -151,11 +159,46 @@ public class Snake : MonoBehaviour
             touchStartPos = Input.mousePosition;
             isDragging = true;
         }
-        if (Input.GetMouseButtonUp(0) && isDragging)
+        if (Input.GetMouseButton(0) && isDragging)
         {
-            touchEndPos = Input.mousePosition;
+            Vector2 delta = (Vector2)Input.mousePosition - touchStartPos;
+
+            if (delta.magnitude > 15f)
+            {
+                TrySwipeFromDelta(delta.normalized);
+                touchStartPos = Input.mousePosition; // обновим старт для следующего движения
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
             isDragging = false;
-            DetectSwipe();
+        }
+    }
+    
+    private void TrySwipeFromDelta(Vector2 normalizedDelta)
+    {
+        if (Mathf.Abs(normalizedDelta.x) > Mathf.Abs(normalizedDelta.y))
+        {
+            if (normalizedDelta.x > 0 && direction.y != 0f)
+            {
+                TryChangeDirection(Vector2Int.right);
+            }
+            else if (normalizedDelta.x < 0 && direction.y != 0f)
+            {
+                TryChangeDirection(Vector2Int.left);
+            }
+        }
+        else
+        {
+            if (normalizedDelta.y > 0 && direction.x != 0f)
+            {
+                TryChangeDirection(Vector2Int.up);
+            }
+            else if (normalizedDelta.y < 0 && direction.x != 0f)
+            {
+                TryChangeDirection(Vector2Int.down);
+            }
         }
     }
 

@@ -8,6 +8,7 @@ public class ThemeBlocks: Theme
     [SerializeField] private Camera bgColor;
     [SerializeField] private Button undoButton;
     [SerializeField] private List<TextMeshProUGUI> lightText;
+    [SerializeField] private List<Image> imageLikeBg;
     
     [SerializeField] private BlocksBoard blocksBoard;
     [SerializeField] private BlocksBoard educationBlocksBoard;
@@ -23,7 +24,6 @@ public class ThemeBlocks: Theme
     [SerializeField] private Sprite lightBlockSprite;
     [SerializeField] private Sprite darkBlockSprite;
     
-    [SerializeField] private Image eduBgColor;
     [SerializeField] private Image finger;
     [SerializeField] private Sprite lightFingerSprite;
     [SerializeField] private Sprite darkFingerSprite;
@@ -62,10 +62,14 @@ public class ThemeBlocks: Theme
     public override void SetLight()
     {
         bgColor.backgroundColor = ColorBgLight;
-        eduBgColor.color = ColorBgLight;
         foreach (var text in lightText)
         {
             text.color = ColorBgLight;
+        }   
+        
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgLight;
         }
         
         finger.sprite = lightFingerSprite;
@@ -104,10 +108,13 @@ public class ThemeBlocks: Theme
     public override void SetDark()
     {
         bgColor.backgroundColor = ColorBgDark;
-        eduBgColor.color = ColorBgDark;
         foreach (var text in lightText)
         {
             text.color = ColorBgDark;
+        }
+        foreach (var img in imageLikeBg)
+        {
+            img.color = ColorBgDark;
         }
         
         finger.sprite = darkFingerSprite;

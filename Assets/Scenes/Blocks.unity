@@ -4173,6 +4173,9 @@ MonoBehaviour:
   - {fileID: 642012214}
   - {fileID: 673719805}
   - {fileID: 1126349753}
+  imageLikeBg:
+  - {fileID: 2008579803}
+  - {fileID: 936779258}
   blocksBoard: {fileID: 457196496}
   educationBlocksBoard: {fileID: 1712614029}
   lightBlockTileLightSprite: {fileID: 21300000, guid: 2d7e96a858575714cbdf5d4d202e4f65,
@@ -4189,7 +4192,6 @@ MonoBehaviour:
     type: 3}
   lightBlockSprite: {fileID: 21300000, guid: e2f5b141661e7d347841cc8a14f1acd0, type: 3}
   darkBlockSprite: {fileID: 21300000, guid: 6ac74c3336b02054f9da557373589b6a, type: 3}
-  eduBgColor: {fileID: 2008579803}
   finger: {fileID: 782085474}
   lightFingerSprite: {fileID: 21300000, guid: ee0c08907dd37c44cace5f2e23abf779, type: 3}
   darkFingerSprite: {fileID: 21300000, guid: a87265b996b6c89409ad17a257642cbf, type: 3}

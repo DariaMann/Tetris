@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ThemeChineseCheckers: Theme
 {
     [SerializeField] private Camera bgColor;
-    [SerializeField] private Image eduBgColor;
     [SerializeField] private Image bgStartPanel;
     [SerializeField] private Button undoButton;
     [SerializeField] private SpriteRenderer field;
@@ -41,7 +40,6 @@ public class ThemeChineseCheckers: Theme
     public override void SetLight()
     {
         bgColor.backgroundColor = ColorBgLight;
-        eduBgColor.color = ColorBgLight;
         bgStartPanel.color = _colorBgStartPanelLight;
         
         foreach (var text in lightText)
@@ -88,7 +86,6 @@ public class ThemeChineseCheckers: Theme
     public override void SetDark()
     {
         bgColor.backgroundColor = ColorBgDark;
-        eduBgColor.color = ColorBgDark;
         bgStartPanel.color = _colorBgStartPanelDark;
         
         foreach (var text in lightText)
