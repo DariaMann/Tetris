@@ -5160,6 +5160,7 @@ GameObject:
   - component: {fileID: 1904228804}
   - component: {fileID: 1904228803}
   - component: {fileID: 1904228802}
+  - component: {fileID: 1904228805}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Player
@@ -5246,6 +5247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f18b08a74e28c4695d15d605a03664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  segmentHead: {fileID: 1904228805}
   foodController: {fileID: 967543835}
   segmentPrefab: {fileID: 7230300645724204659, guid: 72eb0a9c85ec466468187296ea741892,
     type: 3}
@@ -5326,6 +5328,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &1904228805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904228799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dc7de49e7b843feba35754c68a08212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1909527670
 GameObject:
   m_ObjectHideFlags: 0

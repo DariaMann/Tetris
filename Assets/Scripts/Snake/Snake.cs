@@ -5,24 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Snake : MonoBehaviour
 {
+    [SerializeField] private Segment segmentHead;
     [SerializeField] private FoodController foodController;
     [SerializeField] private Transform segmentPrefab;
     [SerializeField] private Vector2Int direction = Vector2Int.right;
     [SerializeField] private Vector2Int boardSize = new Vector2Int(15,17);
     [SerializeField] private float speed = 20f;
-    [SerializeField] private float speedMultiplier = 1f;
     [SerializeField] private int initialSize = 4;
     private int minSpeed = 5;
 
-    private readonly List<Transform> segments = new List<Transform>();
-    private float nextUpdate;
+    private readonly List<Segment> segments = new List<Segment>();
     
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
-    private bool hasMovedThisFrame = false;
     private readonly Queue<Vector2Int> directionQueue = new Queue<Vector2Int>();
-    
+
     public Vector2Int Direction
     {
         get => direction;
@@ -37,19 +35,82 @@ public class Snake : MonoBehaviour
         }
 
         HandleInput();
-        
-        // Обновление позиции змейки
-        if (Time.time >= nextUpdate)
-        {
-            ApplyNextDirection();
-            Move();
-            hasMovedThisFrame = true;
+        SetSaveSpeed(GameHelper.SnakeSettings);
 
-            SetSaveSpeed(GameHelper.SnakeSettings);
-            nextUpdate = Time.time + (1f / (speed * speedMultiplier));
+        ApplyNextDirection();
+        MoveHead();
+    }
+    
+    void MoveHead()
+    {
+        // Если достигнута цель — назначить новую
+        float dis = Vector2.Distance(segmentHead.transform.position, segmentHead.NextCell);
+        if (dis < 0.01f)
+        {
+            foreach (var segment in segments)
+            {
+                segment.SetCurrentPosition();
+            }
+            PrepareNextMove();
+        }
+
+        // Двигаемся к цели
+        for (int i = 0; i < segments.Count; i++)
+        {
+            if (Mathf.Abs(segments[i].NextCell.x - segments[i].CurrentCell.x) > boardSize.x / 2 ||
+                Mathf.Abs(segments[i].NextCell.y - segments[i].CurrentCell.y) > boardSize.y / 2)
+            {
+                segments[i].SetCurrentPosition(); // моментально переместить
+                
+                for (int j = i+1; j < segments.Count; j++)
+                {
+                    segments[j].SetCurrentPosition(); 
+                }
+            }
+            else
+            {
+                Vector2 nextPos = new Vector2(segments[i].NextCell.x, segments[i].NextCell.y);
+                segments[i].transform.position = Vector3.MoveTowards(segments[i].transform.position, nextPos, speed * Time.deltaTime);
+            }
         }
     }
     
+    private void PrepareNextMove(bool isRotate = false)
+    {
+        float disCur = Vector2.Distance(segmentHead.transform.position, segmentHead.CurrentCell);
+        float disNext = Vector2.Distance(segmentHead.transform.position, segmentHead.NextCell);
+        Vector2Int currCell = segmentHead.CurrentCell;
+        if (disNext < disCur)
+        {
+            currCell = segmentHead.NextCell;
+            
+            foreach (var segment in segments)
+            {
+                segment.SetCurrentPosition();
+            }
+        }
+        
+        Vector2Int headTargetPos = currCell + direction;
+        Vector2Int? pos = Traverse(headTargetPos.x, headTargetPos.y);
+        if (!pos.HasValue) return;
+        Vector2Int newHeadPos = pos.Value;
+        
+        if (isRotate)
+        {
+            Debug.Log("START POS x= " +currCell.x+", y= "+currCell.y);
+            Debug.Log("NEXT POS x= " +newHeadPos.x+", y= "+newHeadPos.y);
+        }
+
+        segmentHead.NextCell = newHeadPos;
+
+        for (int i = 1; i < segments.Count; i++)
+        {
+            segments[i].NextCell = segments[i - 1].CurrentCell;
+        }
+
+        RotateHead();
+    }
+
     private void HandleInput()
     {
         // Мгновенное реагирование на клавиши
@@ -127,30 +188,8 @@ public class Snake : MonoBehaviour
             }
         }
     }
-    
-    private void Move()
-    {
-        // Перемещаем тело змейки
-        for (int i = segments.Count - 1; i > 0; i--) {
-            segments[i].position = segments[i - 1].position;
-        }
 
-        // Перемещаем голову
-        int x = Mathf.RoundToInt(transform.position.x) + direction.x;
-        int y = Mathf.RoundToInt(transform.position.y) + direction.y;
-
-        Vector2 newPos = Traverse(x, y);
-
-        if (newPos == new Vector2(100, 100))
-        {
-            return;
-        }
-
-        transform.position = newPos;
-        RotateHead();
-    }
-    
-    private Vector2 Traverse(int x, int y)
+    private Vector2Int? Traverse(int x, int y)
     {
         bool isTraverse = false;
         
@@ -183,14 +222,14 @@ public class Snake : MonoBehaviour
         if (isTraverse)
         {
             if (GameHelper.SnakeSettings.MoveThroughWalls) {
-                return new Vector2(x, y);
+                return new Vector2Int(x, y);
             } else {
                 GameHelper.VibrationStart();
                 GameManagerSnake.Instance.GameOver();
-                return new Vector2(100, 100);
+                return null;
             }
         }
-        return new Vector2(x, y);
+        return new Vector2Int(x, y);
     }
 
     private void RotateHead()
@@ -216,8 +255,12 @@ public class Snake : MonoBehaviour
     public Transform Grow(bool addScore = true, bool untagged = false)
     {
         Transform segment = Instantiate(segmentPrefab);
-        segment.position = segments[segments.Count - 1].position;
-        segments.Add(segment);
+        Segment seg = segment.GetComponent<Segment>();
+        
+        seg.SetFirstCurrentPosition(segments[segments.Count - 1].CurrentCell);
+        seg.NextCell = segments[segments.Count - 1].CurrentCell;
+        
+        segments.Add(seg);
         if (untagged)
         {
             segment.gameObject.tag = "Untagged";
@@ -236,6 +279,10 @@ public class Snake : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         foreach (var segment in segmentsSnake)
         {
+            if (segment == null)
+            {
+                continue;
+            }
             segment.gameObject.tag = "Obstacle";
         }
     }
@@ -245,7 +292,6 @@ public class Snake : MonoBehaviour
         GameManagerSnake.Instance.SaveScores.ChangeScore(0);
         
         direction = Vector2Int.right;
-        transform.position = Vector3.zero;
         RotateHead();
 
         // Start at 1 to skip destroying the head
@@ -254,13 +300,16 @@ public class Snake : MonoBehaviour
         }
 
         // Clear the list but add back this as the head
+        segmentHead.SetFirstCurrentPosition(new Vector2Int(0,0));
         segments.Clear();
-        segments.Add(transform);
-
+        segments.Add(segmentHead);
+        
         // -1 since the head is already in the list
         for (int i = 0; i < initialSize - 1; i++) {
             Grow(false, true);
         }
+        
+        PrepareNextMove();
         
         foodController.Reset();
         foodController.CreateNewFoods();
@@ -272,7 +321,6 @@ public class Snake : MonoBehaviour
         GameManagerSnake.Instance.SaveScores.IsWin = data.IsWin;
         
         direction = new Vector2Int(data.DirectionX, data.DirectionY);
-        transform.position = new Vector2(data.HeadX, data.HeadY);
         RotateHead();
         
         // Start at 1 to skip destroying the head
@@ -281,8 +329,9 @@ public class Snake : MonoBehaviour
         }
 
         // Clear the list but add back this as the head
+        segmentHead.SetFirstCurrentPosition(new Vector2Int(data.HeadX, data.HeadY));
         segments.Clear();
-        segments.Add(transform);
+        segments.Add(segmentHead);
 
         List<Transform> segmentsSnake = new List<Transform>();
         
@@ -307,10 +356,10 @@ public class Snake : MonoBehaviour
 
     public bool Occupies(int x, int y)
     {
-        foreach (Transform segment in segments)
+        foreach (Segment segment in segments)
         {
-            if (Mathf.RoundToInt(segment.position.x) == x &&
-                Mathf.RoundToInt(segment.position.y) == y) {
+            if (segment.CurrentCell.x == x &&
+                segment.CurrentCell.y == y) {
                 return true;
             }
         }
@@ -339,6 +388,8 @@ public class Snake : MonoBehaviour
 
         if (newDirection + lastDirection != Vector2Int.zero)
         {
+            float disPos = Vector2.Distance(segmentHead.transform.position, segmentHead.NextCell);
+            Debug.Log("DISTANCE: " + disPos);
             // Добавляем только если это не последнее в очереди
             if (directionQueue.Count == 0 || directionQueue.Peek() != newDirection)
             {
@@ -353,6 +404,7 @@ public class Snake : MonoBehaviour
         {
             direction = directionQueue.Dequeue();
             RotateHead();
+            PrepareNextMove(true);
         }
     }
 
