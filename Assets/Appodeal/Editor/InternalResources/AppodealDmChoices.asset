@@ -21,7 +21,7 @@ MonoBehaviour:
   - sdkId: adjust
     isSelected: 1
   - sdkId: admob
-    isSelected: 1
+    isSelected: 0
   - sdkId: amazon
     isSelected: 1
   - sdkId: applovin
