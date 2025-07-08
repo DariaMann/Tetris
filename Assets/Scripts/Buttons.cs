@@ -172,7 +172,7 @@ public class Buttons : MonoBehaviour {
     
     public void ApplyAutentificate(bool isAutentificate)
     {
-        Debug.Log("Успешная аутентификация, смена кнопки, isAutentificate: " + isAutentificate + ", GameHelper.GameType: " + GameHelper.GameType);
+        Debug.Log("Аутентификация, смена кнопки, isAutentificate: " + isAutentificate + ", GameHelper.GameType: " + GameHelper.GameType);
         if (isAutentificate)
         {
             if (GameHelper.GameType == MiniGameType.None)

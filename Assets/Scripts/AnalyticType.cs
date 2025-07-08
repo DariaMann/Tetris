@@ -16,6 +16,7 @@
     speed_tetris_slider,
     
     button_no_ads_click,
+    no_ads_secret_code,
     
     button_change_figure_click,
     count_change_blocks,
