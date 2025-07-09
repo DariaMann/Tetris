@@ -426,9 +426,15 @@ public class Buttons : MonoBehaviour {
     {
         isPaused = state;
         if (state)
+        {
+            GameHelper.IsPause = true;
             GameplayTimeTracker.Instance.PauseTimer();
+        }
         else
+        {
+            GameHelper.IsPause = false;
             GameplayTimeTracker.Instance.ResumeTimer();
+        }
     }
     
     public void OnHomeClick()

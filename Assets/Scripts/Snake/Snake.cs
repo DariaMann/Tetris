@@ -13,9 +13,14 @@ public class Snake : MonoBehaviour
     [SerializeField] private float speed = 20f;
     [SerializeField] private int initialSize = 4;
     private int minSpeed = 5;
+    private int maxSpeed = 12;
+    private bool _canCheckDead;
+    private bool _isStartMove;
 
     private readonly List<Segment> segments = new List<Segment>();
-    
+
+    public List<Segment> Segments => segments;
+
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private bool isDragging = false;
@@ -29,7 +34,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication)
+        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication || !_isStartMove)
         {
             return;
         }
@@ -45,6 +50,12 @@ public class Snake : MonoBehaviour
     {
         // Если достигнута цель — назначить новую
         float dis = Vector2.Distance(segmentHead.transform.position, segmentHead.NextCell);
+        
+        if (dis < 0.5f)
+        {
+            CheckOnDead();
+        }
+
         if (dis < 0.01f)
         {
             foreach (var segment in segments)
@@ -74,7 +85,7 @@ public class Snake : MonoBehaviour
             }
         }
     }
-    
+
     private void PrepareNextMove(bool isRotate = false)
     {
         float disCur = Vector2.Distance(segmentHead.transform.position, segmentHead.CurrentCell);
@@ -101,6 +112,21 @@ public class Snake : MonoBehaviour
             Debug.Log("NEXT POS x= " +newHeadPos.x+", y= "+newHeadPos.y);
         }
 
+        if (newHeadPos == segments[1].CurrentCell)
+        {
+            Debug.Log("Едет в первый хвост");
+            currCell = segmentHead.NextCell;
+            
+            foreach (var segment in segments)
+            {
+                segment.SetCurrentPosition();
+            }
+            headTargetPos = currCell + direction;
+            pos = Traverse(headTargetPos.x, headTargetPos.y);
+            if (!pos.HasValue) return;
+            newHeadPos = pos.Value;
+        }
+
         segmentHead.NextCell = newHeadPos;
 
         for (int i = 1; i < segments.Count; i++)
@@ -109,6 +135,23 @@ public class Snake : MonoBehaviour
         }
 
         RotateHead();
+    }
+    
+    public void CheckOnDead()
+    {
+        if (!_canCheckDead)
+        {
+            return; 
+        }
+        for (int i = 1; i < segments.Count; i++)
+        {
+            if (segments[i].CurrentCell == segmentHead.NextCell)
+            {
+                Debug.Log("DEAD");
+                GameHelper.VibrationStart();
+                GameManagerSnake.Instance.GameOver();
+            }
+        }
     }
 
     private void HandleInput()
@@ -351,6 +394,9 @@ public class Snake : MonoBehaviour
         for (int i = 0; i < initialSize - 1; i++) {
             Grow(false, true);
         }
+
+        _canCheckDead = true;
+        _isStartMove = true;
         
         PrepareNextMove();
         
@@ -372,7 +418,7 @@ public class Snake : MonoBehaviour
         }
 
         // Clear the list but add back this as the head
-        segmentHead.SetFirstCurrentPosition(new Vector2Int(data.HeadX, data.HeadY));
+//        segmentHead.SetFirstCurrentPosition(new Vector2Int(data.HeadX, data.HeadY));
         segments.Clear();
         segments.Add(segmentHead);
 
@@ -392,7 +438,26 @@ public class Snake : MonoBehaviour
             }
         }
 
-        StartCoroutine(DelayedAddTrigger(segmentsSnake));
+        for (int i = 0; i < segments.Count; i++)
+        {
+            segments[i].SetFirstCurrentPosition(new Vector2Int(data.SaveSegments[i].X, data.SaveSegments[i].Y));
+        }
+
+        foreach (var segment in segmentsSnake)
+        {
+            if (segment == null)
+            {
+                continue;
+            }
+            segment.gameObject.tag = "Obstacle";
+        }
+
+        _canCheckDead = true;
+        _isStartMove = true;
+        
+        PrepareNextMove();
+        
+//        StartCoroutine(DelayedAddTrigger(segmentsSnake));
 
         foodController.LoadedFood(data.SaveFoods);
     }
@@ -417,11 +482,11 @@ public class Snake : MonoBehaviour
             AudioManager.Instance.PlaySuccessLineSound();
             Grow();
         }
-        else if (other.gameObject.CompareTag("Obstacle"))
-        {
-            GameHelper.VibrationStart();
-            GameManagerSnake.Instance.GameOver();
-        }
+//        else if (other.gameObject.CompareTag("Obstacle"))
+//        {
+//            GameHelper.VibrationStart();
+//            GameManagerSnake.Instance.GameOver();
+//        }
     }
 
     private void TryChangeDirection(Vector2Int newDirection)
@@ -457,7 +522,14 @@ public class Snake : MonoBehaviour
         {
             return;
         }
-        GameHelper.SnakeSettings.Speed = Mathf.Max(minSpeed, minSpeed + (segments.Count - initialSize) * 0.1f);
+
+        float max = Mathf.Max(minSpeed, minSpeed + (segments.Count - initialSize) * 0.03f);
+        if (max > maxSpeed)
+        {
+            max = maxSpeed;
+        }
+
+        GameHelper.SnakeSettings.Speed = max;
         MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
         SetAccelerationSpeed(GameHelper.SnakeSettings.Speed);
     }

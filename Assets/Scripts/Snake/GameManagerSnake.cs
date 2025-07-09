@@ -88,8 +88,8 @@ public class GameManagerSnake: MonoBehaviour
             return;
         }
 
-        snake.LoadSave(saveData);
         pausePanel.OnPauseClick();
+        snake.LoadSave(saveData);
     }
     
     public void SaveLastPlay()
@@ -101,7 +101,7 @@ public class GameManagerSnake: MonoBehaviour
             return;
         }
 
-        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, transform.position, foodController.Foods, snake.Direction, saveScores.CurrentScore);
+        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, foodController.Foods, snake.Segments, snake.Direction, saveScores.CurrentScore);
         GameHelper.SaveSnake.SaveDataSnake = data;
         MyJsonHelper.SaveSnake(GameHelper.SaveSnake);
     }
