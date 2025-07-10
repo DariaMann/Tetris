@@ -12,8 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip successLineSound;
     [SerializeField] private AudioClip checkersDownSound;
     [SerializeField] private AudioClip click4Sound;
-//    [SerializeField] private AudioClip winSound;
-//    [SerializeField] private AudioClip loseSound;
+    [SerializeField] private AudioClip winSound;
 
     private void Awake()
     {
@@ -26,6 +25,15 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    
+    public void PlayWinsSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(winSound);
     }
     
     public void PlayClick4Sound()
@@ -70,7 +78,7 @@ public class AudioManager : MonoBehaviour
         {
             return;
         }
-//        soundSource.PlayOneShot(successLineSound);
+        soundSource.PlayOneShot(successLineSound);
     }
 
     public void ToggleMusic(bool isOn)

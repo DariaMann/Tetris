@@ -145,6 +145,7 @@ public class GameOverChineseCheckers: MonoBehaviour
             {
                 if (isWin)
                 {
+                    AudioManager.Instance.PlayWinsSound();
                     int randomIndex = Random.Range(0, confetti.Count);
                     _chosenConfetti = confetti[randomIndex];
                     _chosenConfetti.gameObject.SetActive(true);
