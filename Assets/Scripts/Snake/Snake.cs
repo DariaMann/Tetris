@@ -16,6 +16,7 @@ public class Snake : MonoBehaviour
     private int maxSpeed = 12;
     private bool _canCheckDead;
     private bool _isStartMove;
+    private bool _isDead;
 
     private readonly List<Segment> segments = new List<Segment>();
 
@@ -147,11 +148,22 @@ public class Snake : MonoBehaviour
         {
             if (segments[i].CurrentCell == segmentHead.NextCell)
             {
-                Debug.Log("DEAD");
-                GameHelper.VibrationStart();
-                GameManagerSnake.Instance.GameOver();
+                Dead();
             }
         }
+    }
+
+    private void Dead()
+    {
+        if (_isDead)
+        {
+            return;
+        }
+        _isDead = true;
+        
+        Debug.Log("DEAD");
+        GameHelper.VibrationStart();
+        GameManagerSnake.Instance.GameOver();
     }
 
     private void HandleInput()
@@ -360,23 +372,10 @@ public class Snake : MonoBehaviour
         return segment;
     }
     
-    public IEnumerator DelayedAddTrigger(List<Transform> segmentsSnake)
-    {
-        yield return new WaitForSeconds(0.1f);
-        foreach (var segment in segmentsSnake)
-        {
-            if (segment == null)
-            {
-                continue;
-            }
-            segment.gameObject.tag = "Obstacle";
-        }
-    }
-
     public void ResetState()
     {
         GameManagerSnake.Instance.SaveScores.ChangeScore(0);
-        
+        _isDead = false;
         direction = Vector2Int.right;
         RotateHead();
 
@@ -482,11 +481,10 @@ public class Snake : MonoBehaviour
             AudioManager.Instance.PlaySuccessLineSound();
             Grow();
         }
-//        else if (other.gameObject.CompareTag("Obstacle"))
-//        {
-//            GameHelper.VibrationStart();
-//            GameManagerSnake.Instance.GameOver();
-//        }
+        else if (other.gameObject.CompareTag("Obstacle"))
+        {
+            Dead();
+        }
     }
 
     private void TryChangeDirection(Vector2Int newDirection)
