@@ -286,6 +286,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     public void GameOver()
     {
+        GameHelper.IsGameOver = true;
         if (AppodealManager.Instance.IsShowInterstitial())
         {
             AppodealManager.Instance.ShowInterstitial();

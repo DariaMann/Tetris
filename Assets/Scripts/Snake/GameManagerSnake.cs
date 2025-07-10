@@ -108,6 +108,7 @@ public class GameManagerSnake: MonoBehaviour
 
     public void GameOver()
     {
+        GameHelper.IsGameOver = true;
         if (AppodealManager.Instance.IsShowInterstitial())
         {
             AppodealManager.Instance.ShowInterstitial();

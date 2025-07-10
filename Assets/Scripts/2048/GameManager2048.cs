@@ -174,6 +174,7 @@ public class GameManager2048 : MonoBehaviour
 
     public void GameOver()
     {
+        GameHelper.IsGameOver = true;
         if (AppodealManager.Instance.IsShowInterstitial())
         {
             AppodealManager.Instance.ShowInterstitial();
