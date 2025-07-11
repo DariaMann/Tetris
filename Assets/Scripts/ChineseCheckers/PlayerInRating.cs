@@ -26,6 +26,8 @@ public class PlayerInRating :MonoBehaviour
         set => rectTransform = value;
     }
 
+    public Player Player { get; set; }
+    
     public PlayerState State { get; set; }
     
     public int WinSteps { get; set; }
@@ -33,6 +35,7 @@ public class PlayerInRating :MonoBehaviour
     public void SetData(Player player)
     {
         number.text = player.WinNumber.ToString();
+        Player = player;
         State = player.State;
         WinSteps = player.WinSteps;
         switch (State)
@@ -46,5 +49,10 @@ public class PlayerInRating :MonoBehaviour
         }
         steps.text = LocalizationManager.Localize("Сheckers.steps") + ": " + player.WinSteps;
         chipsType.sprite = map.ChooseChipByColor(player.Color);
+    }
+    
+    public override string ToString()
+    {
+        return "PlayerInRating: " + Player.WinNumber + " " + Player.State + " " + Player.WinSteps;
     }
 }

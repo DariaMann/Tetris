@@ -69,7 +69,7 @@ public class GameOverChineseCheckers: MonoBehaviour
         };
         foreach (var player in playerPanels)
         {
-            parameters.Add(player.State.ToString(), player.WinSteps);
+            parameters.Add(player.Player.WinNumber.ToString(), player.ToString());
         }
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_over.ToString(), parameters);
     }

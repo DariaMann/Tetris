@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
@@ -302,7 +303,7 @@ public static class MyJsonHelper
     {
         if (data == null)
         {
-            data = new SaveChineseCheckers(1000, null);
+            data = new SaveChineseCheckers(1000, null, new List<PlayerState>(){0,0,0,0,0,0});
         }
         string json = SerializeJsonChineseCheckers(data);
         Debug.Log("SaveChineseCheckers: " + json);

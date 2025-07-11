@@ -12,16 +12,17 @@ public class SaveChineseCheckers
     
     public int CountGames { get; set; }
     
-    public List<PlayerState> PlayerStates { get; set; } = new List<PlayerState>(){0,0,0,0,0,0};
+    public List<PlayerState> PlayerStates { get; set; }
 
     public SaveDataChineseCheckers SaveDataChineseCheckers { get; set; }
     
     public SaveChineseCheckers() {}
 
-    public SaveChineseCheckers(int record, SaveDataChineseCheckers saveDataChineseCheckers)
+    public SaveChineseCheckers(int record, SaveDataChineseCheckers saveDataChineseCheckers, List<PlayerState> playerStates)
     {
         Record = record;
         SaveDataChineseCheckers = saveDataChineseCheckers;
+        PlayerStates = playerStates;
     }
 
     public override string ToString()

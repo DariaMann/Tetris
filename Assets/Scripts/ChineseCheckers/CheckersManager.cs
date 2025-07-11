@@ -391,7 +391,7 @@ public class CheckersManager: MonoBehaviour
     {
 //        PlayerPrefs.SetInt("CCStatePlayer" + player.ID, (int) player.State);
 //        PlayerPrefs.Save();
-
+        Debug.Log($"[Before] PlayerStates.Count = {GameHelper.SaveChineseCheckers.PlayerStates.Count}, player.ID = {player.ID}");
         GameHelper.SaveChineseCheckers.PlayerStates[player.ID] = player.State;
         MyJsonHelper.SaveChineseCheckers(GameHelper.SaveChineseCheckers);
     }
