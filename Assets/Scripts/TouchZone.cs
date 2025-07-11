@@ -9,7 +9,7 @@ public class TouchZone: MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private const string Password = "BABUSKA2025";
     
-    private float holdTime = 2f;
+    private float holdTime = 20f;
     private float holdTimer;
     private bool isHolding = false;
 
