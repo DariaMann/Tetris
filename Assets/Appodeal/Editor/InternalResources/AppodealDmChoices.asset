@@ -21,7 +21,7 @@ MonoBehaviour:
   - sdkId: adjust
     isSelected: 1
   - sdkId: admob
-    isSelected: 0
+    isSelected: 1
   - sdkId: amazon
     isSelected: 1
   - sdkId: applovin
@@ -49,7 +49,7 @@ MonoBehaviour:
   - sdkId: firebase
     isSelected: 1
   - sdkId: gam
-    isSelected: 0
+    isSelected: 1
   - sdkId: hyprmx
     isSelected: 0
   - sdkId: iab
