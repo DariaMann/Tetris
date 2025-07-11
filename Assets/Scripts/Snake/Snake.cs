@@ -196,7 +196,7 @@ public class Snake : MonoBehaviour
                 case TouchPhase.Moved:
                     Vector2 delta = touch.deltaPosition;
                     // Фильтрация мелких движений
-                    if (delta.magnitude > 15f)
+                    if (delta.magnitude > 10f)
                     {
                         TrySwipeFromDelta(delta.normalized);
                     }

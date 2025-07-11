@@ -7,6 +7,8 @@
     <package>com.applovin.mediation:bytedance-adapter:7.1.0.4.0</package>
     <package>com.applovin.mediation:facebook-adapter:6.20.0.0</package>
     <package>com.applovin.mediation:fyber-adapter:8.3.7.0</package>
+    <package>com.applovin.mediation:google-adapter:24.3.0.0</package>
+    <package>com.applovin.mediation:google-ad-manager-adapter:24.3.0.0</package>
     <package>com.applovin.mediation:inmobi-adapter:10.8.3.0</package>
     <package>com.applovin.mediation:ironsource-adapter:8.8.0.0.1</package>
     <package>com.applovin.mediation:mintegral-adapter:16.9.71.0</package>
@@ -20,6 +22,7 @@
     <package>com.applovin.mediation:verve-adapter:3.3.0.0</package>
     <package>com.applovin.mediation:vungle-adapter:7.5.0.0</package>
     <package>com.applovin.mediation:yandex-adapter:7.9.0.1</package>
+    <package>com.appodeal.ads.sdk.networks:admob:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:amazon:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:applovin:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:applovin_max:3.8.0.0</package>
@@ -35,7 +38,7 @@
     <package>com.appodeal.ads.sdk.networks:mintegral:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:mobilefuse:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:moloco:3.8.0.0</package>
-    <package>com.appodeal.ads.sdk.networks:my_target:3.8.0.0</package>
+    <package>com.appodeal.ads.sdk.networks:my_target:3.8.0.1</package>
     <package>com.appodeal.ads.sdk.networks:ogury:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:pangle:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:pubmatic:3.8.0.0</package>
@@ -50,13 +53,9 @@
     <package>com.appodeal.ads.sdk.services:firebase:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.services:sentry_analytics:3.8.0.0</package>
     <package>com.appodeal.ads.sdk:core:3.8.0</package>
-    <package>com.google.android.gms:play-services-base:18.6.0</package>
-    <package>com.google.firebase:firebase-analytics:22.4.0</package>
-    <package>com.google.firebase:firebase-analytics-unity:12.10.0</package>
-    <package>com.google.firebase:firebase-app-unity:12.10.0</package>
-    <package>com.google.firebase:firebase-common:21.0.0</package>
     <package>com.google.games:gpgs-plugin-support:2.0.0</package>
     <package>com.ironsource.adapters:bidon-adapter:0.8.1.0</package>
+    <package>com.unity3d.ads-mediation:admob-adapter:4.3.50</package>
     <package>com.unity3d.ads-mediation:applovin-adapter:4.3.53</package>
     <package>com.unity3d.ads-mediation:aps-adapter:4.3.17</package>
     <package>com.unity3d.ads-mediation:bidmachine-adapter:4.3.12</package>
@@ -96,12 +95,7 @@
     <package>org.bidon:vungle-adapter:0.8.1.0</package>
     <package>org.bidon:yandex-adapter:0.8.1.0</package>
   </packages>
-  <files>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/12.10.0/firebase-analytics-unity-12.10.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/12.10.0/firebase-analytics-unity-12.10.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/12.10.0/firebase-app-unity-12.10.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/12.10.0/firebase-app-unity-12.10.0.pom</file>
-  </files>
+  <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
     <setting name="bundleId" value="com.combysoft.combygames" />
