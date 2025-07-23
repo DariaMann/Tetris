@@ -54,8 +54,8 @@ MonoBehaviour:
   checkersDownSound: {fileID: 8300000, guid: 43abc624976044240b8450e17a6791c6, type: 3}
   click4Sound: {fileID: 8300000, guid: 676af56a5501707489b7518e6342fe96, type: 3}
   winSound: {fileID: 8300000, guid: cbd7f0c9d2367444497e0a7089a53de1, type: 3}
-  timerSound: {fileID: 8300000, guid: 51844681b500e72438e2d3f1aa9bc30b, type: 3}
-  timerFinishSound: {fileID: 8300000, guid: ed2d548299d5d85418db920761a69dc3, type: 3}
+  timerSound: {fileID: 8300000, guid: 6186fd5a8116e4941bde05f0e216cfb7, type: 3}
+  timerFinishSound: {fileID: 8300000, guid: c47f6e3e9d0881246b407359cc7d5a1b, type: 3}
 --- !u!1 &3843142974686231940
 GameObject:
   m_ObjectHideFlags: 0

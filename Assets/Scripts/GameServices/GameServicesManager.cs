@@ -260,13 +260,13 @@ public static class GameServicesManager
         switch (type)
         {
             case AchivementServices.FirstLine: return ServicesIds.achievement_first_line;
-            case AchivementServices.Tetris10Points: return ServicesIds.achievement_tetris_10_points;
-            case AchivementServices.Tetris50Points: return ServicesIds.achievement_tetris_50_points;
-            case AchivementServices.Tetris100Points: return ServicesIds.achievement_tetris_100_points;
-            case AchivementServices.Tetris500Points: return ServicesIds.achievement_tetris_500_points;
-            case AchivementServices.Tetris1000Points: return ServicesIds.achievement_tetris_1000_points;
-            case AchivementServices.Tetris1500Points: return ServicesIds.achievement_tetris_1500_points;
-            case AchivementServices.Tetris2000Points: return ServicesIds.achievement_tetris_2000_points;
+            case AchivementServices.Tetris10Points: return ServicesIds.achievement_tetrix_10_points;
+            case AchivementServices.Tetris50Points: return ServicesIds.achievement_tetrix_50_points;
+            case AchivementServices.Tetris100Points: return ServicesIds.achievement_tetrix_100_points;
+            case AchivementServices.Tetris500Points: return ServicesIds.achievement_tetrix_500_points;
+            case AchivementServices.Tetris1000Points: return ServicesIds.achievement_tetrix_1000_points;
+            case AchivementServices.Tetris1500Points: return ServicesIds.achievement_tetrix_1500_points;
+            case AchivementServices.Tetris2000Points: return ServicesIds.achievement_tetrix_2000_points;
             case AchivementServices.Snake10Points: return ServicesIds.achievement_snake_10_points;
             case AchivementServices.Snake50Points: return ServicesIds.achievement_snake_50_points;
             case AchivementServices.Snake100Points: return ServicesIds.achievement_snake_100_points;
@@ -287,20 +287,20 @@ public static class GameServicesManager
             case AchivementServices.G100000Points: return ServicesIds.achievement_2048_100000_points;
             case AchivementServices.G150000Points: return ServicesIds.achievement_2048_150000_points;
             case AchivementServices.G200000Points: return ServicesIds.achievement_2048_200000_points;
-            case AchivementServices.Lines98100Points: return ServicesIds.achievement_lines_98_100_points;
-            case AchivementServices.Lines98200Points: return ServicesIds.achievement_lines_98_200_points;
-            case AchivementServices.Lines98300Points: return ServicesIds.achievement_lines_98_300_points;
-            case AchivementServices.Lines98400Points: return ServicesIds.achievement_lines_98_400_points;
-            case AchivementServices.Lines98500Points: return ServicesIds.achievement_lines_98_500_points;
-            case AchivementServices.Lines98700Points: return ServicesIds.achievement_lines_98_700_points;
-            case AchivementServices.Lines98900Points: return ServicesIds.achievement_lines_98_900_points;
-            case AchivementServices.Lines981000Points: return ServicesIds.achievement_lines_98_1000_points;
-            case AchivementServices.Lines982000Points: return ServicesIds.achievement_lines_98_2000_points;
-            case AchivementServices.Lines983000Points: return ServicesIds.achievement_lines_98_3000_points;
-            case AchivementServices.Lines984000Points: return ServicesIds.achievement_lines_98_4000_points;
-            case AchivementServices.Lines985000Points: return ServicesIds.achievement_lines_98_5000_points;
-            case AchivementServices.Lines986000Points: return ServicesIds.achievement_lines_98_6000_points;
-            case AchivementServices.Lines987000Points: return ServicesIds.achievement_lines_98_7000_points;
+            case AchivementServices.Lines98100Points: return ServicesIds.achievement_lines_100_points;
+            case AchivementServices.Lines98200Points: return ServicesIds.achievement_lines_200_points;
+            case AchivementServices.Lines98300Points: return ServicesIds.achievement_lines_300_points;
+            case AchivementServices.Lines98400Points: return ServicesIds.achievement_lines_400_points;
+            case AchivementServices.Lines98500Points: return ServicesIds.achievement_lines_500_points;
+            case AchivementServices.Lines98700Points: return ServicesIds.achievement_lines_700_points;
+            case AchivementServices.Lines98900Points: return ServicesIds.achievement_lines_900_points;
+            case AchivementServices.Lines981000Points: return ServicesIds.achievement_lines_1000_points;
+            case AchivementServices.Lines982000Points: return ServicesIds.achievement_lines_2000_points;
+            case AchivementServices.Lines983000Points: return ServicesIds.achievement_lines_3000_points;
+            case AchivementServices.Lines984000Points: return ServicesIds.achievement_lines_4000_points;
+            case AchivementServices.Lines985000Points: return ServicesIds.achievement_lines_5000_points;
+            case AchivementServices.Lines986000Points: return ServicesIds.achievement_lines_6000_points;
+            case AchivementServices.Lines987000Points: return ServicesIds.achievement_lines_7000_points;
             case AchivementServices.Blocks100Points: return ServicesIds.achievement_blocks_100_points;
             case AchivementServices.Blocks300Points: return ServicesIds.achievement_blocks_300_points;
             case AchivementServices.Blocks500Points: return ServicesIds.achievement_blocks_500_points;
@@ -329,13 +329,13 @@ public static class GameServicesManager
         Debug.Log("Id таблицы: " + type);
         switch (type)
         {
-            case MiniGameType.Tetris: return ServicesIds.leaderboard_tetris;
+            case MiniGameType.Tetris: return ServicesIds.leaderboard_tetrix;
             case MiniGameType.Snake: return ServicesIds.leaderboard_snake;
             case MiniGameType.G2048: return ServicesIds.leaderboard_2048;
-            case MiniGameType.Lines98: return ServicesIds.leaderboard_lines_98;
+            case MiniGameType.Lines98: return ServicesIds.leaderboard_lines;
             case MiniGameType.Blocks: return ServicesIds.leaderboard_blocks;
             case MiniGameType.ChineseCheckers: return ServicesIds.leaderboard_chinese_checkers;
-            default: return ServicesIds.leaderboard_tetris;
+            default: return ServicesIds.leaderboard_tetrix;
         }
     }
 
