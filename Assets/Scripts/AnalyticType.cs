@@ -75,5 +75,9 @@
     
     authenticate_services,
     id_player,
-    name_player
+    name_player,
+    
+    revive_tetris_click,
+    revive_snake_click,
+    revive_lines_click
 }

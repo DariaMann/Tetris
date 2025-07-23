@@ -55,11 +55,7 @@ public class GameManagerSnake: MonoBehaviour
 
         AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
-        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
-            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), (float) GameHelper.GameType);
     }
     
     void OnApplicationQuit()
@@ -145,6 +141,8 @@ public class GameManagerSnake: MonoBehaviour
 
     public void OnRevive()
     {
+        AnalyticsManager.Instance.LogEvent(AnalyticType.revive_snake_click.ToString(), saveScores.CurrentScore);
+        
         if (GameHelper.HaveAds)
         {
 

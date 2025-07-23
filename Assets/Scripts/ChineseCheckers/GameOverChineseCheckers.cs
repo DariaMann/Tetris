@@ -61,17 +61,9 @@ public class GameOverChineseCheckers: MonoBehaviour
         }
     }
     
-    public void SentAnalytic(List<PlayerInRating> playerPanels)
+    public void SentAnalytic()
     {
-        var parameters = new Dictionary<string, object>()
-        {
-            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() }
-        };
-        foreach (var player in playerPanels)
-        {
-            parameters.Add(player.Player.WinNumber.ToString(), player.ToString());
-        }
-        AnalyticsManager.Instance.LogEvent(AnalyticType.game_over.ToString(), parameters);
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_over.ToString());
     }
 
     public void ShowGameOverPanel(bool isShow, List<PlayerInRating> playerPanels, bool isWin = false)
@@ -80,7 +72,7 @@ public class GameOverChineseCheckers: MonoBehaviour
         {
             if (playerPanels != null)
             {
-                SentAnalytic(playerPanels);
+                SentAnalytic();
             }
             AppodealManager.Instance.HideBottomBanner();
         }

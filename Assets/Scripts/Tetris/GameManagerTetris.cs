@@ -67,11 +67,7 @@ public class GameManagerTetris : MonoBehaviour
         
         AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
-        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
-            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), (float) GameHelper.GameType);
     }
 
     void OnApplicationQuit()
@@ -223,6 +219,8 @@ public class GameManagerTetris : MonoBehaviour
     
     public void OnRevive()
     {
+        AnalyticsManager.Instance.LogEvent(AnalyticType.revive_tetris_click.ToString(), saveScores.CurrentScore);
+        
         if (GameHelper.HaveAds)
         {
 

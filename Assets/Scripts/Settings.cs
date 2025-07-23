@@ -132,20 +132,14 @@ public class Settings : MonoBehaviour
         GameHelper.SnakeSettings.ManyFood = change;
         MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
         
-        AnalyticsManager.Instance.LogEvent(AnalyticType.many_food_toggle.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.many_food_toggle.ToString(), change? 1:0);
     }
     
     public void OnMoveThroughWallsToggle(bool change)
     {
         GameHelper.SnakeSettings.MoveThroughWalls = change;
         MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
-        AnalyticsManager.Instance.LogEvent(AnalyticType.move_through_walls_toggle.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.move_through_walls_toggle.ToString(), change? 1:0);
     }
     
     public void OnAccelerationToggle(bool change)
@@ -153,10 +147,7 @@ public class Settings : MonoBehaviour
         GameHelper.SnakeSettings.Acceleration = change;
         MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
         ShowSnakeSpeedParameters(!change);
-        AnalyticsManager.Instance.LogEvent(AnalyticType.acceleration_snake_toggle.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.acceleration_snake_toggle.ToString(), change? 1:0);
     }
     
     public void OnSpeedSlider(Single change)
@@ -165,10 +156,7 @@ public class Settings : MonoBehaviour
         GameHelper.SnakeSettings.Speed = GameHelper.GetSpeedByTypeSnake(speedType);
         textSlider.text = speedType.ToString();
         MyJsonHelper.SaveSnakeSettings(GameHelper.SnakeSettings);
-        AnalyticsManager.Instance.LogEvent(AnalyticType.speed_snake_slider.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.speed_snake_slider.ToString(), change);
     }
 
     public void OnRateClick()
@@ -281,10 +269,7 @@ public class Settings : MonoBehaviour
         GameHelper.TetrisSettings.Acceleration = change;
         MyJsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
         ShowTetrisSpeedParameters(!change);
-        AnalyticsManager.Instance.LogEvent(AnalyticType.acceleration_tetris_toggle.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.acceleration_tetris_toggle.ToString(), change? 1:0);
     }
     
     public void OnSpeedTetrisSlider(Single change)
@@ -293,10 +278,7 @@ public class Settings : MonoBehaviour
         GameHelper.TetrisSettings.Speed = GameHelper.GetSpeedByTypeTetris(speedType);
         textTetrisSlider.text = speedType.ToString();
         MyJsonHelper.SaveTetrisSettings(GameHelper.TetrisSettings);
-        AnalyticsManager.Instance.LogEvent(AnalyticType.speed_tetris_slider.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.change.ToString(), change}
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.speed_tetris_slider.ToString(), (float) change);
     }
     
     public void ShowTetrisSpeedParameters(bool isShow)

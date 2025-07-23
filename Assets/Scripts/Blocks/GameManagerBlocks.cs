@@ -82,11 +82,7 @@ public class GameManagerBlocks : MonoBehaviour
         GameHelper.GetHaveAds();
         ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
-        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() },
-            { AnalyticType.timestamp.ToString(), DateTime.UtcNow.ToString("o") }
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), (float) GameHelper.GameType);
     }
     
     private void CheckDailyHints()
@@ -244,12 +240,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     public void OnChangeBlocks()
     {
-        var parameters = new Dictionary<string, object>()
-        {
-            { AnalyticType.have_ads.ToString(), GameHelper.HaveAds },
-            { AnalyticType.count_change_blocks.ToString(), CountChangeBlocks }
-        };
-        AnalyticsManager.Instance.LogEvent(AnalyticType.button_change_figure_click.ToString(), parameters);
+        AnalyticsManager.Instance.LogEvent(AnalyticType.button_change_figure_click.ToString(), CountChangeBlocks);
         
         if (GameHelper.HaveAds)
         {

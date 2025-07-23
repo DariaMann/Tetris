@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.SimpleLocalization;
 using TMPro;
@@ -441,10 +442,7 @@ public class Buttons : MonoBehaviour {
     {
         GameplayTimeTracker.Instance.PauseTimer();
 
-        AnalyticsManager.Instance.LogEvent(AnalyticType.game_finish.ToString(), new Dictionary<string, object>
-        {
-            { AnalyticType.game.ToString(), GameHelper.GameType.ToString() }
-        });
+        AnalyticsManager.Instance.LogEvent(AnalyticType.game_finish.ToString(), (float) GameHelper.GameType);
 
         AppodealManager.Instance.HideBottomBanner();
         SceneManager.LoadScene("Menu");

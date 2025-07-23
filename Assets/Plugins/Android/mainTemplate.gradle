@@ -72,6 +72,8 @@ dependencies {
     implementation 'com.appodeal.ads.sdk.services:firebase:3.8.0.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:110
     implementation 'com.appodeal.ads.sdk.services:sentry_analytics:3.8.0.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:124
     implementation 'com.appodeal.ads.sdk:core:3.8.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:99
+    implementation 'com.google.android.gms:play-services-appset:16.0.2' // Assets/GameAnalytics/Editor/Android/Dependencies.xml:4
+    implementation 'com.google.android.instantapps:instantapps:1.1.0' // Assets/GameAnalytics/Editor/Android/Dependencies.xml:3
     implementation 'com.google.games:gpgs-plugin-support:2.0.0' // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
     implementation 'com.ironsource.adapters:bidon-adapter:0.8.1.0' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:154
     implementation 'com.unity3d.ads-mediation:admob-adapter:4.3.50' // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:149

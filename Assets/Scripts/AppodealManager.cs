@@ -355,7 +355,7 @@ public class AppodealManager : MonoBehaviour
     private void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
     {
         Debug.Log("Banner loaded");
-        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_loaded.ToString());
+//        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_loaded.ToString());
     }
 
 // Called when banner failed to load
@@ -376,7 +376,7 @@ public class AppodealManager : MonoBehaviour
     private void OnBannerShown(object sender, EventArgs e)
     {
         Debug.Log("Banner shown");
-        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_shown.ToString());
+//        AnalyticsManager.Instance.LogEvent(AnalyticType.banner_shown.ToString());
     }
 
     // Called when banner is clicked

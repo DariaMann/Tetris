@@ -51,12 +51,7 @@ public class GameplayTimeTracker : MonoBehaviour
             float sessionPlayTime = Time.realtimeSinceStartup - sessionStartTime;
             accumulatedPlayTime += sessionPlayTime;
             
-            var parameters = new Dictionary<string, object>()
-            {
-                { AnalyticType.play_time_sec.ToString(), Mathf.RoundToInt(accumulatedPlayTime) }
-            };
-            
-            AnalyticsManager.Instance.LogEvent(AnalyticType.session_play_time.ToString(), parameters);
+            AnalyticsManager.Instance.LogEvent(AnalyticType.session_play_time.ToString(), accumulatedPlayTime);
             
             totalPlayTime += Time.realtimeSinceStartup - lastResumeTime;
             isPlaying = false;
