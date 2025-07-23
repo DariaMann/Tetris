@@ -47,6 +47,27 @@ public class LineBoard : MonoBehaviour
         GameManagerLines98.Instance.Theme.SetTheme(GameHelper.Theme);
     }
 
+    public void DeleteBallsByColor(int indexColor)
+    {
+        List<Ball> ballsToRemove = new List<Ball>();
+        foreach (var ball in Balls)
+        {
+            if (ball.IndexSprite == indexColor)
+            {
+                ballsToRemove.Add(ball);
+            }
+        }
+        
+        ballsToRemove = new HashSet<Ball>(ballsToRemove).ToList();
+        
+        foreach (Ball ball in ballsToRemove)
+        {
+            ball.Tile.RemoveBall();
+            Balls.Remove(ball);
+            ball.ExplodeAnimation();
+        }
+    }
+
     public bool CheckLines()
     {
         bool haveDeleted = false;
@@ -164,6 +185,17 @@ public class LineBoard : MonoBehaviour
         SelectedBall = ball;
     }
 
+    public void CheckGameOver()
+    {
+        List<LineTile> emptyCells = GetEmptyCells();
+        
+        if (emptyCells.Count == 0)
+        {
+            Debug.Log("КОНЕЦ ИГРЫ");
+            GameManagerLines98.Instance.GameOver();
+        }
+    }
+
     public void SpawnRandomBalls(int count, bool isFuture = false)
     {
         if (isEducation)
@@ -176,8 +208,8 @@ public class LineBoard : MonoBehaviour
         {
             if (emptyCells.Count == 0 && isFuture)
             {
-                Debug.Log("КОНЕЦ ИГРЫ");
-                GameManagerLines98.Instance.GameOver();
+//                Debug.Log("КОНЕЦ ИГРЫ");
+//                GameManagerLines98.Instance.GameOver();
                 break;
             }
 

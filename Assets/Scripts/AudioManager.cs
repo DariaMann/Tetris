@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip checkersDownSound;
     [SerializeField] private AudioClip click4Sound;
     [SerializeField] private AudioClip winSound;
+    [SerializeField] private AudioClip timerSound;
+    [SerializeField] private AudioClip timerFinishSound;
 
     private void Awake()
     {
@@ -61,6 +63,24 @@ public class AudioManager : MonoBehaviour
             return;
         }
         soundSource.PlayOneShot(clickSound);
+    }   
+    
+    public void PlayTimerSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(timerSound);
+    }
+    
+    public void PlayTimerFinishSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(timerFinishSound);
     }
 
     public void PlayClickChipSound()

@@ -145,6 +145,49 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    public void ClearHalf()
+    {
+        RectInt bounds = Bounds;
+        int yMin = bounds.yMin;
+        int yMax = bounds.yMax;
+        int middleRow = (yMin + yMax) / 2;
+        int height = yMax - yMin;
+
+        int rowsToClear = middleRow - yMin;
+
+        // Шаг 1: очистить нижнюю половину без смещения
+        for (int y = yMin; y < middleRow; y++)
+        {
+            for (int x = bounds.xMin; x < bounds.xMax; x++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                Tilemap.SetTile(pos, null);
+            }
+        }
+
+        // Шаг 2: сдвинуть оставшиеся строки вниз на количество очищенных строк
+        for (int y = middleRow; y < yMax; y++)
+        {
+            for (int x = bounds.xMin; x < bounds.xMax; x++)
+            {
+                Vector3Int from = new Vector3Int(x, y, 0);
+                Vector3Int to = new Vector3Int(x, y - rowsToClear, 0);
+                TileBase tile = Tilemap.GetTile(from);
+                Tilemap.SetTile(to, tile);
+            }
+        }
+
+        // Шаг 3: очистить верхние строки, которые "спустились"
+        for (int y = yMax - rowsToClear; y < yMax; y++)
+        {
+            for (int x = bounds.xMin; x < bounds.xMax; x++)
+            {
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                Tilemap.SetTile(pos, null);
+            }
+        }
+    }
+
     public void ClearLines()
     {
         RectInt bounds = Bounds;
@@ -226,4 +269,36 @@ public class Board : MonoBehaviour
             row++;
         }
     }
+    
+    private void ClearRowAndShiftDown(int row)
+    {
+        RectInt bounds = Bounds;
+
+        // Удалить все тайлы в строке
+        for (int col = bounds.xMin; col < bounds.xMax; col++)
+        {
+            Vector3Int position = new Vector3Int(col, row, 0);
+            Tilemap.SetTile(position, null);
+        }
+
+        // Сдвинуть все строки выше на одну вниз
+        for (int y = row + 1; y < bounds.yMax; y++)
+        {
+            for (int col = bounds.xMin; col < bounds.xMax; col++)
+            {
+                Vector3Int from = new Vector3Int(col, y, 0);
+                Vector3Int to = new Vector3Int(col, y - 1, 0);
+                TileBase tile = Tilemap.GetTile(from);
+                Tilemap.SetTile(to, tile);
+            }
+        }
+
+        // Очистить верхнюю строку (которая сдвинулась вниз)
+        for (int col = bounds.xMin; col < bounds.xMax; col++)
+        {
+            Vector3Int position = new Vector3Int(col, bounds.yMax - 1, 0);
+            Tilemap.SetTile(position, null);
+        }
+    }
+
 }

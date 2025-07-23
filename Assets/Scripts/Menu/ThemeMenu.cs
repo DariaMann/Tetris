@@ -13,6 +13,7 @@ public class ThemeMenu : Theme
     private void Awake()
     {
         GameHelper.GameType = MiniGameType.None;
+        GameHelper.IsRevived = false;
         InitializeColor();
     }
 

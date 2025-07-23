@@ -2,6 +2,8 @@
 
 public class OrientationManagerLines98 : MonoBehaviour
 {
+    [SerializeField] private RectTransform topTextChanceChooseBall;
+    
     [SerializeField] private GameObject rightPanel;
     [SerializeField] private GameObject topPanel;
     [SerializeField] private SquareUIGrid board;
@@ -34,6 +36,8 @@ public class OrientationManagerLines98 : MonoBehaviour
     
     private void VerticalOrientationTablet()
     {
+        topTextChanceChooseBall.anchoredPosition = new Vector2(topTextChanceChooseBall.anchoredPosition.x, -77f);
+        
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         education.SetOrientation(true);
@@ -57,6 +61,8 @@ public class OrientationManagerLines98 : MonoBehaviour
     
     private void VerticalOrientationPhone()
     {
+        topTextChanceChooseBall.anchoredPosition = new Vector2(topTextChanceChooseBall.anchoredPosition.x, -157f);
+        
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         board.Padding = 35;
@@ -71,6 +77,8 @@ public class OrientationManagerLines98 : MonoBehaviour
 
     private void HorizontalOrientationTablet()
     {
+        topTextChanceChooseBall.anchoredPosition = new Vector2(topTextChanceChooseBall.anchoredPosition.x, -77f);
+        
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
         board.Padding = GameHelper.HaveAds ? 95 : 35;

@@ -4,6 +4,8 @@ public class SaveDataLines98
 {
     public bool IsWin { get; set; }
     
+    public bool IsRevived { get; set; }
+    
     public bool ShowFuture { get; set; }
     
     public int Score { get; set; }
@@ -14,9 +16,10 @@ public class SaveDataLines98
     
     public SaveDataLines98() {}
 
-    public SaveDataLines98(bool isWin, bool showFuture, int score, List<Ball> balls, List<Ball> futureBalls)
+    public SaveDataLines98(bool isWin, bool isRevived, bool showFuture, int score, List<Ball> balls, List<Ball> futureBalls)
     {
         IsWin = isWin;
+        IsRevived = isRevived;
         ShowFuture = showFuture;
         Score = score;
         foreach (var ball in balls)
@@ -33,7 +36,7 @@ public class SaveDataLines98
     
     public override string ToString()
     {
-        return "SaveDataLines98: " + IsWin + " " + ShowFuture + " " + Score + " " +
+        return "SaveDataLines98: " + IsWin + " " + IsRevived + " " + ShowFuture + " " + Score + " " +
                "SaveBalls[" + string.Join(" ", SaveBalls) + "]" + " " +
                "SaveFutureBalls[" + string.Join(" ", SaveFutureBalls) + "]";
     }

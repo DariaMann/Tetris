@@ -6,6 +6,8 @@ public class SaveDataTetris
 {
     public bool IsWin { get; set; }
     
+    public bool IsRevived { get; set; }
+    
     public int Score { get; set; }
     
     public Tetromino CurrentTetromino { get; set; }
@@ -16,9 +18,10 @@ public class SaveDataTetris
     
     public SaveDataTetris() {}
 
-    public SaveDataTetris(bool isWin, int score, Tetromino currentTetromino, Tetromino nextTetromino, List<SaveTetramino> tetrominos)
+    public SaveDataTetris(bool isWin, bool isRevived, int score, Tetromino currentTetromino, Tetromino nextTetromino, List<SaveTetramino> tetrominos)
     {
         IsWin = isWin;
+        IsRevived = isRevived;
         Score = score;
         CurrentTetromino = currentTetromino;
         NextTetromino = nextTetromino;
@@ -27,7 +30,7 @@ public class SaveDataTetris
     
     public override string ToString()
     {
-        return "SaveDataTetris: " + IsWin + " " + Score + " " + CurrentTetromino + " " + NextTetromino + " " +
+        return "SaveDataTetris: " + IsWin + " " + IsRevived + " " + Score + " " + CurrentTetromino + " " + NextTetromino + " " +
                "SaveTetrominos[" + string.Join(" ", SaveTetrominos) + "]";
     }
 }

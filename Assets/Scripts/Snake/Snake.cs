@@ -35,7 +35,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication || !_isStartMove)
+        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication || !_isStartMove || GameHelper.IsShowRevive)
         {
             return;
         }
@@ -84,6 +84,20 @@ public class Snake : MonoBehaviour
                 Vector2 nextPos = new Vector2(segments[i].NextCell.x, segments[i].NextCell.y);
                 segments[i].transform.position = Vector3.MoveTowards(segments[i].transform.position, nextPos, speed * Time.deltaTime);
             }
+        }
+    }
+
+    public void Revive()
+    {
+        _isDead = false;
+        foreach (var segment in Segments)
+        {
+            segment.SetCurrentPosition(); 
+        }
+        for (int i = 2; i < Segments.Count; i++)
+        {
+            Segments[i].SetFirstCurrentPosition(Segments[1].CurrentCell);
+            Segments[i].NextCell = Segments[1].NextCell;
         }
     }
 
@@ -407,7 +421,7 @@ public class Snake : MonoBehaviour
     {
         GameManagerSnake.Instance.SaveScores.ChangeScore(data.Score);
         GameManagerSnake.Instance.SaveScores.IsWin = data.IsWin;
-        
+
         direction = new Vector2Int(data.DirectionX, data.DirectionY);
         RotateHead();
         

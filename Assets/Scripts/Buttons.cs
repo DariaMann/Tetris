@@ -97,7 +97,7 @@ public class Buttons : MonoBehaviour {
         if (pause && GameHelper.GameType != MiniGameType.None &&
             GameHelper.GameType != MiniGameType.G2048 && GameHelper.GameType != MiniGameType.Lines98 && GameHelper.GameType != MiniGameType.Blocks)
         {
-            if (!GameHelper.IsGameOver && !GameHelper.IsEdication)
+            if (!GameHelper.IsGameOver && !GameHelper.IsEdication && !GameHelper.IsShowRevive)
             {
                 OnPauseClick();
             }

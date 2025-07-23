@@ -7,6 +7,8 @@ public class SaveDataSnake
 {
     public bool IsWin { get; set; }
     
+    public bool IsRevived { get; set; }
+    
     public int Score { get; set; }
 
     public int DirectionX { get; set; }
@@ -19,9 +21,10 @@ public class SaveDataSnake
     
     public SaveDataSnake() {}
     
-    public SaveDataSnake(bool isWin, List<Food> foods, List<Segment> segments, Vector2Int direction, int score)
+    public SaveDataSnake(bool isWin, bool isRevived, List<Food> foods, List<Segment> segments, Vector2Int direction, int score)
     {
         IsWin = isWin;
+        IsRevived = isRevived;
         Score = score;
         DirectionX = Mathf.RoundToInt(direction.x);
         DirectionY = Mathf.RoundToInt(direction.y);
@@ -37,7 +40,7 @@ public class SaveDataSnake
     
     public override string ToString()
     {
-        return "SaveDataSnake: " + IsWin + " " + Score + " " + DirectionX + " " + DirectionY + " " +
+        return "SaveDataSnake: " + IsWin + " " + IsRevived + " " + Score + " " + DirectionX + " " + DirectionY + " " +
                "SaveFoods[" + string.Join(" ", SaveFoods) + "]";
     }
 }

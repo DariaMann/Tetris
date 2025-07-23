@@ -34,8 +34,9 @@ public class LineTile : MonoBehaviour, IPointerClickHandler
             if (!haveDeleted || LineBoard.Balls.Count == 0)
             {
                 LineBoard.EnabledFutureBalls();
-                LineBoard.SpawnRandomBalls(LineBoard.GenerateCount, true);
                 LineBoard.CheckLines();
+                LineBoard.SpawnRandomBalls(LineBoard.GenerateCount, true);
+                LineBoard.CheckGameOver();
             }
         }
         else

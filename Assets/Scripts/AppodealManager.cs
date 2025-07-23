@@ -53,7 +53,7 @@ public class AppodealManager : MonoBehaviour
 #endif
 
         // todo: Включаем тестовый режим (выключи перед релизом)
-        Appodeal.SetTesting(true);
+//        Appodeal.SetTesting(true);
         Appodeal.SetLogLevel(AppodealLogLevel.Verbose); // Включить подробные логи
 
         // Типы рекламы, которые используем

@@ -14,6 +14,7 @@ public class GameManagerTetris : MonoBehaviour
     [SerializeField] private Board boardEdu;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private Revive revivePanel;
     [SerializeField] private Buttons pausePanel;
     [SerializeField] private List<Image> nextTetrominoImage;
 
@@ -64,6 +65,7 @@ public class GameManagerTetris : MonoBehaviour
             }
         }
         
+        AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
         {
@@ -87,6 +89,7 @@ public class GameManagerTetris : MonoBehaviour
 
     private void OnDestroy()
     {
+        AppodealManager.Instance.OnRewardedVideoFinishedAction -= GiveReward;
         AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
 //    private void OnDisable()
@@ -104,6 +107,7 @@ public class GameManagerTetris : MonoBehaviour
             return;
         }
         
+        GameHelper.IsRevived = saveData.IsRevived;
         saveScores.ChangeScore(saveData.Score);
         saveScores.IsWin = saveData.IsWin;
         LoadTilemap(saveData.SaveTetrominos, board);
@@ -179,7 +183,7 @@ public class GameManagerTetris : MonoBehaviour
             }
         }
         
-        SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, saveScores.CurrentScore, board.ActivePiece.Data.tetromino, Next.tetromino, tetrominos);
+        SaveDataTetris data = new SaveDataTetris(saveScores.IsWin, GameHelper.IsRevived, saveScores.CurrentScore, board.ActivePiece.Data.tetromino, Next.tetromino, tetrominos);
         GameHelper.SaveTetris.SaveDataTetris = data;
         MyJsonHelper.SaveTetris(GameHelper.SaveTetris);
     }
@@ -199,15 +203,50 @@ public class GameManagerTetris : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
+        if (!GameHelper.IsRevived)
+        {
+            revivePanel.ShowMainRevivePanel(true);
+            return;
+        }
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
     
     public void Again()
     {
+        GameHelper.IsRevived = false;
         gameOver.ShowGameOverPanel(false);
+        revivePanel.ShowMainRevivePanel(false);
         
         board.Tilemap.ClearAllTiles();
         saveScores.ChangeScore(0);
+    }
+    
+    public void OnRevive()
+    {
+        if (GameHelper.HaveAds)
+        {
+
+#if UNITY_EDITOR
+            GiveReward();
+            return;
+#endif
+            AppodealManager.Instance.ShowRewardedVideo();
+            return;
+        }
+        GiveReward();
+    }
+    
+    private void GiveReward()
+    {
+        GameHelper.IsRevived = true;
+        revivePanel.ShowTimerRevivePanel(true);
+        board.ClearHalf();
+    }
+    
+    public void OnCancelRevive()
+    {
+        revivePanel.ShowMainRevivePanel(false);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
     
     public void NextRandomTetromino()

@@ -2,5 +2,5 @@
 public static class VersionInfo
 {
     public const string Version = "1.1";
-    public const string Build = "25";
+    public const string Build = "2";
 }

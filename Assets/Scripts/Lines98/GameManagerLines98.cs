@@ -17,6 +17,7 @@ public class GameManagerLines98 : MonoBehaviour
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private Revive revivePanel;
     [SerializeField] private List<Button> undoButtons;
     [SerializeField] private ThemeLines98 theme;
     [SerializeField] private bool showFuture = true;
@@ -71,6 +72,7 @@ public class GameManagerLines98 : MonoBehaviour
             AppodealManager.Instance.ShowBottomBanner();
         }
 
+        AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
         {
@@ -95,6 +97,7 @@ public class GameManagerLines98 : MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+        AppodealManager.Instance.OnRewardedVideoFinishedAction -= GiveReward;
         AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
     
@@ -107,6 +110,7 @@ public class GameManagerLines98 : MonoBehaviour
             return;
         }
 
+        GameHelper.IsRevived = saveData.IsRevived;
         ShowFuture = saveData.ShowFuture;
         saveScores.ChangeScore(saveData.Score, false);
         saveScores.IsWin = saveData.IsWin;
@@ -140,7 +144,7 @@ public class GameManagerLines98 : MonoBehaviour
             MyJsonHelper.SaveLines98(GameHelper.SaveLines98);
             return;
         }
-        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, board.Balls, board.FutureBalls);
+        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, GameHelper.IsRevived, ShowFuture, saveScores.CurrentScore, board.Balls, board.FutureBalls);
         
         GameHelper.SaveLines98.SaveDataLines98 = data;
         MyJsonHelper.SaveLines98(GameHelper.SaveLines98);
@@ -204,7 +208,7 @@ public class GameManagerLines98 : MonoBehaviour
     
     public void AddStepEventObject()
     {
-        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, ShowFuture, saveScores.CurrentScore, board.Balls, board.FutureBalls);
+        SaveDataLines98 data = new SaveDataLines98(saveScores.IsWin, GameHelper.IsRevived, ShowFuture, saveScores.CurrentScore, board.Balls, board.FutureBalls);
         EventSteps.Push(data);
         CheckUndoButtonState();
     }
@@ -276,7 +280,9 @@ public class GameManagerLines98 : MonoBehaviour
 
     public void Again()
     {
+        GameHelper.IsRevived = false;
         gameOver.ShowGameOverPanel(false);
+        revivePanel.ShowMainRevivePanel(false);
         
         saveScores.ChangeScore(0, false);
         ResetAll();
@@ -288,6 +294,7 @@ public class GameManagerLines98 : MonoBehaviour
     public void GameOver()
     {
         GameHelper.IsGameOver = true;
+        
         if (AppodealManager.Instance.IsShowInterstitial())
         {
             AppodealManager.Instance.ShowInterstitial();
@@ -300,6 +307,43 @@ public class GameManagerLines98 : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
+        if (!GameHelper.IsRevived)
+        {
+            revivePanel.ShowMainRevivePanel(true);
+            return;
+        }
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
+    }
+
+    public void DeleteBallsByColor(int color)
+    {
+        board.DeleteBallsByColor(color);
+    }
+    
+    public void OnRevive()
+    {
+        if (GameHelper.HaveAds)
+        {
+
+#if UNITY_EDITOR
+            GiveReward();
+            return;
+#endif
+            AppodealManager.Instance.ShowRewardedVideo();
+            return;
+        }
+        GiveReward();
+    }
+    
+    private void GiveReward()
+    {
+        GameHelper.IsRevived = true;
+        revivePanel.ShowLinesRevivePanel(true);
+    }
+    
+    public void OnCancelRevive()
+    {
+        revivePanel.ShowMainRevivePanel(false);
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
 }

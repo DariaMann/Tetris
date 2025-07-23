@@ -37,6 +37,10 @@ public static class GameHelper
         
         public static bool IsGameOver { get; set; } = false;
         
+        public static bool IsRevived { get; set; } = false;
+        
+        public static bool IsShowRevive { get; set; } = false;
+        
         public static bool IsPause { get; set; } = false;
         
         public static bool IsEdication { get; set; } = false;

@@ -9,6 +9,7 @@ public class GameManagerSnake: MonoBehaviour
     [SerializeField] private FoodController foodController;
     [SerializeField] private SaveScores saveScores;
     [SerializeField] private GameOver gameOver;
+    [SerializeField] private Revive revivePanel;
     [SerializeField] private Buttons pausePanel;
     [SerializeField] private EducationSnake education;
     
@@ -52,6 +53,7 @@ public class GameManagerSnake: MonoBehaviour
             }
         }
 
+        AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), new Dictionary<string, object>
         {
@@ -76,6 +78,7 @@ public class GameManagerSnake: MonoBehaviour
     private void OnDestroy()
     {
         SaveLastPlay();
+        AppodealManager.Instance.OnRewardedVideoFinishedAction -= GiveReward;
         AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
     }
 
@@ -84,10 +87,12 @@ public class GameManagerSnake: MonoBehaviour
         SaveDataSnake saveData = GameHelper.SaveSnake.SaveDataSnake;
         if (saveData == null)
         {
+            GameHelper.IsRevived = false;
             snake.ResetState();
             return;
         }
 
+        GameHelper.IsRevived = saveData.IsRevived;
         pausePanel.OnPauseClick();
         snake.LoadSave(saveData);
     }
@@ -101,7 +106,7 @@ public class GameManagerSnake: MonoBehaviour
             return;
         }
 
-        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, foodController.Foods, snake.Segments, snake.Direction, saveScores.CurrentScore);
+        SaveDataSnake data = new SaveDataSnake(saveScores.IsWin, GameHelper.IsRevived, foodController.Foods, snake.Segments, snake.Direction, saveScores.CurrentScore);
         GameHelper.SaveSnake.SaveDataSnake = data;
         MyJsonHelper.SaveSnake(GameHelper.SaveSnake);
     }
@@ -109,6 +114,7 @@ public class GameManagerSnake: MonoBehaviour
     public void GameOver()
     {
         GameHelper.IsGameOver = true;
+        
         if (AppodealManager.Instance.IsShowInterstitial())
         {
             AppodealManager.Instance.ShowInterstitial();
@@ -121,13 +127,47 @@ public class GameManagerSnake: MonoBehaviour
 
     public void ShowGameOverPanel()
     {
+        if (!GameHelper.IsRevived)
+        {
+            revivePanel.ShowMainRevivePanel(true);
+            return;
+        }
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
     
     public void Again()
     {
+        GameHelper.IsRevived = false;
         gameOver.ShowGameOverPanel(false);
-        
+        revivePanel.ShowMainRevivePanel(false);
         snake.ResetState();
+    }
+
+    public void OnRevive()
+    {
+        if (GameHelper.HaveAds)
+        {
+
+#if UNITY_EDITOR
+            GiveReward();
+            return;
+#endif
+            AppodealManager.Instance.ShowRewardedVideo();
+            return;
+        }
+        GiveReward();
+    }
+    
+    private void GiveReward()
+    {
+        GameHelper.IsRevived = true;
+        revivePanel.ShowTimerRevivePanel(true);
+        snake.Revive();
+    }
+    
+    public void OnCancelRevive()
+    {
+        revivePanel.ShowMainRevivePanel(false);
+        gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
 }

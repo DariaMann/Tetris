@@ -14426,7 +14426,7 @@ MonoBehaviour:
   greenChip: {fileID: 21300000, guid: b18e9901224a2104ba18e0c9fcca414b, type: 3}
   yellowChip: {fileID: 21300000, guid: 7dc61068f2f4f2347b58c1bce8ed91cd, type: 3}
   violetChip: {fileID: 21300000, guid: b5c326aa923a451478e313ab5ed75b38, type: 3}
-  cyanChip: {fileID: 21300000, guid: 3dfc593f14e85504a9bc23b2f8ec489c, type: 3}
+  cyanChip: {fileID: 21300000, guid: baff8a2453b48ba4090b3d23259bf114, type: 3}
 --- !u!114 &1282465609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14440,7 +14440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgColor: {fileID: 2090485771}
-  eduBgColor: {fileID: 1603144770}
   bgStartPanel: {fileID: 582834510}
   undoButton: {fileID: 1810032079}
   field: {fileID: 1282465606}
