@@ -48,14 +48,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 5334538500149418904}
   soundSource: {fileID: 3682909898589384053}
-  clickSound: {fileID: 8300000, guid: 591e69066ed127c419ef76dc2d0a7983, type: 3}
-  clickChipSound: {fileID: 8300000, guid: 2d02ba1e6fb9c4f45b4e028eaf279038, type: 3}
-  successLineSound: {fileID: 8300000, guid: ead1c8b90a24ee24786804dd934c951e, type: 3}
-  checkersDownSound: {fileID: 8300000, guid: 43abc624976044240b8450e17a6791c6, type: 3}
-  click4Sound: {fileID: 8300000, guid: 676af56a5501707489b7518e6342fe96, type: 3}
-  winSound: {fileID: 8300000, guid: cbd7f0c9d2367444497e0a7089a53de1, type: 3}
-  timerSound: {fileID: 8300000, guid: 6186fd5a8116e4941bde05f0e216cfb7, type: 3}
-  timerFinishSound: {fileID: 8300000, guid: c47f6e3e9d0881246b407359cc7d5a1b, type: 3}
+  clickSound: {fileID: 8300000, guid: 2f168a2b1cba2bf4eafca976f2353848, type: 3}
+  clickChipSound: {fileID: 8300000, guid: f99c5bd8d6de83149a90765113d3fa52, type: 3}
+  successLineSound: {fileID: 8300000, guid: efe58f3a5d3d97045ba6f2e8a2e3e5fd, type: 3}
+  checkersDownSound: {fileID: 8300000, guid: 60cfabd46194a2a4c9ee2868bf68af82, type: 3}
+  click4Sound: {fileID: 8300000, guid: cf9b15a17e2e61046a0efd0e6d9eeedd, type: 3}
+  winSound: {fileID: 8300000, guid: 745484dd5b58228499fdf87d5a693c45, type: 3}
+  timerSound: {fileID: 8300000, guid: 01d1ba541c3a90d4e9c9b6c5aa3fea04, type: 3}
+  timerFinishSound: {fileID: 8300000, guid: bf2b36402bf2bd6498c512772bf063ac, type: 3}
 --- !u!1 &3843142974686231940
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +98,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8dc4c6aeb25113a44a7146b089cb3a84, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 409e8623f7e945240bfe1a3e9edd1f6e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
