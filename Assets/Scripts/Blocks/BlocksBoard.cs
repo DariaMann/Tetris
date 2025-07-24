@@ -169,14 +169,19 @@ public class BlocksBoard : MonoBehaviour
             tiles.Activate();
         }
         
-        GetSelectedBlock().Deactivate();
+        selectedBlock.Deactivate();
+        
+        bool allBlocksDeactivated = IsAllBlocksDeactivated();
         
         var (tilesToClear, score) = GameManagerBlocks.Instance.CheckLinesAndGetScore(this);
         
         if (tilesToClear.Count == 0)
         {
             AudioManager.Instance.PlayClickChipSound();
-            CheckInteractableBlocks(); // если нечего очищать — сразу вызвать
+            if (!allBlocksDeactivated)
+            {
+                CheckInteractableBlocks(); // если нечего очищать — сразу вызвать
+            }
         }
         else
         {
@@ -192,7 +197,10 @@ public class BlocksBoard : MonoBehaviour
             DOTween.Sequence()
                 .AppendInterval(tweens.Max(t => t.Duration()))
                 .OnComplete(() => {
-                    CheckInteractableBlocks();
+                    if (!allBlocksDeactivated)
+                    {
+                        CheckInteractableBlocks();
+                    }
                     AudioManager.Instance.PlaySuccessLineSound();
                     
 //                    Vector3 center = GetCenterAnchoredPosition(tilesToClear);
@@ -216,7 +224,7 @@ public class BlocksBoard : MonoBehaviour
             GameManagerBlocks.Instance.SaveScores.ChangeScore(score);
         }
 
-        if (IsAllBlocksDeactivated())
+        if (allBlocksDeactivated)
         {
             CreateBlocks();
             CheckInteractableBlocks();
