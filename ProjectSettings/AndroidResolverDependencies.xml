@@ -21,7 +21,7 @@
     <package>com.applovin.mediation:unityads-adapter:4.14.2.0</package>
     <package>com.applovin.mediation:verve-adapter:3.3.0.0</package>
     <package>com.applovin.mediation:vungle-adapter:7.5.0.0</package>
-    <package>com.applovin.mediation:yandex-adapter:7.9.0.1</package>
+    <package>com.applovin.mediation:yandex-adapter:7.14.1.0</package>
     <package>com.appodeal.ads.sdk.networks:admob:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:amazon:3.8.0.0</package>
     <package>com.appodeal.ads.sdk.networks:applovin:3.8.0.0</package>
@@ -60,7 +60,7 @@
     <package>com.unity3d.ads-mediation:admob-adapter:4.3.50</package>
     <package>com.unity3d.ads-mediation:applovin-adapter:4.3.53</package>
     <package>com.unity3d.ads-mediation:aps-adapter:4.3.17</package>
-    <package>com.unity3d.ads-mediation:bidmachine-adapter:4.3.12</package>
+    <package>com.unity3d.ads-mediation:bidmachine-adapter:4.3.14</package>
     <package>com.unity3d.ads-mediation:bigo-adapter:4.3.9</package>
     <package>com.unity3d.ads-mediation:facebook-adapter:4.3.50</package>
     <package>com.unity3d.ads-mediation:fyber-adapter:4.3.38</package>
@@ -68,14 +68,14 @@
     <package>com.unity3d.ads-mediation:mintegral-adapter:4.3.40</package>
     <package>com.unity3d.ads-mediation:mobilefuse-adapter:4.3.7</package>
     <package>com.unity3d.ads-mediation:moloco-adapter:4.3.17</package>
-    <package>com.unity3d.ads-mediation:mytarget-adapter:4.3.0</package>
+    <package>com.unity3d.ads-mediation:mytarget-adapter:4.3.1</package>
     <package>com.unity3d.ads-mediation:ogury-adapter:4.3.2</package>
     <package>com.unity3d.ads-mediation:pangle-adapter:4.3.41</package>
     <package>com.unity3d.ads-mediation:smaato-adapter:4.3.14</package>
     <package>com.unity3d.ads-mediation:unityads-adapter:4.3.54</package>
     <package>com.unity3d.ads-mediation:verve-adapter:4.3.5</package>
     <package>com.unity3d.ads-mediation:vungle-adapter:4.3.30</package>
-    <package>com.unity3d.ads-mediation:yandex-adapter:4.3.8</package>
+    <package>com.unity3d.ads-mediation:yandex-adapter:4.3.13</package>
     <package>io.bidmachine:ads.adapters.ironsource:3.2.1.8</package>
     <package>io.bidmachine:ads.networks.amazon:3.2.1.17</package>
     <package>io.bidmachine:ads.networks.meta_audience:3.2.1.17</package>

@@ -69,26 +69,21 @@
 		<iosPod id="levelplay_vungle" name="IronSourceVungleAdapter" version="4.3.44.0" minTargetSdk="13.0" />
 		<iosPod id="max_admob" name="AppLovinMediationGoogleAdapter" version="12.4.0.1" minTargetSdk="12.0" />
 		<iosPod id="max_amazon" name="AppLovinMediationAmazonAdMarketplaceAdapter" version="5.2.0.0" minTargetSdk="12.0" />
-		<iosPod id="max_bidmachine" name="AppLovinMediationBidMachineAdapter" version="3.2.1.0.0" minTargetSdk="12.0" />
-		<iosPod id="max_bidon" name="AppLovinMediationBidonAdapter" version="0.8.1.0" minTargetSdk="12.0" />
 		<iosPod id="max_bigo_ads" name="AppLovinMediationBigoAdsAdapter" version="4.7.0.2" minTargetSdk="12.0" />
 		<iosPod id="max_chartboost" name="AppLovinMediationChartboostAdapter" version="9.8.1.0" minTargetSdk="11.0" />
 		<iosPod id="max_dt_exchange" name="AppLovinMediationFyberAdapter" version="8.3.7.0" minTargetSdk="13.0" />
 		<iosPod id="max_gam" name="AppLovinMediationGoogleAdManagerAdapter" version="12.4.0.1" minTargetSdk="12.0" />
 		<iosPod id="max_inmobi" name="AppLovinMediationInMobiAdapter" version="10.8.3.1" minTargetSdk="12.0" />
-		<iosPod id="max_ironsource" name="AppLovinMediationIronSourceAdapter" version="8.8.0.0.0" minTargetSdk="13.0" />
 		<iosPod id="max_meta_audience_network" name="AppLovinMediationFacebookAdapter" version="6.17.1.0" minTargetSdk="12.0" />
 		<iosPod id="max_mintegral" name="AppLovinMediationMintegralAdapter" version="7.7.7.0.0" minTargetSdk="11.0" />
 		<iosPod id="max_mobilefuse" name="AppLovinMediationMobileFuseAdapter" version="1.9.0.0" minTargetSdk="11.0" />
 		<iosPod id="max_moloco" name="AppLovinMediationMolocoAdapter" version="3.9.1.1" minTargetSdk="12.0" />
-		<iosPod id="max_my_target" name="AppLovinMediationMyTargetAdapter" version="5.29.1.0" minTargetSdk="12.4" />
 		<iosPod id="max_ogury" name="AppLovinMediationOguryPresageAdapter" version="5.0.2.0" minTargetSdk="12.0" />
 		<iosPod id="max_pangle" name="AppLovinMediationByteDanceAdapter" version="7.1.1.1.0" minTargetSdk="12.0" />
-		<iosPod id="max_pubmatic" name="AppLovinMediationPubMaticAdapter" version="4.7.0.1" minTargetSdk="12.0" />
+		<iosPod id="max_pubmatic" name="AppLovinMediationPubMaticAdapter" version="4.7.0.2" minTargetSdk="12.0" />
 		<iosPod id="max_smaato" name="AppLovinMediationSmaatoAdapter" version="22.9.3.1" minTargetSdk="12.0" />
 		<iosPod id="max_unity_ads" name="AppLovinMediationUnityAdsAdapter" version="4.14.2.0" minTargetSdk="12.0" />
 		<iosPod id="max_verve" name="AppLovinMediationVerveAdapter" version="3.2.0.0" minTargetSdk="12.0" />
-		<iosPod id="max_vungle" name="AppLovinMediationVungleAdapter" version="7.5.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_yandex_ads" name="AppLovinMediationYandexAdapter" version="5.2.1.0" minTargetSdk="10.0" />
 		<sources>
 			<source>https://github.com/appodeal/CocoaPods.git</source>
@@ -149,7 +144,7 @@
 		<androidPackage id="levelplay_admob" spec="com.unity3d.ads-mediation:admob-adapter:4.3.50" />
 		<androidPackage id="levelplay_amazon" spec="com.unity3d.ads-mediation:aps-adapter:4.3.17" />
 		<androidPackage id="levelplay_applovin" spec="com.unity3d.ads-mediation:applovin-adapter:4.3.53" />
-		<androidPackage id="levelplay_bidmachine" spec="com.unity3d.ads-mediation:bidmachine-adapter:4.3.12" />
+		<androidPackage id="levelplay_bidmachine" spec="com.unity3d.ads-mediation:bidmachine-adapter:4.3.14" />
 		<androidPackage id="levelplay_bidmachine_custom" spec="io.bidmachine:ads.adapters.ironsource:3.2.1.8" />
 		<androidPackage id="levelplay_bidon" spec="com.ironsource.adapters:bidon-adapter:0.8.1.0" />
 		<androidPackage id="levelplay_bigo_ads" spec="com.unity3d.ads-mediation:bigo-adapter:4.3.9" />
@@ -159,14 +154,14 @@
 		<androidPackage id="levelplay_mintegral" spec="com.unity3d.ads-mediation:mintegral-adapter:4.3.40" />
 		<androidPackage id="levelplay_mobilefuse" spec="com.unity3d.ads-mediation:mobilefuse-adapter:4.3.7" />
 		<androidPackage id="levelplay_moloco" spec="com.unity3d.ads-mediation:moloco-adapter:4.3.17" />
-		<androidPackage id="levelplay_my_target" spec="com.unity3d.ads-mediation:mytarget-adapter:4.3.0" />
+		<androidPackage id="levelplay_my_target" spec="com.unity3d.ads-mediation:mytarget-adapter:4.3.1" />
 		<androidPackage id="levelplay_ogury" spec="com.unity3d.ads-mediation:ogury-adapter:4.3.2" />
 		<androidPackage id="levelplay_pangle" spec="com.unity3d.ads-mediation:pangle-adapter:4.3.41" />
 		<androidPackage id="levelplay_smaato" spec="com.unity3d.ads-mediation:smaato-adapter:4.3.14" />
 		<androidPackage id="levelplay_unity_ads" spec="com.unity3d.ads-mediation:unityads-adapter:4.3.54" />
 		<androidPackage id="levelplay_verve" spec="com.unity3d.ads-mediation:verve-adapter:4.3.5" />
 		<androidPackage id="levelplay_vungle" spec="com.unity3d.ads-mediation:vungle-adapter:4.3.30" />
-		<androidPackage id="levelplay_yandex_ads" spec="com.unity3d.ads-mediation:yandex-adapter:4.3.8" />
+		<androidPackage id="levelplay_yandex_ads" spec="com.unity3d.ads-mediation:yandex-adapter:4.3.13" />
 		<androidPackage id="max_admob" spec="com.applovin.mediation:google-adapter:24.3.0.0" />
 		<androidPackage id="max_amazon" spec="com.applovin.mediation:amazon-tam-adapter:11.0.0.0" />
 		<androidPackage id="max_bidmachine" spec="com.applovin.mediation:bidmachine-adapter:3.2.1.0" />
@@ -188,7 +183,7 @@
 		<androidPackage id="max_unity_ads" spec="com.applovin.mediation:unityads-adapter:4.14.2.0" />
 		<androidPackage id="max_verve" spec="com.applovin.mediation:verve-adapter:3.3.0.0" />
 		<androidPackage id="max_vungle" spec="com.applovin.mediation:vungle-adapter:7.5.0.0" />
-		<androidPackage id="max_yandex_ads" spec="com.applovin.mediation:yandex-adapter:7.9.0.1" />
+		<androidPackage id="max_yandex_ads" spec="com.applovin.mediation:yandex-adapter:7.14.1.0" />
 		<repositories>
 			<repository>https://artifactory.appodeal.com/appodeal</repository>
 			<repository>https://artifactory.bidmachine.io/bidmachine</repository>

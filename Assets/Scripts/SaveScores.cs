@@ -100,7 +100,17 @@ public class SaveScores : MonoBehaviour
 
         ChangeScore(currentScore);
     }
+
+    private void Start()
+    {
+        LocalizationManager.LocalizationChanged += LocalizationUpdate;
+    }
     
+    public void OnDestroy()
+    {
+        LocalizationManager.LocalizationChanged -= LocalizationUpdate;
+    }
+
     public void Save()
     {
         if (CurrentRecord < currentScore)
@@ -258,6 +268,14 @@ public class SaveScores : MonoBehaviour
         {
             maxText.text = maximum.ToString();
         }      
+        foreach (var maxText in maximumTexts)
+        {
+            maxText.text = LocalizationManager.Localize("2048.maximum") + ": " + maximum;
+        }
+    }
+
+    public void LocalizationUpdate()
+    {
         foreach (var maxText in maximumTexts)
         {
             maxText.text = LocalizationManager.Localize("2048.maximum") + ": " + maximum;

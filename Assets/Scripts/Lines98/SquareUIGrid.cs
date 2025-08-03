@@ -27,6 +27,11 @@ public class SquareUIGrid : MonoBehaviour
 
     void Update()
     {
+        if (GameHelper.IsDoScreenshot)
+        {
+            return;
+        }
+        
         ResizeSquare(); // Подстраиваем каждый кадр
     }
 

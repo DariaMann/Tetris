@@ -46,6 +46,8 @@ public static class GameHelper
         public static bool IsEdication { get; set; } = false;
         
         public static bool IsUIEdication { get; set; } = false;
+        
+        public static bool IsDoScreenshot { get; set; } = false;
 
         public static SnakeSettings SnakeSettings { get; set; }
         

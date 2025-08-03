@@ -47,6 +47,11 @@ public class CameraRenderer : MonoBehaviour
 
     private void Update()
     {
+        if (GameHelper.IsDoScreenshot)
+        {
+            return;
+        }
+        
 //        bool isLandscape = Screen.width > Screen.height;
 //        Debug.Log(isLandscape ? "Горизонтальная ориентация" : "Вертикальная ориентация");
         
@@ -73,6 +78,49 @@ public class CameraRenderer : MonoBehaviour
             float constantWidthSize = initialSize * (targetAspect / componentCamera.aspect);
             float size = Mathf.Lerp(constantWidthSize, initialSize, WidthOrHeight);
             componentCamera.orthographicSize = size * zoomMultiplier;
+        }
+        else
+        {
+            float constantWidthFov = CalcVerticalFov(horizontalFov, componentCamera.aspect);
+            componentCamera.fieldOfView = Mathf.Lerp(constantWidthFov, initialFov, WidthOrHeight);
+        }
+    }
+    
+    public void ConfigureForTarget(int targetWidth, int targetHeight)
+    {
+        bool isLandscape = targetWidth > targetHeight;
+
+        // Эмулируем поведение переключения Orientation, но вручную
+        if (isLandscape)
+        {
+            WidthOrHeight = horizontal;
+            orientationVertical = false;
+        }
+        else
+        {
+            WidthOrHeight = vertical;
+            orientationVertical = true;
+        }
+
+        // Применяем сохранённые области вручную
+//        OnUpdateSaveArea();
+
+        // Принудительно обновим камеры/параметры сразу (как если бы Update уже прошёл)
+        if (componentCamera == null)
+            componentCamera = GetComponent<Camera>();
+        
+        // Эмулируем нужное соотношение сторон для цели
+        float targetAspectRatio = (float)targetWidth / targetHeight;
+//        componentCamera.aspect = targetAspectRatio;
+
+        OnUpdateSaveArea();
+
+        if (componentCamera.orthographic)
+        {
+            float constantWidthSize = initialSize * (targetAspect / targetAspectRatio);
+            float size = Mathf.Lerp(constantWidthSize, initialSize, WidthOrHeight);
+            componentCamera.orthographicSize = size * zoomMultiplier;
+            Debug.Log(targetWidth + "x" + targetHeight + ": Camera size = " + size);
         }
         else
         {

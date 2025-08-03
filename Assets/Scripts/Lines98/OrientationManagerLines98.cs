@@ -16,6 +16,11 @@ public class OrientationManagerLines98 : MonoBehaviour
     
     void Update()
     {
+        if (GameHelper.IsDoScreenshot)
+        {
+            return;
+        }
+        
         bool isTablet = GameHelper.IsTablet();
         if (Screen.width > Screen.height) // Горизонтальная ориентация
         {
@@ -30,6 +35,27 @@ public class OrientationManagerLines98 : MonoBehaviour
             else
             {
                 VerticalOrientationTablet();
+            }
+        }
+    }
+    
+    public void SetCorrectUI(int height, int width, bool isTablet, bool isVertical)
+    {
+        Debug.Log(width + "x" + height+": isVertical = "+ isVertical+", isTablet = "+isTablet);
+        
+        if (!isVertical)
+        {
+            HorizontalOrientationTablet();
+        }
+        else
+        {
+            if (isTablet)
+            {
+                VerticalOrientationTablet();
+            }
+            else
+            {
+                VerticalOrientationPhone();
             }
         }
     }

@@ -29428,6 +29428,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038592293}
   m_CullTransparentMesh: 1
+--- !u!1 &2060651006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060651008}
+  - component: {fileID: 2060651007}
+  m_Layer: 0
+  m_Name: ScreenshotTaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2060651007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060651006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d229c6067386142b21b35ce2deb676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientationManagerSnake: {fileID: 0}
+  orientationManager2048: {fileID: 0}
+  orientationManagerTetris: {fileID: 0}
+  orientationManagerLines98: {fileID: 0}
+  orientationManagerChineseCheckers: {fileID: 2090485777}
+  orientationManagerBlocks: {fileID: 0}
+  cameraRenderer: {fileID: 2090485773}
+  squareUi: {fileID: 273192018}
+  squareUiGrid: {fileID: 0}
+  sizes:
+  - name: iPhone_6.7
+    width: 1290
+    height: 2796
+    isTablet: 0
+    isVertical: 1
+  - name: iPhone_6.5
+    width: 1284
+    height: 2778
+    isTablet: 0
+    isVertical: 1
+  - name: iPad_12.9.ver
+    width: 2048
+    height: 2732
+    isTablet: 1
+    isVertical: 1
+  - name: iPad_12.9.hor
+    width: 2732
+    height: 2048
+    isTablet: 1
+    isVertical: 0
+  - name: Android_16_9
+    width: 1920
+    height: 1080
+    isTablet: 1
+    isVertical: 0
+  - name: Android_9_16
+    width: 1080
+    height: 1920
+    isTablet: 0
+    isVertical: 1
+--- !u!4 &2060651008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060651006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2087890705
 GameObject:
   m_ObjectHideFlags: 0
@@ -30637,3 +30721,4 @@ SceneRoots:
   - {fileID: 1905452921}
   - {fileID: 1165934606}
   - {fileID: 1585476427}
+  - {fileID: 2060651008}
