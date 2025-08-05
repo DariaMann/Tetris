@@ -174,12 +174,15 @@ public class BlocksBoard : MonoBehaviour
         bool allBlocksDeactivated = IsAllBlocksDeactivated();
         
         var (tilesToClear, score) = GameManagerBlocks.Instance.CheckLinesAndGetScore(this);
+
+        bool haveExploreTiles = tilesToClear.Count > 0;
         
-        if (tilesToClear.Count == 0)
+        if (!haveExploreTiles)
         {
             AudioManager.Instance.PlayClickChipSound();
             if (!allBlocksDeactivated)
             {
+                Debug.Log("Не новые три блока и нет что уничтожить на поле");
                 CheckInteractableBlocks(); // если нечего очищать — сразу вызвать
             }
         }
@@ -199,6 +202,14 @@ public class BlocksBoard : MonoBehaviour
                 .OnComplete(() => {
                     if (!allBlocksDeactivated)
                     {
+                        Debug.Log("Не новые три блока и есть что уничтожить на поле");
+                        CheckInteractableBlocks();
+                    }
+                    
+                    if (allBlocksDeactivated)
+                    {
+                        Debug.Log("Новые три блока и есть что уничтожить на поле");
+                        CreateBlocks();
                         CheckInteractableBlocks();
                     }
                     AudioManager.Instance.PlaySuccessLineSound();
@@ -224,8 +235,9 @@ public class BlocksBoard : MonoBehaviour
             GameManagerBlocks.Instance.SaveScores.ChangeScore(score);
         }
 
-        if (allBlocksDeactivated)
+        if (allBlocksDeactivated && !haveExploreTiles)
         {
+            Debug.Log("Новые три блока и нет что уничтожить на поле");
             CreateBlocks();
             CheckInteractableBlocks();
         }
@@ -427,6 +439,9 @@ public class BlocksBoard : MonoBehaviour
             }
             countActive += 1;
         }
+        
+        Debug.Log("CheckInteractableBlocks: " + (countNotInteractable == countActive && countActive > 0) + 
+                  ", countActive = " + countActive + ", countNotInteractable = " + countNotInteractable);
 
         if (countNotInteractable == countActive && countActive > 0)
         {
