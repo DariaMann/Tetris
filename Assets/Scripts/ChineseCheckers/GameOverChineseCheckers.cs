@@ -19,8 +19,6 @@ public class GameOverChineseCheckers: MonoBehaviour
     private bool _isWin = false;
     private ParticleSystem _chosenConfetti;
     private List<PlayerInRating> _playerPanels;
-    
-    public bool IsGameOver { get; set; }
 
     private void OnApplicationPause(bool pauseStatus)
     {
@@ -94,8 +92,7 @@ public class GameOverChineseCheckers: MonoBehaviour
                 conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(true);
-            IsGameOver = true;
-            GameHelper.IsGameOver = IsGameOver;
+            GameHelper.IsGameOver = true;
             StartCoroutine(GameOverFallbackTimer(4f, isWin, playerPanels));
             PlayGameOverAnimation(isWin, playerPanels);
         }
@@ -106,8 +103,7 @@ public class GameOverChineseCheckers: MonoBehaviour
                 conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(false);
-            IsGameOver = false;
-            GameHelper.IsGameOver = IsGameOver;
+            GameHelper.IsGameOver = false;
         }
     }
     

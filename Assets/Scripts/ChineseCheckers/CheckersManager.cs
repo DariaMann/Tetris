@@ -99,6 +99,11 @@ public class CheckersManager: MonoBehaviour
         set => players = value;
     }
 
+    private void Awake()
+    {
+        GameHelper.IsGameOver = false;
+    }
+
     void Start()
     {
         _blue = ColorUtility.TryParseHtmlString("#305EFB", out Color blue) ? blue : Color.blue;
@@ -139,7 +144,10 @@ public class CheckersManager: MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (!GameHelper.IsGameOver)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
 
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;

@@ -31,6 +31,7 @@ public class GameManager2048 : MonoBehaviour
 
     private void Awake()
     {
+        GameHelper.IsGameOver = false;
         if (Instance != null) {
             DestroyImmediate(gameObject);
         } else {
@@ -50,7 +51,10 @@ public class GameManager2048 : MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (!GameHelper.IsGameOver)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
         
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
@@ -124,7 +128,7 @@ public class GameManager2048 : MonoBehaviour
 
     public void SaveLastPlay()
     {
-        if (gameOver.IsGameOver)
+        if (GameHelper.IsGameOver)
         {
             GameHelper.Save2048.SaveData2048 = null;
             MyJsonHelper.Save2048(GameHelper.Save2048);

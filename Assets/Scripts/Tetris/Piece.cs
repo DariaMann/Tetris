@@ -59,7 +59,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerTetris.Instance.GameOverPanel.IsGameOver || (GameHelper.IsPause && !isEducation) || 
+        if (GameHelper.IsGameOver || (GameHelper.IsPause && !isEducation) || 
             (GameHelper.IsEdication && GameManagerTetris.Instance.Education.EducationIsOver) || GameHelper.IsShowRevive)
         {
             return;

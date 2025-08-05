@@ -135,6 +135,7 @@ public class Revive: MonoBehaviour
         {
             backgroudPanel.SetActive(false);
             timerPanel.SetActive(false);
+            GameHelper.IsGameOver = false;
             GameHelper.IsShowRevive = false;
             IsShowTimer = false;
             AppodealManager.Instance.ShowBottomBanner();

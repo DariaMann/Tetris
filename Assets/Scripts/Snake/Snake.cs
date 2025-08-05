@@ -35,7 +35,7 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerSnake.Instance.GameOverPanel.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication || !_isStartMove || GameHelper.IsShowRevive)
+        if (GameHelper.IsGameOver || GameHelper.IsPause || GameHelper.IsEdication || !_isStartMove || GameHelper.IsShowRevive)
         {
             return;
         }
@@ -481,6 +481,20 @@ public class Snake : MonoBehaviour
         {
             if (segment.CurrentCell.x == x &&
                 segment.CurrentCell.y == y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public bool OccupiesIncludingNext(int x, int y)
+    {
+        foreach (Segment segment in segments)
+        {
+            if ((segment.CurrentCell.x == x && segment.CurrentCell.y == y) ||
+                (segment.NextCell.x == x && segment.NextCell.y == y))
+            {
                 return true;
             }
         }

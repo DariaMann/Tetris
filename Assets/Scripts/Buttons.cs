@@ -425,6 +425,10 @@ public class Buttons : MonoBehaviour {
     
     public void SetPause(bool state)
     {
+        if (GameHelper.IsShowRevive || GameHelper.IsGameOver)
+        {
+            state = false;
+        }
         isPaused = state;
         if (state)
         {

@@ -29,6 +29,7 @@ public class GameManagerSnake: MonoBehaviour
     
     private void Awake()
     {
+        GameHelper.IsGameOver = false;
         if (Instance != null) {
             DestroyImmediate(gameObject);
         } else {
@@ -49,7 +50,10 @@ public class GameManagerSnake: MonoBehaviour
         {
             if (GameHelper.SaveSnake.SaveDataSnake == null)
             {
-                AppodealManager.Instance.ShowBottomBanner();
+                if (!GameHelper.IsGameOver)
+                {
+                    AppodealManager.Instance.ShowBottomBanner();
+                }
             }
         }
 
@@ -95,7 +99,7 @@ public class GameManagerSnake: MonoBehaviour
     
     public void SaveLastPlay()
     {
-        if (gameOver.IsGameOver)
+        if (GameHelper.IsGameOver)
         {
             GameHelper.SaveSnake.SaveDataSnake = null;
             MyJsonHelper.SaveSnake(GameHelper.SaveSnake);

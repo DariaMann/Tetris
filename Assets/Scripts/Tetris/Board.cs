@@ -15,7 +15,7 @@ public class Board : MonoBehaviour
     
     [SerializeField] private Vector2Int boardSize = new Vector2Int(10, 20);
 
-    [SerializeField] private Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
+    private Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
 
     public TetrominoData[] Tetrominoes
     {
@@ -63,7 +63,7 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece(bool first = false)
     {
-        if (GameManagerTetris.Instance.GameOverPanel.IsGameOver)
+        if (GameHelper.IsGameOver)
         {
             return;
         }

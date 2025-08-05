@@ -50,6 +50,7 @@ public class GameManagerLines98 : MonoBehaviour
     
     private void Awake()
     {
+        GameHelper.IsGameOver = false;
         if (Instance != null) {
             DestroyImmediate(gameObject);
         } else {
@@ -69,7 +70,10 @@ public class GameManagerLines98 : MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (!GameHelper.IsGameOver)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
 
         AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
@@ -134,7 +138,7 @@ public class GameManagerLines98 : MonoBehaviour
 
     public void SaveLastPlay()
     {
-        if (gameOver.IsGameOver)
+        if (GameHelper.IsGameOver)
         {
             GameHelper.SaveLines98.SaveDataLines98 = null;
             MyJsonHelper.SaveLines98(GameHelper.SaveLines98);

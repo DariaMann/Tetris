@@ -49,6 +49,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     private void Awake()
     {
+        GameHelper.IsGameOver = false;
         if (Instance != null)
         {
             DestroyImmediate(gameObject);
@@ -71,7 +72,10 @@ public class GameManagerBlocks : MonoBehaviour
         }
         else
         {
-            AppodealManager.Instance.ShowBottomBanner();
+            if (!GameHelper.IsGameOver)
+            {
+                AppodealManager.Instance.ShowBottomBanner();
+            }
         }
         
         AppodealManager.Instance.OnRewardedVideoFinishedAction += GiveReward;
@@ -164,7 +168,7 @@ public class GameManagerBlocks : MonoBehaviour
 
     public void SaveLastPlay()
     {
-        if (gameOver.IsGameOver)
+        if (GameHelper.IsGameOver)
         {
             GameHelper.SaveBlocks.SaveDataBlocks = null;
             MyJsonHelper.SaveBlocks(GameHelper.SaveBlocks);

@@ -24,7 +24,7 @@ public class Food : MonoBehaviour
         int y = Mathf.RoundToInt(Random.Range(bounds.min.y, bounds.max.y));
 
         // Prevent the food from spawning on the snake
-        while (_snake.Occupies(x, y))
+        while (_snake.OccupiesIncludingNext(x, y))
         {
             x++;
 

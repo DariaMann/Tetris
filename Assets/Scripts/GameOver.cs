@@ -27,8 +27,6 @@ public class GameOver : MonoBehaviour
     private Sequence _gameOverSequence;
     private bool _isWin = false;
     private ParticleSystem _chosenConfetti;
-    
-    public bool IsGameOver { get; set; }
 
     private void OnApplicationPause(bool pauseStatus)
     {
@@ -103,8 +101,7 @@ public class GameOver : MonoBehaviour
                 conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(true);
-            IsGameOver = true;
-            GameHelper.IsGameOver = IsGameOver;
+            GameHelper.IsGameOver = true;
             StartCoroutine(GameOverFallbackTimer(2f, isWin)); // Через 2 секунды проверим, дошло ли всё до конца
             PlayGameOverAnimation(isWin);
         }
@@ -115,8 +112,7 @@ public class GameOver : MonoBehaviour
                 conf.gameObject.SetActive(false);
             }
             gameObject.SetActive(false);
-            IsGameOver = false;
-            GameHelper.IsGameOver = IsGameOver;
+            GameHelper.IsGameOver = false;
         }
     }
 
