@@ -27,7 +27,9 @@ public static class GameHelper
         
         public static SaveTetris SaveTetris { get; set; } = new SaveTetris(0, null);
         
-        public static SaveChineseCheckers SaveChineseCheckers { get; set; } = new SaveChineseCheckers(1000, null, new List<PlayerState>(){0,0,0,0,0,0});
+        public static SaveChineseCheckers SaveChineseCheckers { get; set; } = 
+                new SaveChineseCheckers(1000, null, new List<PlayerState>(){PlayerState.Player,
+                        PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot});
         
         public static SaveSnake SaveSnake { get; set; } = new SaveSnake(0, null);
         

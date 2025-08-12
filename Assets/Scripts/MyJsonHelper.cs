@@ -303,7 +303,8 @@ public static class MyJsonHelper
     {
         if (data == null)
         {
-            data = new SaveChineseCheckers(1000, null, new List<PlayerState>(){0,0,0,0,0,0});
+            data = new SaveChineseCheckers(1000, null, new List<PlayerState>(){PlayerState.Player,
+                PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot});
         }
         string json = SerializeJsonChineseCheckers(data);
         Debug.Log("SaveChineseCheckers: " + json);
@@ -325,7 +326,8 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveChineseCheckers(1000, null, new List<PlayerState>(){0,0,0,0,0,0});
+        return new SaveChineseCheckers(1000, null, new List<PlayerState>(){PlayerState.Player,
+            PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot,PlayerState.Robot});
     }
     
     private static SaveChineseCheckers DeserializeJsonChineseCheckers(string jsonString)
