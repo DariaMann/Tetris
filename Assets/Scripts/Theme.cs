@@ -12,8 +12,9 @@ public class Theme : MonoBehaviour
 
     protected void Start()
     {
-        SetTheme(GameHelper.Theme);
         GameHelper.OnThemeChanged += ApplyTheme;
+        GameHelper.GetTheme();
+        SetTheme(GameHelper.Theme);
     }
     
     public void OnDestroy()

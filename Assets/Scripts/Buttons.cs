@@ -57,25 +57,20 @@ public class Buttons : MonoBehaviour {
         
         GameHelper.OnAutentificateChanged += ApplyAutentificate;
         
-        GameHelper.GetSound();
-        ApplySound(GameHelper.Sound);
         GameHelper.OnSoundChanged += ApplySound;
+        GameHelper.GetSound();
         
-        GameHelper.GetMusic();
-        ApplyMusic(GameHelper.Music);
         GameHelper.OnMusicChanged += ApplyMusic;
+        GameHelper.GetMusic();
         
-        GameHelper.GetVibration();
-        ApplyVibration(GameHelper.Vibration);
         GameHelper.OnVibrationChanged += ApplyVibration;
+        GameHelper.GetVibration();
         
-        GameHelper.GetHaveAds();
-        ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
+        GameHelper.GetHaveAds();
         
-        GameHelper.GetShowTest();
-        ApplyShowTest(GameHelper.ShowTest);
         GameHelper.OnShowTestChanged += ApplyShowTest;
+        GameHelper.GetShowTest();
         
         AudioManager.Instance.ToggleMusic(GameHelper.Music);
         AudioManager.Instance.ToggleSound(GameHelper.Sound);

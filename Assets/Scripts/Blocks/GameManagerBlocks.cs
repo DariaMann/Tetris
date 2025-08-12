@@ -83,9 +83,8 @@ public class GameManagerBlocks : MonoBehaviour
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         
         CheckDailyHints();
-        GameHelper.GetHaveAds();
-        ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
+        GameHelper.GetHaveAds();
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), (float) GameHelper.GameType);
     }
     
