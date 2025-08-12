@@ -11,6 +11,42 @@ plugins {
     id "org.jetbrains.kotlin.android" version "1.8.10" apply false
 }
 
+allprojects {
+    repositories {
+            **ARTIFACTORYREPOSITORY**
+            google()
+            mavenCentral()
+    // Android Resolver Repos Start
+            def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
+            maven {
+                url "https://artifactory.appodeal.com/appodeal" // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:192
+            }
+            maven {
+                url "https://artifactory.bidmachine.io/bidmachine" // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:192
+            }
+            maven {
+                url "https://artifactory.bidon.org/bidon" // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:192
+            }
+            maven {
+                url "https://repo1.maven.org/maven2" // Assets/Appodeal/Editor/Dependencies/AppodealDependencies.xml:192
+            }
+            maven {
+                url (unityProjectPath + "/Assets/GooglePlayGames/com.google.play.games/Editor/m2repository") // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
+            }
+            mavenLocal()
+    // Android Resolver Repos End
+            flatDir {
+                dirs "${project(':unityLibrary').projectDir}/libs"
+            }
+        }
+ configurations.all {
+        resolutionStrategy {
+            force("androidx.appcompat:appcompat:1.6.1")
+            force("androidx.viewpager2:viewpager2:1.0.0")
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
