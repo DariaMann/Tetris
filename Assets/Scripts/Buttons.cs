@@ -73,6 +73,10 @@ public class Buttons : MonoBehaviour {
         ApplyHaveAds(GameHelper.HaveAds);
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
         
+        GameHelper.GetShowTest();
+        ApplyShowTest(GameHelper.ShowTest);
+        GameHelper.OnShowTestChanged += ApplyShowTest;
+        
         AudioManager.Instance.ToggleMusic(GameHelper.Music);
         AudioManager.Instance.ToggleSound(GameHelper.Sound);
 
@@ -249,6 +253,7 @@ public class Buttons : MonoBehaviour {
         GameHelper.OnMusicChanged -= ApplyMusic;
         GameHelper.OnVibrationChanged -= ApplyVibration;
         GameHelper.OnHaveAdsChanged -= ApplyHaveAds;
+        GameHelper.OnShowTestChanged -= ApplyShowTest;
         if (_themeCoroutine != null)
         {
             StopCoroutine(_themeCoroutine);
@@ -364,6 +369,11 @@ public class Buttons : MonoBehaviour {
     public void ApplyVibration(bool vibration)
     {
         settingsVibrationButton.sprite = vibration ? settingsVibrationOn : settingsVibrationOff;
+    }
+    
+    public void ApplyShowTest(bool showTest)
+    {
+        FpsCounter.Instance.SetShowPanel(showTest);
     }
     
     public void ApplyHaveAds(bool stateAds)

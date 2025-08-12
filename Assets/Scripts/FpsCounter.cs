@@ -6,6 +6,7 @@ public class FpsCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI countTest;
     [SerializeField] private int frameRange = 60;
+    [SerializeField] private GameObject testPanel;
     
     private string[] _stringsFps =
     {
@@ -25,6 +26,17 @@ public class FpsCounter : MonoBehaviour
     private int _fpsBufferIndex;
     private int _countFPS;
     
+    public static FpsCounter Instance { get; private set; }
+    
+    private void Awake()
+    {
+        if (Instance != null) {
+            DestroyImmediate(gameObject);
+        } else {
+            Instance = this;
+        }
+    }
+    
     void Update()
     {
         if (_fpsBuffer == null || frameRange != _fpsBuffer.Length)
@@ -35,6 +47,11 @@ public class FpsCounter : MonoBehaviour
         UpdateBuffer();
         CalculateFps();
         countTest.text = "FPS: " + _stringsFps[Mathf.Clamp(_countFPS, 0 , 99)];
+    }
+
+    public void SetShowPanel(bool showPanel)
+    {
+        testPanel.SetActive(showPanel);
     }
 
     private void InitializeBuffer()

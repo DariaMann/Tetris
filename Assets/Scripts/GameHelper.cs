@@ -13,6 +13,7 @@ public static class GameHelper
         private static bool _music = true;
         private static bool _vibration = true;
         private static bool _haveAds = true;
+        private static bool _showTest = false;
 
         public static event Action<bool> OnAutentificateChanged;
         public static event Action<Themes> OnThemeChanged;
@@ -20,6 +21,7 @@ public static class GameHelper
         public static event Action<bool> OnMusicChanged;
         public static event Action<bool> OnVibrationChanged;
         public static event Action<bool> OnHaveAdsChanged;
+        public static event Action<bool> OnShowTestChanged;
         
         public static Save2048 Save2048 { get; set; } = new Save2048(0,2,null);
         
@@ -119,6 +121,19 @@ public static class GameHelper
                         }
                 }
         }
+        
+        public static bool ShowTest
+        {
+                get => _showTest;
+                set
+                {
+                        if (_showTest != value) // Изменяем только если значение новое
+                        {
+                                _showTest = value;
+                                OnShowTestChanged?.Invoke(_showTest); // Вызываем событие
+                        }
+                }
+        }  
         
         public static bool HaveAds
         {
@@ -433,6 +448,12 @@ public static class GameHelper
                         int haveAdsState = HaveAds ? 0 : 1;
                         PlayerPrefs.SetInt("HaveAds", haveAdsState);
                         PlayerPrefs.Save();
+                } 
+                if (!PlayerPrefs.HasKey("ShowTest"))
+                {
+                        int showTestState = ShowTest ? 0 : 1;
+                        PlayerPrefs.SetInt("ShowTest", showTestState);
+                        PlayerPrefs.Save();
                 }
 //                if (!PlayerPrefs.HasKey("SaveDataChineseCheckers"))
 //                {
@@ -522,13 +543,16 @@ public static class GameHelper
                 
                 MyJsonHelper.SaveBlocks(null);
                 SaveBlocks = MyJsonHelper.LoadBlocks();
-                
+
                 SetEducationState(MiniGameType.Lines98, false);
                 SetEducationState(MiniGameType.Blocks, false);
                 SetEducationState(MiniGameType.Tetris, false);
                 SetEducationState(MiniGameType.Snake, false);
                 SetEducationState(MiniGameType.ChineseCheckers, false);
                 SetEducationState(MiniGameType.G2048, false);
+                
+                MyJsonHelper.DeleteAllSave();
+                PlayerPrefs.DeleteAll();
                 
 //                string pathTetris = Application.persistentDataPath + "/ScoresTetris.xml";
 //                string pathSnake = Application.persistentDataPath + "/ScoresSnake.xml";
@@ -689,6 +713,26 @@ public static class GameHelper
                         return;
                 }
                 Handheld.Vibrate();
+        }
+        
+        public static void SetShowTest(bool showTest)
+        {
+                if (showTest == ShowTest)
+                {
+                        return;
+                }
+
+                ShowTest = showTest;
+                int showTestState = ShowTest ? 0 : 1;
+                PlayerPrefs.SetInt("ShowTest", (int) showTestState);
+                PlayerPrefs.Save();
+        }
+        
+        public static bool GetShowTest()
+        {
+                int showTestState = PlayerPrefs.GetInt("ShowTest");
+                ShowTest = showTestState == 0 ? true : false;
+                return ShowTest;
         }
         
         public static void SetHaveAds(bool haveAds)

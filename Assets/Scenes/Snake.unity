@@ -2311,6 +2311,8 @@ MonoBehaviour:
   orientationManagerChineseCheckers: {fileID: 0}
   orientationManagerBlocks: {fileID: 0}
   cameraRenderer: {fileID: 467267740}
+  squareUi: {fileID: 0}
+  squareUiGrid: {fileID: 0}
   sizes:
   - name: iPhone_6.7
     width: 1290
@@ -2365,20 +2367,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1782396952}
     m_Modifications:
-    - target: {fileID: 2085261488882480044, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 109.79999
-      objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962040, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
       propertyPath: m_Name
       value: TEST
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196398962040, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
@@ -2389,11 +2381,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
@@ -2484,16 +2471,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196946550435, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 197.29999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980197456876512, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 5.558399
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4947,8 +4924,8 @@ RectTransform:
   - {fileID: 1450021832}
   - {fileID: 1586874494}
   - {fileID: 1966318477}
-  - {fileID: 936830789}
   - {fileID: 807784558}
+  - {fileID: 936830789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

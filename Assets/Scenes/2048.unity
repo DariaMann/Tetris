@@ -322,6 +322,7 @@ MonoBehaviour:
   orientationManagerBlocks: {fileID: 0}
   cameraRenderer: {fileID: 0}
   squareUi: {fileID: 1941666059}
+  squareUiGrid: {fileID: 0}
   sizes:
   - name: iPhone_6.7
     width: 1290
@@ -1613,6 +1614,11 @@ PrefabInstance:
       propertyPath: scene
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6316542225239668869, guid: 1bef95afc134d2b409d721505ffc57f4,
+        type: 3}
+      propertyPath: testPanel
+      value: 
+      objectReference: {fileID: 644199939}
     - target: {fileID: 6515486876302568353, guid: 1bef95afc134d2b409d721505ffc57f4,
         type: 3}
       propertyPath: m_fontAsset
@@ -2983,32 +2989,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 279882443}
     m_Modifications:
-    - target: {fileID: 2085261488882480044, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 109.79999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196348016419, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 53eafe28108d26c459243c060ea37bbf,
-        type: 2}
-    - target: {fileID: 4984980196348016419, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 4129535435042772883, guid: 53eafe28108d26c459243c060ea37bbf,
-        type: 2}
     - target: {fileID: 4984980196398962040, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
       propertyPath: m_Name
       value: TEST
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196398962040, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
@@ -3019,11 +3003,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4984980196398962041, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
         type: 3}
@@ -3115,28 +3094,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4984980196946550435, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 197.29999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4984980197456876513, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 53eafe28108d26c459243c060ea37bbf,
-        type: 2}
-    - target: {fileID: 4984980197456876513, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 4129535435042772883, guid: 53eafe28108d26c459243c060ea37bbf,
-        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76, type: 3}
+--- !u!1 &644199939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4958224038368056629, guid: 51852d7fcde2dcc49bf5fcc8a8c7bb76,
+    type: 3}
+  m_PrefabInstance: {fileID: 644199938}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &649477384
 GameObject:
   m_ObjectHideFlags: 0

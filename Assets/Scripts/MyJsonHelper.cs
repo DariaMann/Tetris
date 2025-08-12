@@ -79,7 +79,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveTetris();
+        return new SaveTetris(0, null);
     }
     
     private static SaveTetris DeserializeJsonTetris(string jsonString)
@@ -176,7 +176,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveSnake();
+        return new SaveSnake(0, null);
     }
 
     private static SaveSnake DeserializeJsonSnake(string jsonString)
@@ -228,7 +228,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new Save2048();
+        return new Save2048(0,2,null);
     }
     
     private static Save2048 DeserializeJson2048(string jsonString)
@@ -325,7 +325,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveChineseCheckers();
+        return new SaveChineseCheckers(1000, null, new List<PlayerState>(){0,0,0,0,0,0});
     }
     
     private static SaveChineseCheckers DeserializeJsonChineseCheckers(string jsonString)
@@ -377,7 +377,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveLines98();
+        return new SaveLines98(0, null);
     }
     
     private static SaveLines98 DeserializeJsonLines98(string jsonString)
@@ -429,7 +429,7 @@ public static class MyJsonHelper
             return data;
         }
 
-        return new SaveBlocks();
+        return new SaveBlocks(0, null);
     }
 
     private static SaveBlocks DeserializeJsonBlocks(string jsonString)
@@ -452,4 +452,27 @@ public static class MyJsonHelper
     }
     
     #endregion
+    
+    public static void DeleteAllSave()
+    {
+        DeleteSave(Application.persistentDataPath + "/Tetris.json");
+        DeleteSave(Application.persistentDataPath + "/Snake.json");
+        DeleteSave(Application.persistentDataPath + "/2048.json");
+        DeleteSave(Application.persistentDataPath + "/ChineseCheckers.json");
+        DeleteSave(Application.persistentDataPath + "/Lines98.json");
+        DeleteSave(Application.persistentDataPath + "/Blocks.json");
+    }
+    
+    public static void DeleteSave(string path)
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("Сохранение удалено: " + path);
+        }
+        else
+        {
+            Debug.Log("Файл сохранения не найден: " + path);
+        }
+    }
 }
