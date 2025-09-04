@@ -56,9 +56,9 @@
 		<iosPod id="levelplay_bigo_ads" name="IronSourceBigoAdapter" version="4.3.5.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_dt_exchange" name="IronSourceFyberAdapter" version="4.3.43.1" minTargetSdk="13.0" />
 		<iosPod id="levelplay_inmobi" name="IronSourceInMobiAdapter" version="4.3.29.1" minTargetSdk="12.0" />
-		<iosPod id="levelplay_meta_audience_network" name="IronSourceFacebookAdapter" version="4.3.49.0" minTargetSdk="13.0" />
+		<iosPod id="levelplay_meta_audience_network" name="IronSourceFacebookAdapter" version="4.3.51.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_mintegral" name="IronSourceMintegralAdapter" version="4.3.34.0" minTargetSdk="12.0" />
-		<iosPod id="levelplay_mobilefuse" name="IronSourceMobileFuseAdapter" version="4.3.6.0" minTargetSdk="13.0" />
+		<iosPod id="levelplay_mobilefuse" name="IronSourceMobileFuseAdapter" version="4.3.8.1" minTargetSdk="12.0" />
 		<iosPod id="levelplay_moloco" name="IronSourceMolocoAdapter" version="4.3.19.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_my_target" name="IronSourceMyTargetAdapter" version="4.3.5.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_ogury" name="IronSourceOguryAdapter" version="4.3.3.1" minTargetSdk="12.0" />
@@ -87,7 +87,6 @@
 		<iosPod id="max_yandex_ads" name="AppLovinMediationYandexAdapter" version="5.2.1.0" minTargetSdk="10.0" />
 		<sources>
 			<source>https://github.com/appodeal/CocoaPods.git</source>
-			<source>https://github.com/bidon-io/CocoaPods_Specs.git</source>
 		</sources>
 	</iosPods>
 	<androidPackages>
@@ -174,7 +173,6 @@
 		<androidPackage id="max_meta_audience_network" spec="com.applovin.mediation:facebook-adapter:6.20.0.0" />
 		<androidPackage id="max_mintegral" spec="com.applovin.mediation:mintegral-adapter:16.9.71.0" />
 		<androidPackage id="max_mobilefuse" spec="com.applovin.mediation:mobilefuse-adapter:1.9.2.1" />
-		<androidPackage id="max_moloco" spec="com.applovin.mediation:moloco-adapter:3.9.0.0" />
 		<androidPackage id="max_my_target" spec="com.applovin.mediation:mytarget-adapter:5.27.2.0" />
 		<androidPackage id="max_ogury" spec="com.applovin.mediation:ogury-presage-adapter:6.0.1.1" />
 		<androidPackage id="max_pangle" spec="com.applovin.mediation:bytedance-adapter:7.1.0.4.0" />

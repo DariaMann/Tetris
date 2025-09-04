@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AppodealStack.Monetization.Api;
+using AppodealStack.Monetization.Common;
 using Assets.SimpleLocalization;
 using Newtonsoft.Json;
 using TMPro;
@@ -309,8 +311,11 @@ public class GameManagerLines98 : MonoBehaviour
     {
         if (!GameHelper.IsRevived)
         {
-            revivePanel.ShowMainRevivePanel(true);
-            return;
+            if (!GameHelper.HaveAds || (GameHelper.HaveAds && GameHelper.HaveInternet && AppodealManager.Instance.IsRewardedVideoReady()))
+            {
+                revivePanel.ShowMainRevivePanel(true);
+                return;
+            }
         }
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }

@@ -82,6 +82,8 @@ public class GameManagerBlocks : MonoBehaviour
         AppodealManager.Instance.OnRewardedVideoLoadedAction += CheckStateChangeBlocksButton;
         AppodealManager.Instance.OnInterstitialFinished += ShowGameOverPanel;
         
+        GameHelper.OnHaveInternetChanged += ApplyHaveAds;
+        
         CheckDailyHints();
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
         GameHelper.GetHaveAds();
@@ -132,6 +134,7 @@ public class GameManagerBlocks : MonoBehaviour
             AppodealManager.Instance.OnInterstitialFinished -= ShowGameOverPanel;
         }
         GameHelper.OnHaveAdsChanged -= ApplyHaveAds;
+        GameHelper.OnHaveInternetChanged -= ApplyHaveAds;
     }
 
     public void LoadLastPlay()
@@ -209,7 +212,7 @@ public class GameManagerBlocks : MonoBehaviour
             changeBlocksImage.SetActive(true);
             changeBlocksText.gameObject.SetActive(false);
             
-            if (AppodealManager.Instance.IsRewardedVideoReady())
+            if (AppodealManager.Instance.IsRewardedVideoReady() && GameHelper.HaveInternet)
             {
                 changeBlocksButton.interactable = true;
                 changeBlocksButton.alpha = 1;

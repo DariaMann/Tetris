@@ -222,10 +222,6 @@ public class AppodealManager : MonoBehaviour
     
     public bool IsRewardedVideoReady()
     {
-        if (!GameHelper.HaveAds)
-        {
-            return false;
-        }
         return Appodeal.IsLoaded(AppodealAdType.RewardedVideo);
     } 
     

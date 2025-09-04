@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using Assets.SimpleLocalization;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class GameHelper
 {
+        private static readonly string[] urlsInternet = new []{"https://www.google.com/", "https://vk.com/", "https://www.youtube.com/"};
+        
         private static Themes _theme = Themes.Light;
         private static bool _isAutentificate = false;
         private static bool _sound = true;
@@ -14,6 +18,7 @@ public static class GameHelper
         private static bool _vibration = true;
         private static bool _haveAds = true;
         private static bool _showTest = false;
+        private static bool _haveInternet = false;
 
         public static event Action<bool> OnAutentificateChanged;
         public static event Action<Themes> OnThemeChanged;
@@ -22,6 +27,7 @@ public static class GameHelper
         public static event Action<bool> OnVibrationChanged;
         public static event Action<bool> OnHaveAdsChanged;
         public static event Action<bool> OnShowTestChanged;
+        public static event Action<bool> OnHaveInternetChanged;
         
         public static Save2048 Save2048 { get; set; } = new Save2048(0,2,null);
         
@@ -59,16 +65,25 @@ public static class GameHelper
         
         public static MiniGameType GameType { get; set; }
         
+        public static bool HaveInternet {
+                get => _haveInternet;
+                set
+                {
+                        if (_haveInternet != value) // Изменяем только если значение новое
+                        {
+                                _haveInternet = value;
+                                OnHaveInternetChanged?.Invoke(_haveInternet); // Вызываем событие
+                        }
+                }
+        }
+        
         public static bool IsAutentificate 
         {
                 get => _isAutentificate;
                 set
                 {
-                        if (_isAutentificate != value) // Изменяем только если значение новое
-                        {
-                                _isAutentificate = value;
-                                OnAutentificateChanged?.Invoke(_isAutentificate); // Вызываем событие
-                        }
+                        _isAutentificate = value;
+                        OnAutentificateChanged?.Invoke(_isAutentificate); // Вызываем событие
                 }
         }
 
@@ -77,11 +92,8 @@ public static class GameHelper
                 get => _theme;
                 set
                 {
-                        if (_theme != value) // Изменяем только если значение новое
-                        {
-                                _theme = value;
-                                InvokeThemeChange(); // Вызываем событие
-                        }
+                        _theme = value;
+                        InvokeThemeChange(); // Вызываем событие
                 }
         }
         
@@ -90,11 +102,8 @@ public static class GameHelper
                 get => _sound;
                 set
                 {
-                        if (_sound != value) // Изменяем только если значение новое
-                        {
-                                _sound = value;
-                                OnSoundChanged?.Invoke(_sound); // Вызываем событие
-                        }
+                        _sound = value;
+                        OnSoundChanged?.Invoke(_sound); // Вызываем событие
                 }
         }
         
@@ -103,11 +112,8 @@ public static class GameHelper
                 get => _music;
                 set
                 {
-                        if (_music != value) // Изменяем только если значение новое
-                        {
-                                _music = value;
-                                OnMusicChanged?.Invoke(_music); // Вызываем событие
-                        }
+                        _music = value;
+                        OnMusicChanged?.Invoke(_music); // Вызываем событие
                 }
         }   
         
@@ -116,11 +122,8 @@ public static class GameHelper
                 get => _vibration;
                 set
                 {
-                        if (_vibration != value) // Изменяем только если значение новое
-                        {
-                                _vibration = value;
-                                OnVibrationChanged?.Invoke(_vibration); // Вызываем событие
-                        }
+                        _vibration = value;
+                        OnVibrationChanged?.Invoke(_vibration); // Вызываем событие
                 }
         }
         
@@ -129,11 +132,8 @@ public static class GameHelper
                 get => _showTest;
                 set
                 {
-                        if (_showTest != value) // Изменяем только если значение новое
-                        {
-                                _showTest = value;
-                                OnShowTestChanged?.Invoke(_showTest); // Вызываем событие
-                        }
+                        _showTest = value;
+                        OnShowTestChanged?.Invoke(_showTest); // Вызываем событие
                 }
         }  
         
@@ -142,11 +142,8 @@ public static class GameHelper
                 get => _haveAds;
                 set
                 {
-                        if (_haveAds != value) // Изменяем только если значение новое
-                        {
-                                _haveAds = value;
-                                OnHaveAdsChanged?.Invoke(_haveAds); // Вызываем событие
-                        }
+                        _haveAds = value;
+                        OnHaveAdsChanged?.Invoke(_haveAds); // Вызываем событие
                 }
         }
         
@@ -173,6 +170,26 @@ public static class GameHelper
                 {
                         return Themes.Light;
                 }
+        }
+
+        public static IEnumerator CheckInternetConnection(Action<bool> callback)
+        {
+                foreach (var urlInternet in urlsInternet)
+                {
+                        UnityWebRequest request = UnityWebRequest.Get(urlInternet);
+                        yield return request.SendWebRequest();
+                        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+                        {
+                                Debug.Log("Error Internet Connection: " + request.error);
+                        }
+                        else
+                        {
+                                Debug.Log("Successful Internet Connection: " + urlInternet);
+                                callback(true);
+                                yield break;
+                        }
+                }
+                callback(false);
         }
         
         public static int GetTypeBySpeedTetris(float speedType)

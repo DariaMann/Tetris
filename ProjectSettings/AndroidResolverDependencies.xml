@@ -13,7 +13,6 @@
     <package>com.applovin.mediation:ironsource-adapter:8.8.0.0.1</package>
     <package>com.applovin.mediation:mintegral-adapter:16.9.71.0</package>
     <package>com.applovin.mediation:mobilefuse-adapter:1.9.2.1</package>
-    <package>com.applovin.mediation:moloco-adapter:3.9.0.0</package>
     <package>com.applovin.mediation:mytarget-adapter:5.27.2.0</package>
     <package>com.applovin.mediation:ogury-presage-adapter:6.0.1.1</package>
     <package>com.applovin.mediation:pubmatic-adapter:4.5.2.0</package>

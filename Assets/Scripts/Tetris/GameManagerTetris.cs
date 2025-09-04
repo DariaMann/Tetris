@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AppodealStack.Monetization.Api;
+using AppodealStack.Monetization.Common;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -205,8 +207,11 @@ public class GameManagerTetris : MonoBehaviour
     {
         if (!GameHelper.IsRevived)
         {
-            revivePanel.ShowMainRevivePanel(true);
-            return;
+            if (!GameHelper.HaveAds || (GameHelper.HaveAds && GameHelper.HaveInternet && AppodealManager.Instance.IsRewardedVideoReady()))
+            {
+                revivePanel.ShowMainRevivePanel(true);
+                return;
+            }
         }
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }

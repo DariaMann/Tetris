@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AppodealStack.Monetization.Api;
+using AppodealStack.Monetization.Common;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -129,8 +131,11 @@ public class GameManagerSnake: MonoBehaviour
     {
         if (!GameHelper.IsRevived)
         {
-            revivePanel.ShowMainRevivePanel(true);
-            return;
+            if (!GameHelper.HaveAds || (GameHelper.HaveAds && GameHelper.HaveInternet && AppodealManager.Instance.IsRewardedVideoReady()))
+            {
+                revivePanel.ShowMainRevivePanel(true);
+                return;
+            }
         }
         gameOver.ShowGameOverPanel(true, saveScores, saveScores.IsWin);
     }
