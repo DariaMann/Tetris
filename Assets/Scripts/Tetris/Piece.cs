@@ -6,6 +6,8 @@ public class Piece : MonoBehaviour
 {
     [SerializeField] private bool isEducation;
     [SerializeField] private float stepDelay = 1f;
+    [SerializeField] private float moveDownDelay = 0.1f;
+    [SerializeField] private float moveSideDelay = 0.05f;
     [SerializeField] private float maxDelay = 1.3f; // самая медленная скорость
     [SerializeField] private float minDelay = 0.2f; // самая быстрая скорость
     [SerializeField] private float scoreFactor = 0.02f; // насколько быстро убывает stepDelay с ростом счёта
@@ -138,9 +140,9 @@ public class Piece : MonoBehaviour
     private void HandleMoveInputs()
     {
         // Soft drop movement
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            if (Move(Vector2Int.down)) {
+            if (Move(Vector2Int.down, true)) {
                 // Update the step time to prevent double movement
                 
 //                SetAccelerationSpeed(fastDropStepDelay);
@@ -150,10 +152,10 @@ public class Piece : MonoBehaviour
         }
 
         // Left/right movement
-        if (Input.GetKey(KeyCode.A)) {
-            Move(Vector2Int.left);
-        } else if (Input.GetKey(KeyCode.D)) {
-            Move(Vector2Int.right);
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
+            Move(Vector2Int.left, true);
+        } else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) {
+            Move(Vector2Int.right, true);
         }
     }
 
@@ -322,7 +324,7 @@ public class Piece : MonoBehaviour
 
     private void HardDrop()
     {
-        while (Move(Vector2Int.down, true)) {
+        while (Move(Vector2Int.down,false, true)) {
             continue;
         }
 
@@ -343,7 +345,7 @@ public class Piece : MonoBehaviour
         GameManagerTetris.Instance.NextRandomTetromino();
     }
 
-    private bool Move(Vector2Int translation, bool isHartDrop = false)
+    private bool Move(Vector2Int translation, bool isWithButtons = false, bool isHartDrop = false)
     {
         if (isEducation && GameHelper.IsEdication)
         {
@@ -363,7 +365,22 @@ public class Piece : MonoBehaviour
         if (valid)
         {
             Position = newPosition;
-            _moveTime = Time.time;
+            if (isWithButtons)
+            {
+                if (translation == Vector2Int.down)
+                {
+                    _moveTime = Time.time + moveDownDelay;
+                }
+                else
+                {
+                    _moveTime = Time.time + moveSideDelay;
+                }
+            }
+            else
+            {
+                _moveTime = Time.time;
+            }
+
             _lockTime = 0f; // reset
         }
 
