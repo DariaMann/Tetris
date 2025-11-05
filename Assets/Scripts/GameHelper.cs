@@ -17,6 +17,7 @@ public static class GameHelper
         private static bool _music = true;
         private static bool _vibration = true;
         private static bool _haveAds = true;
+        private static bool _showBanner = false;
         private static bool _showTest = false;
         private static bool _haveInternet = false;
 
@@ -145,6 +146,12 @@ public static class GameHelper
                         _haveAds = value;
                         OnHaveAdsChanged?.Invoke(_haveAds); // Вызываем событие
                 }
+        }
+        
+        public static bool ShowBanner
+        {
+                get => _showBanner;
+                set => _showBanner = value;
         }
         
         public static Themes GetRealTheme()
@@ -766,12 +773,32 @@ public static class GameHelper
                 PlayerPrefs.SetInt("HaveAds", (int) haveAdsState);
                 PlayerPrefs.Save();
         }
-        
+
         public static bool GetHaveAds()
         {
                 int haveAdsState = PlayerPrefs.GetInt("HaveAds");
                 HaveAds = haveAdsState == 0 ? true : false;
                 return HaveAds;
+        }
+        
+        public static void SetShowBanner(bool haveAds)
+        {
+                if (haveAds == ShowBanner)
+                {
+                        return;
+                }
+
+                ShowBanner = haveAds;
+                int haveAdsState = ShowBanner ? 0 : 1;
+                PlayerPrefs.SetInt("ShowBanner", (int) haveAdsState);
+                PlayerPrefs.Save();
+        }
+        
+        public static bool GetShowBanner()
+        {
+                int haveHalfAdsState = PlayerPrefs.GetInt("ShowBanner");
+                ShowBanner = haveHalfAdsState == 0 ? true : false;
+                return ShowBanner;
         }
 
         public static void AdjustBoardSize(Camera cam)

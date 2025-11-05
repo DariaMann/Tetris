@@ -9,6 +9,7 @@ public class TouchZone: MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private const string Password = "BABUSKA2025";
     private const string Password_2 = "TEST2025";
+    private const string Password_3 = "HALFBABUSKA2025";
     
     private float holdTime = 20f;
     private float holdTimer;
@@ -56,9 +57,12 @@ public class TouchZone: MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             Debug.Log("Правильный код! Выполняем действие.");
             HideSecretPanel();
-
+            
             AnalyticsManager.Instance.LogEvent(AnalyticType.no_ads_secret_code.ToString());
-            GameHelper.SetHaveAds(!GameHelper.HaveAds);
+            bool newValue = !GameHelper.HaveAds;
+            GameHelper.SetHaveAds(newValue);
+            GameHelper.SetShowBanner(newValue);
+            Debug.Log("Полное отключение рекламы: HaveAds = " + GameHelper.HaveAds + ", ShowBanner = " + GameHelper.ShowBanner);
         }
         else if (inputField.text == Password_2)
         {
@@ -66,6 +70,17 @@ public class TouchZone: MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             HideSecretPanel();
 
             GameHelper.SetShowTest(!GameHelper.ShowTest);
+        } 
+        else if (inputField.text == Password_3)
+        {
+            Debug.Log("Правильный код 3! Выполняем действие.");
+            HideSecretPanel();
+
+            AnalyticsManager.Instance.LogEvent(AnalyticType.no_show_banner_secret_code.ToString());
+            GameHelper.SetHaveAds(false);
+            GameHelper.SetShowBanner(true);
+            
+            Debug.Log("Частичное отключение рекламы: HaveAds = " + GameHelper.HaveAds + ", ShowBanner = " + GameHelper.ShowBanner);
         }
         else
         {

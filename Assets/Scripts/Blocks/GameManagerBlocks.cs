@@ -87,6 +87,7 @@ public class GameManagerBlocks : MonoBehaviour
         CheckDailyHints();
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
         GameHelper.GetHaveAds();
+        GameHelper.GetShowBanner();
         AnalyticsManager.Instance.LogEvent(AnalyticType.game_start.ToString(), (float) GameHelper.GameType);
     }
     
@@ -190,7 +191,7 @@ public class GameManagerBlocks : MonoBehaviour
         board.CreateBlocks();
         board.CheckInteractableBlocks();
     }
-
+    
     public void ApplyHaveAds(bool stateAds)
     {
         CheckStateChangeBlocksButton();

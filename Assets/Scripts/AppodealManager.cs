@@ -137,7 +137,7 @@ public class AppodealManager : MonoBehaviour
 
     public void ShowBottomBanner()
     {
-        if (!GameHelper.HaveAds)
+        if (!GameHelper.HaveAds && !GameHelper.ShowBanner)
         {
             return;
         }

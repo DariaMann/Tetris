@@ -73,7 +73,7 @@ public class OrientationManagerLines98 : MonoBehaviour
         undoButtonTablet.SetActive(false);
         undoButtonTabletEdu.SetActive(false);
 
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -80f);
             board.Padding = 54;
@@ -107,7 +107,7 @@ public class OrientationManagerLines98 : MonoBehaviour
         
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
-        board.Padding = GameHelper.HaveAds ? 95 : 35;
+        board.Padding = GameHelper.HaveAds || GameHelper.ShowBanner ? 95 : 35;
         education.SetOrientation(false);
         
         undoButtonPhone.gameObject.SetActive(false);

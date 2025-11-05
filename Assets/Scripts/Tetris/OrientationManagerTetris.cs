@@ -73,7 +73,7 @@ public class OrientationManagerTetris : MonoBehaviour
         
         cameraRenderer.vertical = 0.5f;
 
-        if (GameHelper.HaveAds && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
+        if ((GameHelper.HaveAds || GameHelper.ShowBanner) && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
         {
             cameraRenderer.zoomMultiplier = 1.1f;
             board.localPosition = new Vector2(2.23f,0.8f);
@@ -111,7 +111,7 @@ public class OrientationManagerTetris : MonoBehaviour
 
         cameraRenderer.zoomMultiplier = 1f;
         
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             cameraRenderer.vertical = GameHelper.IsEdication ? 0.25f : 0.5f;
             cameraRenderer.WidthOrHeight = GameHelper.IsEdication ? 0.25f : 0.4f;
@@ -151,7 +151,7 @@ public class OrientationManagerTetris : MonoBehaviour
         
         cameraRenderer.vertical = 0.5f;
         
-        if (GameHelper.HaveAds && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
+        if ((GameHelper.HaveAds || GameHelper.ShowBanner) && !(GameHelper.IsEdication && !GameHelper.IsUIEdication))
         {
             cameraRenderer.zoomMultiplier = 1.2f;
             board.localPosition = new Vector2(0,0.9f);

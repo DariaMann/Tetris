@@ -69,7 +69,7 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(false);
         topPanel.SetActive(true);
         
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             undoButtonPhone.anchoredPosition = new Vector2(undoButtonPhone.anchoredPosition.x, -80f);
             board.Padding = 54;
@@ -126,7 +126,7 @@ public class OrientationManager2048 : MonoBehaviour
         rightPanel.SetActive(true);
         topPanel.SetActive(false);
         
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             board.Padding = 95;
             Vector2 pos1 = boardRect.anchoredPosition;

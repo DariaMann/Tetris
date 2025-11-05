@@ -79,7 +79,7 @@ public class OrientationManagerBlocks : MonoBehaviour
         
         boardPanel.anchoredPosition = new Vector2(boardPanel.anchoredPosition.x, 35);
 
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 80);
             blocksBoard.RescaleBlocks(0.5f);
@@ -159,7 +159,7 @@ public class OrientationManagerBlocks : MonoBehaviour
         
         boardPanel.anchoredPosition = new Vector2(boardPanel.anchoredPosition.x, 55);
 
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             blocksPanel.anchoredPosition = new Vector2(blocksPanel.anchoredPosition.x, 75);
             blocksBoard.RescaleBlocks(0.5f);

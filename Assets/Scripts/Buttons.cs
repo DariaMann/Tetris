@@ -68,6 +68,7 @@ public class Buttons : MonoBehaviour {
         
         GameHelper.OnHaveAdsChanged += ApplyHaveAds;
         GameHelper.GetHaveAds();
+        GameHelper.GetShowBanner();
         
         GameHelper.OnShowTestChanged += ApplyShowTest;
         GameHelper.GetShowTest();

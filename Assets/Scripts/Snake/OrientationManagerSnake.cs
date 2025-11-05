@@ -56,7 +56,7 @@ public class OrientationManagerSnake : MonoBehaviour
     {
         topText.anchoredPosition = new Vector2(topText.anchoredPosition.x, -113f);
         
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             cameraRect.position = new Vector3(cameraRect.position.x, 0.8f, cameraRect.position.z);
             cameraRenderer.zoomMultiplier = 1.1f;
@@ -78,7 +78,7 @@ public class OrientationManagerSnake : MonoBehaviour
     private void HorizontalOrientationTablet()
     {
         topText.anchoredPosition = new Vector2(topText.anchoredPosition.x, -25f);
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             cameraRect.position = new Vector3(cameraRect.position.x, 1.2f, cameraRect.position.z);
             cameraRenderer.zoomMultiplier = 1.2f;

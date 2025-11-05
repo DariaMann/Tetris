@@ -75,7 +75,7 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void VerticalOrientationTablet()
     {
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             speedButtonPhone.anchoredPosition = new Vector2(speedButtonPhone.anchoredPosition.x, -65f);
             cameraRenderer.zoomMultiplier = 1.08f;
@@ -171,7 +171,7 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
 
     private void HorizontalOrientationTablet()
     {
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             cameraRenderer.zoomMultiplier = 1.11f;
         }
@@ -194,7 +194,7 @@ public class OrientationManagerChineseCheckers : MonoBehaviour
         offsetMax.y = -147f; // Top = 147, значит offsetMax.y = -147
         rt.offsetMax = offsetMax;
 
-        if (GameHelper.HaveAds)
+        if (GameHelper.HaveAds || GameHelper.ShowBanner)
         {
             field.position = new Vector3(field.position.x, 0, field.position.z);
             if (map.YOffset != 0)
