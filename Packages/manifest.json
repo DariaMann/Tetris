@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.appodeal.mediation": "https://github.com/appodeal/appodeal-unity-plugin-upm.git#v3.8.1",
+    "com.appodeal.mediation": "https://github.com/appodeal/appodeal-unity-plugin-upm.git#v3.10.0",
     "com.google.external-dependency-manager": "file:LocalDeps/com.google.external-dependency-manager-1.2.186.tgz",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
@@ -12,7 +12,7 @@
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.mobile.android-logcat": "1.4.5",
-    "com.unity.purchasing": "4.12.0",
+    "com.unity.purchasing": "5.0.2",
     "com.unity.recorder": "4.0.3",
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.7",
