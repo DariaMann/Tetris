@@ -15,6 +15,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip timerSound;
     [SerializeField] private AudioClip timerFinishSound;
+    [SerializeField] private AudioClip startLogoSound;
+    [SerializeField] private AudioClip endLogoSound;
 
     private void Awake()
     {
@@ -27,6 +29,40 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    
+    private void Start()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Menu") StartMusic();
+    }
+
+    public void StartLogoSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(startLogoSound);
+    }
+    
+    public void EndLogoSound()
+    {
+        if (!GameHelper.Sound)
+        {
+            return;
+        }
+        soundSource.PlayOneShot(endLogoSound);
+    }
+
+    public void StartMusic()
+    {
+        musicSource.mute = !GameHelper.Music;
+        if (!musicSource.isPlaying) musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
     }
     
     public void PlayWinsSound()

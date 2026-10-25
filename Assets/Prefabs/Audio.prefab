@@ -56,6 +56,8 @@ MonoBehaviour:
   winSound: {fileID: 8300000, guid: 745484dd5b58228499fdf87d5a693c45, type: 3}
   timerSound: {fileID: 8300000, guid: 01d1ba541c3a90d4e9c9b6c5aa3fea04, type: 3}
   timerFinishSound: {fileID: 8300000, guid: bf2b36402bf2bd6498c512772bf063ac, type: 3}
+  startLogoSound: {fileID: 8300000, guid: 758d841282d6c1243be679ed46a5fefd, type: 3}
+  endLogoSound: {fileID: 8300000, guid: 9f948122281a418409f365211e76b9a5, type: 3}
 --- !u!1 &3843142974686231940
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,8 +100,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 409e8623f7e945240bfe1a3e9edd1f6e, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 409e8623f7e945240bfe1a3e9edd1f6e, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -227,6 +230,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
