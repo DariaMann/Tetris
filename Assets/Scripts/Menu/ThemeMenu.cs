@@ -9,6 +9,7 @@ public class ThemeMenu : Theme
     [SerializeField] private List<Image> buttonsBg;
     [SerializeField] private List<Image> buttonsIcons;
     [SerializeField] private List<TextMeshProUGUI> textsBg;
+    [SerializeField] private List<TextMeshProUGUI> textsStartDarkBg;
     
     private void Awake()
     {
@@ -32,6 +33,10 @@ public class ThemeMenu : Theme
         {
             text.color = ColorBgLight;
         }
+        foreach (var text in textsStartDarkBg)
+        {
+            text.color = ColorMiddleDark;
+        }
     } 
     
     public override void SetDark()
@@ -48,6 +53,10 @@ public class ThemeMenu : Theme
         foreach (var text in textsBg)
         {
             text.color = ColorBgDark;
+        }
+        foreach (var text in textsStartDarkBg)
+        {
+            text.color = ColorBgLight;
         }
     }
 }
