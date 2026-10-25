@@ -35,11 +35,6 @@
         <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\u003205672385817" />
         <meta-data android:name="com.google.android.gms.games.unityVersion" android:value="\u0032.0.0" />
 
-        <meta-data
-                android:name="com.google.android.play.billingclient.version"
-                android:value="6.2.1"
-                tools:replace="android:value" />
-
         <!-- Активити Google Play Games -->
         <activity android:name="com.google.games.bridge.NativeBridgeActivity"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />

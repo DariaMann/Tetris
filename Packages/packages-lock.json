@@ -1,5 +1,20 @@
 {
   "dependencies": {
+    "com.appodeal.mediation": {
+      "version": "https://github.com/appodeal/appodeal-unity-plugin-upm.git#v4.4.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.google.external-dependency-manager": "1.2.175"
+      },
+      "hash": "d145a55045a4c3534b1d65a2679b8c6f623ef2cb"
+    },
+    "com.google.external-dependency-manager": {
+      "version": "file:com.google.external-dependency-manager",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -51,13 +66,6 @@
         "com.unity.mathematics": "1.2.1",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.collab-proxy": {
-      "version": "2.13.6",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.collections": {
