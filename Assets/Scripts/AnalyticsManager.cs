@@ -30,7 +30,6 @@ public class AnalyticsManager : MonoBehaviour, IGameAnalyticsATTListener
         if (_isInitialized) return;
         
         InitializeAnalytics();
-        LogEvent(AnalyticType.session_start.ToString());
     }
 
     void OnApplicationPause(bool pause)
@@ -58,9 +57,25 @@ public class AnalyticsManager : MonoBehaviour, IGameAnalyticsATTListener
     {
         if (_isInitialized) return;
         
-#if UNITY_IOS
-        GameAnalytics.RequestTrackingAuthorization(this);
+#if UNITY_IOS && !UNITY_EDITOR
+        try
+        {
+            GameAnalytics.RequestTrackingAuthorization(this);
+        }
+        catch (EntryPointNotFoundException ex)
+        {
+            Debug.LogError("[Analytics] The native ATT bridge is missing from the iOS build. Check that GameAnalyticsATTObjCBridge.m is in Compile Sources. " + ex);
+            CompleteInitialization();
+        }
 #else
+        CompleteInitialization();
+#endif
+    }
+
+    private void CompleteInitialization()
+    {
+        if (_isInitialized) return;
+
         if (GameHelper.IsAutentificate)
         {
             GameAnalytics.SetCustomId(GameHelper.GetPlayerID());
@@ -68,19 +83,10 @@ public class AnalyticsManager : MonoBehaviour, IGameAnalyticsATTListener
         GameAnalytics.Initialize();
         _isInitialized = true;
         Debug.Log("[Analytics] GameAnalytics initialized.");
-#endif
+        LogEvent(AnalyticType.session_start.ToString());
     }
 
-    public void GameAnalyticsATTListenerAuthorized()
-    {
-        if (GameHelper.IsAutentificate)
-        {
-            GameAnalytics.SetCustomId(GameHelper.GetPlayerID());
-        }
-        GameAnalytics.Initialize();
-        _isInitialized = true;
-        Debug.Log("[Analytics] GA authorized and initialized.");
-    }
+    public void GameAnalyticsATTListenerAuthorized() => CompleteInitialization();
 
     public void GameAnalyticsATTListenerDenied()        => GameAnalyticsATTListenerAuthorized();
     public void GameAnalyticsATTListenerRestricted()    => GameAnalyticsATTListenerAuthorized();
