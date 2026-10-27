@@ -19,6 +19,9 @@ public class PostBuildPlistPatch
         // Добавим LSApplicationQueriesSchemes
         PlistElementDict rootDict = plist.root;
 
+        if (!rootDict.values.ContainsKey("NSUserTrackingUsageDescription"))
+            rootDict.SetString("NSUserTrackingUsageDescription", "Allow tracking to show ads that are more relevant to you.");
+
         PlistElementArray queriesSchemes;
         if (rootDict.values.ContainsKey("LSApplicationQueriesSchemes"))
         {
