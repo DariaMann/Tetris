@@ -39,7 +39,7 @@ MonoBehaviour:
     verboseLogging:
       value: 0
     swiftPackageManagerEnabled:
-      value: 1
+      value: 0
     allowEmptyPodfileGeneration:
       value: 1
     podfileGenerationEnabled:

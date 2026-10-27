@@ -1,11 +1,9 @@
 <dependencies>
   <packages>
-    <package>com.applovin.mediation:amazon-tam-adapter:11.3.1.0</package>
     <package>com.applovin.mediation:bidmachine-adapter:3.7.1.0</package>
     <package>com.applovin.mediation:bigoads-adapter:5.9.0.0</package>
     <package>com.applovin.mediation:bytedance-adapter:8.1.0.3.0</package>
     <package>com.applovin.mediation:chartboost-adapter:9.10.2.0</package>
-    <package>com.applovin.mediation:facebook-adapter:6.21.0.0</package>
     <package>com.applovin.mediation:fyber-adapter:8.4.6.0</package>
     <package>com.applovin.mediation:inmobi-adapter:11.3.0.1</package>
     <package>com.applovin.mediation:ironsource-adapter:9.4.4.0.0</package>
@@ -20,22 +18,17 @@
     <package>com.applovin.mediation:vungle-adapter:7.7.4.0</package>
     <package>com.applovin.mediation:yandex-adapter:7.17.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:adjust:5.7.0.0</package>
-    <package>com.appodeal.ads.sdk.adapters:amazon:12.0.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:applovin:13.6.3.0</package>
     <package>com.appodeal.ads.sdk.adapters:applovin_max:13.6.3.1</package>
-    <package>com.appodeal.ads.sdk.adapters:appsflyer:6.18.0.1</package>
     <package>com.appodeal.ads.sdk.adapters:bidmachine:3.7.1.0</package>
     <package>com.appodeal.ads.sdk.adapters:bidon:0.14.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:bigo_ads:5.9.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:chartboost:9.10.2.0</package>
     <package>com.appodeal.ads.sdk.adapters:dt_exchange:8.4.6.0</package>
-    <package>com.appodeal.ads.sdk.adapters:facebook_analytics:18.3.0.0</package>
-    <package>com.appodeal.ads.sdk.adapters:firebase:23.2.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:iab:1.8.1.0</package>
     <package>com.appodeal.ads.sdk.adapters:inmobi:11.3.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:ironsource:9.4.4.0</package>
     <package>com.appodeal.ads.sdk.adapters:level_play:9.4.4.0</package>
-    <package>com.appodeal.ads.sdk.adapters:meta:6.21.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:mintegral:17.1.61.0</package>
     <package>com.appodeal.ads.sdk.adapters:mobilefuse:1.11.0.0</package>
     <package>com.appodeal.ads.sdk.adapters:moloco:4.3.1.0</package>
@@ -57,7 +50,6 @@
     <package>com.unity3d.ads-mediation:applovin-adapter:5.8.0</package>
     <package>com.unity3d.ads-mediation:bidmachine-adapter:5.7.0</package>
     <package>com.unity3d.ads-mediation:bigo-adapter:5.8.0</package>
-    <package>com.unity3d.ads-mediation:facebook-adapter:5.3.0</package>
     <package>com.unity3d.ads-mediation:fyber-adapter:5.9.0</package>
     <package>com.unity3d.ads-mediation:inmobi-adapter:5.7.0</package>
     <package>com.unity3d.ads-mediation:mintegral-adapter:5.18.0</package>
@@ -69,12 +61,9 @@
     <package>com.unity3d.ads-mediation:unityads-adapter:5.6.0</package>
     <package>com.unity3d.ads-mediation:verve-adapter:5.2.0</package>
     <package>com.unity3d.ads-mediation:vungle-adapter:5.10.0</package>
-    <package>io.bidmachine:ads.networks.amazon:12.0.0.0</package>
-    <package>io.bidmachine:ads.networks.meta_audience:6.21.0.1</package>
     <package>io.bidmachine:ads.networks.mintegral:17.1.61.1</package>
     <package>io.bidmachine:ads.networks.my_target:5.47.1.2</package>
     <package>io.bidmachine:ads.networks.vungle:7.7.4.0</package>
-    <package>org.bidon:amazon-adapter:12.0.0.0</package>
     <package>org.bidon:applovin-adapter:13.6.3.0</package>
     <package>org.bidon:bidmachine-adapter:3.7.1.1</package>
     <package>org.bidon:bigoads-adapter:5.9.0.0</package>
@@ -82,7 +71,6 @@
     <package>org.bidon:dtexchange-adapter:8.4.6.0</package>
     <package>org.bidon:inmobi-adapter:11.3.0.0</package>
     <package>org.bidon:ironsource-adapter:9.4.4.0</package>
-    <package>org.bidon:meta-adapter:6.21.0.0</package>
     <package>org.bidon:mintegral-adapter:17.1.61.0</package>
     <package>org.bidon:mobilefuse-adapter:1.11.0.0</package>
     <package>org.bidon:moloco-adapter:4.3.1.0</package>

@@ -22,3 +22,13 @@ MonoBehaviour:
     isSelected: 0
   - sdkId: gam
     isSelected: 0
+  - sdkId: amazon
+    isSelected: 0
+  - sdkId: meta_audience_network
+    isSelected: 0
+  - sdkId: appsflyer
+    isSelected: 0
+  - sdkId: firebase
+    isSelected: 0
+  - sdkId: facebook_analytics
+    isSelected: 0
