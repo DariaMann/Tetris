@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GUILogo : MonoBehaviour
 {
+    private static bool _introShownThisSession;
+
     [Header("Intro animation")]
     [SerializeField] private GameObject logoPanel;
     [SerializeField] private Animator logoAnimator;
@@ -17,9 +19,14 @@ public class GUILogo : MonoBehaviour
     
     public event Action LogoAnimationComplete = () => { };
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetIntroSession()
+    {
+        _introShownThisSession = false;
+    }
+
     private void Start()
     {
-        AudioManager.Instance.StopMusic();
         ShowLogo();
     }
 
@@ -27,6 +34,15 @@ public class GUILogo : MonoBehaviour
     {
         if (_introRequested || _completed) return;
         _introRequested = true;
+
+        if (_introShownThisSession)
+        {
+            OnLogoAnimationComplete();
+            return;
+        }
+
+        _introShownThisSession = true;
+        AudioManager.Instance.StopMusic();
 
         if (logoPanel != null && logoAnimator != null && logoAnimator.runtimeAnimatorController != null)
         {

@@ -80,5 +80,9 @@
     
     revive_tetris_click = 64,
     revive_snake_click = 65,
-    revive_lines_click = 66
+    revive_lines_click = 66,
+
+    donation_panel_open = 67,
+    donation_cloudtips_click = 68,
+    donation_boosty_click = 69
 }

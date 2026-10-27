@@ -10,11 +10,15 @@ public class GUIDonatPanel : MonoBehaviour
 
     public void OnCloudTipsClick()
     {
+        if (AnalyticsManager.Instance != null)
+            AnalyticsManager.Instance.LogEvent(AnalyticType.donation_cloudtips_click.ToString());
         Application.OpenURL("https://pay.cloudtips.ru/p/401f7806");
     }
     
     public void OnBoostyClick()
     {
+        if (AnalyticsManager.Instance != null)
+            AnalyticsManager.Instance.LogEvent(AnalyticType.donation_boosty_click.ToString());
         Application.OpenURL("https://boosty.to/combysoft/donate");
     }
     
@@ -26,5 +30,7 @@ public class GUIDonatPanel : MonoBehaviour
     public void OnOpenClick()
     {
         Show();
+        if (AnalyticsManager.Instance != null)
+            AnalyticsManager.Instance.LogEvent(AnalyticType.donation_panel_open.ToString());
     }
 }

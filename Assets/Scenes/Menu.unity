@@ -4589,7 +4589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GUILogo
   logoPanel: {fileID: 1206924405}
   logoAnimator: {fileID: 1206924408}
-  startDelay: 0.35
+  startDelay: 0.15
 --- !u!95 &1206924408
 Animator:
   serializedVersion: 7
