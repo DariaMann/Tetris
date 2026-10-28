@@ -24,9 +24,6 @@
 	<remoteSwiftPackage url="https://github.com/appodeal/Appodeal-Swift-Package-MAX.git" version="13060301.0.1">
 		<swiftPackage name="AppodealAppLovinMAXAdapter" replacesPod="AppodealAppLovinMAXAdapter" />
 	</remoteSwiftPackage>
-	<remoteSwiftPackage url="https://github.com/appodeal/Appodeal-Swift-Package-Mintegral.git" version="8010600.0.0">
-		<swiftPackage name="AppodealMintegralAdapter" replacesPod="AppodealMintegralAdapter" />
-	</remoteSwiftPackage>
 	<remoteSwiftPackage url="https://github.com/appodeal/Appodeal-Swift-Package-MyTarget.git" version="5430000.0.0">
 		<swiftPackage name="AppodealMyTargetAdapter" replacesPod="AppodealMyTargetAdapter" />
 	</remoteSwiftPackage>
@@ -56,9 +53,6 @@
 	</remoteSwiftPackage>
 	<remoteSwiftPackage url="https://github.com/AppLovin/AppLovin-MAX-Swift-Package-IronSource.git" version="906000001.0.0">
 		<swiftPackage name="AppLovinMediationIronSourceAdapter" replacesPod="AppLovinMediationIronSourceAdapter" />
-	</remoteSwiftPackage>
-	<remoteSwiftPackage url="https://github.com/AppLovin/AppLovin-MAX-Swift-Package-Mintegral.git" version="801060000.0.0">
-		<swiftPackage name="AppLovinMediationMintegralAdapter" replacesPod="AppLovinMediationMintegralAdapter" />
 	</remoteSwiftPackage>
 	<remoteSwiftPackage url="https://github.com/AppLovin/AppLovin-MAX-Swift-Package-MobileFuse.git" version="1110000.0.0">
 		<swiftPackage name="AppLovinMediationMobileFuseAdapter" replacesPod="AppLovinMediationMobileFuseAdapter" />
@@ -91,6 +85,9 @@
 		<swiftPackage name="AppLovinMediationYandexAdapter" replacesPod="AppLovinMediationYandexAdapter" />
 	</remoteSwiftPackage>
 	<iosPods>
+		<!-- Mintegral iOS adapters temporarily excluded: XProtect flagged the
+		     MintegralAdSDK simulator MTGSDK binary as MACOS.SOMA.J on 2026-10-28.
+		     Re-enable only after verifying a replacement SDK with macOS protection enabled. -->
 		<iosPod id="appodeal" name="Appodeal" version="4.4.0" minTargetSdk="15.0" />
 		<iosPod id="appodeal_adjust" name="AppodealAdjustAdapter" version="5.7.0.1" minTargetSdk="12.0" />
 		<iosPod id="appodeal_applovin" name="AppodealAppLovinAdapter" version="13.6.3.0" minTargetSdk="12.0" />
@@ -103,7 +100,6 @@
 		<iosPod id="appodeal_ironsource" name="AppodealIronSourceAdapter" version="9.6.0.0.0" minTargetSdk="13.0" />
 		<iosPod id="appodeal_levelplay" name="AppodealLevelPlayAdapter" version="9.6.0.0.0" minTargetSdk="15.0" />
 		<iosPod id="appodeal_max" name="AppodealAppLovinMAXAdapter" version="13.6.3.0" minTargetSdk="15.0" />
-		<iosPod id="appodeal_mintegral" name="AppodealMintegralAdapter" version="8.1.6.0" minTargetSdk="12.0" />
 		<iosPod id="appodeal_my_target" name="AppodealMyTargetAdapter" version="5.43.0.0" minTargetSdk="14.0" />
 		<iosPod id="appodeal_sentry" name="AppodealSentryAdapter" version="8.57.2.1" minTargetSdk="12.0" />
 		<iosPod id="appodeal_unity_ads" name="AppodealUnityAdapter" version="4.20.0.0" minTargetSdk="15.0" />
@@ -128,7 +124,6 @@
 		<iosPod id="levelplay_bigo_ads" name="IronSourceBigoAdapter" version="5.9.0.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_dt_exchange" name="IronSourceFyberAdapter" version="5.8.0.0" minTargetSdk="13.0" />
 		<iosPod id="levelplay_inmobi" name="IronSourceInMobiAdapter" version="5.7.0.0" minTargetSdk="12.0" />
-		<iosPod id="levelplay_mintegral" name="IronSourceMintegralAdapter" version="5.19.0.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_mobilefuse" name="IronSourceMobileFuseAdapter" version="5.3.0.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_moloco" name="IronSourceMolocoAdapter" version="5.13.0.0" minTargetSdk="12.0" />
 		<iosPod id="levelplay_my_target" name="IronSourceMyTargetAdapter" version="5.9.0.0" minTargetSdk="14.0" />
@@ -145,7 +140,6 @@
 		<iosPod id="max_dt_exchange" name="AppLovinMediationFyberAdapter" version="8.4.7.0" minTargetSdk="13.0" />
 		<iosPod id="max_inmobi" name="AppLovinMediationInMobiAdapter" version="11.3.0.1" minTargetSdk="12.0" />
 		<iosPod id="max_ironsource" name="AppLovinMediationIronSourceAdapter" version="9.6.0.0.1" minTargetSdk="12.0" />
-		<iosPod id="max_mintegral" name="AppLovinMediationMintegralAdapter" version="8.1.6.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_mobilefuse" name="AppLovinMediationMobileFuseAdapter" version="1.11.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_moloco" name="AppLovinMediationMolocoAdapter" version="4.7.0.0" minTargetSdk="12.0" />
 		<iosPod id="max_ogury" name="AppLovinMediationOguryPresageAdapter" version="5.2.3.0" minTargetSdk="12.0" />
