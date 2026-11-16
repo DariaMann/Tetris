@@ -21,49 +21,35 @@ public class ThemeSettings : Theme
 
     public override void SetLight()
     {
-        settingsBg.color = ColorBgLight;
-        settingsBackBg.color = ColorBgLight;
-
-        foreach (var light in lightImages)
-        {
-            light.color = ColorBgLight;
-        }
-        foreach (var light in lightTexts)
-        {
-            light.color = ColorBgLight;
-        }
-        
-        foreach (var light in middleImages)
-        {
-            light.color = ColorMiddleDark;
-        }
-        foreach (var light in middleTexts)
-        {
-            light.color = ColorMiddleDark;
-        }
+        if (settingsBg != null) settingsBg.color = ColorBgLight;
+        if (settingsBackBg != null) settingsBackBg.color = ColorBgLight;
+        SetImageColors(lightImages, ColorBgLight);
+        SetTextColors(lightTexts, ColorBgLight);
+        SetImageColors(middleImages, ColorMiddleDark);
+        SetTextColors(middleTexts, ColorMiddleDark);
     } 
     
     public override void SetDark()
     {
-        settingsBg.color = ColorBgDark;
-        settingsBackBg.color = ColorBgDark;
+        if (settingsBg != null) settingsBg.color = ColorBgDark;
+        if (settingsBackBg != null) settingsBackBg.color = ColorBgDark;
+        SetImageColors(lightImages, ColorBgDark);
+        SetTextColors(lightTexts, ColorBgDark);
+        SetImageColors(middleImages, ColorBgLight);
+        SetTextColors(middleTexts, ColorBgLight);
+    }
 
-        foreach (var light in lightImages)
-        {
-            light.color = ColorBgDark;
-        }
-        foreach (var light in lightTexts)
-        {
-            light.color = ColorBgDark;
-        }
-        
-        foreach (var light in middleImages)
-        {
-            light.color = ColorBgLight;
-        }
-        foreach (var light in middleTexts)
-        {
-            light.color = ColorBgLight;
-        }
+    private static void SetImageColors(List<Image> images, Color color)
+    {
+        if (images == null) return;
+        foreach (var image in images)
+            if (image != null) image.color = color;
+    }
+
+    private static void SetTextColors(List<TextMeshProUGUI> texts, Color color)
+    {
+        if (texts == null) return;
+        foreach (var text in texts)
+            if (text != null) text.color = color;
     }
 }

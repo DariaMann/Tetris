@@ -20,43 +20,33 @@ public class ThemeMenu : Theme
 
     public override void SetLight()
     {
-        bgColor.backgroundColor = ColorBgLight;
-        foreach (var button in buttonsBg)
-        {
-            button.color = ColorMiddleDark;
-        }
-        foreach (var button in buttonsIcons)
-        {
-            button.color = ColorBgLight;
-        }
-        foreach (var text in textsBg)
-        {
-            text.color = ColorBgLight;
-        }
-        foreach (var text in textsStartDarkBg)
-        {
-            text.color = ColorMiddleDark;
-        }
+        if (bgColor != null) bgColor.backgroundColor = ColorBgLight;
+        SetImageColors(buttonsBg, ColorMiddleDark);
+        SetImageColors(buttonsIcons, ColorBgLight);
+        SetTextColors(textsBg, ColorBgLight);
+        SetTextColors(textsStartDarkBg, ColorMiddleDark);
     } 
     
     public override void SetDark()
     {
-        bgColor.backgroundColor = ColorBgDark;
-        foreach (var button in buttonsBg)
-        {
-            button.color = ColorBgLight;
-        }
-        foreach (var button in buttonsIcons)
-        {
-            button.color = ColorBgDark;
-        }
-        foreach (var text in textsBg)
-        {
-            text.color = ColorBgDark;
-        }
-        foreach (var text in textsStartDarkBg)
-        {
-            text.color = ColorBgLight;
-        }
+        if (bgColor != null) bgColor.backgroundColor = ColorBgDark;
+        SetImageColors(buttonsBg, ColorBgLight);
+        SetImageColors(buttonsIcons, ColorBgDark);
+        SetTextColors(textsBg, ColorBgDark);
+        SetTextColors(textsStartDarkBg, ColorBgLight);
+    }
+
+    private static void SetImageColors(List<Image> images, Color color)
+    {
+        if (images == null) return;
+        foreach (var image in images)
+            if (image != null) image.color = color;
+    }
+
+    private static void SetTextColors(List<TextMeshProUGUI> texts, Color color)
+    {
+        if (texts == null) return;
+        foreach (var text in texts)
+            if (text != null) text.color = color;
     }
 }
